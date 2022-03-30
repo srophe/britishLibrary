@@ -56,6 +56,7 @@
     <!-- Helper functions and templates -->
     <xsl:import href="helper-functions.xsl"/>
     <xsl:import href="collations.xsl"/>
+   <xsl:import href="manuscripts.xsl"/>
     <!-- Syriaca.org stylesheets -->
 <!--    <xsl:import href="link-icons.xsl"/>-->
     
