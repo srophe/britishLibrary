@@ -57,7 +57,7 @@ declare function app:get-work($node as node(), $model as map(*)) {
         let $rec := data:get-document()
         return 
             if(empty($rec)) then 
-                ('No record found. ',xmldb:encode-uri($config:data-root || "/" || request:get-parameter('doc', '') || '.xml'))
+                ('No record found. ',xmldb:encode-uri($config:data-root || "/" || request:get-parameter('id', '') || '.xml'))
                 (: Debugging ('No record found. ',xmldb:encode-uri($config:data-root || "/" || request:get-parameter('doc', '') || '.xml')):)
                (:response:redirect-to(xs:anyURI(concat($config:nav-base, '/404.html'))):)
             else map {"hits" : $rec }
@@ -578,4 +578,18 @@ declare %templates:wrap function app:build-editor-list($node as node(), $model a
             <li>{normalize-space($name)}</li>
             else ''
         else ''  
+};
+
+(: dynamic contributors list:)
+declare %templates:wrap function app:dynamic-editor-list($node as node(), $model as map(*)){
+    <div class="editorsList">
+        {
+            for $editor in collection($config:data-root)//tei:editor[parent::tei:titleStmt]
+            order by $editor
+            group by $editor := normalize-space($editor)
+            return 
+                <div class="editor">{$editor[1]}</div>
+        }
+        
+    </div>
 };
