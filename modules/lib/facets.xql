@@ -86,7 +86,7 @@ declare function sf:build-index(){
             }
             </text>
            <text qname="tei:body"/>
-            <text qname="tei:tei:teiHeader"/>
+            <text qname="tei:teiHeader"/>
             <text qname="tei:author" boost="2.0"/>
             <text qname="tei:persName" boost="2.0"/>
             <text qname="tei:placeName" boost="2.0"/>
