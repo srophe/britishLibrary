@@ -1,4 +1,4 @@
-<xsl:stylesheet xmlns="http://www.w3.org/1999/xhtml" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:x="http://www.w3.org/1999/xhtml" xmlns:srophe="https://srophe.app" xmlns:saxon="http://saxon.sf.net/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:local="http://syriaca.org/ns" exclude-result-prefixes="xs t x saxon local" version="2.0">
+<xsl:stylesheet xmlns="http://www.w3.torg/1999/xhtml" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:x="http://www.w3.org/1999/xhtml" xmlns:srophe="https://srophe.app" xmlns:saxon="http://saxon.sf.net/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:local="http://syriaca.org/ns" exclude-result-prefixes="xs t x saxon local" version="2.0">
 
  <!-- ================================================================== 
        Copyright 2013 New York University  
@@ -687,7 +687,7 @@
     
     <!-- P -->
     <!-- Main page modules for syriaca.org display -->
-    <xsl:template match="t:person">
+    <xsl:template match="t:person[parent::t:listPerson/parent::t:body]">
         <xsl:if test="t:desc[@type='abstract'] | t:desc[starts-with(@xml:id, 'abstract-en')] | t:note[@type='abstract']">
             <div class="tei-desc text abstract">
                 <xsl:apply-templates select="t:desc[@type='abstract' or starts-with(@xml:id, 'abstract-en')][1] | t:note[@type='abstract']"/>
@@ -799,7 +799,7 @@
         </xsl:call-template>
         <xsl:call-template name="sources"/>
     </xsl:template>
-    <xsl:template match="t:place">
+    <xsl:template match="t:place[parent::t:listPlace/parent::t:body]">
         <xsl:if test="t:desc[@type='abstract'] | t:desc[starts-with(@xml:id, 'abstract-en')] | t:note[@type='abstract']">
             <div class="tei-desc text abstract">
                 <xsl:apply-templates select="t:desc[@type='abstract' or starts-with(@xml:id, 'abstract-en')][1] | t:note[@type='abstract']"/>
@@ -1380,7 +1380,6 @@
     <xsl:template match="t:TEI">
         <!-- Header -->
         <xsl:call-template name="h1"/>
-        <xsl:apply-templates select="descendant::t:sourceDesc/t:msDesc"/>
         <!-- MSS display -->
         <xsl:if test="descendant::t:sourceDesc/t:msDesc">
             <xsl:apply-templates select="descendant::t:sourceDesc/t:msDesc"/>
