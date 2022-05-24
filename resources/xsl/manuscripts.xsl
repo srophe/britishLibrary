@@ -1,6 +1,6 @@
 <xsl:stylesheet xmlns="http://www.w3.org/1999/xhtml" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:s="http://syriaca.org" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:x="http://www.w3.org/1999/xhtml" xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:saxon="http://saxon.sf.net/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:local="http://syriaca.org/ns" exclude-result-prefixes="xs t s saxon" version="2.0">
-
- <!-- ================================================================== 
+    
+    <!-- ================================================================== 
        Copyright 2013 New York University
        
        This file is part of the Syriac Reference Portal Places Application.
@@ -22,8 +22,8 @@
        see (http://www.gnu.org/licenses/).
        
        ================================================================== --> 
- 
- <!-- ================================================================== 
+    
+    <!-- ================================================================== 
        manuscripts.xsl
        
        This XSLT transforms tei.xml to html.
@@ -47,10 +47,10 @@
           Endowment for the Humanities.
        
        ================================================================== -->
- 
- <!-- =================================================================== -->
- <!-- TEMPLATES -->
- <!-- =================================================================== -->
+    
+    <!-- =================================================================== -->
+    <!-- TEMPLATES -->
+    <!-- =================================================================== -->
     
     <!-- 
     
@@ -83,67 +83,46 @@ MSParts
 /TEI/teiHeader/fileDesc/sourceDesc/msDesc//msPart/history
 
 /TEI/teiHeader/fileDesc/sourceDesc/msDesc//msPart/additional/listBibl/bibl
+
+aria-expanded="false" aria-controls="collapseExample"
     -->
     <!-- Manuscript templates -->
     <xsl:template match="t:msDesc">
         <xsl:if test="t:msIdentifier or t:physDesc">
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h2 class="panel-title">
-                            <a data-toggle="collapse" data-parent="#accordion" href="#Overview">Overview</a>
-                        </h2>
-                    </div>
-                    <div id="Overview" class="panel-collapse collapse in">
-                        <div class="panel-body">
-                            <div class="msDesc">
-                                <xsl:apply-templates select="t:msIdentifier | t:physDesc"/>    
-                            </div>
-                        </div>
-                    </div>
-                </div>
-        </xsl:if>
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <h2 class="panel-title">
-                        <a data-toggle="collapse" data-parent="#accordion" href="#Contents">Manuscript Contents</a>
-                    </h2>
+                    <h2 class="panel-title" data-toggle="collapse" data-target="#Overview">Overview </h2>
                 </div>
-                <div id="Contents" class="panel-collapse collapse in">
+                <div id="Overview" class="panel-collapse collapse in">
                     <div class="panel-body">
-                        <div class="msContent">
-                            <p class="summary indent">This manuscript contains <xsl:value-of select="count(descendant::t:msItem)"/> items 
-                                <xsl:if test="descendant::t:msItem/t:msItem"> <xsl:text> including nested subsections</xsl:text>
-                                </xsl:if>. N.B. Items were re-numbered by Syriaca.org and may not reflect previous numeration.</p>
-                            <xsl:apply-templates select="t:msContents | t:msPart"/>
+                        <div class="msDesc">
+                            <xsl:apply-templates select="t:msIdentifier | t:physDesc"/>    
                         </div>
                     </div>
                 </div>
-            </div>    
-        <!--
-        <div class="indent">
-            <h2>Overview</h2>
-            <hr/>
-            <div class="msDesc">
-                <xsl:apply-templates select="t:msIdentifier | t:physDesc"/>    
             </div>
-            <h2>Manuscript Contents</h2>
-            <hr/>
-            <div class="msContent">
-                <p class="summary indent">This manuscript contains <xsl:value-of select="count(descendant::t:msItem)"/> items 
-                        <xsl:if test="descendant::t:msItem/t:msItem"> <xsl:text> including nested subsections</xsl:text>
-                        </xsl:if>. N.B. Items were re-numbered by Syriaca.org and may not reflect previous numeration.</p>
-                <xsl:apply-templates select="descendant::t:msContents | descendant::t:teiHeader/descendant::t:msPart"/>
+        </xsl:if>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h2 class="panel-title" data-toggle="collapse" data-target="#Contents">Manuscript Contents</h2>
             </div>
-        </div>
-        -->
+            <div id="Contents" class="panel-collapse collapse in">
+                <div class="panel-body">
+                    <div class="msContent">
+                        <p class="summary indent">This manuscript contains <xsl:value-of select="count(descendant::t:msItem)"/> items 
+                            <xsl:if test="descendant::t:msItem/t:msItem"> <xsl:text> including nested subsections</xsl:text>
+                            </xsl:if>. N.B. Items were re-numbered by Syriaca.org and may not reflect previous numeration.</p>
+                        <xsl:apply-templates select="t:msContents | t:msPart"/>
+                    </div>
+                </div>
+            </div>
+        </div>    
     </xsl:template>
     <xsl:template match="t:msPart">
         <div class="panel-group" id="accordion">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <h2 class="panel-title">
-                        <a data-toggle="collapse" data-parent="#accordion" href="#msPart{@xml:id}">Ms Part <xsl:value-of select="@n"/></a>
-                    </h2>
+                    <h2 class="panel-title" data-toggle="collapse" data-target="#msPart{@xml:id}">Ms Part <xsl:value-of select="@n"/></h2>
                 </div>
                 <div id="msPart{@xml:id}" class="panel-collapse collapse in">
                     <div class="panel-body">
@@ -265,11 +244,11 @@ MSParts
             <xsl:for-each select="1 to $depth">
                 <xsl:text> &gt; </xsl:text>
             </xsl:for-each> 
-                <xsl:choose>
-                    <xsl:when test="@defective = 'true' or @defective ='unknown'"><span class="inline-h4">Item <xsl:value-of select="@n"/>: </span> (defective) </xsl:when>
-                    <xsl:otherwise><span class="inline-h4">Item <xsl:value-of select="@n"/>: </span></xsl:otherwise>
-                </xsl:choose>
-                <xsl:apply-templates/>
+            <xsl:choose>
+                <xsl:when test="@defective = 'true' or @defective ='unknown'"><span class="inline-h4">Item <xsl:value-of select="@n"/>: </span> (defective) </xsl:when>
+                <xsl:otherwise><span class="inline-h4">Item <xsl:value-of select="@n"/>: </span></xsl:otherwise>
+            </xsl:choose>
+            <xsl:apply-templates/>
         </div>
     </xsl:template>
     <!--
