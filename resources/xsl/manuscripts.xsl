@@ -263,7 +263,7 @@ MSParts
         <xsl:variable name="depth" select="count(ancestor::t:msItem)"/>
         <div class="tei-{local-name(.)}">
             <xsl:for-each select="1 to $depth">
-                <xsl:text> > </xsl:text>
+                <xsl:text> &gt; </xsl:text>
             </xsl:for-each> 
                 <xsl:choose>
                     <xsl:when test="@defective = 'true' or @defective ='unknown'"><span class="inline-h4">Item <xsl:value-of select="@n"/>: </span> (defective) </xsl:when>
