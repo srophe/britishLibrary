@@ -1,8 +1,9 @@
 # run the ant
 ant
 
-TEMPLATE_FILE="template.file"
-DESTINATION_FILE="./path/to/destination/file.file"
+# use sed to replace the template git-sync with secrets and other
+TEMPLATE_FILE="./build/git-sync_template.xql"
+DESTINATION_FILE="./modules/git-sync.xql"
 
 # SECRET_KEY, $ADMIN_PASSWORD
 
