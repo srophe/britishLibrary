@@ -1,15 +1,8 @@
-# remove any old auto deploy
-rm -rf autodeploy
-# create an autodeploy folder
-mkdir autodeploy
 # run the ant
 ant
-# move the xar from build to autodeploy
-mv build/*.xar autodeploy/
 
-# use sed to replace the template git-sync with secrets and other
-TEMPLATE_FILE="./build/git-sync_template.xql"
-DESTINATION_FILE="./modules/git-sync.xql"
+TEMPLATE_FILE="template.file"
+DESTINATION_FILE="./path/to/destination/file.file"
 
 # SECRET_KEY, $ADMIN_PASSWORD
 
