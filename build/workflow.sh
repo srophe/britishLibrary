@@ -6,6 +6,8 @@ mkdir autodeploy
 ant
 # move the xar from build to autodeploy
 mv build/*.xar autodeploy/
+echo "Copied the xar files to the autodeploy folder. The contents are: "
+echo $(ls autodeploy/)
 
 # use sed to replace the template git-sync with secrets and other
 TEMPLATE_FILE="./build/git-sync_template.xql"
