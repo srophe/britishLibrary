@@ -23,7 +23,6 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Run script to change files and ensure docker build is good
-        id: prepare_files
         run: |
           build/workflow.sh
         env:
@@ -37,7 +36,6 @@ jobs:
 
       - name: Build and push
         uses: docker/build-push-action@v3
-        prepare_files
         with:
           push: true
           tags: ${{secrets.DOCKERHUB_USERNAME}}/sophre-testing:latest
