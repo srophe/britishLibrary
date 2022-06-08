@@ -1,7 +1,7 @@
 # Specify the eXist-db release as a base image
 FROM existdb/existdb:6.0.1
 
-COPY build/*.xar /exist/autodeploy/
+COPY build/britishLibrary-2.01.xar /exist/autodeploy/
 COPY conf/controller-config.xml /exist/etc/webapp/WEB-INF/
 COPY conf/exist-webapp-context.xml /exist/etc/jetty/webapps/
 COPY conf/conf.xml /exist/etc
