@@ -23,7 +23,7 @@ echo docker build . \
     --tag $DOCKERHUB_USERNAME/$REPO_NAME:latest \
     --build-arg ADMIN_PASSWORD=$ADMIN_PASSWORD
 
-docker build . \
+docker build $WORKSPACE_PATH \
     --file Dockerfile \
     --tag $DOCKERHUB_USERNAME/$REPO_NAME:latest \
     --build-arg ADMIN_PASSWORD=$ADMIN_PASSWORD
