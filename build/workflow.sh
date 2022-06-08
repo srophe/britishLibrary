@@ -17,15 +17,15 @@ sed \
     -e "s/\${SECRET_KEY}/$SECRET_KEY/" \
     $TEMPLATE_FILE > $DESTINATION_FILE
 
-docker login -u="${DOCKERHUB_USERNAME}" -p="${DOCKERHUB_PASSWORD}"
-echo docker build -f ./Dockerfile . \
-    --build-arg ADMIN_PASSWORD=$ADMIN_PASSWORD \
-    -t $DOCKERHUB_USERNAME/$REPO_NAME:latest
 
-docker build -f ./Dockerfile . \
-    --build-arg ADMIN_PASSWORD=$ADMIN_PASSWORD \
-    -t $DOCKERHUB_USERNAME/$REPO_NAME:latest
+echo docker build . \
+    --file Dockerfile \
+    --tag $DOCKERHUB_USERNAME/$REPO_NAME:latest \
+    --build-arg ADMIN_PASSWORD=$ADMIN_PASSWORD
 
+docker build . \
+    --file Dockerfile \
+    --tag $DOCKERHUB_USERNAME/$REPO_NAME:latest \
+    --build-arg ADMIN_PASSWORD=$ADMIN_PASSWORD
 
-docker tag $DOCKERHUB_USERNAME/$REPO_NAME $DOCKERHUB_USERNAME/$REPO_NAME:latest
 docker push $DOCKERHUB_USERNAME/$REPO_NAME:latest
