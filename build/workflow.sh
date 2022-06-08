@@ -6,8 +6,6 @@ mkdir autodeploy
 ant
 # move the xar from build to autodeploy
 mv build/*.xar autodeploy/
-echo "Copied the xar files to the autodeploy folder. The contents are: "
-echo $(ls autodeploy/)
 
 # use sed to replace the template git-sync with secrets and other
 TEMPLATE_FILE="./build/git-sync_template.xql"
@@ -18,3 +16,10 @@ DESTINATION_FILE="./modules/git-sync.xql"
 sed \
     -e "s/\${SECRET_KEY}/$SECRET_KEY/" \
     $TEMPLATE_FILE > $DESTINATION_FILE
+
+docker build \
+    -t $DOCKERHUB_USERNAME/$REPO_NAME:latest \
+    --build-arg ADMIN_PASSWORD=$ADMIN_PASSWORD \
+    .
+
+docker push $DOCKERHUB_USERNAME/$REPO_NAME:latest
