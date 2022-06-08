@@ -17,9 +17,8 @@ sed \
     -e "s/\${SECRET_KEY}/$SECRET_KEY/" \
     $TEMPLATE_FILE > $DESTINATION_FILE
 
-docker build \
-    -t $DOCKERHUB_USERNAME/$REPO_NAME:latest \
+docker build . \
     --build-arg ADMIN_PASSWORD=$ADMIN_PASSWORD \
-    .
+    -t $DOCKERHUB_USERNAME/$REPO_NAME:latest \
 
 docker push $DOCKERHUB_USERNAME/$REPO_NAME:latest
