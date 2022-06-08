@@ -17,13 +17,13 @@ sed \
     -e "s/\${SECRET_KEY}/$SECRET_KEY/" \
     $TEMPLATE_FILE > $DESTINATION_FILE
 
-
-echo docker build $WORKSPACE_PATH \
+echo $(printenv)
+echo docker build $GITHUB_WORKSPACE \
     --file Dockerfile \
     --tag $DOCKERHUB_USERNAME/$REPO_NAME:latest \
     --build-arg ADMIN_PASSWORD=$ADMIN_PASSWORD
 
-docker build $WORKSPACE_PATH \
+docker build $GITHUB_WORKSPACE \
     --file Dockerfile \
     --tag $DOCKERHUB_USERNAME/$REPO_NAME:latest \
     --build-arg ADMIN_PASSWORD=$ADMIN_PASSWORD
