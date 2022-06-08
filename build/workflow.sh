@@ -18,7 +18,7 @@ sed \
     $TEMPLATE_FILE > $DESTINATION_FILE
 
 
-echo docker build . \
+echo docker build $WORKSPACE_PATH \
     --file Dockerfile \
     --tag $DOCKERHUB_USERNAME/$REPO_NAME:latest \
     --build-arg ADMIN_PASSWORD=$ADMIN_PASSWORD
