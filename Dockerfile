@@ -1,6 +1,7 @@
 # Specify the eXist-db release as a base image
 FROM existdb/existdb:6.0.1
 
+COPY . ./
 # Copy Srophe required libraries/modules to autodeploy, include the srophe.xar and the srophe-data.xar
 COPY autodeploy/*.xar /exist/autodeploy/
 # OPTIONAL: Copy custom controller-config.xml to WEB-INF. This sets the root app to srophe.
