@@ -1,3 +1,6 @@
+cd $GITHUB_WORKSPACE
+echo $(ls)
+
 # remove any old auto deploy
 rm -rf autodeploy
 # create an autodeploy folder
@@ -17,7 +20,7 @@ sed \
     -e "s/\${SECRET_KEY}/$SECRET_KEY/" \
     $TEMPLATE_FILE > $DESTINATION_FILE
 
-echo $(printenv)
+
 echo docker build $GITHUB_WORKSPACE \
     --file Dockerfile \
     --tag $DOCKERHUB_USERNAME/$REPO_NAME:latest \
