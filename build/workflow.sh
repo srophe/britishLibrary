@@ -18,7 +18,7 @@ sed \
     $TEMPLATE_FILE > $DESTINATION_FILE
 
 docker login -u="${DOCKERHUB_USERNAME}" -p="${DOCKERHUB_PASSWORD}"
-docker build . \
+docker build -f ./Dockerfile . \
     --build-arg ADMIN_PASSWORD=$ADMIN_PASSWORD \
     -t $DOCKERHUB_USERNAME/$REPO_NAME:latest
 
