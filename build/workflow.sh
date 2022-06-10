@@ -11,6 +11,3 @@ sed \
     -e "s/\${SECRET_KEY}/$SECRET_KEY/" \
     $TEMPLATE_FILE > $DESTINATION_FILE
 
-
-echo $(ls build/)
-echo $(cat modules/git-sync.xql)
