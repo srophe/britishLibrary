@@ -143,6 +143,7 @@ aria-expanded="false" aria-controls="collapseExample"
         </div>
     </xsl:template>
     <xsl:template match="t:msIdentifier">
+        <!--
         <xsl:if test="t:country">
             <div class="tei-msIdentifier location">
                 <span class="inline-h4">Current location: </span>
@@ -167,6 +168,7 @@ aria-expanded="false" aria-controls="collapseExample"
                 <hr/>
             </div>
         </xsl:if>
+        -->
     </xsl:template>
     <xsl:template match="t:altIdentifier">
         <div>
@@ -221,18 +223,23 @@ aria-expanded="false" aria-controls="collapseExample"
     </xsl:template>
     <xsl:template match="t:decoNote">
         <div name="{string(@xml:id)}">
-            <span class="inline-h4"> Decoration <xsl:value-of select="substring-after(string(@xml:id),'ote')"/>:</span>
+            <span class="inline-h4">Decoration: </span>
             <div class="msItem indent">
                 <xsl:if test="@type">
-                    <div>
-                        <span class="inline-h4">Type: </span> <xsl:value-of select="@type"/>
-                    </div>
+                    <span class="inline-h4"><xsl:value-of select="concat(upper-case(substring(@type,1,1)),substring(@type,2))"/>: </span>
                 </xsl:if>
                 <xsl:if test="@medium">
-                    <div>
-                        <span class="inline-h4">Medium:</span> <xsl:value-of select="@medium"/>
-                    </div>
+                    <span class="inline-h4">Medium:</span> <xsl:value-of select="@medium"/>
                 </xsl:if>
+                <!-- 
+                
+                <decoNote xml:id="p1decoNote2" type="ornamentation">
+                  <locus from="1a" to="1a"/>
+                  <desc>An ornamental nimbus, coloured with black, red, green, and yellow.
+                  <ref target="#p1addition2">See below.</ref>
+                  </desc>
+                </decoNote>
+                -->
                 <xsl:apply-templates mode="plain"/>
             </div>
         </div>
