@@ -1455,6 +1455,7 @@
             <!-- End Title -->
         </div>
         <!-- emit record URI and associated help links -->
+        <!--
         <div class="idno seriesStmt" style="margin:0; margin-top:.25em; margin-bottom: 1em; padding:1em; color: #999999;">
             <xsl:variable name="current-id">
                 <xsl:variable name="idString" select="tokenize($resource-id,'/')[last()]"/>
@@ -1575,6 +1576,7 @@
                 </xsl:if>
             </small>
         </div>
+        -->
     </xsl:template>
     
     <xsl:template name="title">
