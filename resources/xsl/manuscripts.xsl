@@ -87,6 +87,103 @@ MSParts
 aria-expanded="false" aria-controls="collapseExample"
     -->
     <!-- Manuscript templates -->
+    <xsl:template name="mssHeader">
+        <div class="title">
+            <h1>
+                <!-- Format title, calls template in place-title-std.xsl -->
+                <xsl:call-template name="title"/>
+            </h1>
+            <!-- Call link icons (located in link-icons.xsl) -->
+            <!--            <xsl:call-template name="link-icons"/>   -->
+            <!-- End Title -->
+        </div>
+        <div class="header section">
+            <div>URI: <xsl:apply-templates select="//t:msDesc/t:msIdentifier/t:idno[@type='URI']"/></div>
+            <xsl:if test="//t:msDesc/t:msIdentifier/t:altIdentifier/t:idno[@type='Wright-BL-Roman']">
+                <div>Description based on Wright 
+                    <xsl:apply-templates select="//t:msDesc/t:msIdentifier/t:altIdentifier/t:idno[@type='Wright-BL-Roman']"/>&#160;
+                    (<xsl:apply-templates select="//t:msDesc/t:additional/t:listBibl/t:bibl/t:citedRange[@unit='pp']"/>)
+                </div>    
+            </xsl:if>
+            <xsl:if test="//t:msDesc/t:history/t:origin/t:origDate">
+                <div>
+                    Date: 
+                    <xsl:if test="//t:msDesc/t:history/t:origin/t:origDate[@calendar='Gregorian']">
+                        <xsl:value-of select="//t:msDesc/t:history/t:origin/t:origDate[@calendar='Gregorian']"/>
+                        <xsl:if test="//t:msDesc/t:history/t:origin/t:origDate[not(@calendar='Gregorian')]"> / </xsl:if>
+                    </xsl:if>
+                    <xsl:if test="//t:msDesc/t:history/t:origin/t:origDate[not(@calendar='Gregorian')]">
+                        <xsl:for-each select="//t:msDesc/t:history/t:origin/t:origDate[not(@calendar='Gregorian')]">
+                            <xsl:value-of select="."/>
+                            <xsl:if test="position() != last()"> / </xsl:if>
+                        </xsl:for-each>
+                    </xsl:if>
+                </div>
+            </xsl:if>
+            <xsl:if test="//t:msDesc/t:history/t:origin/t:origPlace != ''">
+                <div>
+                    Origin: <xsl:apply-templates select="//t:msDesc/t:history/t:origin/t:origPlace"/>
+                </div>
+            </xsl:if>
+                <div>
+                    <xsl:if test="//t:msDesc/t:physDesc/t:handDesc/t:handNote[@scope='major']/@script">
+                        <xsl:choose>
+                            <xsl:when test="//t:msDesc/t:physDesc/t:handDesc/t:handNote[@scope='major']/@script = 'syr'">Unspecified Syriac script </xsl:when>
+                            <xsl:when test="//t:msDesc/t:physDesc/t:handDesc/t:handNote[@scope='major']/@script = 'syr-Syre'">Estrangela script </xsl:when>
+                            <xsl:when test="//t:msDesc/t:physDesc/t:handDesc/t:handNote[@scope='major']/@script = 'syr-Syrj'">West Syriac script </xsl:when>
+                            <xsl:when test="//t:msDesc/t:physDesc/t:handDesc/t:handNote[@scope='major']/@script = 'syr-Syrn'">East Syriac script </xsl:when>
+                            <xsl:when test="//t:msDesc/t:physDesc/t:handDesc/t:handNote[@scope='major']/@script = 'syr-x-syrm'">Melkite Syriac script </xsl:when>
+                            <xsl:when test="//t:msDesc/t:physDesc/t:handDesc/t:handNote[@scope='major']/@script = 'grc'">Greek </xsl:when>
+                            <xsl:when test="//t:msDesc/t:physDesc/t:handDesc/t:handNote[@scope='major']/@script = 'ar-Syrc'">Arabic Garshuni script </xsl:when>
+                            <xsl:when test="//t:msDesc/t:physDesc/t:handDesc/t:handNote[@scope='major']/@script = 'ar'">Unspecified Arabic script </xsl:when>
+                        </xsl:choose>
+                    </xsl:if>
+                    <xsl:if test="//t:handDesc[@hands &gt; 1]"> (multiple hands). </xsl:if>
+                    <!--
+                    <xsl:if test="//t:msDesc/t:physDesc/t:objectDesc/t:supportDesc/@material">
+                        <xsl:choose>
+                            <xsl:when test="//t:msDesc/t:physDesc/t:objectDesc/t:supportDesc/@material = 'perg'">Parchment </xsl:when>
+                            <xsl:when test="//t:msDesc/t:physDesc/t:objectDesc/t:supportDesc/@material = 'chart'">Paper </xsl:when>
+                            <xsl:when test="//t:msDesc/t:physDesc/t:objectDesc/t:supportDesc/@material = 'mixed'">Mixed Material </xsl:when>
+                        </xsl:choose> 
+                    </xsl:if>
+                    <xsl:if test="//t:msDesc/t:physDesc/t:objectDesc/t:supportDesc/@material">
+                        <xsl:value-of select="concat(upper-case(substring(//t:msDesc/t:physDesc/t:objectDesc/@form,1,1)),substring(//t:msDesc/t:physDesc/t:objectDesc/@form,2))"/> 
+                    </xsl:if>
+                    -->
+                </div>
+            <div>
+                <xsl:if test="//t:msDesc/t:physDesc[t:additions/t:list/t:item/t:label[@content='Colophon']] 
+                    or //t:msDesc/t:physDesc/t:decoDesc/t:decoNote
+                    or //t:msDesc/t:physDesc/t:additions[t:list/t:item/t:label[@content = 'Doxology']]">
+                    Features: 
+                    <xsl:if test="//t:msDesc/t:physDesc[t:additions/t:list/t:item/t:label[@content='Colophon']]">
+                        Colophon<xsl:if test="//t:msDesc/t:physDesc/t:decoDesc/t:decoNote or //t:msDesc/t:physDesc[t:additions/t:list/t:item/t:label[@content='Doxology']]">, </xsl:if>
+                    </xsl:if>
+                    <xsl:if test="//t:msDesc/t:physDesc/t:decoDesc/t:decoNote">
+                        Decoration<xsl:if test="//t:msDesc/t:physDesc[t:additions/t:list/t:item/t:label[@content='Doxology']]">, </xsl:if>
+                    </xsl:if>
+                    <xsl:if test="//t:msDesc/t:physDesc[t:additions/t:list/t:item/t:label[@content='Doxology']]">Doxology</xsl:if>
+                </xsl:if>
+            </div>
+
+        </div>
+        <!-- 
+
+Features: Colophon, Decoration, Doxology
+this should be generated by a test, if handDesc @hands>1
+one /TEI/teiHeader/fileDesc/sourceDesc/msDesc/physDesc/additions/list/item/label with content = "Colophon"
+one /TEI/teiHeader/fileDesc/sourceDesc/msDesc/physDesc/decoDesc/decoNote
+/TEI/teiHeader/fileDesc/sourceDesc/msDesc/physDesc/additions/list/item/label with content = "Doxology"
+
+Wright’s Subject Classification: Punctuation
+This manuscript contains: The Book of the Collections of *the Vowel-points and Readings, which are in the Holy Scriptures; A selection of passages from the Scriptures, to illustrate the use of the various signs of punctuation and accentuation, separately and in combination.; On various letters of the alphabet and their combinations; A brief explanation of certain critical marks attached to words in the biblical text; Traditions of the Masters of the Schools. In total, including sub-sections, this manuscript contains 44 items. This manuscript contains later additions.
+
+Include if the manuscript has at least one non-empty /TEI/teiHeader/fileDesc/sourceDesc/msDesc/physDesc/additions/list/item
+
+        -->
+    </xsl:template>
+    
     <xsl:template match="t:msDesc">
         <xsl:if test="t:msIdentifier or t:physDesc">
             <div class="panel panel-default">
@@ -226,10 +323,10 @@ aria-expanded="false" aria-controls="collapseExample"
             <span class="inline-h4">Decoration: </span>
             <div class="msItem indent">
                 <xsl:if test="@type">
-                    <span class="inline-h4"><xsl:value-of select="concat(upper-case(substring(@type,1,1)),substring(@type,2))"/>: </span>
+                        <span class="inline-h4"><xsl:value-of select="concat(upper-case(substring(@type,1,1)),substring(@type,2))"/>: </span>
                 </xsl:if>
                 <xsl:if test="@medium">
-                    <span class="inline-h4">Medium:</span> <xsl:value-of select="@medium"/>
+                        <span class="inline-h4">Medium:</span> <xsl:value-of select="@medium"/>
                 </xsl:if>
                 <!-- 
                 
