@@ -91,7 +91,7 @@ aria-expanded="false" aria-controls="collapseExample"
         <xsl:if test="t:msIdentifier or t:physDesc">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <h2 class="panel-title" data-toggle="collapse" data-target="#Overview">Overview </h2>
+                    <h2 class="panel-title" data-toggle="collapse" data-target="#Overview">Physical Description </h2>
                 </div>
                 <div id="Overview" class="panel-collapse collapse in">
                     <div class="panel-body">
@@ -176,7 +176,6 @@ aria-expanded="false" aria-controls="collapseExample"
     </xsl:template>
     <xsl:template match="t:physDesc">
         <div class="tei-physDesc">
-            <h3 class="inline-h4">Physical Description</h3>
             <div class="indent">
                 <xsl:apply-templates/>
             </div>
