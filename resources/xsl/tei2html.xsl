@@ -1379,7 +1379,7 @@
     <!-- T -->
     <xsl:template match="t:TEI">
         <!-- Header -->
-        <xsl:call-template name="h1"/>
+        <xsl:call-template name="mssHeader"/>
         <!-- MSS display -->
         <xsl:if test="descendant::t:sourceDesc/t:msDesc">
             <xsl:apply-templates select="descendant::t:sourceDesc/t:msDesc"/>
@@ -1577,6 +1577,7 @@
             </small>
         </div>
         -->
+
     </xsl:template>
     
     <xsl:template name="title">
