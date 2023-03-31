@@ -121,9 +121,7 @@
                     -->
                 </div>
             <div>
-                <xsl:if test="//t:msDesc/t:physDesc[t:additions/t:list/t:item/t:label[@content='Colophon']]
-                    or //t:msDesc/t:physDesc/t:decoDesc/t:decoNote 
-                    or //t:msDesc/t:physDesc/t:additions[t:list/t:item/t:label[@content = 'Doxology']]">
+                <xsl:if test="//t:msDesc/t:physDesc[t:additions/t:list/t:item/t:label[@content='Colophon']]                     or //t:msDesc/t:physDesc/t:decoDesc/t:decoNote                      or //t:msDesc/t:physDesc/t:additions[t:list/t:item/t:label[@content = 'Doxology']]">
                     Features: 
                     <xsl:if test="//t:msDesc/t:physDesc[t:additions/t:list/t:item/t:label[@content='Colophon']]">
                         Colophon<xsl:if test="//t:msDesc/t:physDesc/t:decoDesc/t:decoNote or //t:msDesc/t:physDesc[t:additions/t:list/t:item/t:label[@content='Doxology']]">, </xsl:if>
@@ -165,20 +163,6 @@
                 </div>
             </div>
         </xsl:if>
-        <xsl:if test="t:physDesc/t:additions">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h2 class="panel-title" data-toggle="collapse" data-target="#Overview">Additions </h2>
-                </div>
-                <div id="Overview" class="panel-collapse collapse in">
-                    <div class="panel-body">
-                        <div class="msDesc">
-                            <xsl:apply-templates select="t:physDesc/t:additions"/>    
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </xsl:if>
         <div class="panel panel-default">
             <div class="panel-heading">
                 <h2 class="panel-title" data-toggle="collapse" data-target="#Contents">Manuscript Contents</h2>
@@ -193,7 +177,21 @@
                     </div>
                 </div>
             </div>
-        </div>    
+        </div>  
+        <xsl:if test="t:physDesc/t:additions">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h2 class="panel-title" data-toggle="collapse" data-target="#Overview">Additions </h2>
+                </div>
+                <div id="Overview" class="panel-collapse collapse in">
+                    <div class="panel-body">
+                        <div class="msDesc">
+                            <xsl:apply-templates select="t:physDesc/t:additions"/>    
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </xsl:if>
     </xsl:template>
     <xsl:template match="t:msPart">
         <div class="panel-group" id="accordion">
@@ -262,7 +260,7 @@
     </xsl:template>
    
     <xsl:template match="t:condition | t:foliation |  t:collation"/>
-    <xsl:template match="t:incipit | t:title | t:editor | t:explicit | t:colophon | t:finalRubric | t:filiation | t:material | t:additions |  t:layoutDesc | t:origDate | t:provenance | t:acquisition | t:availability | t:custodialHist | t:history |          t:summary | t:origin | t:extent">
+    <xsl:template match="t:incipit | t:title | t:editor | t:explicit | t:colophon | t:finalRubric | t:filiation | t:material |  t:layoutDesc | t:origDate | t:provenance | t:acquisition | t:availability | t:custodialHist | t:history |          t:summary | t:origin | t:extent">
         <xsl:if test="not(empty(.))">
             <div class="tei-{local-name(.)}">
                 <span class="inline-h4">
@@ -278,9 +276,14 @@
             </div>
         </xsl:if>
     </xsl:template>
+    <xsl:template match="t:additions">
+        <div class="indent">
+            <xsl:apply-templates/>    
+        </div>
+    </xsl:template>
     <xsl:template match="t:handNote">
         <xsl:choose>
-            <xsl:when test="@scope='minor' and (t:desc = '' or t:desc='See additions.')"></xsl:when>
+            <xsl:when test="@scope='minor' and (t:desc = '' or t:desc='See additions.')"/>
             <xsl:otherwise>
                 <div name="{string(@xml:id)}">
                     <span class="inline-h4">Hand <xsl:value-of select="substring-after(string(@xml:id),'ote')"/>
@@ -347,7 +350,7 @@
     </xsl:template>
     <xsl:template match="t:locus">
         <xsl:choose>
-            <xsl:when test="text()"></xsl:when>
+            <xsl:when test="text()"/>
             <xsl:otherwise>
                     <xsl:if test="@from or @to">
                         <xsl:choose>
