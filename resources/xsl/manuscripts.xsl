@@ -1,4 +1,4 @@
-<xsl:stylesheet xmlns="http://www.w3.org/1999/xhtml" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:s="http://syriaca.org" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:x="http://www.w3.org/1999/xhtml" xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:saxon="http://saxon.sf.net/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:local="http://syriaca.org/ns" exclude-result-prefixes="xs t s saxon" version="2.0">
+<xsl:stylesheet xmlns="http://www.w3.torg/1999/xhtml" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:s="http://syriaca.org" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:x="http://www.w3.org/1999/xhtml" xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:saxon="http://saxon.sf.net/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:local="http://syriaca.org/ns" exclude-result-prefixes="xs t s saxon" version="2.0">
     
     <!-- ================================================================== 
        Copyright 2013 New York University
@@ -52,40 +52,7 @@
     <!-- TEMPLATES -->
     <!-- =================================================================== -->
     
-    <!-- 
-    
-    /TEI/teiHeader/titleStmt, editionStmt, publicationStmt : will display together, currently is in the Cite This box
 
-/TEI/teiHeader/profileDesc/textClass
-
-/TEI/teiHeader/fileDesc/sourceDesc/msDesc/msIdentifier
-
-/TEI/teiHeader/fileDesc/sourceDesc/msDesc/msContents
-
-/TEI/teiHeader/fileDesc/sourceDesc/msDesc/physDesc/additions
-
-/TEI/teiHeader/fileDesc/sourceDesc/msDesc/physDesc/p and objectDesc and handDesc and decoDesc (not all may be present)
-
-/TEI/teiHeader/fileDesc/sourceDesc/msDesc/history
-
-/TEI/teiHeader/fileDesc/sourceDesc/msDesc/additional/listBibl/bibl
-
-
-MSParts
-/TEI/teiHeader/fileDesc/sourceDesc/msDesc//msPart/msIdentifier
-
-/TEI/teiHeader/fileDesc/sourceDesc/msDesc//msPart/msContents
-
-/TEI/teiHeader/fileDesc/sourceDesc/msDesc//msPart/physDesc/additions
-
-/TEI/teiHeader/fileDesc/sourceDesc/msDesc//msPart/physDesc/p and objectDesc and handDesc and decoDesc (not all may be present)
-
-/TEI/teiHeader/fileDesc/sourceDesc/msDesc//msPart/history
-
-/TEI/teiHeader/fileDesc/sourceDesc/msDesc//msPart/additional/listBibl/bibl
-
-aria-expanded="false" aria-controls="collapseExample"
-    -->
     <!-- Manuscript templates -->
     <xsl:template name="mssHeader">
         <div class="title">
@@ -98,10 +65,11 @@ aria-expanded="false" aria-controls="collapseExample"
             <!-- End Title -->
         </div>
         <div class="header section">
+           <div class="tei-note"> 
             <div>URI: <xsl:apply-templates select="//t:msDesc/t:msIdentifier/t:idno[@type='URI']"/></div>
             <xsl:if test="//t:msDesc/t:msIdentifier/t:altIdentifier/t:idno[@type='Wright-BL-Roman']">
                 <div>Description based on Wright 
-                    <xsl:apply-templates select="//t:msDesc/t:msIdentifier/t:altIdentifier/t:idno[@type='Wright-BL-Roman']"/>&#160;
+                    <xsl:apply-templates select="//t:msDesc/t:msIdentifier/t:altIdentifier/t:idno[@type='Wright-BL-Roman']"/> 
                     (<xsl:apply-templates select="//t:msDesc/t:additional/t:listBibl/t:bibl/t:citedRange[@unit='pp']"/>)
                 </div>    
             </xsl:if>
@@ -153,8 +121,8 @@ aria-expanded="false" aria-controls="collapseExample"
                     -->
                 </div>
             <div>
-                <xsl:if test="//t:msDesc/t:physDesc[t:additions/t:list/t:item/t:label[@content='Colophon']] 
-                    or //t:msDesc/t:physDesc/t:decoDesc/t:decoNote
+                <xsl:if test="//t:msDesc/t:physDesc[t:additions/t:list/t:item/t:label[@content='Colophon']]
+                    or //t:msDesc/t:physDesc/t:decoDesc/t:decoNote 
                     or //t:msDesc/t:physDesc/t:additions[t:list/t:item/t:label[@content = 'Doxology']]">
                     Features: 
                     <xsl:if test="//t:msDesc/t:physDesc[t:additions/t:list/t:item/t:label[@content='Colophon']]">
@@ -166,26 +134,24 @@ aria-expanded="false" aria-controls="collapseExample"
                     <xsl:if test="//t:msDesc/t:physDesc[t:additions/t:list/t:item/t:label[@content='Doxology']]">Doxology</xsl:if>
                 </xsl:if>
             </div>
-
+            <xsl:if test="//t:msDesc/t:head/t:listRelation[@type='Wright-BL-Taxonomy']/t:relation">
+            <div>
+                Wright's Subject Classification:
+                <xsl:for-each select="//t:msDesc/t:head/t:listRelation[@type='Wright-BL-Taxonomy']/t:relation">
+                    <xsl:value-of select="t:desc"/><xsl:if test="position() != last()">; </xsl:if>
+                </xsl:for-each>
+            </div>
+            </xsl:if>
+           </div>
+            <xsl:if test="//t:msDesc/t:head/t:note[@type='contents-note']">
+                <xsl:apply-templates select="//t:msDesc/t:head/t:note[@type='contents-note']"/>
+            </xsl:if>
         </div>
-        <!-- 
-
-Features: Colophon, Decoration, Doxology
-this should be generated by a test, if handDesc @hands>1
-one /TEI/teiHeader/fileDesc/sourceDesc/msDesc/physDesc/additions/list/item/label with content = "Colophon"
-one /TEI/teiHeader/fileDesc/sourceDesc/msDesc/physDesc/decoDesc/decoNote
-/TEI/teiHeader/fileDesc/sourceDesc/msDesc/physDesc/additions/list/item/label with content = "Doxology"
-
-Wright’s Subject Classification: Punctuation
-This manuscript contains: The Book of the Collections of *the Vowel-points and Readings, which are in the Holy Scriptures; A selection of passages from the Scriptures, to illustrate the use of the various signs of punctuation and accentuation, separately and in combination.; On various letters of the alphabet and their combinations; A brief explanation of certain critical marks attached to words in the biblical text; Traditions of the Masters of the Schools. In total, including sub-sections, this manuscript contains 44 items. This manuscript contains later additions.
-
-Include if the manuscript has at least one non-empty /TEI/teiHeader/fileDesc/sourceDesc/msDesc/physDesc/additions/list/item
-
-        -->
+        
     </xsl:template>
     
     <xsl:template match="t:msDesc">
-        <xsl:if test="t:msIdentifier or t:physDesc">
+        <xsl:if test="t:physDesc">
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <h2 class="panel-title" data-toggle="collapse" data-target="#Overview">Physical Description </h2>
@@ -193,7 +159,21 @@ Include if the manuscript has at least one non-empty /TEI/teiHeader/fileDesc/sou
                 <div id="Overview" class="panel-collapse collapse in">
                     <div class="panel-body">
                         <div class="msDesc">
-                            <xsl:apply-templates select="t:msIdentifier | t:physDesc"/>    
+                            <xsl:apply-templates select="t:physDesc"/>    
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </xsl:if>
+        <xsl:if test="t:physDesc/t:additions">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h2 class="panel-title" data-toggle="collapse" data-target="#Overview">Additions </h2>
+                </div>
+                <div id="Overview" class="panel-collapse collapse in">
+                    <div class="panel-body">
+                        <div class="msDesc">
+                            <xsl:apply-templates select="t:physDesc/t:additions"/>    
                         </div>
                     </div>
                 </div>
@@ -276,11 +256,13 @@ Include if the manuscript has at least one non-empty /TEI/teiHeader/fileDesc/sou
     <xsl:template match="t:physDesc">
         <div class="tei-physDesc">
             <div class="indent">
-                <xsl:apply-templates/>
+                <xsl:apply-templates select="child::*[not(self::t:additions)]"/>
             </div>
         </div>
     </xsl:template>
-    <xsl:template match="t:incipit | t:title | t:editor | t:quote | t:explicit | t:colophon | t:finalRubric | t:filiation | t:material | t:foliation |          t:collation | t:additions | t:condition | t:layoutDesc | t:origDate | t:provenance | t:acquisition | t:availability | t:custodialHist | t:history |          t:summary | t:origin | t:extent">
+   
+    <xsl:template match="t:condition | t:foliation |  t:collation"/>
+    <xsl:template match="t:incipit | t:title | t:editor | t:explicit | t:colophon | t:finalRubric | t:filiation | t:material | t:additions |  t:layoutDesc | t:origDate | t:provenance | t:acquisition | t:availability | t:custodialHist | t:history |          t:summary | t:origin | t:extent">
         <xsl:if test="not(empty(.))">
             <div class="tei-{local-name(.)}">
                 <span class="inline-h4">
@@ -297,26 +279,17 @@ Include if the manuscript has at least one non-empty /TEI/teiHeader/fileDesc/sou
         </xsl:if>
     </xsl:template>
     <xsl:template match="t:handNote">
-        <div name="{string(@xml:id)}">
-            <span class="inline-h4">Hand <xsl:value-of select="substring-after(string(@xml:id),'ote')"/>: </span>
-            <div class="msItem indent">
-                <xsl:if test="@scope">
-                    <span class="inline-h4">Scope:</span>  <xsl:value-of select="@scope"/>
-                </xsl:if>
-                <xsl:if test="@script">
-                    <xsl:variable name="script" select="@script"/>
-                    <div>
-                        <span class="inline-h4">Script: </span><xsl:value-of select="//t:langUsage/t:language[@ident = $script]/text()"/>
-                    </div>
-                </xsl:if>
-                <xsl:if test="@medium">
-                    <div>
-                        <span class="inline-h4">Medium: </span> <xsl:value-of select="@medium"/>
-                    </div>
-                </xsl:if>
-                <xsl:apply-templates mode="plain"/>
-            </div>
-        </div>
+        <xsl:choose>
+            <xsl:when test="@scope='minor' and (t:desc = '' or t:desc='See additions.')"></xsl:when>
+            <xsl:otherwise>
+                <div name="{string(@xml:id)}">
+                    <span class="inline-h4">Hand <xsl:value-of select="substring-after(string(@xml:id),'ote')"/>
+                        <xsl:if test="@scope or @script"> (<xsl:if test="@scope"><xsl:value-of select="@scope"/><xsl:if test="@script">, </xsl:if></xsl:if><xsl:if test="@script"><xsl:variable name="script" select="@script"/><xsl:value-of select="//t:langUsage/t:language[@ident = $script]/text()"/></xsl:if>)
+                        </xsl:if> 
+                    </span>:  <xsl:apply-templates mode="plain"/>
+                </div>
+            </xsl:otherwise>
+        </xsl:choose>
     </xsl:template>
     <xsl:template match="t:decoNote">
         <div name="{string(@xml:id)}">
@@ -353,6 +326,53 @@ Include if the manuscript has at least one non-empty /TEI/teiHeader/fileDesc/sou
             </xsl:choose>
             <xsl:apply-templates/>
         </div>
+    </xsl:template>
+    <xsl:template match="t:list[parent::t:additions]">
+        <xsl:apply-templates mode="mss"/>
+    </xsl:template>
+    <xsl:template match="t:item" mode="mss">
+        <div class="tei-item">
+            <xsl:if test="@n">
+                <span class="inline-h4"><xsl:value-of select="@n"/>. </span>
+            </xsl:if>
+            <xsl:if test="t:label">
+                <span class="inline-h4"> [<xsl:value-of select="t:label"/>]: </span>
+            </xsl:if>
+            <xsl:if test="t:locus">
+                <xsl:apply-templates select="t:locus"/>
+            </xsl:if>
+            <xsl:apply-templates select="*[not(self::t:label) and not(self::t:locus)]" mode="plain"/>
+        </div>
+        
+    </xsl:template>
+    <xsl:template match="t:locus">
+        <xsl:choose>
+            <xsl:when test="text()"></xsl:when>
+            <xsl:otherwise>
+                    <xsl:if test="@from or @to">
+                        <xsl:choose>
+                            <xsl:when test="@from != @to and @to != ''">Fols. <xsl:value-of select="@from"/> - <xsl:value-of select="@to"/>. </xsl:when>
+                            <xsl:when test="@from != ''">Fol. <xsl:value-of select="@from"/>. </xsl:when>
+                        </xsl:choose>
+                    </xsl:if>
+            </xsl:otherwise>
+        </xsl:choose>
+        
+        
+        <!-- 
+            
+            Fol. 1a. is constructed from "Fol."+/locus @from="1a"+"." NOTE: Test, if @from is not the same as @to 
+            (and if @to has a value), then use "Fols."+ /locus @from="1a"+"-"+/locus @to"+"." 
+            We will also need to handle multiple /locus elements. 
+            Can you write that?
+        "2. Fol. 1b. At the foot of the page there is an explanatory note the last line of which is much injured. So far as legible, it runs thus:..."
+        
+        <item xml:id="addition2" n="2">
+  <locus from="1b" to="1b"/>
+  <p>At the foot of the page there is an explanatory note the last line of which is much injured. So far as legible, it runs thus:</p>
+...
+</item>
+        -->
     </xsl:template>
     <!--
     <xsl:template match="* | @*" mode="labeled">
