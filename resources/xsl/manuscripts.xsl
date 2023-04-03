@@ -178,12 +178,12 @@
                 </div>
             </div>
         </div>  
-        <xsl:if test="t:physDesc/t:additions">
+        <xsl:if test="t:physDesc/t:additions and t:physDesc/t:additions/child::*">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <h2 class="panel-title" data-toggle="collapse" data-target="#Overview">Additions </h2>
+                    <h2 class="panel-title" data-toggle="collapse" data-target="#Additions">Additions </h2>
                 </div>
-                <div id="Overview" class="panel-collapse collapse in">
+                <div id="Additions" class="panel-collapse collapse in">
                     <div class="panel-body">
                         <div class="msDesc">
                             <xsl:apply-templates select="t:physDesc/t:additions"/>    
