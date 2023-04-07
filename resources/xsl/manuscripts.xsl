@@ -1,4 +1,4 @@
-<xsl:stylesheet xmlns="http://www.w3.torg/1999/xhtml" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:s="http://syriaca.org" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:x="http://www.w3.org/1999/xhtml" xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:saxon="http://saxon.sf.net/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:local="http://syriaca.org/ns" exclude-result-prefixes="xs t s saxon" version="2.0">
+<xsl:stylesheet xmlns="http://www.w3.torg/1999/xhtml" xmlns:saxon="http://saxon.sf.net/" xmlns:local="http://syriaca.org/ns" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:s="http://syriaca.org" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:x="http://www.w3.org/1999/xhtml" xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" exclude-result-prefixes="xs t s saxon" version="2.0">
     
     <!-- ================================================================== 
        Copyright 2013 New York University
@@ -254,11 +254,12 @@
     <xsl:template match="t:physDesc">
         <div class="tei-physDesc">
             <div class="indent">
-                <xsl:apply-templates select="child::*[not(self::t:additions)]"/>
+                <xsl:apply-templates select="child::*[not(self::t:additions) and not(self::t:objectDesc)]"/>
             </div>
         </div>
     </xsl:template>
    
+    <xsl:template match="t:objectDesc"></xsl:template>
     <xsl:template match="t:condition | t:foliation |  t:collation"/>
     <xsl:template match="t:incipit | t:title | t:editor | t:explicit | t:colophon | t:finalRubric | t:filiation | t:material |  t:layoutDesc | t:origDate | t:provenance | t:acquisition | t:availability | t:custodialHist | t:history |          t:summary | t:origin | t:extent">
         <xsl:if test="not(empty(.))">
