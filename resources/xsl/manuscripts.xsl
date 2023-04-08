@@ -361,18 +361,21 @@
     </xsl:template>
     <xsl:template match="t:locus">
         <xsl:choose>
-            <xsl:when test="text()"/>
-            <xsl:otherwise>
-                    <xsl:if test="@from or @to">
-                        <xsl:choose>
-                            <xsl:when test="@from != @to and @to != ''">Fols. <xsl:value-of select="@from"/> - <xsl:value-of select="@to"/>. </xsl:when>
-                            <xsl:when test="@from != ''">Fol. <xsl:value-of select="@from"/>. </xsl:when>
-                        </xsl:choose>
-                    </xsl:if>
-            </xsl:otherwise>
+            <xsl:when test="parent::t:item">
+                <xsl:choose>
+                    <xsl:when test="text()"/>
+                    <xsl:otherwise>
+                        <xsl:if test="@from or @to">
+                            <xsl:choose>
+                                <xsl:when test="@from != @to and @to != ''">Fols. <xsl:value-of select="@from"/> - <xsl:value-of select="@to"/>. </xsl:when>
+                                <xsl:when test="@from != ''">Fol. <xsl:value-of select="@from"/>. </xsl:when>
+                            </xsl:choose>
+                        </xsl:if>
+                    </xsl:otherwise>
+                </xsl:choose>
+            </xsl:when>
+            <xsl:otherwise><xsl:apply-templates/></xsl:otherwise>
         </xsl:choose>
-        
-        
         <!-- 
             
             Fol. 1a. is constructed from "Fol."+/locus @from="1a"+"." NOTE: Test, if @from is not the same as @to 
