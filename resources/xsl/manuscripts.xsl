@@ -95,16 +95,9 @@
             </xsl:if>
                 <div>
                     <xsl:if test="//t:msDesc/t:physDesc/t:handDesc/t:handNote[@scope='major']/@script">
-                        <xsl:choose>
-                            <xsl:when test="//t:msDesc/t:physDesc/t:handDesc/t:handNote[@scope='major']/@script = 'syr'">Unspecified Syriac script </xsl:when>
-                            <xsl:when test="//t:msDesc/t:physDesc/t:handDesc/t:handNote[@scope='major']/@script = 'syr-Syre'">Estrangela script </xsl:when>
-                            <xsl:when test="//t:msDesc/t:physDesc/t:handDesc/t:handNote[@scope='major']/@script = 'syr-Syrj'">West Syriac script </xsl:when>
-                            <xsl:when test="//t:msDesc/t:physDesc/t:handDesc/t:handNote[@scope='major']/@script = 'syr-Syrn'">East Syriac script </xsl:when>
-                            <xsl:when test="//t:msDesc/t:physDesc/t:handDesc/t:handNote[@scope='major']/@script = 'syr-x-syrm'">Melkite Syriac script </xsl:when>
-                            <xsl:when test="//t:msDesc/t:physDesc/t:handDesc/t:handNote[@scope='major']/@script = 'grc'">Greek </xsl:when>
-                            <xsl:when test="//t:msDesc/t:physDesc/t:handDesc/t:handNote[@scope='major']/@script = 'ar-Syrc'">Arabic Garshuni script </xsl:when>
-                            <xsl:when test="//t:msDesc/t:physDesc/t:handDesc/t:handNote[@scope='major']/@script = 'ar'">Unspecified Arabic script </xsl:when>
-                        </xsl:choose>
+                        <xsl:call-template name="script">
+                            <xsl:with-param name="node" select="//t:msDesc/t:physDesc/t:handDesc/t:handNote[@scope='major']"/>
+                        </xsl:call-template>
                     </xsl:if>
                     <xsl:if test="//t:handDesc[@hands &gt; 1]"> (multiple hands). </xsl:if>
                     <xsl:if test="//t:msDesc/t:physDesc/t:objectDesc/t:supportDesc[@material != '']">
@@ -298,7 +291,11 @@
             <xsl:otherwise>
                 <div name="{string(@xml:id)}">
                     <span class="inline-h4">Hand <xsl:value-of select="substring-after(string(@xml:id),'ote')"/>
-                        <xsl:if test="@scope or @script"> (<xsl:if test="@scope"><xsl:value-of select="@scope"/><xsl:if test="@script">, </xsl:if></xsl:if><xsl:if test="@script"><xsl:variable name="script" select="@script"/><xsl:value-of select="//t:langUsage/t:language[@ident = $script]/text()"/></xsl:if>)
+                        <xsl:if test="@scope or @script"> (<xsl:if test="@scope"><xsl:value-of select="@scope"/><xsl:if test="@script">, </xsl:if></xsl:if><xsl:if test="@script">
+                            <xsl:call-template name="script">
+                                <xsl:with-param name="node" select="."/>
+                            </xsl:call-template>
+                        </xsl:if>)
                         </xsl:if> 
                     </span>:  <xsl:apply-templates mode="plain"/>
                 </div>
@@ -387,6 +384,19 @@
 ...
 </item>
         -->
+    </xsl:template>
+    <xsl:template name="script">
+        <xsl:param name="node"/>
+        <xsl:choose>
+            <xsl:when test="$node/@script = 'syr'">Unspecified Syriac script </xsl:when>
+            <xsl:when test="$node/@script = 'syr-Syre'">Estrangela script </xsl:when>
+            <xsl:when test="$node/@script = 'syr-Syrj'">West Syriac script </xsl:when>
+            <xsl:when test="$node/@script = 'syr-Syrn'">East Syriac script </xsl:when>
+            <xsl:when test="$node/@script = 'syr-x-syrm'">Melkite Syriac script </xsl:when>
+            <xsl:when test="$node/@script = 'grc'">Greek </xsl:when>
+            <xsl:when test="$node/@script = 'ar-Syrc'">Arabic Garshuni script </xsl:when>
+            <xsl:when test="$node/@script = 'ar'">Unspecified Arabic script </xsl:when>
+        </xsl:choose>
     </xsl:template>
     <!--
     <xsl:template match="* | @*" mode="labeled">
