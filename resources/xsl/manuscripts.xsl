@@ -1,4 +1,4 @@
-<xsl:stylesheet xmlns="http://www.w3.torg/1999/xhtml" xmlns:saxon="http://saxon.sf.net/" xmlns:local="http://syriaca.org/ns" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:s="http://syriaca.org" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:x="http://www.w3.org/1999/xhtml" xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" exclude-result-prefixes="xs t s saxon" version="2.0">
+<xsl:stylesheet xmlns="http://www.w3.torg/1999/xhtml" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:s="http://syriaca.org" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:x="http://www.w3.org/1999/xhtml" xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:saxon="http://saxon.sf.net/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:local="http://syriaca.org/ns" exclude-result-prefixes="xs t s saxon" version="2.0">
     
     <!-- ================================================================== 
        Copyright 2013 New York University
@@ -106,7 +106,7 @@
                             <xsl:when test="//t:msDesc/t:physDesc/t:objectDesc/t:supportDesc/@material = 'chart'">Paper</xsl:when>
                             <xsl:when test="//t:msDesc/t:physDesc/t:objectDesc/t:supportDesc/@material = 'mixed'">Mixed Material</xsl:when>
                         </xsl:choose>
-                    </xsl:if>&#160;
+                    </xsl:if> 
                     <xsl:if test="//t:msDesc/t:physDesc/t:objectDesc[@form != '']">
                         <xsl:variable name="string" select="//t:msDesc/t:physDesc/t:objectDesc/@form"/>
                         <xsl:value-of select="concat(upper-case(substring($string,1,1)),substring($string,2))"/>
@@ -262,7 +262,7 @@
         </div>
     </xsl:template>
    
-    <xsl:template match="t:objectDesc"></xsl:template>
+    <xsl:template match="t:objectDesc"/>
     <xsl:template match="t:condition | t:foliation |  t:collation"/>
     <xsl:template match="t:incipit | t:title | t:editor | t:explicit | t:colophon | t:finalRubric | t:filiation | t:material |  t:layoutDesc | t:origDate | t:provenance | t:acquisition | t:availability | t:custodialHist | t:history |          t:summary | t:origin | t:extent">
         <xsl:if test="not(empty(.))">
@@ -304,25 +304,16 @@
     </xsl:template>
     <xsl:template match="t:decoNote">
         <div name="{string(@xml:id)}">
-            <span class="inline-h4">Decoration: </span>
-            <div class="msItem indent">
+            <span class="msItem">
+                <span class="inline-h4">Decoration </span>
                 <xsl:if test="@type">
-                        <span class="inline-h4"><xsl:value-of select="concat(upper-case(substring(@type,1,1)),substring(@type,2))"/>: </span>
+                        (<span class="inline-h4"><xsl:value-of select="concat(upper-case(substring(@type,1,1)),substring(@type,2))"/> </span>)
                 </xsl:if>
                 <xsl:if test="@medium">
-                        <span class="inline-h4">Medium:</span> <xsl:value-of select="@medium"/>
+                        [<span class="inline-h4">Medium:</span> <xsl:value-of select="@medium"/>]
                 </xsl:if>
-                <!-- 
-                
-                <decoNote xml:id="p1decoNote2" type="ornamentation">
-                  <locus from="1a" to="1a"/>
-                  <desc>An ornamental nimbus, coloured with black, red, green, and yellow.
-                  <ref target="#p1addition2">See below.</ref>
-                  </desc>
-                </decoNote>
-                -->
-                <xsl:apply-templates mode="plain"/>
-            </div>
+                : <xsl:apply-templates mode="plain"/>
+            </span>
         </div>
     </xsl:template>
     <xsl:template match="t:msItem">
