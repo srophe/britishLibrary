@@ -297,7 +297,7 @@
     </xsl:template>
     <xsl:template match="t:decoNote">
         <div name="{string(@xml:id)}">
-            <span class="msItem"><span class="inline-h4">Decoration<xsl:if test="@type"> (<xsl:value-of select="concat(upper-case(substring(@type,1,1)),substring(@type,2))"/> )</xsl:if><xsl:if test="@medium"> [Medium: <xsl:value-of select="@medium"/>]</xsl:if>: <xsl:apply-templates mode="plain"/></span></span>
+            <span class="msItem"><span class="inline-h4">Decoration<xsl:if test="@type"> (<xsl:value-of select="concat(upper-case(substring(@type,1,1)),substring(@type,2))"/> )</xsl:if><xsl:if test="@medium"> [Medium: <xsl:value-of select="@medium"/>]</xsl:if>:</span> <xsl:apply-templates mode="plain"/></span>
         </div>
     </xsl:template>
     <xsl:template match="t:msItem">
