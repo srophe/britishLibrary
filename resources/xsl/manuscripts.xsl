@@ -290,30 +290,14 @@
             <xsl:when test="@scope='minor' and (t:desc = '' or t:desc='See additions.')"/>
             <xsl:otherwise>
                 <div name="{string(@xml:id)}">
-                    <span class="inline-h4">Hand <xsl:value-of select="substring-after(string(@xml:id),'ote')"/>
-                        <xsl:if test="@scope or @script"> (<xsl:if test="@scope"><xsl:value-of select="@scope"/><xsl:if test="@script">, </xsl:if></xsl:if><xsl:if test="@script">
-                            <xsl:call-template name="script">
-                                <xsl:with-param name="node" select="."/>
-                            </xsl:call-template>
-                        </xsl:if>)
-                        </xsl:if> 
-                    </span>:  <xsl:apply-templates mode="plain"/>
+                    <span class="inline-h4">Hand <xsl:value-of select="substring-after(string(@xml:id),'ote')"/><xsl:if test="@scope or @script"> (<xsl:if test="@scope"><xsl:value-of select="@scope"/><xsl:if test="@script">, </xsl:if></xsl:if><xsl:if test="@script"><xsl:call-template name="script"><xsl:with-param name="node" select="."/></xsl:call-template></xsl:if>)</xsl:if>: </span><xsl:apply-templates mode="plain"/>
                 </div>
             </xsl:otherwise>
         </xsl:choose>
     </xsl:template>
     <xsl:template match="t:decoNote">
         <div name="{string(@xml:id)}">
-            <span class="msItem">
-                <span class="inline-h4">Decoration </span>
-                <xsl:if test="@type">
-                        (<span class="inline-h4"><xsl:value-of select="concat(upper-case(substring(@type,1,1)),substring(@type,2))"/> </span>)
-                </xsl:if>
-                <xsl:if test="@medium">
-                        [<span class="inline-h4">Medium:</span> <xsl:value-of select="@medium"/>]
-                </xsl:if>
-                : <xsl:apply-templates mode="plain"/>
-            </span>
+            <span class="msItem"><span class="inline-h4">Decoration<xsl:if test="@type"> (<xsl:value-of select="concat(upper-case(substring(@type,1,1)),substring(@type,2))"/> )</xsl:if><xsl:if test="@medium"> [Medium: <xsl:value-of select="@medium"/>]</xsl:if>: <xsl:apply-templates mode="plain"/></span></span>
         </div>
     </xsl:template>
     <xsl:template match="t:msItem">
