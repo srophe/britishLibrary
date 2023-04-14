@@ -68,10 +68,7 @@
            <div class="tei-note"> 
             <div>URI: <xsl:apply-templates select="//t:msDesc/t:msIdentifier/t:idno[@type='URI']"/></div>
             <xsl:if test="//t:msDesc/t:msIdentifier/t:altIdentifier/t:idno[@type='Wright-BL-Roman']">
-                <div>Description based on Wright 
-                    <xsl:apply-templates select="//t:msDesc/t:msIdentifier/t:altIdentifier/t:idno[@type='Wright-BL-Roman']"/> 
-                    (<xsl:apply-templates select="//t:msDesc/t:additional/t:listBibl/t:bibl/t:citedRange[@unit='pp']"/>)
-                </div>    
+                <div>Description based on Wright <xsl:apply-templates select="//t:msDesc/t:msIdentifier/t:altIdentifier/t:idno[@type='Wright-BL-Roman']"/> (<xsl:apply-templates select="//t:msDesc/t:additional/t:listBibl/t:bibl/t:citedRange[@unit='pp']"/>)</div>    
             </xsl:if>
             <xsl:if test="//t:msDesc/t:history/t:origin/t:origDate">
                 <div>
@@ -106,12 +103,11 @@
                             <xsl:when test="//t:msDesc/t:physDesc/t:objectDesc/t:supportDesc/@material = 'chart'">Paper</xsl:when>
                             <xsl:when test="//t:msDesc/t:physDesc/t:objectDesc/t:supportDesc/@material = 'mixed'">Mixed Material</xsl:when>
                         </xsl:choose>
-                    </xsl:if> 
-                    <xsl:if test="//t:msDesc/t:physDesc/t:objectDesc[@form != '']">
-                        <xsl:variable name="string" select="//t:msDesc/t:physDesc/t:objectDesc/@form"/>
-                        <xsl:value-of select="concat(upper-case(substring($string,1,1)),substring($string,2))"/>
-                    </xsl:if>
-                    <xsl:if test="//t:msDesc/t:physDesc/t:objectDesc/t:supportDesc/t:extent/t:measure[@type='composition'][@quantity != '']">, </xsl:if>
+                    </xsl:if> <xsl:if 
+                        test="//t:msDesc/t:physDesc/t:objectDesc[@form != '']"><xsl:variable 
+                            name="string" select="//t:msDesc/t:physDesc/t:objectDesc/@form"/><xsl:value-of 
+                                select="concat(upper-case(substring($string,1,1)),substring($string,2))"/></xsl:if><xsl:if 
+                                    test="//t:msDesc/t:physDesc/t:objectDesc/t:supportDesc/t:extent/t:measure[@type='composition'][@quantity != '']">, </xsl:if>
                     <xsl:if test="//t:msDesc/t:physDesc/t:objectDesc/t:supportDesc/t:extent/t:measure[@type='composition'][@quantity != '']">
                         <xsl:choose>
                             <xsl:when test="//t:msDesc/t:physDesc/t:objectDesc/t:supportDesc/t:extent/t:measure[@type='composition'][@quantity = '1']">
