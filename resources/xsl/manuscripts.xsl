@@ -68,7 +68,19 @@
            <div class="tei-note"> 
             <div>URI: <xsl:apply-templates select="//t:msDesc/t:msIdentifier/t:idno[@type='URI']"/></div>
             <xsl:if test="//t:msDesc/t:msIdentifier/t:altIdentifier/t:idno[@type='Wright-BL-Roman']">
-                <div>Description based on Wright <xsl:apply-templates select="//t:msDesc/t:msIdentifier/t:altIdentifier/t:idno[@type='Wright-BL-Roman']"/> (<xsl:apply-templates select="//t:msDesc/t:additional/t:listBibl/t:bibl/t:citedRange[@unit='pp']"/>)</div>    
+                <div>
+                    <xsl:choose>
+                        <xsl:when test="//t:msDesc/t:additional/t:listBibl/t:bibl/t:ref[@target != '']">
+                            <a href="//t:msDesc/t:additional/t:listBibl/t:bibl/t:ref/@target">
+                                Description based on Wright <xsl:apply-templates select="//t:msDesc/t:msIdentifier/t:altIdentifier/t:idno[@type='Wright-BL-Roman']"/> (<xsl:apply-templates select="//t:msDesc/t:additional/t:listBibl/t:bibl/t:citedRange[@unit='pp']"/>)
+                                <img src="$nav-base/resources/images/ialogo.jpg" alt="Link to Archive.org Bibliographic record" height="18px"/>
+                            </a>
+                        </xsl:when>
+                        <xsl:otherwise>
+                            Description based on Wright <xsl:apply-templates select="//t:msDesc/t:msIdentifier/t:altIdentifier/t:idno[@type='Wright-BL-Roman']"/> (<xsl:apply-templates select="//t:msDesc/t:additional/t:listBibl/t:bibl/t:citedRange[@unit='pp']"/>)
+                        </xsl:otherwise>
+                    </xsl:choose>
+                    </div>    
             </xsl:if>
             <xsl:if test="//t:msDesc/t:history/t:origin/t:origDate">
                 <div>
