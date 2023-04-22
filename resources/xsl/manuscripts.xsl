@@ -71,7 +71,7 @@
                 <div>
                     <xsl:choose>
                         <xsl:when test="//t:msDesc/t:additional/t:listBibl/t:bibl/t:ref[@target != '']">
-                            <a href="//t:msDesc/t:additional/t:listBibl/t:bibl/t:ref/@target">
+                            <a href="{string(//t:msDesc/t:additional/t:listBibl/t:bibl/t:ref/@target)}">
                                 Description based on Wright <xsl:apply-templates select="//t:msDesc/t:msIdentifier/t:altIdentifier/t:idno[@type='Wright-BL-Roman']"/> (<xsl:apply-templates select="//t:msDesc/t:additional/t:listBibl/t:bibl/t:citedRange[@unit='pp']"/>)
                                 <img src="$nav-base/resources/images/ialogo.jpg" alt="Link to Archive.org Bibliographic record" height="18px"/>
                             </a>
@@ -115,11 +115,7 @@
                             <xsl:when test="//t:msDesc/t:physDesc/t:objectDesc/t:supportDesc/@material = 'chart'">Paper</xsl:when>
                             <xsl:when test="//t:msDesc/t:physDesc/t:objectDesc/t:supportDesc/@material = 'mixed'">Mixed Material</xsl:when>
                         </xsl:choose>
-                    </xsl:if> <xsl:if 
-                        test="//t:msDesc/t:physDesc/t:objectDesc[@form != '']"><xsl:variable 
-                            name="string" select="//t:msDesc/t:physDesc/t:objectDesc/@form"/><xsl:value-of 
-                                select="concat(upper-case(substring($string,1,1)),substring($string,2))"/></xsl:if><xsl:if 
-                                    test="//t:msDesc/t:physDesc/t:objectDesc/t:supportDesc/t:extent/t:measure[@type='composition'][@quantity != '']">, </xsl:if>
+                    </xsl:if> <xsl:if test="//t:msDesc/t:physDesc/t:objectDesc[@form != '']"><xsl:variable name="string" select="//t:msDesc/t:physDesc/t:objectDesc/@form"/><xsl:value-of select="concat(upper-case(substring($string,1,1)),substring($string,2))"/></xsl:if><xsl:if test="//t:msDesc/t:physDesc/t:objectDesc/t:supportDesc/t:extent/t:measure[@type='composition'][@quantity != '']">, </xsl:if>
                     <xsl:if test="//t:msDesc/t:physDesc/t:objectDesc/t:supportDesc/t:extent/t:measure[@type='composition'][@quantity != '']">
                         <xsl:choose>
                             <xsl:when test="//t:msDesc/t:physDesc/t:objectDesc/t:supportDesc/t:extent/t:measure[@type='composition'][@quantity = '1']">
