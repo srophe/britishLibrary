@@ -1,4 +1,4 @@
-<xsl:stylesheet xmlns="http://www.w3.torg/1999/xhtml" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:s="http://syriaca.org" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:x="http://www.w3.org/1999/xhtml" xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:saxon="http://saxon.sf.net/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:local="http://syriaca.org/ns" exclude-result-prefixes="xs t s saxon" version="2.0">
+<xsl:stylesheet xmlns="http://www.w3.torg/1999/xhtml" xmlns:saxon="http://saxon.sf.net/" xmlns:local="http://syriaca.org/ns" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:s="http://syriaca.org" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:x="http://www.w3.org/1999/xhtml" xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" exclude-result-prefixes="xs t s saxon" version="2.0">
     
     <!-- ================================================================== 
        Copyright 2013 New York University
@@ -268,7 +268,7 @@
    
     <xsl:template match="t:objectDesc"/>
     <xsl:template match="t:condition | t:foliation |  t:collation"/>
-    <xsl:template match="t:incipit | t:title | t:editor | t:explicit | t:colophon | t:finalRubric | t:filiation | t:material |  t:layoutDesc | t:origDate | t:provenance | t:acquisition | t:availability | t:custodialHist | t:history |          t:summary | t:origin | t:extent">
+    <xsl:template match="t:incipit | t:editor | t:explicit | t:colophon | t:finalRubric | t:filiation | t:material |  t:layoutDesc | t:origDate | t:provenance | t:acquisition | t:availability | t:custodialHist | t:history |          t:summary | t:origin | t:extent">
         <xsl:if test="not(empty(.))">
             <div class="tei-{local-name(.)}">
                 <span class="inline-h4">
@@ -294,7 +294,8 @@
             <xsl:when test="@scope='minor' and (t:desc = '' or t:desc='See additions.')"/>
             <xsl:otherwise>
                 <div name="{string(@xml:id)}">
-                    <span class="inline-h4">Hand <xsl:value-of select="substring-after(string(@xml:id),'ote')"/><xsl:if test="@scope or @script"> (<xsl:if test="@scope"><xsl:value-of select="@scope"/><xsl:if test="@script">, </xsl:if></xsl:if><xsl:if test="@script"><xsl:call-template name="script"><xsl:with-param name="node" select="."/></xsl:call-template></xsl:if>)</xsl:if>: </span><xsl:apply-templates mode="plain"/>
+                    <span class="inline-h4">Hand <xsl:value-of select="substring-after(string(@xml:id),'ote')"/>
+                        <xsl:if test="@scope or @script"> (<xsl:if test="@scope"><xsl:value-of select="@scope"/><xsl:if test="@script">, </xsl:if></xsl:if><xsl:if test="@script"><xsl:call-template name="script"><xsl:with-param name="node" select="."/></xsl:call-template></xsl:if>)</xsl:if>: </span><xsl:apply-templates mode="plain"/>
                 </div>
             </xsl:otherwise>
         </xsl:choose>
@@ -370,14 +371,24 @@
     <xsl:template name="script">
         <xsl:param name="node"/>
         <xsl:choose>
-            <xsl:when test="$node/@script = 'syr'">Unspecified Syriac script </xsl:when>
-            <xsl:when test="$node/@script = 'syr-Syre'">Estrangela script </xsl:when>
-            <xsl:when test="$node/@script = 'syr-Syrj'">West Syriac script </xsl:when>
-            <xsl:when test="$node/@script = 'syr-Syrn'">East Syriac script </xsl:when>
-            <xsl:when test="$node/@script = 'syr-x-syrm'">Melkite Syriac script </xsl:when>
-            <xsl:when test="$node/@script = 'grc'">Greek </xsl:when>
-            <xsl:when test="$node/@script = 'ar-Syrc'">Arabic Garshuni script </xsl:when>
-            <xsl:when test="$node/@script = 'ar'">Unspecified Arabic script </xsl:when>
+            <xsl:when test="$node/@script = 'syr'">Unspecified Syriac script</xsl:when>
+            <xsl:when test="$node/@script = 'syr-Syre'">Estrangela script</xsl:when>
+            <xsl:when test="$node/@script = 'syr-Syrj'">West Syriac script</xsl:when>
+            <xsl:when test="$node/@script = 'syr-Syrn'">East Syriac script</xsl:when>
+            <xsl:when test="$node/@script = 'syr-x-syrm'">Melkite Syriac script</xsl:when>
+            <xsl:when test="$node/@script = 'grc'">Greek</xsl:when>
+            <xsl:when test="$node/@script = 'ar-Syrc'">Arabic Garshuni script</xsl:when>
+            <xsl:when test="$node/@script = 'ar'">Unspecified Arabic script</xsl:when>
+        </xsl:choose>
+    </xsl:template>
+    <xsl:template match="t:title">
+        <xsl:choose>
+            <xsl:when test="contains(@ref,'syriaca.org')">
+                <a href="search.html?id={@ref}"><xsl:value-of select="."/></a>
+            </xsl:when>
+            <xsl:otherwise>
+                <xsl:apply-templates/>
+            </xsl:otherwise>
         </xsl:choose>
     </xsl:template>
     <!--
