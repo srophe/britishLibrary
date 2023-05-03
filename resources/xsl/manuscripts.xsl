@@ -280,7 +280,11 @@
                         <xsl:otherwise><xsl:value-of select="concat(upper-case(substring(local-name(.),1,1)),substring(local-name(.),2))"/></xsl:otherwise>
                     </xsl:choose>: 
                 </span>
-                <xsl:apply-templates/>
+                <span>
+                    <xsl:sequence select="local:attributes(.)"/>
+                    <xsl:call-template name="rend"/>
+                    <xsl:apply-templates/>
+                </span>
             </div>
         </xsl:if>
     </xsl:template>
