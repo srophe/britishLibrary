@@ -268,12 +268,13 @@
    
     <xsl:template match="t:objectDesc"/>
     <xsl:template match="t:condition | t:foliation |  t:collation"/>
-    <xsl:template match="t:incipit | t:editor | t:explicit | t:colophon | t:finalRubric | t:filiation | t:material |  t:layoutDesc | t:origDate | t:provenance | t:acquisition | t:availability | t:custodialHist | t:history |          t:summary | t:origin | t:extent">
+    <xsl:template match="t:incipit | t:editor | t:explicit | t:colophon | t:rubric | t:finalRubric | t:filiation | t:material |  t:layoutDesc | t:origDate | t:provenance | t:acquisition | t:availability | t:custodialHist | t:history |          t:summary | t:origin | t:extent">
         <xsl:if test="not(empty(.))">
             <div class="tei-{local-name(.)}">
                 <span class="inline-h4">
                     <xsl:choose>
-                        <xsl:when test="self::t:finalRubric">Desinit</xsl:when>
+                        <xsl:when test="self::t:rubric">Title</xsl:when>
+                        <xsl:when test="self::t:finalRubric">Subscription</xsl:when>
                         <xsl:when test="self::t:layoutDesc">Layout</xsl:when>
                         <xsl:when test="self::t:origDate">Date</xsl:when>
                         <xsl:when test="self::t:custodialHist">Custodial History</xsl:when>
@@ -319,7 +320,17 @@
                 <xsl:when test="@defective = 'true' or @defective ='unknown'"><span class="inline-h4">Item <xsl:value-of select="@n"/>: </span> (defective) </xsl:when>
                 <xsl:otherwise><span class="inline-h4">Item <xsl:value-of select="@n"/>: </span></xsl:otherwise>
             </xsl:choose>
-            <xsl:apply-templates/>
+            <xsl:apply-templates select="*[not(self::t:note)]"/>
+            <xsl:if test="t:note">
+                <div class="indent msItem-notes">
+                    <span class="inline-h4">Note(s):</span>
+                    <ul>
+                        <xsl:for-each select="t:note">
+                            <li> <xsl:apply-templates/></li>
+                        </xsl:for-each>    
+                    </ul>
+                </div>
+            </xsl:if>
         </div>
     </xsl:template>
     <xsl:template match="t:list[parent::t:additions]">
