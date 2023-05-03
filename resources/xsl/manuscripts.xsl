@@ -177,9 +177,7 @@
             <div id="Contents" class="panel-collapse collapse in">
                 <div class="panel-body">
                     <div class="msContent">
-                        <p class="summary indent">This manuscript contains <xsl:value-of select="count(descendant::t:msItem)"/> items 
-                            <xsl:if test="descendant::t:msItem/t:msItem"> <xsl:text> including nested subsections</xsl:text>
-                            </xsl:if>. N.B. Items were re-numbered by Syriaca.org and may not reflect previous numeration.</p>
+                        <p class="summary indent">Note: Item numbering updated in digital edition.</p>
                         <xsl:apply-templates select="t:msContents | t:msPart"/>
                     </div>
                 </div>
