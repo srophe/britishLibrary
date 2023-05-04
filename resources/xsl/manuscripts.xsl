@@ -177,7 +177,7 @@
             <div id="Contents" class="panel-collapse collapse in">
                 <div class="panel-body">
                     <div class="msContent">
-                        <p class="summary indent">Note: Item numbering updated in digital edition.</p>
+                        <span class="summary ident">Note: Item numbering updated in digital edition.</span>
                         <xsl:apply-templates select="t:msContents | t:msPart"/>
                     </div>
                 </div>
