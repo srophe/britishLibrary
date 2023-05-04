@@ -281,7 +281,6 @@
                 </span>
                 <span>
                     <xsl:sequence select="local:attributes(.)"/>
-                    <xsl:call-template name="rend"/>
                     <xsl:apply-templates/>
                 </span>
             </div>
@@ -298,7 +297,7 @@
             <xsl:otherwise>
                 <div name="{string(@xml:id)}">
                     <span class="inline-h4">Hand <xsl:value-of select="substring-after(string(@xml:id),'ote')"/>
-                        <xsl:if test="@scope or @script"> (<xsl:if test="@scope"><xsl:value-of select="@scope"/><xsl:if test="@script">, </xsl:if></xsl:if><xsl:if test="@script"><xsl:call-template name="script"><xsl:with-param name="node" select="."/></xsl:call-template></xsl:if>)</xsl:if>: </span><xsl:apply-templates mode="normalizeSpace"/>
+                        <xsl:if test="@scope or @script"> (<xsl:if test="@scope"><xsl:value-of select="@scope"/><xsl:if test="@script">, </xsl:if></xsl:if><xsl:if test="@script"><xsl:call-template name="script"><xsl:with-param name="node" select="."/></xsl:call-template></xsl:if>)</xsl:if>: </span><xsl:apply-templates mode="plain"/>
                 </div>
             </xsl:otherwise>
         </xsl:choose>
@@ -403,10 +402,6 @@
                 <xsl:apply-templates/>
             </xsl:otherwise>
         </xsl:choose>
-    </xsl:template>
-    
-    <xsl:template match="t:*" mode="normalizeSpace">
-        <xsl:value-of select="normalize-space(string-join(descendant::text()))"/>
     </xsl:template>
     <!--
     <xsl:template match="* | @*" mode="labeled">
