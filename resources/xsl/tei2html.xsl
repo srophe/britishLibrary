@@ -1694,7 +1694,7 @@
         <xsl:choose>
             <!-- BL Custom -->
             <xsl:when test="ancestor::t:msItem and contains(@ref,'syriaca.org')">
-                <a href="{$nav-base}/search.html?idno={@ref}"><xsl:value-of select="."/></a>
+                <a href="{$nav-base}/search.html?ref={@ref}"><xsl:value-of select="."/></a>
                 <xsl:if test="ancestor::t:msItem[@defective='true']"> [defective]</xsl:if>
             </xsl:when>
             <xsl:when test="ancestor::t:msItem">
