@@ -188,8 +188,7 @@ declare function data:search($collection as xs:string*, $queryString as xs:strin
                  else if(request:get-parameter('sort-element', '') != '') then
                     request:get-parameter('sort-element', '')
                  else ()
-    return <div>{$eval-string}</div>
-    (:
+    return 
         if((request:get-parameter('sort-element', '') != '' and request:get-parameter('sort-element', '') != 'relevance') or ($sort-element != '' and $sort-element != 'relevance')) then 
             for $hit in $hits/ancestor-or-self::tei:TEI
             let $s := 
@@ -211,7 +210,6 @@ declare function data:search($collection as xs:string*, $queryString as xs:strin
             for $hit in $hits
             order by ft:score($hit) descending
             return $hit/ancestor-or-self::tei:TEI
-            :)
 };
 
 (:~
