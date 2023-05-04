@@ -314,14 +314,15 @@
             <xsl:for-each select="1 to $depth">
                 <xsl:text> &gt; </xsl:text>
             </xsl:for-each>
-            <span class="inline-h4">Item <xsl:value-of select="@n"/> <xsl:choose><xsl:when test="t:locus">&#160;<xsl:apply-templates select="t:locus[1]"/></xsl:when><xsl:otherwise>&#160;(folio not specified)</xsl:otherwise></xsl:choose>: </span>
+            <span class="inline-h4">Item <xsl:value-of select="@n"/> <xsl:choose><xsl:when test="t:locus"> <xsl:apply-templates select="t:locus[1]"/></xsl:when><xsl:otherwise> (folio not specified)</xsl:otherwise></xsl:choose>: </span>
             <!--
             <xsl:choose>
                 <xsl:when test="@defective = 'true' or @defective ='unknown'"><span class="inline-h4">Item <xsl:value-of select="@n"/>: </span> (defective) </xsl:when>
                 <xsl:otherwise><span class="inline-h4">Item <xsl:value-of select="@n"/> <xsl:choose><xsl:when test="t:locus">&#160;<xsl:apply-templates select="t:locus[1]"/></xsl:when><xsl:otherwise>&#160;(folio not specified)</xsl:otherwise></xsl:choose>: </span></xsl:otherwise>
             </xsl:choose>
             -->
-            <xsl:apply-templates select="*[not(self::t:note) and not(self::t:locus)]"/>
+            <xsl:call-template name="msItemTitleAuthor"/>
+            <xsl:apply-templates select="*[not(self::t:note) and not(self::t:locus) and not(self::t:title) and not(self::t:author)]"/>
             <xsl:if test="t:note">
                 <div class="indent msItem-notes">
                     <span class="inline-h4">Note(s):</span>
@@ -402,13 +403,51 @@
     </xsl:template>
     <xsl:template match="t:title">
         <xsl:choose>
-            <xsl:when test="contains(@ref,'syriaca.org')">
-                <a href="search.html?id={@ref}"><xsl:value-of select="."/></a>
+            <xsl:when test="ancestor::t:msItem and contains(@ref,'syriaca.org')">
+                <a href="{$nav-base}/search.html?ref={@ref}"><xsl:value-of select="."/></a>
+                <xsl:if test="ancestor::t:msItem[@defective='true']"> [defective]</xsl:if>
+            </xsl:when>
+            <xsl:when test="ancestor::t:msItem">
+                <xsl:choose>
+                    <xsl:when test="@ref">
+                        <a href="{@ref}">
+                            <xsl:sequence select="local:attributes(.)"/>
+                            <xsl:value-of select="."/>
+                            [<xsl:value-of select="@ref"/>]
+                        </a>
+                    </xsl:when>
+                    <xsl:otherwise>
+                        <span>
+                            <xsl:sequence select="local:attributes(.)"/>
+                            <xsl:value-of select="."/>
+                        </span>
+                    </xsl:otherwise>
+                </xsl:choose>
+                <xsl:if test="ancestor::t:msItem[@defective='true']"> [defective]</xsl:if>
+            </xsl:when>
+            <xsl:when test="@ref">                
+                <a href="{@ref}">
+                    <xsl:sequence select="local:attributes(.)"/>
+                    <xsl:value-of select="."/>
+                    [<xsl:value-of select="@ref"/>]
+                </a>
             </xsl:when>
             <xsl:otherwise>
-                <xsl:apply-templates/>
+                <span>
+                    <xsl:sequence select="local:attributes(.)"/>
+                    <xsl:value-of select="."/>
+                </span>
             </xsl:otherwise>
         </xsl:choose>
+    </xsl:template>
+    <xsl:template name="msItemTitleAuthor">
+        <xsl:for-each select="t:author">
+            <xsl:apply-templates select="."/><xsl:choose>
+                <xsl:when test="position() != last()">, </xsl:when>
+                <xsl:otherwise>. </xsl:otherwise>
+            </xsl:choose>
+        </xsl:for-each>
+        <xsl:apply-templates select="t:title"/>
     </xsl:template>
     <!--
     <xsl:template match="* | @*" mode="labeled">
