@@ -312,12 +312,15 @@
         <div class="tei-{local-name(.)}">
             <xsl:for-each select="1 to $depth">
                 <xsl:text> &gt; </xsl:text>
-            </xsl:for-each> 
+            </xsl:for-each>
+            <span class="inline-h4">Item <xsl:value-of select="@n"/> <xsl:choose><xsl:when test="t:locus">&#160;<xsl:apply-templates select="t:locus[1]"/></xsl:when><xsl:otherwise>&#160;(folio not specified)</xsl:otherwise></xsl:choose>: </span>
+            <!--
             <xsl:choose>
                 <xsl:when test="@defective = 'true' or @defective ='unknown'"><span class="inline-h4">Item <xsl:value-of select="@n"/>: </span> (defective) </xsl:when>
-                <xsl:otherwise><span class="inline-h4">Item <xsl:value-of select="@n"/>: </span></xsl:otherwise>
+                <xsl:otherwise><span class="inline-h4">Item <xsl:value-of select="@n"/> <xsl:choose><xsl:when test="t:locus">&#160;<xsl:apply-templates select="t:locus[1]"/></xsl:when><xsl:otherwise>&#160;(folio not specified)</xsl:otherwise></xsl:choose>: </span></xsl:otherwise>
             </xsl:choose>
-            <xsl:apply-templates select="*[not(self::t:note)]"/>
+            -->
+            <xsl:apply-templates select="*[not(self::t:note) and not(self::t:locus)]"/>
             <xsl:if test="t:note">
                 <div class="indent msItem-notes">
                     <span class="inline-h4">Note(s):</span>
@@ -346,7 +349,6 @@
             </xsl:if>
             <xsl:apply-templates select="*[not(self::t:label) and not(self::t:locus)]" mode="plain"/>
         </div>
-        
     </xsl:template>
     <xsl:template match="t:locus">
         <xsl:choose>
@@ -354,15 +356,19 @@
                 <xsl:choose>
                     <xsl:when test="text()"/>
                     <xsl:otherwise>
+                        <!-- 
                         <xsl:if test="@from or @to">
                             <xsl:choose>
                                 <xsl:when test="@from != @to and @to != ''">Fols. <xsl:value-of select="@from"/> - <xsl:value-of select="@to"/>. </xsl:when>
                                 <xsl:when test="@from != ''">Fol. <xsl:value-of select="@from"/>. </xsl:when>
                             </xsl:choose>
                         </xsl:if>
+                        -->
+                        (Fol. <xsl:value-of select="@from"/>)
                     </xsl:otherwise>
                 </xsl:choose>
             </xsl:when>
+            <xsl:when test="parent::t:msItem">(Fol. <xsl:value-of select="@from"/>)</xsl:when>
             <xsl:otherwise><xsl:apply-templates/></xsl:otherwise>
         </xsl:choose>
         <!-- 
