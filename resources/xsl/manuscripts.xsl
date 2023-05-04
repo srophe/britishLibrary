@@ -266,18 +266,19 @@
    
     <xsl:template match="t:objectDesc"/>
     <xsl:template match="t:condition | t:foliation |  t:collation"/>
-    <xsl:template match="t:incipit | t:editor | t:explicit | t:colophon | t:rubric | t:finalRubric | t:filiation | t:material |  t:layoutDesc | t:origDate | t:provenance | t:acquisition | t:availability | t:custodialHist | t:history |          t:summary | t:origin | t:extent">
+    <xsl:template match="t:quote | t:incipit | t:editor | t:explicit | t:colophon | t:rubric | t:finalRubric | t:filiation | t:material |  t:layoutDesc | t:origDate | t:provenance | t:acquisition | t:availability | t:custodialHist | t:history |          t:summary | t:origin | t:extent">
         <xsl:if test="not(empty(.))">
             <div class="tei-{local-name(.)}">
                 <span class="inline-h4">
                     <xsl:choose>
-                        <xsl:when test="self::t:rubric">Title</xsl:when>
-                        <xsl:when test="self::t:finalRubric">Subscription</xsl:when>
-                        <xsl:when test="self::t:layoutDesc">Layout</xsl:when>
-                        <xsl:when test="self::t:origDate">Date</xsl:when>
-                        <xsl:when test="self::t:custodialHist">Custodial History</xsl:when>
-                        <xsl:otherwise><xsl:value-of select="concat(upper-case(substring(local-name(.),1,1)),substring(local-name(.),2))"/></xsl:otherwise>
-                    </xsl:choose>: 
+                        <xsl:when test="self::t:quote">Excerpt<xsl:if test="t:folio"> <xsl:apply-templates select="t:folio"/></xsl:if>: </xsl:when>
+                        <xsl:when test="self::t:rubric">Title:</xsl:when>
+                        <xsl:when test="self::t:finalRubric">Subscription:</xsl:when>
+                        <xsl:when test="self::t:layoutDesc">Layout:</xsl:when>
+                        <xsl:when test="self::t:origDate">Date:</xsl:when>
+                        <xsl:when test="self::t:custodialHist">Custodial History:</xsl:when>
+                        <xsl:otherwise><xsl:value-of select="concat(upper-case(substring(local-name(.),1,1)),substring(local-name(.),2))"/>:</xsl:otherwise>
+                    </xsl:choose>
                 </span>
                 <span>
                     <xsl:sequence select="local:attributes(.)"/>
