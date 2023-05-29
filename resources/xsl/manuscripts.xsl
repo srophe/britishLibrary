@@ -347,35 +347,41 @@
         <xsl:apply-templates mode="mss"/>
     </xsl:template>
     <xsl:template match="t:item" mode="mss">
-        <div class="tei-item">
-            <xsl:if test="@n">
-                <span class="inline-h4"><xsl:value-of select="@n"/>. </span>
-            </xsl:if>
-            <xsl:if test="t:label">
-                <span class="inline-h4"> [<xsl:value-of select="t:label"/>]: </span>
-            </xsl:if>
-            <xsl:if test="t:locus">
-                <xsl:apply-templates select="t:locus"/>
-            </xsl:if>
-            <xsl:apply-templates select="*[not(self::t:label) and not(self::t:locus)]" mode="plain"/>
-        </div>
+        <xsl:choose>
+            <xsl:when test="parent::t:list/parent::t:additions">
+                <div class="tei-item">
+                    <xsl:if test="@n"><span class="inline-h4">Addition <xsl:value-of select="@n"/></span></xsl:if>
+                    <!--
+                    <xsl:if test="t:label">
+                        <span class="inline-h4"> [<xsl:value-of select="t:label"/>]: </span>
+                    </xsl:if>
+                    -->
+                    <xsl:if test="t:locus"><xsl:apply-templates select="t:locus[1]"/></xsl:if>:
+                    <xsl:apply-templates select="*[not(self::t:label) and not(self::t:locus)]" mode="plain"/>
+                </div>
+            </xsl:when>
+            <xsl:otherwise>
+                <div class="tei-item">
+                    <xsl:if test="@n">
+                        <span class="inline-h4"><xsl:value-of select="@n"/>. </span>
+                    </xsl:if>
+                    <xsl:if test="t:label">
+                        <span class="inline-h4"> [<xsl:value-of select="t:label"/>]: </span>
+                    </xsl:if>
+                    <xsl:if test="t:locus">
+                        <xsl:apply-templates select="t:locus"/>
+                    </xsl:if>
+                    <xsl:apply-templates select="*[not(self::t:label) and not(self::t:locus)]" mode="plain"/>
+                </div>
+            </xsl:otherwise>
+        </xsl:choose>
     </xsl:template>
     <xsl:template match="t:locus">
         <xsl:choose>
             <xsl:when test="parent::t:item">
                 <xsl:choose>
                     <xsl:when test="text()"/>
-                    <xsl:otherwise>
-                        <!-- 
-                        <xsl:if test="@from or @to">
-                            <xsl:choose>
-                                <xsl:when test="@from != @to and @to != ''">Fols. <xsl:value-of select="@from"/> - <xsl:value-of select="@to"/>. </xsl:when>
-                                <xsl:when test="@from != ''">Fol. <xsl:value-of select="@from"/>. </xsl:when>
-                            </xsl:choose>
-                        </xsl:if>
-                        -->
-                        (Fol. <xsl:value-of select="@from"/>)
-                    </xsl:otherwise>
+                    <xsl:otherwise> (Fol. <xsl:value-of select="@from"/>)</xsl:otherwise>
                 </xsl:choose>
             </xsl:when>
             <xsl:when test="parent::t:msItem">(Fol. <xsl:value-of select="@from"/>)</xsl:when>
