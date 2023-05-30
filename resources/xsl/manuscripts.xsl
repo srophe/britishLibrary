@@ -99,7 +99,7 @@
             </xsl:if>
             <xsl:if test="//t:msDesc/t:history/t:origin/t:origPlace != ''">
                 <div>
-                    Origin: <xsl:apply-templates select="//t:msDesc/t:history/t:origin/t:origPlace"/>
+                    Origin: <xsl:apply-templates select="//t:msDesc/t:history/t:origin/t:origPlace" mode="mss"/>
                 </div>
             </xsl:if>
                 <div>
@@ -463,6 +463,17 @@
         </xsl:for-each>
         <xsl:apply-templates select="t:title"/>
     </xsl:template>
+    <xsl:template match="t:origPlace" mode="mss">
+        <xsl:choose>
+            <xsl:when test="@ref">
+                <a href="{$nav-base}/search.html?ref={@ref}"><xsl:value-of select="."/></a>
+            </xsl:when>
+            <xsl:otherwise>
+                <xsl:value-of select="."/>
+            </xsl:otherwise>
+        </xsl:choose>
+    </xsl:template>
+    
     <!--
     <xsl:template match="* | @*" mode="labeled">
         <xsl:if test="not(empty(.))">
