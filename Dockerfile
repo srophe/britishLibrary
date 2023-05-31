@@ -1,22 +1,42 @@
-# Specify the eXist-db release as a base image
-FROM existdb/existdb:6.0.1
-
-# Copy Srophe required libraries/modules to autodeploy, include the srophe.xar and the srophe-data.xar
-COPY autodeploy/*.xar /exist/autodeploy/
-# OPTIONAL: Copy custom controller-config.xml to WEB-INF. This sets the root app to srophe.
-COPY conf/controller-config.xml /exist/etc/webapp/WEB-INF/
-# OPTIONAL: Copy custom jetty config to set context to '/'
-# See: https://exist-open.markmail.org/message/gjp2po2ducmckvix?q=set+app+as+root+order:date-backward
-COPY conf/exist-webapp-context.xml /exist/etc/jetty/webapps/
-# OPTIONAL: changes to conf.xml 
-COPY conf/conf.xml /exist/etc
-
-# Ports
-EXPOSE 8080 8444
+FROM --platform=linux/amd64 pkoiralap/existdb:1.0.0
 
 ARG ADMIN_PASSWORD
+
+COPY autodeploy/*.xar /exist/autodeploy/
+COPY conf/controller-config.xml /exist/etc/webapp/WEB-INF/
+COPY conf/collection.xconf.init /exist/etc/
+COPY conf/exist-webapp-context.xml /exist/etc/jetty/webapps/
+COPY conf/conf.xml /exist/etc/conf.xml
+COPY build/entrypoint.sh /entrypoint.sh
+
+EXPOSE 8080 8443
+
+ENV JAVA_TOOL_OPTIONS \
+-Dfile.encoding=UTF8 \
+-Dsun.jnu.encoding=UTF-8 \
+-Djava.awt.headless=true \
+-Dorg.exist.db-connection.cacheSize=${CACHE_MEM:-256}M \
+-Dorg.exist.db-connection.pool.max=${MAX_BROKER:-20} \
+-Dlog4j.configurationFile=/exist/etc/log4j2.xml \
+-Dexist.home=/exist \
+-Dexist.configurationFile=/exist/etc/conf.xml \
+-Djetty.home=/exist \
+-Dexist.jetty.config=/exist/etc/jetty/standard.enabled-jetty-configs \
+-XX:+UseG1GC \
+-XX:+UseStringDeduplication \
+-XX:+UseContainerSupport \
+-XX:MaxRAMPercentage=${JVM_MAX_RAM_PERCENTAGE:-75.0} \
+-XX:MaxRAMFraction=2 \
+-XX:+ExitOnOutOfMemoryError
+
+HEALTHCHECK CMD [ "java", \
+"org.exist.start.Main", "client", \
+"--no-gui",  \
+"--user", "guest", "--password", "guest", \
+"--xpath", "system:get-version()" ]
+
+
 ENV ADMIN_PASSWORD=$ADMIN_PASSWORD
 
-# Start eXist-db
-CMD [ "java", "-jar", "start.jar", "jetty" ]
-RUN [ "java", "org.exist.start.Main", "client", "--no-gui",  "-l", "-u", "admin", "-P", "", "-x", "sm:passwd('admin','$ADMIN_PASSWORD')" ]
+ENTRYPOINT [ "/busybox/sh", "/entrypoint.sh"]
+
