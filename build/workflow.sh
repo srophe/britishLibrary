@@ -39,7 +39,7 @@ echo "Copied secret key over successfully"
 # GET the version of the project from the expath-pkg.xml
 VERSION=$(cat expath-pkg.xml | grep package | grep version=  | awk -F'version="' '{ print $2 }' | awk -F'"' '{ print $1 }')
 # GET the package name of the project from the expath-pkg.xml file
-PACKAGE_NAME = $(cat expath-pkg.xml | grep package | grep version=  | awk -F'abbrev="' '{ print $2 }' | awk -F'"' '{ print $1 }')
+PACKAGE_NAME=$(cat expath-pkg.xml | grep package | grep version=  | awk -F'abbrev="' '{ print $2 }' | awk -F'"' '{ print $1 }')
 
 echo "Deploying app $PACKAGE_NAME:$VERSION"
 
