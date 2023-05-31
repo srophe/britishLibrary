@@ -43,11 +43,15 @@ PACKAGE_NAME=$(cat expath-pkg.xml | grep package | grep version=  | awk -F'abbre
 
 echo "Deploying app $PACKAGE_NAME:$VERSION"
 
+pwd
+ls
+
 echo "Building docker file"
 docker build \
     -t $PACKAGE_NAME:$VERSION \
     --build-arg ADMIN_PASSWORD=$ADMIN_PASSWORD \
     --no-cache .
+
 echo "Built successfully"
 
 DOCKER_URL=$AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$ECR_REPOSITORY:latest
