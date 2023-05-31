@@ -45,14 +45,9 @@ echo "Deploying app $PACKAGE_NAME:$VERSION"
 
 
 echo "Building docker file"
-docker build \
-    -t $PACKAGE_NAME:$VERSION \
-    --build-arg ADMIN_PASSWORD=$ADMIN_PASSWORD \
-    --no-cache \
-    .
-
-echo !!
-
+build_command="docker build -t $PACKAGE_NAME:$VERSION --build-arg ADMIN_PASSWORD=$ADMIN_PASSWORD --no-cache ."
+echo $build_command
+$($build_command)
 echo "Built successfully"
 
 DOCKER_URL=$AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$ECR_REPOSITORY:latest
