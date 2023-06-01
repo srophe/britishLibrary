@@ -329,27 +329,30 @@
                 <xsl:otherwise><span class="inline-h4">Item <xsl:value-of select="@n"/> <xsl:choose><xsl:when test="t:locus">&#160;<xsl:apply-templates select="t:locus[1]"/></xsl:when><xsl:otherwise>&#160;(folio not specified)</xsl:otherwise></xsl:choose>: </span></xsl:otherwise>
             </xsl:choose>
             -->
-            <xsl:call-template name="msItemTitleAuthor"/>
-            <xsl:apply-templates select="*[not(self::t:note) and not(self::t:locus) and not(self::t:title) and not(self::t:author)]"/>
-            <xsl:if test="t:note">
-                <xsl:choose>
-                    <xsl:when test="count(t:note) = 1">
-                        <div class="indent msItem-notes">
-                            <span class="inline-h4">Note: </span><xsl:for-each select="t:note"><xsl:apply-templates/></xsl:for-each>    
-                        </div> 
-                    </xsl:when>
-                    <xsl:otherwise>
-                        <div class="indent msItem-notes">
-                            <span class="inline-h4">Notes:</span>
-                            <ul>
-                                <xsl:for-each select="t:note">
-                                    <li> <xsl:apply-templates/></li>
-                                </xsl:for-each>    
-                            </ul>
-                        </div> 
-                    </xsl:otherwise>
-                </xsl:choose>
-            </xsl:if>
+            <div class="msItemChild">
+                <xsl:call-template name="msItemTitleAuthor"/>
+                <xsl:apply-templates select="*[not(self::t:note) and not(self::t:locus) and not(self::t:title) and not(self::t:author)]"/>
+                <xsl:if test="t:note">
+                    <xsl:choose>
+                        <xsl:when test="count(t:note) = 1">
+                            <div class="msItem-notes">
+                                <span class="inline-h4">Note: </span><xsl:for-each select="t:note"><xsl:apply-templates/></xsl:for-each>    
+                            </div> 
+                        </xsl:when>
+                        <xsl:otherwise>
+                            <div class="msItem-notes">
+                                <span class="inline-h4">Notes:</span>
+                                <ul>
+                                    <xsl:for-each select="t:note">
+                                        <li> <xsl:apply-templates/></li>
+                                    </xsl:for-each>    
+                                </ul>
+                            </div> 
+                        </xsl:otherwise>
+                    </xsl:choose>
+                </xsl:if>
+            
+            </div>
         </div>
     </xsl:template>
     <xsl:template match="t:list[parent::t:additions]">
