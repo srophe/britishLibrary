@@ -1,4 +1,4 @@
-<xsl:stylesheet xmlns="http://www.w3.torg/1999/xhtml" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:s="http://syriaca.org" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:x="http://www.w3.org/1999/xhtml" xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:saxon="http://saxon.sf.net/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:local="http://syriaca.org/ns" exclude-result-prefixes="xs t s saxon" version="2.0">
+<xsl:stylesheet xmlns="http://www.w3.torg/1999/xhtml" xmlns:saxon="http://saxon.sf.net/" xmlns:local="http://syriaca.org/ns" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:s="http://syriaca.org" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:x="http://www.w3.org/1999/xhtml" xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" exclude-result-prefixes="xs t s saxon" version="2.0">
     
     <!-- ================================================================== 
        Copyright 2013 New York University
@@ -332,14 +332,23 @@
             <xsl:call-template name="msItemTitleAuthor"/>
             <xsl:apply-templates select="*[not(self::t:note) and not(self::t:locus) and not(self::t:title) and not(self::t:author)]"/>
             <xsl:if test="t:note">
-                <div class="indent msItem-notes">
-                    <span class="inline-h4">Note(s):</span>
-                    <ul>
-                        <xsl:for-each select="t:note">
-                            <li> <xsl:apply-templates/></li>
-                        </xsl:for-each>    
-                    </ul>
-                </div>
+                <xsl:choose>
+                    <xsl:when test="count(t:note) = 1">
+                        <div class="indent msItem-notes">
+                            <span class="inline-h4">Note: </span><xsl:for-each select="t:note"><xsl:apply-templates/></xsl:for-each>    
+                        </div> 
+                    </xsl:when>
+                    <xsl:otherwise>
+                        <div class="indent msItem-notes">
+                            <span class="inline-h4">Notes:</span>
+                            <ul>
+                                <xsl:for-each select="t:note">
+                                    <li> <xsl:apply-templates/></li>
+                                </xsl:for-each>    
+                            </ul>
+                        </div> 
+                    </xsl:otherwise>
+                </xsl:choose>
             </xsl:if>
         </div>
     </xsl:template>
@@ -456,12 +465,39 @@
     </xsl:template>
     <xsl:template name="msItemTitleAuthor">
         <xsl:for-each select="t:author">
-            <xsl:apply-templates select="."/><xsl:choose>
+            <xsl:apply-templates select="." mode="mss"/><xsl:choose>
                 <xsl:when test="position() != last()">, </xsl:when>
                 <xsl:otherwise>. </xsl:otherwise>
             </xsl:choose>
         </xsl:for-each>
         <xsl:apply-templates select="t:title"/>
+    </xsl:template>
+    <xsl:template match="t:author" mode="mss">
+        <!--
+            When Syriaca.org/person URIs occurs as an attribute value inside //author/@ref then render the textnode as a 
+            live link that resolves to a browse by Author page inside https://bl.vuexistapps.us with that URI selected.
+            Note: I am not sure what this would look like but assume we will want to create a "Authors" tab in Browse, https://bl.vuexistapps.us/browse.html?;collection=authors and then filter that by the URI?
+            facet-author - how to do this? with the uri? not sure i can. 
+            
+        -->
+        <xsl:choose>
+            <xsl:when test="@ref">
+                <a href="{$nav-base}/browse.html?view=author&amp;ref={@ref}"><xsl:value-of select="."/></a>
+            </xsl:when>
+            <xsl:otherwise>
+                <xsl:value-of select="."/>
+            </xsl:otherwise>
+        </xsl:choose>
+    </xsl:template>
+    <xsl:template match="t:persName" mode="mss">
+        <xsl:choose>
+            <xsl:when test="@ref">
+                <a href="{$nav-base}/search.html?ref={@ref}"><xsl:value-of select="."/></a>
+            </xsl:when>
+            <xsl:otherwise>
+                <xsl:value-of select="."/>
+            </xsl:otherwise>
+        </xsl:choose>
     </xsl:template>
     <xsl:template match="t:origPlace" mode="mss">
         <xsl:choose>
