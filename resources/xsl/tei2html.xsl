@@ -1,4 +1,4 @@
-<xsl:stylesheet xmlns="http://www.w3.torg/1999/xhtml" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:x="http://www.w3.org/1999/xhtml" xmlns:srophe="https://srophe.app" xmlns:saxon="http://saxon.sf.net/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:local="http://syriaca.org/ns" exclude-result-prefixes="xs t x saxon local" version="2.0">
+<xsl:stylesheet xmlns="http://www.w3.torg/1999/xhtml" xmlns:srophe="https://srophe.app" xmlns:saxon="http://saxon.sf.net/" xmlns:local="http://syriaca.org/ns" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:x="http://www.w3.org/1999/xhtml" xmlns:xs="http://www.w3.org/2001/XMLSchema" exclude-result-prefixes="xs t x saxon local" version="2.0">
 
  <!-- ================================================================== 
        Copyright 2013 New York University  
@@ -1379,7 +1379,7 @@
     <!-- T -->
     <xsl:template match="t:TEI">
         <!-- Header -->
-        <xsl:call-template name="h1"/>
+        <xsl:call-template name="mssHeader"/>
         <!-- MSS display -->
         <xsl:if test="descendant::t:sourceDesc/t:msDesc">
             <xsl:apply-templates select="descendant::t:sourceDesc/t:msDesc"/>
@@ -1455,6 +1455,7 @@
             <!-- End Title -->
         </div>
         <!-- emit record URI and associated help links -->
+        <!--
         <div class="idno seriesStmt" style="margin:0; margin-top:.25em; margin-bottom: 1em; padding:1em; color: #999999;">
             <xsl:variable name="current-id">
                 <xsl:variable name="idString" select="tokenize($resource-id,'/')[last()]"/>
@@ -1575,6 +1576,8 @@
                 </xsl:if>
             </small>
         </div>
+        -->
+
     </xsl:template>
     
     <xsl:template name="title">
@@ -1689,7 +1692,30 @@
    
     <xsl:template match="t:title">
         <xsl:choose>
-            <xsl:when test="@ref">
+            <!-- BL Custom -->
+            <xsl:when test="ancestor::t:msItem and contains(@ref,'syriaca.org')">
+                <a href="{$nav-base}/search.html?ref={@ref}"><xsl:value-of select="."/></a>
+                <xsl:if test="ancestor::t:msItem[@defective='true']"> [defective]</xsl:if>
+            </xsl:when>
+            <xsl:when test="ancestor::t:msItem">
+                <xsl:choose>
+                    <xsl:when test="@ref">
+                        <a href="{@ref}">
+                            <xsl:sequence select="local:attributes(.)"/>
+                            <xsl:apply-templates/>
+                            [<xsl:value-of select="@ref"/>]
+                        </a>
+                    </xsl:when>
+                    <xsl:otherwise>
+                        <span>
+                            <xsl:sequence select="local:attributes(.)"/>
+                            <xsl:apply-templates/>
+                        </span>
+                    </xsl:otherwise>
+                </xsl:choose>
+                <xsl:if test="ancestor::t:msItem[@defective='true']"> [defective]</xsl:if>
+            </xsl:when>
+            <xsl:when test="@ref">                
                 <a href="{@ref}">
                     <xsl:sequence select="local:attributes(.)"/>
                     <xsl:apply-templates/>

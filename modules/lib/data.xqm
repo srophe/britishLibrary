@@ -181,14 +181,14 @@ declare function data:search($collection as xs:string*, $queryString as xs:strin
                         else concat(data:build-collection-path($collection), data:create-query($collection),slider:date-filter(()))
     let $hits :=
             if(request:get-parameter-names() = '' or empty(request:get-parameter-names())) then 
-                collection($config:data-root || '/' || $collection)//tei:body[ft:query(., (),sf:facet-query())]
-            else util:eval($eval-string)//tei:body[ft:query(., (),sf:facet-query())]      
+                collection($config:data-root || '/' || $collection)//tei:TEI[ft:query(., (),sf:facet-query())]
+            else util:eval($eval-string)//tei:TEI[ft:query(., (),sf:facet-query())]      
     let $sort := if($sort-element != '') then 
                     $sort-element
                  else if(request:get-parameter('sort-element', '') != '') then
                     request:get-parameter('sort-element', '')
                  else ()
-    return
+    return 
         if((request:get-parameter('sort-element', '') != '' and request:get-parameter('sort-element', '') != 'relevance') or ($sort-element != '' and $sort-element != 'relevance')) then 
             for $hit in $hits/ancestor-or-self::tei:TEI
             let $s := 
@@ -209,7 +209,7 @@ declare function data:search($collection as xs:string*, $queryString as xs:strin
         else 
             for $hit in $hits
             order by ft:score($hit) descending
-            return $hit/ancestor-or-self::tei:TEI        
+            return $hit/ancestor-or-self::tei:TEI
 };
 
 (:~
@@ -251,6 +251,11 @@ declare function data:apiSearch($collection as xs:string*, $element as xs:string
             order by ft:score($hit) descending
             return $hit 
 };
+
+declare function data:searchField($fieldName, $term){
+    $fieldName || ':(' || $term ||')'
+};
+
 (:~   
  : Builds general search string.
 :)
@@ -267,7 +272,10 @@ declare function data:create-query($collection as xs:string?) as xs:string?{
             data:element-search('title',request:get-parameter('title', '')),
             data:element-search('author',request:get-parameter('author', '')),
             data:element-search('placeName',request:get-parameter('placeName', '')),
-            data:relation-search()
+            data:element-search('idno',request:get-parameter('idno', '')),
+            data:relation-search(),
+            data:orginPlaceSearch(),
+            data:ref()
             )               
 };
 
@@ -469,6 +477,21 @@ declare function data:relation-search(){
         if(request:get-parameter('relation-type', '') != '') then
             concat("[descendant::tei:relation[@passive[matches(.,'",request:get-parameter('relation-id', ''),"(\W.*)?$')] or @mutual[matches(.,'",request:get-parameter('relation-id', ''),"(\W.*)?$')]][@ref = '",request:get-parameter('relation-type', ''),"' or @name = '",request:get-parameter('relation-type', ''),"']]")
         else concat("[descendant::tei:relation[@passive[matches(.,'",request:get-parameter('relation-id', ''),"(\W.*)?$')] or @mutual[matches(.,'",request:get-parameter('relation-id', ''),"(\W.*)?$')]]]")
+    else ()
+};
+
+(:~
+ : Add a generic relationship search to any search module. 
+:)
+declare function data:ref(){
+    if(request:get-parameter('ref', '') != '') then
+        concat("[descendant::*[@ref = '",request:get-parameter('ref', ''),"']]")
+    else ()
+};
+
+declare function data:orginPlaceSearch(){
+    if(request:get-parameter('orginPlace', '') != '') then
+        concat("[descendant::tei:orginPlace[@ref = '",request:get-parameter('ref', ''),"']]")
     else ()
 };
 

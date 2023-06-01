@@ -19,8 +19,8 @@ import module namespace githubxq="http://exist-db.org/lib/githubxq";
 let $data := request:get-data()
 return 
     githubxq:execute-webhook($data, 
-        'PATH-TO-YOUR-EXISTDB-REPOSITORY',  
-        'PATH-TO-YOUT-GITHUB-REPOSITORY', 
-        'OPTIONAL-BRANCH-NAME', 
-        'YOUR-SECRET-KEYE', 
-        'OPTIONAL-RATE-LIMIT-KEY')
+        '/db/apps/britishLibrary',  
+        'https://github.com/srophe/britishLibrary', 
+        'main', 
+        '', 
+        '')
