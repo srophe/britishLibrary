@@ -39,24 +39,24 @@ echo "Copied secret key over successfully"
 # GET the version of the project from the expath-pkg.xml
 VERSION=$(cat expath-pkg.xml | grep package | grep version=  | awk -F'version="' '{ print $2 }' | awk -F'"' '{ print $1 }')
 # GET the package name of the project from the expath-pkg.xml file
-PACKAGE_NAME = $(cat expath-pkg.xml | grep package | grep version=  | awk -F'abbrev="' '{ print $2 }' | awk -F'"' '{ print $1 }')
+PACKAGE_NAME=$(cat expath-pkg.xml | grep package | grep version=  | awk -F'abbrev="' '{ print $2 }' | awk -F'"' '{ print tolower($1) }')
 
 echo "Deploying app $PACKAGE_NAME:$VERSION"
+
+
+echo "Building docker file"
+docker build -t "$PACKAGE_NAME:$VERSION" --build-arg ADMIN_PASSWORD="$ADMIN_PASSWORD" --no-cache .
+echo docker build -t "$PACKAGE_NAME:$VERSION" --build-arg ADMIN_PASSWORD="$ADMIN_PASSWORD" --no-cache .
+echo "Built successfully"
+
+DOCKER_URL=$AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$ECR_REPOSITORY:latest
 
 echo "Loging in to AWS"
 # Get the aws docker login creds. Note: only works if the github repo is allowed access from OIDC
 aws ecr get-login-password --region $AWS_REGION | \
-    docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com 
+docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com 
 echo "Logged in successfully"
 
-echo "Building docker file"
-docker build \
-    -t $PACKAGE_NAME:$VERSION \
-    --build-arg ADMIN_PASSWORD=$ADMIN_PASSWORD \
-    --no-cache .
-echo "Built successfully"
-
-DOCKER_URL=$AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$ECR_REPOSITORY:latest
 docker tag $PACKAGE_NAME:$VERSION $DOCKER_URL
 echo "Pushing to $DOCKER_URL"
 docker push $DOCKER_URL
