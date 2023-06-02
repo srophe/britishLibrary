@@ -593,3 +593,14 @@ declare %templates:wrap function app:dynamic-editor-list($node as node(), $model
         
     </div>
 };
+
+declare %templates:wrap function app:getAppVersion($node as node(), $model as map(*)){
+     let $config := doc($config:app-root || '/expath-pkg.xml')
+     return string($config//@version)
+};
+
+declare %templates:wrap function app:getDataVersion($node as node(), $model as map(*)){
+    let $data-root := replace($config:data-root,'/data','')
+     let $config := doc($data-root || '/expath-pkg.xml')
+     return string($config//@version)
+};
