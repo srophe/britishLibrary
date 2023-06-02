@@ -1,7 +1,10 @@
-echo "Fetching the data repository to build a data xar"
-git clone https://github.com/srophe/britishLibrary-data
+GITHUB_ORG="srophe"
+GITHUB_REPOSITORY="britishLibrary-data"
 
-cd britishLibrary-data
+echo "Fetching the data repository to build a data xar"
+git clone https://github.com/$GITHUB_ORG/$GITHUB_REPOSITORY
+
+cd $GITHUB_REPOSITORY
 rm -rf build
 mkdir build
 echo "Running data build ..."
@@ -21,9 +24,9 @@ echo "Ran app build successfully"
 
 # move the xar from build to autodeploy
 mv build/*.xar autodeploy/
-mv britishLibrary-data/build/*.xar autodeploy/
+mv $GITHUB_REPOSITORY/build/*.xar autodeploy/
 
-rm -rf britishLibrary-data
+rm -rf $GITHUB_REPOSITORY
 
 # use sed to replace the template git-sync with secrets and other
 TEMPLATE_FILE="./build/git-sync_template.xql"
