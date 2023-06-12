@@ -331,7 +331,7 @@
             -->
             <div class="msItemChild">
                 <xsl:call-template name="msItemTitleAuthor"/>
-                <xsl:apply-templates select="*[not(self::t:note) and not(self::t:locus) and not(self::t:title) and not(self::t:author)]"/>
+                <xsl:apply-templates select="*[not(self::t:note) and not(self::t:locus) and not(self::t:title) and not(self::t:author) and not(self::t:msItem)]"/>
                 <xsl:if test="t:note">
                     <xsl:choose>
                         <xsl:when test="count(t:note) = 1">
@@ -351,6 +351,8 @@
                         </xsl:otherwise>
                     </xsl:choose>
                 </xsl:if>
+                <xsl:apply-templates select="t:msItem"/>
+                
             
             </div>
         </div>
