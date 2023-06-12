@@ -329,8 +329,8 @@
                 <xsl:otherwise><span class="inline-h4">Item <xsl:value-of select="@n"/> <xsl:choose><xsl:when test="t:locus">&#160;<xsl:apply-templates select="t:locus[1]"/></xsl:when><xsl:otherwise>&#160;(folio not specified)</xsl:otherwise></xsl:choose>: </span></xsl:otherwise>
             </xsl:choose>
             -->
+            <xsl:call-template name="msItemTitleAuthor"/>
             <div class="msItemChild">
-                <xsl:call-template name="msItemTitleAuthor"/>
                 <xsl:apply-templates select="*[not(self::t:note) and not(self::t:locus) and not(self::t:title) and not(self::t:author) and not(self::t:msItem)]"/>
                 <xsl:if test="t:note">
                     <xsl:choose>
@@ -351,9 +351,6 @@
                         </xsl:otherwise>
                     </xsl:choose>
                 </xsl:if>
-                <xsl:apply-templates select="t:msItem"/>
-                
-            
                 <xsl:apply-templates select="t:msItem"/>
             </div>
         </div>
