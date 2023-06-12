@@ -351,6 +351,8 @@
                         </xsl:otherwise>
                     </xsl:choose>
                 </xsl:if>
+                <xsl:apply-templates select="t:msItem"/>
+                
             
                 <xsl:apply-templates select="t:msItem"/>
             </div>
