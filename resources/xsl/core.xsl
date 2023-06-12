@@ -1,4 +1,4 @@
-<xsl:stylesheet xmlns="http://www.w3.org/1999/xhtml" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:x="http://www.w3.org/1999/xhtml" xmlns:saxon="http://saxon.sf.net/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:local="http://syriaca.org/ns" exclude-result-prefixes="xs t x saxon local" version="2.0">
+<xsl:stylesheet xmlns="http://www.w3.org/1999/xhtml" xmlns:saxon="http://saxon.sf.net/" xmlns:local="http://syriaca.org/ns" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:x="http://www.w3.org/1999/xhtml" xmlns:xs="http://www.w3.org/2001/XMLSchema" exclude-result-prefixes="xs t x saxon local" version="2.0">
 
     <!-- =================================================================== -->
     <!--  Core TEI to HTML transformations -->
@@ -160,8 +160,11 @@
             <xsl:sequence select="local:add-footnotes(@source,.)"/>
         </span>
     </xsl:template>
-    <xsl:template match="t:*" mode="inline plain" xml:space="preserve">
-        <xsl:apply-templates mode="plain"/>
+    <xsl:template match="*" mode="inline plain" xml:space="preserve">
+        <span><xsl:copy-of select="@xml:lang"/><xsl:attribute name="lang"><xsl:value-of select="@xml:lang"/></xsl:attribute>
+            <!--<xsl:sequence select="local:attributes(.)"/>-->
+            <xsl:apply-templates mode="plain"/>            
+        </span>
     </xsl:template>
     <xsl:template match="text()" mode="cleanout">
         <xsl:value-of select="."/>
