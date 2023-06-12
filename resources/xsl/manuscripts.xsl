@@ -108,7 +108,7 @@
                             <xsl:with-param name="node" select="//t:msDesc/t:physDesc/t:handDesc/t:handNote[@scope='major']"/>
                         </xsl:call-template>
                     </xsl:if>
-                    <xsl:if test="//t:handDesc[@hands &gt; 1]"> (multiple hands) ܀ </xsl:if>
+                    <xsl:if test="//t:handDesc[number(@hands) = number(@hands)]"><xsl:if test="@hands &gt; 1">(multiple hands) ܀ </xsl:if></xsl:if>
                     <xsl:if test="//t:msDesc/t:physDesc/t:objectDesc/t:supportDesc[@material != '']">
                         <xsl:choose>
                             <xsl:when test="//t:msDesc/t:physDesc/t:objectDesc/t:supportDesc/@material = 'perg'">Parchment</xsl:when>
