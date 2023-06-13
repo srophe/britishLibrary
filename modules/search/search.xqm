@@ -60,6 +60,7 @@ function search:show-hits($node as node()*, $model as map(*), $collection as xs:
     let $hits := $model("hits")
     let $facet-config := global:facet-definition-file($collection)
     return 
+        (:<div>{$hits}</div>:)
         if(not(empty($facet-config))) then 
             <div class="row" id="search-results" xmlns="http://www.w3.org/1999/xhtml">
                 <div class="col-md-8 col-md-push-4">
