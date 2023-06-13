@@ -22,6 +22,15 @@ declare variable $data:QUERY_OPTIONS := map {
 
 declare variable $data:SORT_FIELDS := $config:get-config//*:sortFields/*:fields;
 
+
+declare function data:searchField($fieldName, $term){
+    $fieldName || ':(' || $term ||')'
+};
+
+declare function data:sanitizeURI($uri){
+   replace($uri,'(/|:)','\\$1')
+};
+
 (:~
  : Return document by id/tei:idno or document path
  : Return by id if get-parameter $id
@@ -101,7 +110,7 @@ declare function data:element-filter($element as xs:string?) as xs:string? {
 declare function data:build-collection-path($collection as xs:string?) as xs:string?{  
     let $collection-path := 
             if(config:collection-vars($collection)/@data-root != '') then concat('/',config:collection-vars($collection)/@data-root)
-            else if($collection != '') then concat('/',$collection)
+            else if($config:get-config//repo:collections[@title = $collection]) then concat('/',$config:get-config//repo:collections[@title = $collection]/@data-root)                
             else ()
     let $get-series :=  
             if(config:collection-vars($collection)/@collection-URI != '') then string(config:collection-vars($collection)/@collection-URI)
@@ -122,7 +131,7 @@ declare function data:get-records($collection as xs:string*, $element as xs:stri
         if(request:get-parameter('sort', '') != '') then request:get-parameter('sort', '') 
         else if(request:get-parameter('sort-element', '') != '') then request:get-parameter('sort-element', '')
         else ()  
-    let $hits := util:eval(data:build-collection-path($collection))[descendant::tei:body[ft:query(., (),sf:facet-query())]]                        
+    let $hits := util:eval(data:build-collection-path($collection))[ft:query(., (),sf:facet-query())]                       
     return 
         if(request:get-parameter('view', '') = 'map') then $hits  
         else if(request:get-parameter('view', '') = 'timeline') then $hits
@@ -176,21 +185,38 @@ declare function data:get-records($collection as xs:string*, $element as xs:stri
  : Build a search XPath based on search parameters. 
  : Add sort options. 
 :)
-declare function data:search($collection as xs:string*, $queryString as xs:string?, $sort-element as xs:string?) {                      
-    let $eval-string := if($queryString != '') then $queryString 
-                        else concat(data:build-collection-path($collection), data:create-query($collection),slider:date-filter(()))
+declare function data:search($collection as xs:string*, $queryString as xs:string*, $sort-element as xs:string*) {                      
+    let $params := 
+        for $p in request:get-parameter-names()
+        where request:get-parameter($p, '') != ''
+        return $p
+    (: for debugging        
+    let $evalString := 
+            if($p != '') then  
+                if($queryString != '') then $queryString
+                else if(data:create-query($collection) != '') then
+                    concat(data:build-collection-path($collection), data:create-query($collection),slider:date-filter(()))
+                else()    
+            else ()
+    :)            
     let $hits :=
-            if(request:get-parameter-names() = '' or empty(request:get-parameter-names())) then 
-                collection($config:data-root || '/' || $collection)//tei:TEI[ft:query(., (),sf:facet-query())]
-            else util:eval($eval-string)//tei:TEI[ft:query(., (),sf:facet-query())]      
+            if($params != '') then
+                if($queryString != '') then 
+                    if(ends-with($queryString,'//tei:body') or ends-with($queryString,'//tei:TEI')) then () 
+                    else util:eval($queryString)
+                else if(data:create-query($collection) != '') then
+                    util:eval(concat(data:build-collection-path($collection), data:create-query($collection),slider:date-filter(())))
+                else () 
+            else ()      
     let $sort := if($sort-element != '') then 
                     $sort-element
                  else if(request:get-parameter('sort-element', '') != '') then
                     request:get-parameter('sort-element', '')
                  else ()
     return 
-        if((request:get-parameter('sort-element', '') != '' and request:get-parameter('sort-element', '') != 'relevance') or ($sort-element != '' and $sort-element != 'relevance')) then 
-            for $hit in $hits/ancestor-or-self::tei:TEI
+       (: <div>{concat(data:build-collection-path($collection), data:create-query($collection),slider:date-filter(()))}</div>:)
+       if((request:get-parameter('sort-element', '') != '' and request:get-parameter('sort-element', '') != 'relevance') or ($sort-element != '' and $sort-element != 'relevance')) then 
+            for $hit in $hits/ancestor-or-self::tei:TEI[ft:query(., (),sf:facet-query())]
             let $s := 
                     if(contains($sort, 'author')) then ft:field($hit, "author")[1]
                     else if(request:get-parameter('sort', '') = 'title') then 
@@ -207,9 +233,9 @@ declare function data:search($collection as xs:string*, $queryString as xs:strin
             order by $s collation 'http://www.w3.org/2013/collation/UCA'
             return $hit
         else 
-            for $hit in $hits
+            for $hit in $hits/ancestor-or-self::tei:TEI[ft:query(., (),sf:facet-query())]
             order by ft:score($hit) descending
-            return $hit/ancestor-or-self::tei:TEI
+            return $hit
 };
 
 (:~
@@ -252,10 +278,6 @@ declare function data:apiSearch($collection as xs:string*, $element as xs:string
             return $hit 
 };
 
-declare function data:searchField($fieldName, $term){
-    $fieldName || ':(' || $term ||')'
-};
-
 (:~   
  : Builds general search string.
 :)
@@ -266,7 +288,17 @@ declare function data:create-query($collection as xs:string?) as xs:string?{
     return 
          if(doc-available($search-config)) then 
             concat(string-join(data:dynamic-paths($search-config),''),data:relation-search())
-        else
+        else concat(
+            data:keyword-search(),
+            data:field-search('title',data:clean-string(request:get-parameter('title', ''))),
+            data:field-search('syrTitle',data:clean-string(request:get-parameter('syrTitle', ''))),
+            data:field-search('author',data:clean-string(request:get-parameter('author', ''))),
+            data:element-search('idno',request:get-parameter('idno', '')),
+            data:relation-search(),
+            data:orginPlaceSearch(),
+            data:ref()
+            ) 
+        (:
             concat(
             data:keyword-search(),
             data:element-search('title',request:get-parameter('title', '')),
@@ -276,7 +308,15 @@ declare function data:create-query($collection as xs:string?) as xs:string?{
             data:relation-search(),
             data:orginPlaceSearch(),
             data:ref()
-            )               
+            ) 
+            :)
+};
+
+
+declare function data:field-search($fieldName as xs:string?, $fieldValue as xs:string?){
+    if($fieldValue != '') then
+        concat('[ft:query(.,"',$fieldName,':',$fieldValue,'")]')
+    else ()
 };
 
 (:~ 
@@ -462,10 +502,10 @@ declare function data:dynamic-paths($search-config as xs:string?){
 declare function data:keyword-search(){
     if(request:get-parameter('keyword', '') != '') then 
         for $query in request:get-parameter('keyword', '') 
-        return concat("[ft:query(.//tei:body,'",data:clean-string($query),"',data:search-options()) or ft:query(.//tei:teiHeader,'",data:clean-string($query),"',data:search-options())]")
+        return concat("[ft:query(.,'",data:clean-string($query),"',data:search-options())]")
     else if(request:get-parameter('q', '') != '') then 
         for $query in request:get-parameter('q', '') 
-        return concat("[ft:query(.//tei:body,'",data:clean-string($query),"',data:search-options()) or ft:query(.//tei:teiHeader,'",data:clean-string($query),"',data:search-options())]")
+        return concat("[ft:query(.,'",data:clean-string($query),"',data:search-options())]")
     else ()
 };
 
@@ -485,13 +525,13 @@ declare function data:relation-search(){
 :)
 declare function data:ref(){
     if(request:get-parameter('ref', '') != '') then
-        concat("[descendant::*[@ref = '",request:get-parameter('ref', ''),"']]")
+        concat("[.//@ref = '",request:get-parameter('ref', ''),"']")
     else ()
 };
 
 declare function data:orginPlaceSearch(){
-    if(request:get-parameter('orginPlace', '') != '') then
-        concat("[descendant::tei:orginPlace[@ref = '",request:get-parameter('ref', ''),"']]")
+    if(request:get-parameter('origPlace', '') != '') then
+       concat("[descendant::tei:origPlace[@ref = '",request:get-parameter('origPlace', ''),"']]")
     else ()
 };
 
