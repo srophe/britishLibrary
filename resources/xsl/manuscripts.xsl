@@ -108,7 +108,7 @@
                             <xsl:with-param name="node" select="//t:msDesc/t:physDesc/t:handDesc/t:handNote[@scope='major']"/>
                         </xsl:call-template>
                     </xsl:if>
-                    <xsl:if test="//t:handDesc[@hands &gt; 1]"> (multiple hands) ܀ </xsl:if>
+                    <xsl:if test="//t:handDesc[number(@hands) = number(@hands)]"><xsl:if test="@hands &gt; 1">(multiple hands) ܀ </xsl:if></xsl:if>
                     <xsl:if test="//t:msDesc/t:physDesc/t:objectDesc/t:supportDesc[@material != '']">
                         <xsl:choose>
                             <xsl:when test="//t:msDesc/t:physDesc/t:objectDesc/t:supportDesc/@material = 'perg'">Parchment</xsl:when>
@@ -329,9 +329,9 @@
                 <xsl:otherwise><span class="inline-h4">Item <xsl:value-of select="@n"/> <xsl:choose><xsl:when test="t:locus">&#160;<xsl:apply-templates select="t:locus[1]"/></xsl:when><xsl:otherwise>&#160;(folio not specified)</xsl:otherwise></xsl:choose>: </span></xsl:otherwise>
             </xsl:choose>
             -->
+            <xsl:call-template name="msItemTitleAuthor"/>
             <div class="msItemChild">
-                <xsl:call-template name="msItemTitleAuthor"/>
-                <xsl:apply-templates select="*[not(self::t:note) and not(self::t:locus) and not(self::t:title) and not(self::t:author)]"/>
+                <xsl:apply-templates select="*[not(self::t:note) and not(self::t:locus) and not(self::t:title) and not(self::t:author) and not(self::t:msItem)]"/>
                 <xsl:if test="t:note">
                     <xsl:choose>
                         <xsl:when test="count(t:note) = 1">
@@ -351,7 +351,7 @@
                         </xsl:otherwise>
                     </xsl:choose>
                 </xsl:if>
-            
+                <xsl:apply-templates select="t:msItem"/>
             </div>
         </div>
     </xsl:template>
