@@ -108,12 +108,13 @@
                             <xsl:with-param name="node" select="//t:msDesc/t:physDesc/t:handDesc/t:handNote[@scope='major']"/>
                         </xsl:call-template>
                     </xsl:if>
-                    <xsl:if test="//t:handDesc[number(@hands) = number(@hands)]"><xsl:if test="@hands &gt; 1">(multiple hands) ܀ </xsl:if></xsl:if>
+                    <xsl:if test="//t:handDesc[@hands castable as xs:integer]"><xsl:if test="//t:handDesc[@hands &gt; 1]"> (multiple hands)</xsl:if></xsl:if>
+                    <xsl:text> ܀ </xsl:text>
                     <xsl:if test="//t:msDesc/t:physDesc/t:objectDesc/t:supportDesc[@material != '']">
                         <xsl:choose>
-                            <xsl:when test="//t:msDesc/t:physDesc/t:objectDesc/t:supportDesc/@material = 'perg'">Parchment</xsl:when>
-                            <xsl:when test="//t:msDesc/t:physDesc/t:objectDesc/t:supportDesc/@material = 'chart'">Paper</xsl:when>
-                            <xsl:when test="//t:msDesc/t:physDesc/t:objectDesc/t:supportDesc/@material = 'mixed'">Mixed Material</xsl:when>
+                            <xsl:when test="//t:msDesc/t:physDesc/t:objectDesc/t:supportDesc/@material = 'perg'"> Parchment</xsl:when>
+                            <xsl:when test="//t:msDesc/t:physDesc/t:objectDesc/t:supportDesc/@material = 'chart'"> Paper</xsl:when>
+                            <xsl:when test="//t:msDesc/t:physDesc/t:objectDesc/t:supportDesc/@material = 'mixed'"> Mixed Material</xsl:when>
                         </xsl:choose>
                     </xsl:if> <xsl:if test="//t:msDesc/t:physDesc/t:objectDesc[@form != '']"><xsl:variable name="string" select="//t:msDesc/t:physDesc/t:objectDesc/@form"/><xsl:value-of select="concat(upper-case(substring($string,1,1)),substring($string,2))"/></xsl:if><xsl:if test="//t:msDesc/t:physDesc/t:objectDesc/t:supportDesc/t:extent/t:measure[@type='composition'][@quantity != '']">, </xsl:if>
                     <xsl:if test="//t:msDesc/t:physDesc/t:objectDesc/t:supportDesc/t:extent/t:measure[@type='composition'][@quantity != '']">
