@@ -499,7 +499,7 @@
             </xsl:otherwise>
         </xsl:choose>
     </xsl:template>
-    <xsl:template match="t:persName" mode="mss">
+    <xsl:template match="t:persName">
         <xsl:choose>
             <xsl:when test="@ref">
                 <a href="{$nav-base}/search.html?person={@ref}"><xsl:value-of select="."/></a>
