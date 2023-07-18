@@ -492,7 +492,7 @@
         -->
         <xsl:choose>
             <xsl:when test="@ref">
-                <a href="{$nav-base}/browse.html?view=author&amp;ref={@ref}"><xsl:value-of select="."/></a>
+                <a href="{$nav-base}/search.html?author={@ref}"><xsl:value-of select="."/></a>
             </xsl:when>
             <xsl:otherwise>
                 <xsl:value-of select="."/>
@@ -502,7 +502,7 @@
     <xsl:template match="t:persName" mode="mss">
         <xsl:choose>
             <xsl:when test="@ref">
-                <a href="{$nav-base}/search.html?ref={@ref}"><xsl:value-of select="."/></a>
+                <a href="{$nav-base}/search.html?person={@ref}"><xsl:value-of select="."/></a>
             </xsl:when>
             <xsl:otherwise>
                 <xsl:value-of select="."/>
