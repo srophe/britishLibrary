@@ -1388,7 +1388,7 @@
         <!--
         <xsl:apply-templates select="descendant::t:body"/>-->
         <!-- Citation Information -->
-        <!--<xsl:apply-templates select="t:teiHeader" mode="citation"/>-->
+        <xsl:apply-templates select="t:teiHeader" mode="citation"/>
     </xsl:template>
     <xsl:template match="t:teiHeader" mode="#all">
         <xsl:choose>
