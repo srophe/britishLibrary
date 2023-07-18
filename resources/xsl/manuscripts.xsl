@@ -394,6 +394,9 @@
             <xsl:when test="parent::t:item">
                 <xsl:choose>
                     <xsl:when test="text()"/>
+                    <xsl:when test="ancestor::tei:additions">
+                        <strong> (Fol. <xsl:value-of select="@from"/>)</strong>
+                    </xsl:when>
                     <xsl:otherwise> (Fol. <xsl:value-of select="@from"/>)</xsl:otherwise>
                 </xsl:choose>
             </xsl:when>
