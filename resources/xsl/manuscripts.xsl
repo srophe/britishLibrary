@@ -1,4 +1,4 @@
-<xsl:stylesheet xmlns="http://www.w3.torg/1999/xhtml" xmlns:saxon="http://saxon.sf.net/" xmlns:local="http://syriaca.org/ns" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:s="http://syriaca.org" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:x="http://www.w3.org/1999/xhtml" xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" exclude-result-prefixes="xs t s saxon" version="2.0">
+<xsl:stylesheet xmlns="http://www.w3.torg/1999/xhtml" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:s="http://syriaca.org" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:x="http://www.w3.org/1999/xhtml" xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:saxon="http://saxon.sf.net/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:local="http://syriaca.org/ns" exclude-result-prefixes="xs t s saxon" version="2.0">
     
     <!-- ================================================================== 
        Copyright 2013 New York University
@@ -474,7 +474,10 @@
                 <xsl:otherwise>. </xsl:otherwise>
             </xsl:choose>
         </xsl:for-each>
-        <xsl:apply-templates select="t:title"/>
+        <xsl:apply-templates select="t:title" mode="mss"/>
+    </xsl:template>
+    <xsl:template match="t:title" mode="mss">
+        <xsl:apply-templates mode="plain"/>
     </xsl:template>
     <xsl:template match="t:author" mode="mss">
         <!--
