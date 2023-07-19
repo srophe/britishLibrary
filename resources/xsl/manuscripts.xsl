@@ -134,7 +134,7 @@
                         </xsl:call-template>
                     </xsl:if>
                     <xsl:if test="//t:handDesc[@hands castable as xs:integer]"><xsl:if test="//t:handDesc[@hands &gt; 1]"> (multiple hands)</xsl:if></xsl:if>
-                    <xsl:text> ܀ </xsl:text>
+                    <xsl:if test="//t:handDesc[@hands castable as xs:integer]"> <xsl:text> ܀ </xsl:text></xsl:if>
                     <xsl:if test="//t:msDesc/t:physDesc/t:objectDesc/t:supportDesc[@material != '']">
                         <xsl:choose>
                             <xsl:when test="//t:msDesc/t:physDesc/t:objectDesc/t:supportDesc/@material = 'perg'"> Parchment</xsl:when>
