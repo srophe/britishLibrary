@@ -197,6 +197,7 @@
         </xsl:if>
         <xsl:choose>
             <xsl:when test="count(t:msPart) &gt; 1">
+                <xsl:apply-templates select="t:msContents"/>
                 <xsl:for-each select="t:msPart">
                     <div id="msPart{@n}">
                         <xsl:apply-templates select="."/>
@@ -254,6 +255,12 @@
                                 <xsl:apply-templates select="t:msContents | t:msPart"/>
                             </div>
                         </div>
+                        <xsl:if test="t:physDesc/t:additions and t:physDesc/t:additions/child::*">
+                            <h3>Additions </h3>
+                            <div class="msDesc">
+                                <xsl:apply-templates select="t:physDesc/t:additions"/>       
+                            </div>
+                        </xsl:if>
                     </div>
                 </div>
             </div>   
