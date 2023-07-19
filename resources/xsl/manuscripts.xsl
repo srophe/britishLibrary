@@ -60,46 +60,71 @@
                 <!-- Format title, calls template in place-title-std.xsl -->
                 <xsl:call-template name="title"/>
             </h1>
-            <!-- Call link icons (located in link-icons.xsl) -->
-            <!--            <xsl:call-template name="link-icons"/>   -->
-            <!-- End Title -->
         </div>
+        <div class="tei-note">
+            <div>URI: <xsl:apply-templates select="//t:msDesc/t:msIdentifier/t:idno[@type='URI']"/></div>
+        </div>
+        <xsl:if test="count(//t:msDesc/t:msPart) &gt; 1">
+            <xsl:call-template name="msPartTOC"/>  
+        </xsl:if>
+        <xsl:apply-templates select="t:msDesc"/>
+    </xsl:template>
+    <xsl:template name="msPartTOC">
+        <div id="msTOC">
+            <ul>
+                <xsl:for-each select="//t:msDesc/t:msPart">
+                    <li><a href="#msPart{@n}">
+                        <xsl:value-of select="@n"/>. <xsl:value-of select="t:msIdentifier/t:altIdentifier/t:idno[@type='BL-Shelfmark']"/>
+                        <xsl:choose>
+                            <xsl:when test="t:history/t:origin/t:origDate/@when">
+                                (<xsl:value-of select="local:trim-date(t:history/t:origin/t:origDate/@when)"/>)
+                            </xsl:when>
+                            <xsl:otherwise>
+                                (<xsl:value-of select="local:trim-date(t:history/t:origin/t:origDate/@notBefore)"/> - <xsl:value-of select="local:trim-date(t:history/t:origin/t:origDate/@notAfter)"/>) 
+                            </xsl:otherwise>
+                        </xsl:choose></a>
+                    </li>
+                </xsl:for-each>  
+            </ul>
+        </div>
+    </xsl:template>
+
+    <xsl:template name="mssSectionHeader">
         <div class="header section">
            <div class="tei-note"> 
-            <div>URI: <xsl:apply-templates select="//t:msDesc/t:msIdentifier/t:idno[@type='URI']"/></div>
-            <xsl:if test="//t:msDesc/t:msIdentifier/t:altIdentifier/t:idno[@type='Wright-BL-Roman']">
+            <xsl:if test="t:msIdentifier/t:altIdentifier/t:idno[@type='Wright-BL-Roman']">
                 <div>
                     <xsl:choose>
-                        <xsl:when test="//t:msDesc/t:additional/t:listBibl/t:bibl/t:ref[@target != '']">
-                            <a href="{string(//t:msDesc/t:additional/t:listBibl/t:bibl/t:ref/@target)}" target="_blank">
-                                Description based on Wright <xsl:apply-templates select="//t:msDesc/t:msIdentifier/t:altIdentifier/t:idno[@type='Wright-BL-Roman']"/> (<xsl:apply-templates select="//t:msDesc/t:additional/t:listBibl/t:bibl/t:citedRange[@unit='pp']"/>)
+                        <xsl:when test="t:additional/t:listBibl/t:bibl/t:ref[@target != '']">
+                            <a href="{string(t:additional/t:listBibl/t:bibl/t:ref/@target)}" target="_blank">
+                                Description based on Wright <xsl:apply-templates select="t:msIdentifier/t:altIdentifier/t:idno[@type='Wright-BL-Roman']"/> (<xsl:apply-templates select="t:additional/t:listBibl/t:bibl/t:citedRange[@unit='pp']"/>)
                                 <img src="$nav-base/resources/images/ialogo.jpg" alt="Link to Archive.org Bibliographic record" height="18px"/>
                             </a>
                         </xsl:when>
                         <xsl:otherwise>
-                            Description based on Wright <xsl:apply-templates select="//t:msDesc/t:msIdentifier/t:altIdentifier/t:idno[@type='Wright-BL-Roman']"/> (<xsl:apply-templates select="//t:msDesc/t:additional/t:listBibl/t:bibl/t:citedRange[@unit='pp']"/>)
+                            Description based on Wright <xsl:apply-templates select="t:msIdentifier/t:altIdentifier/t:idno[@type='Wright-BL-Roman']"/> (<xsl:apply-templates select="t:additional/t:listBibl/t:bibl/t:citedRange[@unit='pp']"/>)
                         </xsl:otherwise>
                     </xsl:choose>
                     </div>    
             </xsl:if>
-            <xsl:if test="//t:msDesc/t:history/t:origin/t:origDate">
+            <xsl:if test="t:history/t:origin/t:origDate">
                 <div>
                     Date: 
-                    <xsl:if test="//t:msDesc/t:history/t:origin/t:origDate[@calendar='Gregorian']">
-                        <xsl:value-of select="//t:msDesc/t:history/t:origin/t:origDate[@calendar='Gregorian']"/>
-                        <xsl:if test="//t:msDesc/t:history/t:origin/t:origDate[not(@calendar='Gregorian')]"> / </xsl:if>
+                    <xsl:if test="t:history/t:origin/t:origDate[@calendar='Gregorian']">
+                        <xsl:value-of select="t:history/t:origin/t:origDate[@calendar='Gregorian']"/>
+                        <xsl:if test="t:history/t:origin/t:origDate[not(@calendar='Gregorian')]"> / </xsl:if>
                     </xsl:if>
-                    <xsl:if test="//t:msDesc/t:history/t:origin/t:origDate[not(@calendar='Gregorian')]">
-                        <xsl:for-each select="//t:msDesc/t:history/t:origin/t:origDate[not(@calendar='Gregorian')]">
+                    <xsl:if test="t:history/t:origin/t:origDate[not(@calendar='Gregorian')]">
+                        <xsl:for-each select="t:history/t:origin/t:origDate[not(@calendar='Gregorian')]">
                             <xsl:value-of select="."/>
                             <xsl:if test="position() != last()"> / </xsl:if>
                         </xsl:for-each>
                     </xsl:if>
                 </div>
             </xsl:if>
-            <xsl:if test="//t:msDesc/t:history/t:origin/t:origPlace != ''">
+            <xsl:if test="t:history/t:origin/t:origPlace != ''">
                 <div>
-                    Origin: <xsl:apply-templates select="//t:msDesc/t:history/t:origin/t:origPlace" mode="mss"/>
+                    Origin: <xsl:apply-templates select="t:history/t:origin/t:origPlace" mode="mss"/>
                 </div>
             </xsl:if>
                 <div>
@@ -140,23 +165,22 @@
                     <xsl:if test="//t:msDesc/t:physDesc[t:additions/t:list/t:item/t:label[@content='Doxology']]">Doxology</xsl:if>
                 </xsl:if>
             </div>
-            <xsl:if test="//t:msDesc/t:head/t:listRelation[@type='Wright-BL-Taxonomy']/t:relation">
+            <xsl:if test="t:head/t:listRelation[@type='Wright-BL-Taxonomy']/t:relation">
             <div>
                 Wright's Subject Classification:
-                <xsl:for-each select="//t:msDesc/t:head/t:listRelation[@type='Wright-BL-Taxonomy']/t:relation">
+                <xsl:for-each select="t:head/t:listRelation[@type='Wright-BL-Taxonomy']/t:relation">
                     <xsl:value-of select="t:desc"/><xsl:if test="position() != last()">; </xsl:if>
                 </xsl:for-each>
             </div>
             </xsl:if>
            </div>
-            <xsl:if test="//t:msDesc/t:head/t:note[@type='contents-note']">
-                <xsl:apply-templates select="//t:msDesc/t:head/t:note[@type='contents-note']"/>
+            <xsl:if test="t:head/t:note[@type='contents-note']">
+                <xsl:apply-templates select="t:head/t:note[@type='contents-note']"/>
             </xsl:if>
         </div>
-        
     </xsl:template>
-    
     <xsl:template match="t:msDesc">
+        <xsl:call-template name="mssSectionHeader"/>
         <xsl:if test="t:physDesc">
             <div class="panel panel-default">
                 <div class="panel-heading">
@@ -171,19 +195,30 @@
                 </div>
             </div>
         </xsl:if>
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <h2 class="panel-title" data-toggle="collapse" data-target="#Contents">Manuscript Contents</h2>
-            </div>
-            <div id="Contents" class="panel-collapse collapse in">
-                <div class="panel-body">
-                    <div class="msContent">
-                        <span class="summary ident">Note: Item numbering updated in digital edition.</span>
-                        <xsl:apply-templates select="t:msContents | t:msPart"/>
+        <xsl:choose>
+            <xsl:when test="count(t:msPart) &gt; 1">
+                <xsl:for-each select="t:msPart">
+                    <div id="msPart{@n}">
+                        <xsl:apply-templates select="."/>
                     </div>
-                </div>
-            </div>
-        </div>  
+                </xsl:for-each>
+            </xsl:when>
+            <xsl:otherwise>
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h2 class="panel-title" data-toggle="collapse" data-target="#Contents">Manuscript Contents</h2>
+                    </div>
+                    <div id="Contents" class="panel-collapse collapse in">
+                        <div class="panel-body">
+                            <div class="msContent">
+                                <span class="summary ident">Note: Item numbering updated in digital edition.</span>
+                                <xsl:apply-templates select="t:msContents | t:msPart"/>
+                            </div>
+                        </div>
+                    </div>
+                </div> 
+            </xsl:otherwise>
+        </xsl:choose>
         <xsl:if test="t:physDesc/t:additions and t:physDesc/t:additions/child::*">
             <div class="panel panel-default">
                 <div class="panel-heading">
@@ -196,7 +231,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div>    
         </xsl:if>
     </xsl:template>
     <xsl:template match="t:msPart">
@@ -208,6 +243,7 @@
                 <div id="msPart{@xml:id}" class="panel-collapse collapse in">
                     <div class="panel-body">
                         <div class="msDesc">
+                            <xsl:call-template name="mssSectionHeader"/>
                             <xsl:apply-templates select="t:msIdentifier | t:physDesc"/>    
                         </div>
                         <div class="msContent">
@@ -499,7 +535,7 @@
             </xsl:otherwise>
         </xsl:choose>
     </xsl:template>
-    <xsl:template match="t:persName" mode="mss">
+    <xsl:template match="t:persName">
         <xsl:choose>
             <xsl:when test="@ref">
                 <a href="{$nav-base}/search.html?person={@ref}"><xsl:value-of select="."/></a>
