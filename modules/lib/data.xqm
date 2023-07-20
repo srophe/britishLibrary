@@ -290,9 +290,11 @@ declare function data:create-query($collection as xs:string?) as xs:string?{
             concat(string-join(data:dynamic-paths($search-config),''),data:relation-search())
         else concat(
             data:keyword-search(),
+            data:bl-author(),
+            data:bl-place(),
+            data:bl-person(),
             data:field-search('title',data:clean-string(request:get-parameter('title', ''))),
             data:field-search('syrTitle',data:clean-string(request:get-parameter('syrTitle', ''))),
-            data:field-search('author',data:clean-string(request:get-parameter('author', ''))),
             data:element-search('idno',request:get-parameter('idno', '')),
             data:relation-search(),
             data:orginPlaceSearch(),
@@ -500,12 +502,11 @@ declare function data:dynamic-paths($search-config as xs:string?){
  : General keyword anywhere search function 
 :)
 declare function data:keyword-search(){
-    if(request:get-parameter('keyword', '') != '') then 
-        for $query in request:get-parameter('keyword', '') 
-        return concat("[ft:query(.,'",data:clean-string($query),"',data:search-options())]")
-    else if(request:get-parameter('q', '') != '') then 
-        for $query in request:get-parameter('q', '') 
-        return concat("[ft:query(.,'",data:clean-string($query),"',data:search-options())]")
+let $keyword := (request:get-parameter('keyword', ''),request:get-parameter('q', ''))
+let $cleanString := data:clean-string($keyword[1])
+return         
+    if($cleanString != '') then 
+         concat("[ft:query(.,'",($cleanString),"',data:search-options())]")
     else ()
 };
 
@@ -589,4 +590,104 @@ declare function data:element-search($element, $query){
         return concat("[descendant::tei:bibl/tei:ptr[@target[matches(.,'",$ids,"')]]]")
     else ()  
 };
+:)
+
+(: Custom BL searches :)
+(:
+ : author search 
+:)
+declare function data:bl-author(){
+let $author := request:get-parameter('author', '')
+let $cleanString := data:clean-string($author[1])
+return         
+    if($cleanString != '') then
+         if(starts-with($author,'http')) then
+           concat("[descendant::tei:author/@ref='",($author),"' or descendant::tei:editor/@ref='",($author),"']") 
+         else 
+         concat("[ft:query(descendant::tei:author,'",($cleanString),"',data:search-options()) or ft:query(descendant::tei:editor,'",($cleanString),"',data:search-options())]")
+    else ()
+};
+(:
+ : place search 
+:)
+declare function data:bl-place(){
+let $place := request:get-parameter('place', '')
+let $cleanString := data:clean-string($place[1])
+return         
+    if($cleanString != '') then 
+         if(request:get-parameter('origPlaceLimit', '')='true') then 
+            concat("[ft:query(descendant::tei:origPlace,'",($cleanString),"',data:search-options())]")
+         else concat("[ft:query(descendant::tei:placeName,'",($cleanString),"',data:search-options()) or ft:query(descendant::tei:origPlace,'",($cleanString),"',data:search-options())]")
+    else ()
+};
+(:
+ : person search
+ : TEI:author, editor, and persName. 
+:)
+declare function data:bl-person(){
+let $person := request:get-parameter('person', '')
+let $cleanString := data:clean-string($person[1])
+return         
+    if($cleanString != '') then 
+        if(starts-with($person,'http')) then
+           concat("[descendant::tei:author/@ref='",($person),"' or descendant::tei:editor/@ref='",($person),"' or descendant::tei:persName/@ref='",($person),"']") 
+        else 
+         concat("[ft:query(descendant::tei:author,'",($cleanString),"',data:search-options()) or ft:query(descendant::tei:editor,'",($cleanString),"',data:search-options()) or ft:query(descendant::tei:persName,'",($cleanString),"',data:search-options()) ]")
+    else ()
+};
+
+(:
+ : General keyword anywhere search function 
+:)
+declare function data:bl-keyword-search(){
+let $keyword := (request:get-parameter('keyword', ''),request:get-parameter('q', ''))
+let $cleanString := data:clean-string($keyword[1])
+return         
+    if($cleanString != '') then 
+         concat("[ft:query(.,'",($cleanString),"',data:search-options())]")
+    else ()
+};
+(:
+ : author search 
+:)
+declare function data:bl-title(){
+let $title := request:get-parameter('title', '')
+let $cleanString := data:clean-string($title[1])
+return         
+    if($cleanString != '') then
+         if(starts-with($author,'http')) then
+           concat("[descendant::tei:author/@ref='",($title),"' or descendant::tei:editor/@ref='",($author),"']") 
+         else 
+         concat("[ft:query(descendant::tei:author,'",($cleanString),"',data:search-options()) or ft:query(descendant::tei:editor,'",($cleanString),"',data:search-options())]")
+    else ()
+};
+(:
+ : author search 
+:)
+declare function data:bl-syriTitle(){
+let $author := request:get-parameter('syriTitle', '')
+let $cleanString := data:clean-string($author[1])
+return         
+    if($cleanString != '') then
+         if(starts-with($author,'http')) then
+           concat("[descendant::tei:author/@ref='",($author),"' or descendant::tei:editor/@ref='",($author),"']") 
+         else 
+         concat("[ft:query(descendant::tei:author,'",($cleanString),"',data:search-options()) or ft:query(descendant::tei:editor,'",($cleanString),"',data:search-options())]")
+    else ()
+};
+
+
+(:
+else concat(
+            data:bl-keyword-search(),
+            data:bl-author(),
+            data:bl-place(),
+            data:bl-person(),
+            data:bl-title(),
+            data:bl-syriTitle(),
+            data:element-search('idno',request:get-parameter('idno', '')),
+            data:relation-search(),
+            data:orginPlaceSearch(),
+            data:ref()
+            ) 
 :)
