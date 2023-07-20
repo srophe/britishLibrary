@@ -245,9 +245,13 @@
                     <div class="panel-body">
                         <div class="msDesc">
                             <xsl:call-template name="mssSectionHeader"/>
-                            <xsl:apply-templates select="t:msIdentifier | t:physDesc"/>    
+                            <div class="well well-white">
+                                <h3>Physical Description </h3>
+                            <xsl:apply-templates select="t:msIdentifier | t:physDesc"/>
+                            </div>
                         </div>
-                        <div class="msContent">
+                        <div class="well well-white msContent">
+                            <h3>Manuscript Contents</h3>
                             <p class="summary indent">This manuscript contains <xsl:value-of select="count(descendant::t:msItem)"/> items 
                                 <xsl:if test="descendant::t:msItem/t:msItem"> <xsl:text> including nested subsections</xsl:text>
                                 </xsl:if>. N.B. Items were re-numbered by Syriaca.org and may not reflect previous numeration.</p>
@@ -256,9 +260,11 @@
                             </div>
                         </div>
                         <xsl:if test="t:physDesc/t:additions and t:physDesc/t:additions/child::*">
+                            <div class="well well-white">
                             <h3>Additions </h3>
                             <div class="msDesc">
                                 <xsl:apply-templates select="t:physDesc/t:additions"/>       
+                            </div>
                             </div>
                         </xsl:if>
                     </div>
