@@ -1,4 +1,4 @@
-<xsl:stylesheet xmlns="http://www.w3.torg/1999/xhtml" xmlns:saxon="http://saxon.sf.net/" xmlns:local="http://syriaca.org/ns" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:s="http://syriaca.org" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:x="http://www.w3.org/1999/xhtml" xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" exclude-result-prefixes="xs t s saxon" version="2.0">
+<xsl:stylesheet xmlns="http://www.w3.torg/1999/xhtml" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:s="http://syriaca.org" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:x="http://www.w3.org/1999/xhtml" xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:saxon="http://saxon.sf.net/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:local="http://syriaca.org/ns" exclude-result-prefixes="xs t s saxon" version="2.0">
     
     <!-- ================================================================== 
        Copyright 2013 New York University
@@ -60,46 +60,71 @@
                 <!-- Format title, calls template in place-title-std.xsl -->
                 <xsl:call-template name="title"/>
             </h1>
-            <!-- Call link icons (located in link-icons.xsl) -->
-            <!--            <xsl:call-template name="link-icons"/>   -->
-            <!-- End Title -->
         </div>
+        <div class="tei-note">
+            <div>URI: <xsl:apply-templates select="//t:msDesc/t:msIdentifier/t:idno[@type='URI']"/></div>
+        </div>
+        <xsl:if test="count(//t:msDesc/t:msPart) &gt; 1">
+            <xsl:call-template name="msPartTOC"/>  
+        </xsl:if>
+        <xsl:apply-templates select="t:msDesc"/>
+    </xsl:template>
+    <xsl:template name="msPartTOC">
+        <div id="msTOC">
+            <ul>
+                <xsl:for-each select="//t:msDesc/t:msPart">
+                    <li><a href="#msPart{@n}">
+                        <xsl:value-of select="@n"/>. <xsl:value-of select="t:msIdentifier/t:altIdentifier/t:idno[@type='BL-Shelfmark']"/>
+                        <xsl:choose>
+                            <xsl:when test="t:history/t:origin/t:origDate/@when">
+                                (<xsl:value-of select="local:trim-date(t:history/t:origin/t:origDate/@when)"/>)
+                            </xsl:when>
+                            <xsl:otherwise>
+                                (<xsl:value-of select="local:trim-date(t:history/t:origin/t:origDate/@notBefore)"/> - <xsl:value-of select="local:trim-date(t:history/t:origin/t:origDate/@notAfter)"/>) 
+                            </xsl:otherwise>
+                        </xsl:choose></a>
+                    </li>
+                </xsl:for-each>  
+            </ul>
+        </div>
+    </xsl:template>
+
+    <xsl:template name="mssSectionHeader">
         <div class="header section">
            <div class="tei-note"> 
-            <div>URI: <xsl:apply-templates select="//t:msDesc/t:msIdentifier/t:idno[@type='URI']"/></div>
-            <xsl:if test="//t:msDesc/t:msIdentifier/t:altIdentifier/t:idno[@type='Wright-BL-Roman']">
+            <xsl:if test="t:msIdentifier/t:altIdentifier/t:idno[@type='Wright-BL-Roman']">
                 <div>
                     <xsl:choose>
-                        <xsl:when test="//t:msDesc/t:additional/t:listBibl/t:bibl/t:ref[@target != '']">
-                            <a href="{string(//t:msDesc/t:additional/t:listBibl/t:bibl/t:ref/@target)}" target="_blank">
-                                Description based on Wright <xsl:apply-templates select="//t:msDesc/t:msIdentifier/t:altIdentifier/t:idno[@type='Wright-BL-Roman']"/> (<xsl:apply-templates select="//t:msDesc/t:additional/t:listBibl/t:bibl/t:citedRange[@unit='pp']"/>)
+                        <xsl:when test="t:additional/t:listBibl/t:bibl/t:ref[@target != '']">
+                            <a href="{string(t:additional/t:listBibl/t:bibl/t:ref/@target)}" target="_blank">
+                                Description based on Wright <xsl:apply-templates select="t:msIdentifier/t:altIdentifier/t:idno[@type='Wright-BL-Roman']"/> (<xsl:apply-templates select="t:additional/t:listBibl/t:bibl/t:citedRange[@unit='pp']"/>)
                                 <img src="$nav-base/resources/images/ialogo.jpg" alt="Link to Archive.org Bibliographic record" height="18px"/>
                             </a>
                         </xsl:when>
                         <xsl:otherwise>
-                            Description based on Wright <xsl:apply-templates select="//t:msDesc/t:msIdentifier/t:altIdentifier/t:idno[@type='Wright-BL-Roman']"/> (<xsl:apply-templates select="//t:msDesc/t:additional/t:listBibl/t:bibl/t:citedRange[@unit='pp']"/>)
+                            Description based on Wright <xsl:apply-templates select="t:msIdentifier/t:altIdentifier/t:idno[@type='Wright-BL-Roman']"/> (<xsl:apply-templates select="t:additional/t:listBibl/t:bibl/t:citedRange[@unit='pp']"/>)
                         </xsl:otherwise>
                     </xsl:choose>
                     </div>    
             </xsl:if>
-            <xsl:if test="//t:msDesc/t:history/t:origin/t:origDate">
+            <xsl:if test="t:history/t:origin/t:origDate">
                 <div>
                     Date: 
-                    <xsl:if test="//t:msDesc/t:history/t:origin/t:origDate[@calendar='Gregorian']">
-                        <xsl:value-of select="//t:msDesc/t:history/t:origin/t:origDate[@calendar='Gregorian']"/>
-                        <xsl:if test="//t:msDesc/t:history/t:origin/t:origDate[not(@calendar='Gregorian')]"> / </xsl:if>
+                    <xsl:if test="t:history/t:origin/t:origDate[@calendar='Gregorian']">
+                        <xsl:value-of select="t:history/t:origin/t:origDate[@calendar='Gregorian']"/>
+                        <xsl:if test="t:history/t:origin/t:origDate[not(@calendar='Gregorian')]"> / </xsl:if>
                     </xsl:if>
-                    <xsl:if test="//t:msDesc/t:history/t:origin/t:origDate[not(@calendar='Gregorian')]">
-                        <xsl:for-each select="//t:msDesc/t:history/t:origin/t:origDate[not(@calendar='Gregorian')]">
+                    <xsl:if test="t:history/t:origin/t:origDate[not(@calendar='Gregorian')]">
+                        <xsl:for-each select="t:history/t:origin/t:origDate[not(@calendar='Gregorian')]">
                             <xsl:value-of select="."/>
                             <xsl:if test="position() != last()"> / </xsl:if>
                         </xsl:for-each>
                     </xsl:if>
                 </div>
             </xsl:if>
-            <xsl:if test="//t:msDesc/t:history/t:origin/t:origPlace != ''">
+            <xsl:if test="t:history/t:origin/t:origPlace != ''">
                 <div>
-                    Origin: <xsl:apply-templates select="//t:msDesc/t:history/t:origin/t:origPlace" mode="mss"/>
+                    Origin: <xsl:apply-templates select="t:history/t:origin/t:origPlace" mode="mss"/>
                 </div>
             </xsl:if>
                 <div>
@@ -109,7 +134,7 @@
                         </xsl:call-template>
                     </xsl:if>
                     <xsl:if test="//t:handDesc[@hands castable as xs:integer]"><xsl:if test="//t:handDesc[@hands &gt; 1]"> (multiple hands)</xsl:if></xsl:if>
-                    <xsl:text> ܀ </xsl:text>
+                    <xsl:if test="//t:handDesc[@hands castable as xs:integer]"> <xsl:text> ܀ </xsl:text></xsl:if>
                     <xsl:if test="//t:msDesc/t:physDesc/t:objectDesc/t:supportDesc[@material != '']">
                         <xsl:choose>
                             <xsl:when test="//t:msDesc/t:physDesc/t:objectDesc/t:supportDesc/@material = 'perg'"> Parchment</xsl:when>
@@ -140,23 +165,22 @@
                     <xsl:if test="//t:msDesc/t:physDesc[t:additions/t:list/t:item/t:label[@content='Doxology']]">Doxology</xsl:if>
                 </xsl:if>
             </div>
-            <xsl:if test="//t:msDesc/t:head/t:listRelation[@type='Wright-BL-Taxonomy']/t:relation">
+            <xsl:if test="t:head/t:listRelation[@type='Wright-BL-Taxonomy']/t:relation">
             <div>
                 Wright's Subject Classification:
-                <xsl:for-each select="//t:msDesc/t:head/t:listRelation[@type='Wright-BL-Taxonomy']/t:relation">
+                <xsl:for-each select="t:head/t:listRelation[@type='Wright-BL-Taxonomy']/t:relation">
                     <xsl:value-of select="t:desc"/><xsl:if test="position() != last()">; </xsl:if>
                 </xsl:for-each>
             </div>
             </xsl:if>
            </div>
-            <xsl:if test="//t:msDesc/t:head/t:note[@type='contents-note']">
-                <xsl:apply-templates select="//t:msDesc/t:head/t:note[@type='contents-note']"/>
+            <xsl:if test="t:head/t:note[@type='contents-note']">
+                <xsl:apply-templates select="t:head/t:note[@type='contents-note']"/>
             </xsl:if>
         </div>
-        
     </xsl:template>
-    
     <xsl:template match="t:msDesc">
+        <xsl:call-template name="mssSectionHeader"/>
         <xsl:if test="t:physDesc">
             <div class="panel panel-default">
                 <div class="panel-heading">
@@ -171,19 +195,31 @@
                 </div>
             </div>
         </xsl:if>
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <h2 class="panel-title" data-toggle="collapse" data-target="#Contents">Manuscript Contents</h2>
-            </div>
-            <div id="Contents" class="panel-collapse collapse in">
-                <div class="panel-body">
-                    <div class="msContent">
-                        <span class="summary ident">Note: Item numbering updated in digital edition.</span>
-                        <xsl:apply-templates select="t:msContents | t:msPart"/>
+        <xsl:choose>
+            <xsl:when test="count(t:msPart) &gt; 1">
+                <xsl:apply-templates select="t:msContents"/>
+                <xsl:for-each select="t:msPart">
+                    <div id="msPart{@n}">
+                        <xsl:apply-templates select="."/>
                     </div>
-                </div>
-            </div>
-        </div>  
+                </xsl:for-each>
+            </xsl:when>
+            <xsl:otherwise>
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h2 class="panel-title" data-toggle="collapse" data-target="#Contents">Manuscript Contents</h2>
+                    </div>
+                    <div id="Contents" class="panel-collapse collapse in">
+                        <div class="panel-body">
+                            <div class="msContent">
+                                <span class="summary ident">Note: Item numbering updated in digital edition.</span>
+                                <xsl:apply-templates select="t:msContents | t:msPart"/>
+                            </div>
+                        </div>
+                    </div>
+                </div> 
+            </xsl:otherwise>
+        </xsl:choose>
         <xsl:if test="t:physDesc/t:additions and t:physDesc/t:additions/child::*">
             <div class="panel panel-default">
                 <div class="panel-heading">
@@ -196,7 +232,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div>    
         </xsl:if>
     </xsl:template>
     <xsl:template match="t:msPart">
@@ -208,9 +244,14 @@
                 <div id="msPart{@xml:id}" class="panel-collapse collapse in">
                     <div class="panel-body">
                         <div class="msDesc">
-                            <xsl:apply-templates select="t:msIdentifier | t:physDesc"/>    
+                            <xsl:call-template name="mssSectionHeader"/>
+                            <div class="well well-white">
+                                <h3>Physical Description </h3>
+                            <xsl:apply-templates select="t:msIdentifier | t:physDesc"/>
+                            </div>
                         </div>
-                        <div class="msContent">
+                        <div class="well well-white msContent">
+                            <h3>Manuscript Contents</h3>
                             <p class="summary indent">This manuscript contains <xsl:value-of select="count(descendant::t:msItem)"/> items 
                                 <xsl:if test="descendant::t:msItem/t:msItem"> <xsl:text> including nested subsections</xsl:text>
                                 </xsl:if>. N.B. Items were re-numbered by Syriaca.org and may not reflect previous numeration.</p>
@@ -218,6 +259,14 @@
                                 <xsl:apply-templates select="t:msContents | t:msPart"/>
                             </div>
                         </div>
+                        <xsl:if test="t:physDesc/t:additions and t:physDesc/t:additions/child::*">
+                            <div class="well well-white">
+                            <h3>Additions </h3>
+                            <div class="msDesc">
+                                <xsl:apply-templates select="t:physDesc/t:additions"/>       
+                            </div>
+                            </div>
+                        </xsl:if>
                     </div>
                 </div>
             </div>   
@@ -394,6 +443,9 @@
             <xsl:when test="parent::t:item">
                 <xsl:choose>
                     <xsl:when test="text()"/>
+                    <xsl:when test="ancestor::tei:additions">
+                        <strong> (Fol. <xsl:value-of select="@from"/>)</strong>
+                    </xsl:when>
                     <xsl:otherwise> (Fol. <xsl:value-of select="@from"/>)</xsl:otherwise>
                 </xsl:choose>
             </xsl:when>
@@ -474,7 +526,10 @@
                 <xsl:otherwise>. </xsl:otherwise>
             </xsl:choose>
         </xsl:for-each>
-        <xsl:apply-templates select="t:title"/>
+        <xsl:apply-templates select="t:title" mode="mss"/>
+    </xsl:template>
+    <xsl:template match="t:title" mode="mss">
+        <xsl:apply-templates mode="plain"/>
     </xsl:template>
     <xsl:template match="t:author" mode="mss">
         <!--
@@ -486,17 +541,17 @@
         -->
         <xsl:choose>
             <xsl:when test="@ref">
-                <a href="{$nav-base}/browse.html?view=author&amp;ref={@ref}"><xsl:value-of select="."/></a>
+                <a href="{$nav-base}/search.html?author={@ref}"><xsl:value-of select="."/></a>
             </xsl:when>
             <xsl:otherwise>
                 <xsl:value-of select="."/>
             </xsl:otherwise>
         </xsl:choose>
     </xsl:template>
-    <xsl:template match="t:persName" mode="mss">
+    <xsl:template match="t:persName">
         <xsl:choose>
             <xsl:when test="@ref">
-                <a href="{$nav-base}/search.html?ref={@ref}"><xsl:value-of select="."/></a>
+                <a href="{$nav-base}/search.html?person={@ref}"><xsl:value-of select="."/></a>
             </xsl:when>
             <xsl:otherwise>
                 <xsl:value-of select="."/>
