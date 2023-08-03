@@ -255,7 +255,7 @@ declare function search:default-search-form() {
 
 (: Bl Search form :)
 declare function search:bl-search-form($node as node(), $model as map(*)) {
-<div xmlns="http://www.w3.org/1999/xhtml">
+<div class="searchForm" xmlns="http://www.w3.org/1999/xhtml">
     <div class="searchHeading">
         <span class="h4">Advanced Search</span>
         <a class="btn btn-default search-btn pull-right" data-toggle="collapse" data-target="#advancedSearchBox" data-text-swap="Show search options">
