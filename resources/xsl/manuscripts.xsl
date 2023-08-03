@@ -198,7 +198,7 @@
         <xsl:choose>
             <xsl:when test="count(t:msPart) &gt; 1">
                 <xsl:apply-templates select="t:msContents"/>
-                <xsl:for-each select="t:msPart">
+                <xsl:for-each select="t:msPart"> 
                     <div id="msPart{@n}">
                         <xsl:apply-templates select="."/>
                     </div>
@@ -245,27 +245,54 @@
                     <div class="panel-body">
                         <div class="msDesc">
                             <xsl:call-template name="mssSectionHeader"/>
-                            <div class="well well-white">
-                                <h3>Physical Description </h3>
-                            <xsl:apply-templates select="t:msIdentifier | t:physDesc"/>
-                            </div>
                         </div>
-                        <div class="well well-white msContent">
-                            <h3>Manuscript Contents</h3>
-                            <p class="summary indent">This manuscript contains <xsl:value-of select="count(descendant::t:msItem)"/> items 
-                                <xsl:if test="descendant::t:msItem/t:msItem"> <xsl:text> including nested subsections</xsl:text>
-                                </xsl:if>. N.B. Items were re-numbered by Syriaca.org and may not reflect previous numeration.</p>
-                            <div class="indent">
-                                <xsl:apply-templates select="t:msContents | t:msPart"/>
-                            </div>
-                        </div>
+                            <xsl:if test="t:physDesc or t:msIdentifier">
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <h2 class="panel-title" data-toggle="collapse" data-target="#msPart{@xml:id}PhysDesc">Physical Description </h2>
+                                    </div>
+                                    <div id="msPart{@xml:id}PhysDesc" class="panel-collapse collapse in">
+                                        <div class="panel-body">
+                                            <div class="msDesc">
+                                                <xsl:apply-templates select="t:msIdentifier | t:physDesc"/>    
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>  
+                            </xsl:if>
+                        <xsl:if test="t:msContents">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h2 class="panel-title" data-toggle="collapse" data-target="#msPart{@xml:id}Contents">Contents</h2>
+                                </div>
+                                <div id="msPart{@xml:id}Contents" class="panel-collapse collapse in">
+                                    <div class="panel-body">
+                                        <div class="msContent">
+                                            <!--<h3>Manuscript Contents</h3>-->
+                                            <p class="summary indent">This manuscript contains <xsl:value-of select="count(descendant::t:msItem)"/> items 
+                                                <xsl:if test="descendant::t:msItem/t:msItem"> <xsl:text> including nested subsections</xsl:text>
+                                                </xsl:if>. N.B. Items were re-numbered by Syriaca.org and may not reflect previous numeration.</p>
+                                            <div class="indent">
+                                                <xsl:apply-templates select="t:msContents | t:msPart"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div> 
+                        </xsl:if>
                         <xsl:if test="t:physDesc/t:additions and t:physDesc/t:additions/child::*">
-                            <div class="well well-white">
-                            <h3>Additions </h3>
-                            <div class="msDesc">
-                                <xsl:apply-templates select="t:physDesc/t:additions"/>       
-                            </div>
-                            </div>
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h2 class="panel-title" data-toggle="collapse" data-target="#msPart{@xml:id}Additions">Additions </h2>
+                                </div>
+                                <div id="msPart{@xml:id}Additions" class="panel-collapse collapse in">
+                                    <div class="panel-body">
+                                        <div class="msDesc">
+                                            <xsl:apply-templates select="t:physDesc/t:additions"/>    
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>    
                         </xsl:if>
                     </div>
                 </div>
