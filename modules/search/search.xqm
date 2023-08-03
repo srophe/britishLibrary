@@ -252,3 +252,138 @@ declare function search:default-search-form() {
         </div>
     </form>
 };
+
+(: Bl Search form :)
+declare function search:bl-search-form($node as node(), $model as map(*)) {
+<div xmlns="http://www.w3.org/1999/xhtml">
+    <div class="searchHeading">
+        <span class="h4">Advanced Search</span>
+        <a class="btn btn-default search-btn pull-right" data-toggle="collapse" data-target="#advancedSearchBox" data-text-swap="Show search options">
+            <span class="glyphicon glyphicon-cog"></span> Search Options
+        </a>
+    </div>
+    
+    <div id="advancedSearchBox">
+        {if(exists(request:get-parameter-names())) then 
+           attribute class{'searchHeading collapse'}  
+        else attribute class{'searchHeading collapse in'} 
+        }
+        <form method="get" class="form-horizontal indent" role="form">
+            <div class="row">
+                <div class="col-md-10">
+                    <!-- Keyword -->
+                    <div class="form-group">
+                        <label for="keyword" class="col-sm-2 col-md-3  control-label">Keyword in Any Language: </label>
+                        <div class="col-sm-10 col-md-9 ">
+                            <div class="input-group">
+                                <input type="text" id="keyword" name="keyword" class="form-control keyboard"/>
+                                <div class="input-group-btn">
+                                    {global:keyboard-select-menu('keyword')}
+                                </div>
+                            </div> 
+                        </div>
+                    </div>
+                    <!-- Author-->
+                    <div class="form-group">
+                        <label for="title" class="col-sm-2 col-md-3  control-label">Author: </label>
+                        <div class="col-sm-10 col-md-9 ">
+                            <div class="input-group">
+                                <input type="text" id="author" name="author" class="form-control keyboard"/>
+                                <div class="input-group-btn">
+                                   {global:keyboard-select-menu('author')}
+                                </div>
+                            </div>   
+                        </div>
+                    </div>
+                    <!-- Title-->
+                    <div class="form-group">
+                        <label for="title" class="col-sm-2 col-md-3  control-label">Translated Title: </label>
+                        <div class="col-sm-10 col-md-9 ">
+                            <div class="input-group">
+                                <input type="text" id="title" name="title" class="form-control keyboard"/>
+                                <div class="input-group-btn">
+                                    {global:keyboard-select-menu('title')}
+                                </div>
+                            </div>   
+                        </div>
+                    </div>
+                    <!-- Syriac Title-->
+                    <div class="form-group">
+                        <label for="title" class="col-sm-2 col-md-3  control-label">Syriac Title: </label>
+                        <div class="col-sm-10 col-md-9 ">
+                            <div class="input-group">
+                                <input type="text" id="syrTitle" name="syrTitle" class="form-control keyboard"/>
+                                <div class="input-group-btn">
+                                {global:keyboard-select-menu('syrTitle')}
+                                </div>
+                            </div>   
+                        </div>
+                    </div>
+                    <!-- Place-->
+                    <div class="form-group">
+                        <label for="place" class="col-sm-2 col-md-3  control-label">Place: </label>
+                        <div class="col-sm-9 col-md-8 ">
+                            <div class="input-group">
+                                <input type="text" id="place" name="place" class="form-control keyboard"/>
+                                <div class="input-group-btn">
+                                {global:keyboard-select-menu('place')}
+                                </div>
+                            </div>   
+                            <br/>
+                            <!-- origPlaceLimit -->
+                            Limit search to place of origin:
+                            <input type="checkbox" id="origPlaceLimit" name="origPlaceLimit" value="true"/>
+                        </div>
+                        
+                    </div>
+                    <!-- Person-->
+                    <div class="form-group">
+                        <label for="person" class="col-sm-2 col-md-3  control-label">Person: </label>
+                        <div class="col-sm-9 col-md-8 ">
+                            <div class="input-group">
+                                <input type="text" id="person" name="person" class="form-control keyboard"/>
+                                <div class="input-group-btn">
+                                {global:keyboard-select-menu('person')}
+                                </div>
+                            </div>   
+                        </div>
+                        <!-- origPlaceLimit -->
+                    </div>
+                    <!-- Locus -->
+                    <div class="form-group">
+                        <label for="title" class="col-sm-2 col-md-3  control-label">Locus: </label>
+                        <div class="col-sm-10 col-md-9 ">
+                            <div class="input-group">
+                                <input type="text" id="locus" name="locus" class="form-control keyboard"/>
+                                <div class="input-group-btn">
+                                {global:keyboard-select-menu('Locus')}
+                                </div>
+                            </div>   
+                        </div>
+                    </div>
+                    <!--
+                        <hr/>
+                        <div class="form-group">
+                            <label for="place" class="col-sm-2 col-md-3  control-label">Search In: </label>
+                            <div class="col-sm-9 col-md-8 ">
+                                Manuscript Contents: <input type="checkbox" id="limitByMSContents" name="limitByMSContents" value="true" checked="checked"/>&#160;
+                                Physical Descriptions: <input type="checkbox" id="limitByPhysDesc" name="limitByPhysDesc" value="true" checked="checked"/>&#160;
+                                Additions, Marginalia, Etc.: <input type="checkbox" id="limitByAdditions" name="limitByAdditions" value="true" checked="checked"/>&#160;
+                                Provenance: <input type="checkbox" id="limitByHistory" name="limitByHistory" value="true" checked="checked"/>&#160;
+                            </div>
+                        </div>
+                        -->
+                    <!-- end col  -->
+                </div>
+                <!-- end row  -->
+            </div>    
+            <div class="pull-right">
+                <button type="submit" class="btn btn-info">Search</button> 
+                <button type="reset" class="btn">Clear</button>
+            </div>
+            <br class="clearfix"/>
+            <br/>
+        </form> 
+    </div> 
+</div>
+};
