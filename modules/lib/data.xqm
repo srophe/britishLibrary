@@ -293,6 +293,7 @@ declare function data:create-query($collection as xs:string?) as xs:string?{
             data:bl-author(),
             data:bl-place(),
             data:bl-person(),
+            data:bl-syrText(),
             data:field-search('title',data:clean-string(request:get-parameter('title', ''))),
             data:field-search('syrTitle',data:clean-string(request:get-parameter('syrTitle', ''))),
             data:element-search('idno',request:get-parameter('idno', '')),
@@ -648,7 +649,7 @@ return
     else ()
 };
 (:
- : author search 
+ : title search 
 :)
 declare function data:bl-title(){
 let $title := request:get-parameter('title', '')
@@ -662,10 +663,10 @@ return
     else ()
 };
 (:
- : author search 
+ : title search 
 :)
 declare function data:bl-syriTitle(){
-let $author := request:get-parameter('syriTitle', '')
+let $author := request:get-parameter('syrTitle', '')
 let $cleanString := data:clean-string($author[1])
 return         
     if($cleanString != '') then
@@ -676,7 +677,56 @@ return
     else ()
 };
 
+(:
+ : Syriac text search 
+:)
+declare function data:bl-syrText(){
+let $query := request:get-parameter('syrText', '')
+let $cleanString := data:clean-string($query[1])
+let $limits := 
+    string-join(
+            (
+            if(request:get-parameter('syrOtherLimit', '') = 'true') then 
+                concat("ft:query(descendant::tei:quote[@xml:lang='syr'],'",($cleanString),"',data:search-options()) or ft:query(descendant::tei:foreign[@xml:lang='syr'],'",($cleanString),"',data:search-options())")
+            else(), 
+            if(request:get-parameter('syrColophonsLimit', '') = 'true') then 
+                concat("ft:query(descendant::tei:additions/descendant::tei:item[tei:label = 'Colophon'],'",($cleanString),"',data:search-options())")
+            else(), 
+            if(request:get-parameter('syrExplicitsLimit', '') = 'true') then 
+                concat("ft:query(descendant::tei:explicit,'",($cleanString),"',data:search-options())")
+            else(), 
+            if(request:get-parameter('syrIncipitsLimit', '') = 'true') then 
+                concat("ft:query(descendant::tei:incipit,'",($cleanString),"',data:search-options())")
+            else(), 
+            if(request:get-parameter('syrFinalRubricsLimit', '') = 'true') then 
+                concat("ft:query(descendant::tei:finalRubric,'",($cleanString),"',data:search-options())")
+            else(), 
+            if(request:get-parameter('syrRubricsLimit', '') = 'true') then 
+                concat("ft:query(descendant::tei:title[@xml:lang='syr'],'",($cleanString),"',data:search-options())")
+            else()
+            ),' or ')
+return         
+    if($query != '' and $limits != '') then
+         concat("[",$limits,"]")
+    else ()
+};
 
+(:
+
+syrOtherLimit
+syrColophonsLimit
+syrExplicitsLimit
+syrIncipitsLimit
+syrFinalRubricsLimit
+syrRubricsLimit
+
+[] Titles/Rubrics = TEI:rubric and TEI:title[xml:Lang="syr"]
+[] Final Rubrics/Subscriptions = TEI:finalRubric
+[] Incipits = TEI:incipit
+[] Explicits/Desinits = TEI:explicit
+[] Colophons = /TEI/teiHeader/fileDesc/sourceDesc/msDesc/physDesc/additions/list/item[label["Colophon"]] (ie search in item (and children) where item has child with label with textnode "Colophon")
+[] Other = TEI:quote [xml:Lang="syr"] or TEI:foreign [xml:Lang="syr"]
+:)
 (:
 else concat(
             data:bl-keyword-search(),
