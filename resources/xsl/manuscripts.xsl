@@ -239,7 +239,16 @@
         <div class="panel-group" id="accordion">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <h2 class="panel-title" data-toggle="collapse" data-target="#msPart{@xml:id}">Ms Part <xsl:value-of select="@n"/></h2>
+                    <h2 class="panel-title" data-toggle="collapse" data-target="#msPart{@xml:id}">
+                        <xsl:choose>
+                            <xsl:when test="count(//t:msPart) &gt; 1">
+                                <xsl:apply-templates select="t:msIdentifier/t:altIdentifier/t:idno[@type='BL-Shelfmark']"/>
+                            </xsl:when>
+                            <xsl:otherwise>
+                                Ms Part <xsl:value-of select="@n"/>
+                            </xsl:otherwise>
+                        </xsl:choose>
+                    </h2>
                 </div>
                 <div id="msPart{@xml:id}" class="panel-collapse collapse in">
                     <div class="panel-body">
