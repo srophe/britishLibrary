@@ -47,7 +47,7 @@ declare %templates:wrap function search:search-data($node as node(), $model as m
                 "hits" :
                     if(exists(request:get-parameter-names())) then $hits 
                     else if(ends-with(request:get-url(), 'search.html')) then ()
-                    else $hits
+                    else $hits  
         } 
 };
 
@@ -261,10 +261,11 @@ declare function search:bl-search-form($node as node(), $model as map(*)) {
         <a class="btn btn-default search-btn pull-right" data-toggle="collapse" data-target="#advancedSearchBox" data-text-swap="Show search options">
             <span class="glyphicon glyphicon-cog"></span> Search Options
         </a>
+        
     </div>
     
     <div id="advancedSearchBox">
-        {if(exists(request:get-parameter-names())) then 
+        {if(exists(request:get-parameter-names()) and count($model("hits")) gt 0) then 
            attribute class{'searchHeading collapse'}  
         else attribute class{'searchHeading collapse in'} 
         }
@@ -309,14 +310,23 @@ declare function search:bl-search-form($node as node(), $model as map(*)) {
                     </div>
                     <!-- Syriac Title-->
                     <div class="form-group">
-                        <label for="title" class="col-sm-2 col-md-3  control-label">Syriac Title: </label>
+                        <label for="title" class="col-sm-2 col-md-3  control-label">Syriac Text: </label>
                         <div class="col-sm-10 col-md-9 ">
                             <div class="input-group">
-                                <input type="text" id="syrTitle" name="syrTitle" class="form-control keyboard"/>
+                                <input type="text" id="syrText" name="syrText" class="form-control keyboard"/>
                                 <div class="input-group-btn">
                                 {global:keyboard-select-menu('syrTitle')}
                                 </div>
                             </div>   
+                            <br/>
+                                <!-- origPlaceLimit -->
+                                Search in: 
+                                <input type="checkbox" id="syrRubricsLimit" name="syrRubricsLimit" value="true" checked="checked"/> Titles/Rubrics 
+                                &#160;<input type="checkbox" id="syrFinalRubricsLimit" name="syrFinalRubricsLimit" value="true" checked="checked"/> Final Rubrics/Subscriptions
+                                &#160;<input type="checkbox" id="syrIncipitsLimit" name="syrIncipitsLimit" value="true" checked="checked"/> Incipits
+                                &#160;<input type="checkbox" id="syrExplicitsLimit" name="syrExplicitsLimit" value="true" checked="checked"/> Explicits/Desinits
+                                &#160;<input type="checkbox" id="syrColophonsLimit" name="syrColophonsLimit" value="true" checked="checked"/> Colophons
+                                &#160;<input type="checkbox" id="syrOtherLimit" name="syrOtherLimit" value="true" checked="checked"/> Other
                         </div>
                     </div>
                     <!-- Place-->

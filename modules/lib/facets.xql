@@ -84,18 +84,26 @@ declare function sf:build-index(){
                     <field name="titleArabic" expression="sf:field(., 'titleArabic')" boost="2.5"/>,
                     <field name="author" expression="sf:field(., 'author')" boost="2.0"/>)
             }
-            </text>
-            <!-- 
-            <text qname="tei:TEI">
                 <ignore qname="tei:encodingDesc"/>
                 <ignore qname="tei:profileDesc"/>
             </text>
-            -->
             <!--<text qname="tei:body"/>-->
             <text qname="tei:author" boost="2.0"/>
+            <text qname="tei:editor" boost="2.0"/>
             <text qname="tei:persName" boost="2.0"/>
-            <text qname="tei:placeName" boost="2.0"/>
+            <text qname="tei:placeName" boost="1.0"/>
+            <text qname="tei:origPlace" boost="1.0"/>
             <text qname="tei:title" boost="2.5"/>
+            <text qname="tei:msContents"/>
+            <text qname="tei:physDesc"/>
+            <text qname="tei:additions"/>
+            <text qname="tei:history"/>
+            <text qname="tei:finalRubric"/>
+            <text qname="tei:incipit"/>
+            <text qname="tei:explicit"/>
+            <text qname="tei:item"/>
+            <text qname="tei:quote"/>
+            <text qname="tei:foreign"/>
             <!--
             <text qname="tei:finalRubric" boost="2.5"/>
             <text qname="tei:rubric" boost="2.5"/>
