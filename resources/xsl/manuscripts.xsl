@@ -130,42 +130,44 @@
                     Origin: <xsl:apply-templates select="t:history/t:origin/t:origPlace" mode="mss"/>
                 </div>
             </xsl:if>
-                <div>
-                    <xsl:if test="//t:msDesc/t:physDesc/t:handDesc/t:handNote[@scope='major']/@script">
-                        <xsl:call-template name="script">
-                            <xsl:with-param name="node" select="//t:msDesc/t:physDesc/t:handDesc/t:handNote[@scope='major']"/>
-                        </xsl:call-template>
-                    </xsl:if>
-                    <xsl:if test="//t:handDesc[@hands castable as xs:integer]"><xsl:if test="//t:handDesc[@hands &gt; 1]"> (multiple hands)</xsl:if></xsl:if>
-                    <xsl:if test="//t:handDesc[@hands castable as xs:integer]"> <xsl:text> ܀ </xsl:text></xsl:if>
-                    <xsl:if test="//t:msDesc/t:physDesc/t:objectDesc/t:supportDesc[@material != '']">
-                        <xsl:choose>
-                            <xsl:when test="//t:msDesc/t:physDesc/t:objectDesc/t:supportDesc/@material = 'perg'"> Parchment</xsl:when>
-                            <xsl:when test="//t:msDesc/t:physDesc/t:objectDesc/t:supportDesc/@material = 'chart'"> Paper</xsl:when>
-                            <xsl:when test="//t:msDesc/t:physDesc/t:objectDesc/t:supportDesc/@material = 'mixed'"> Mixed Material</xsl:when>
-                        </xsl:choose>
-                    </xsl:if> <xsl:if test="//t:msDesc/t:physDesc/t:objectDesc[@form != '']"><xsl:variable name="string" select="//t:msDesc/t:physDesc/t:objectDesc/@form"/><xsl:value-of select="concat(upper-case(substring($string,1,1)),substring($string,2))"/></xsl:if><xsl:if test="//t:msDesc/t:physDesc/t:objectDesc/t:supportDesc/t:extent/t:measure[@type='composition'][@quantity != '']">, </xsl:if>
-                    <xsl:if test="//t:msDesc/t:physDesc/t:objectDesc/t:supportDesc/t:extent/t:measure[@type='composition'][@quantity != '']">
-                        <xsl:choose>
-                            <xsl:when test="//t:msDesc/t:physDesc/t:objectDesc/t:supportDesc/t:extent/t:measure[@type='composition'][@quantity = '1']">
-                                <xsl:value-of select="//t:msDesc/t:physDesc/t:objectDesc/t:supportDesc/t:extent/t:measure[@type='composition']/@quantity"/> leaf. 
-                            </xsl:when>
-                            <xsl:otherwise>
-                                <xsl:value-of select="//t:msDesc/t:physDesc/t:objectDesc/t:supportDesc/t:extent/t:measure[@type='composition']/@quantity"/> leaves.
-                            </xsl:otherwise>
-                        </xsl:choose>
-                    </xsl:if>
-                </div>
+               <xsl:if test="(count(//t:msDesc/t:msPart) &gt; 1 and self::t:msPart) or not(//t:msPart)">
+                   <div>
+                       <xsl:if test="t:physDesc/t:handDesc/t:handNote[@scope='major']/@script">
+                           <xsl:call-template name="script">
+                               <xsl:with-param name="node" select="t:physDesc/t:handDesc/t:handNote[@scope='major']"/>
+                           </xsl:call-template>
+                       </xsl:if>
+                       <xsl:if test="descendant::t:handDesc[@hands castable as xs:integer]"><xsl:if test="descendant::t:handDesc[@hands &gt; 1]"> (multiple hands)</xsl:if></xsl:if>
+                       <xsl:if test="descendant::t:handDesc[@hands castable as xs:integer]"> <xsl:text> ܀ </xsl:text></xsl:if>
+                       <xsl:if test="t:physDesc/t:objectDesc/t:supportDesc[@material != '']">
+                           <xsl:choose>
+                               <xsl:when test="t:physDesc/t:objectDesc/t:supportDesc/@material = 'perg'"> Parchment</xsl:when>
+                               <xsl:when test="t:physDesc/t:objectDesc/t:supportDesc/@material = 'chart'"> Paper</xsl:when>
+                               <xsl:when test="t:physDesc/t:objectDesc/t:supportDesc/@material = 'mixed'"> Mixed Material</xsl:when>
+                           </xsl:choose>
+                       </xsl:if> <xsl:if test="t:physDesc/t:objectDesc[@form != '']"><xsl:variable name="string" select="t:physDesc/t:objectDesc/@form"/><xsl:value-of select="concat(upper-case(substring($string,1,1)),substring($string,2))"/></xsl:if><xsl:if test="t:physDesc/t:objectDesc/t:supportDesc/t:extent/t:measure[@type='composition'][@quantity != '']">, </xsl:if>
+                       <xsl:if test="t:physDesc/t:objectDesc/t:supportDesc/t:extent/t:measure[@type='composition'][@quantity != '']">
+                           <xsl:choose>
+                               <xsl:when test="t:physDesc/t:objectDesc/t:supportDesc/t:extent/t:measure[@type='composition'][@quantity = '1']">
+                                   <xsl:value-of select="t:physDesc/t:objectDesc/t:supportDesc/t:extent/t:measure[@type='composition']/@quantity"/> leaf. 
+                               </xsl:when>
+                               <xsl:otherwise>
+                                   <xsl:value-of select="t:physDesc/t:objectDesc/t:supportDesc/t:extent/t:measure[@type='composition']/@quantity"/> leaves.
+                               </xsl:otherwise>
+                           </xsl:choose>
+                       </xsl:if>
+                   </div>
+                </xsl:if>
             <div>
-                <xsl:if test="//t:msDesc/t:physDesc[t:additions/t:list/t:item/t:label[@content='Colophon']]                     or //t:msDesc/t:physDesc/t:decoDesc/t:decoNote                      or //t:msDesc/t:physDesc/t:additions[t:list/t:item/t:label[@content = 'Doxology']]">
+                <xsl:if test="t:physDesc[t:additions/t:list/t:item/t:label[@content='Colophon']]                     or //t:msDesc/t:physDesc/t:decoDesc/t:decoNote                      or //t:msDesc/t:physDesc/t:additions[t:list/t:item/t:label[@content = 'Doxology']]">
                     Features: 
-                    <xsl:if test="//t:msDesc/t:physDesc[t:additions/t:list/t:item/t:label[@content='Colophon']]">
-                        Colophon<xsl:if test="//t:msDesc/t:physDesc/t:decoDesc/t:decoNote or //t:msDesc/t:physDesc[t:additions/t:list/t:item/t:label[@content='Doxology']]">, </xsl:if>
+                    <xsl:if test="t:physDesc[t:additions/t:list/t:item/t:label[@content='Colophon']]">
+                        Colophon<xsl:if test="//t:msDesc/t:physDesc/t:decoDesc/t:decoNote or t:physDesc[t:additions/t:list/t:item/t:label[@content='Doxology']]">, </xsl:if>
                     </xsl:if>
-                    <xsl:if test="//t:msDesc/t:physDesc/t:decoDesc/t:decoNote">
-                        Decoration<xsl:if test="//t:msDesc/t:physDesc[t:additions/t:list/t:item/t:label[@content='Doxology']]">, </xsl:if>
+                    <xsl:if test="t:physDesc/t:decoDesc/t:decoNote">
+                        Decoration<xsl:if test="t:physDesc[t:additions/t:list/t:item/t:label[@content='Doxology']]">, </xsl:if>
                     </xsl:if>
-                    <xsl:if test="//t:msDesc/t:physDesc[t:additions/t:list/t:item/t:label[@content='Doxology']]">Doxology</xsl:if>
+                    <xsl:if test="t:physDesc[t:additions/t:list/t:item/t:label[@content='Doxology']]">Doxology</xsl:if>
                 </xsl:if>
             </div>
             <xsl:if test="t:head/t:listRelation[@type='Wright-BL-Taxonomy']/t:relation">
