@@ -92,6 +92,9 @@
     <xsl:template name="mssSectionHeader">
         <div class="header section">
            <div class="tei-note"> 
+               <xsl:if test="count(//t:msDesc/t:msPart) &gt; 1 and self::t:msPart">
+                   <div>URI: <xsl:apply-templates select="t:msIdentifier/t:idno[@type='URI']"/></div>
+                </xsl:if>   
             <xsl:if test="t:msIdentifier/t:altIdentifier/t:idno[@type='Wright-BL-Roman']">
                 <div>
                     <xsl:choose>
