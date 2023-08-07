@@ -77,10 +77,10 @@
                         <xsl:value-of select="@n"/>. <xsl:value-of select="t:msIdentifier/t:altIdentifier/t:idno[@type='BL-Shelfmark']"/>
                         <xsl:choose>
                             <xsl:when test="t:history/t:origin/t:origDate/@when">
-                                (<xsl:value-of select="local:trim-date(t:history/t:origin/t:origDate/@when)"/>)
+                                (<xsl:value-of select="local:trim-date(t:history/t:origin/t:origDate/@when)"/> CE)
                             </xsl:when>
                             <xsl:otherwise>
-                                (<xsl:value-of select="local:trim-date(t:history/t:origin/t:origDate/@notBefore)"/> - <xsl:value-of select="local:trim-date(t:history/t:origin/t:origDate/@notAfter)"/>) 
+                                (<xsl:value-of select="local:trim-date(t:history/t:origin/t:origDate/@notBefore)"/> - <xsl:value-of select="local:trim-date(t:history/t:origin/t:origDate/@notAfter)"/> CE) 
                             </xsl:otherwise>
                         </xsl:choose></a>
                     </li>
