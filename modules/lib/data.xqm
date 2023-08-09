@@ -701,8 +701,8 @@ let $limits :=
             if(request:get-parameter('syrFinalRubricsLimit', '') = 'true') then 
                 concat("ft:query(descendant::tei:finalRubric,'",($cleanString),"',data:search-options())")
             else(), 
-            if(request:get-parameter('syrRubricsLimit', '') = 'true') then 
-                concat("ft:query(descendant::tei:title[@xml:lang='syr'],'",($cleanString),"',data:search-options())")
+            if(request:get-parameter('syrRubricsLimit', '') = 'true') then                
+               concat("ft:query(descendant::tei:title[@xml:lang='syr'],'",($cleanString),"',data:search-options()) or ft:query(descendant::tei:rubric,'",($cleanString),"',data:search-options())")
             else()
             ),' or ')
 return         
