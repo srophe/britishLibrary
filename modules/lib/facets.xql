@@ -104,10 +104,7 @@ declare function sf:build-index(){
             <text qname="tei:item"/>
             <text qname="tei:quote"/>
             <text qname="tei:foreign"/>
-            <!--
-            <text qname="tei:finalRubric" boost="2.5"/>
-            <text qname="tei:rubric" boost="2.5"/>
-            -->
+            <text qname="tei:rubric"/>
         </lucene> 
         <range>
             <create qname="@syriaca-computed-start" type="xs:date"/>
