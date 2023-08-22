@@ -618,7 +618,7 @@ return
     if($cleanString != '') then 
          if(request:get-parameter('origPlaceLimit', '')='true') then 
             concat("[ft:query(descendant::tei:origPlace,'",($cleanString),"',data:search-options())]")
-         else concat("[ft:query(descendant::tei:placeName,'",($cleanString),"',data:search-options()) or ft:query(descendant::tei:origPlace,'",($cleanString),"',data:search-options())]")
+         else concat("[ft:query(descendant::tei:placeName[not(parent::tei:persName)],'",($cleanString),"',data:search-options()) or ft:query(descendant::tei:origPlace,'",($cleanString),"',data:search-options())]")
     else ()
 };
 (:
