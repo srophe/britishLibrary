@@ -332,7 +332,7 @@ declare function search:bl-search-form($node as node(), $model as map(*)) {
                     <!-- Place-->
                     <div class="form-group">
                         <label for="place" class="col-sm-2 col-md-3  control-label">Place: </label>
-                        <div class="col-sm-9 col-md-8 ">
+                        <div class="col-sm-10 col-md-9 ">
                             <div class="input-group">
                                 <input type="text" id="place" name="place" class="form-control keyboard"/>
                                 <div class="input-group-btn">
@@ -349,7 +349,7 @@ declare function search:bl-search-form($node as node(), $model as map(*)) {
                     <!-- Person-->
                     <div class="form-group">
                         <label for="person" class="col-sm-2 col-md-3  control-label">Person: </label>
-                        <div class="col-sm-9 col-md-8 ">
+                        <div class="col-sm-10 col-md-9 ">
                             <div class="input-group">
                                 <input type="text" id="person" name="person" class="form-control keyboard"/>
                                 <div class="input-group-btn">
