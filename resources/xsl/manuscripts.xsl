@@ -70,7 +70,7 @@
         <xsl:apply-templates select="t:msDesc"/>
     </xsl:template>
     <xsl:template name="msPartTOC">
-        <div id="msTOC">
+        <div id="msTOC" class="mstoc">
             <ul>
                 <xsl:for-each select="//t:msDesc/t:msPart">
                     <li><a href="#msPart{@n}">
@@ -247,7 +247,7 @@
                     <h2 class="panel-title" data-toggle="collapse" data-target="#msPart{@xml:id}">
                         <xsl:choose>
                             <xsl:when test="count(//t:msPart) &gt; 1">
-                                <xsl:apply-templates select="t:msIdentifier/t:altIdentifier/t:idno[@type='BL-Shelfmark']"/>
+                                <span class="shelfmark"><xsl:apply-templates select="t:msIdentifier/t:altIdentifier/t:idno[@type='BL-Shelfmark']"/></span>
                             </xsl:when>
                             <xsl:otherwise>
                                 Ms Part <xsl:value-of select="@n"/>
