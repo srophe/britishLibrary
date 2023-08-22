@@ -359,18 +359,6 @@ declare function search:bl-search-form($node as node(), $model as map(*)) {
                         </div>
                         <!-- origPlaceLimit -->
                     </div>
-                    <!-- Locus -->
-                    <div class="form-group">
-                        <label for="title" class="col-sm-2 col-md-3  control-label">Locus: </label>
-                        <div class="col-sm-10 col-md-9 ">
-                            <div class="input-group">
-                                <input type="text" id="locus" name="locus" class="form-control keyboard"/>
-                                <div class="input-group-btn">
-                                {global:keyboard-select-menu('Locus')}
-                                </div>
-                            </div>   
-                        </div>
-                    </div>
                     <!--
                         <hr/>
                         <div class="form-group">
