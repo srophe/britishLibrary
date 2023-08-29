@@ -291,10 +291,10 @@ declare function data:create-query($collection as xs:string?) as xs:string?{
         else concat(
             data:keyword-search(),
             data:bl-author(),
+            data:bl-title(),
             data:bl-place(),
             data:bl-person(),
             data:bl-syrText(),
-            data:field-search('title',data:clean-string(request:get-parameter('title', ''))),
             data:field-search('syrTitle',data:clean-string(request:get-parameter('syrTitle', ''))),
             data:element-search('idno',request:get-parameter('idno', '')),
             data:relation-search(),
@@ -654,12 +654,12 @@ return
 declare function data:bl-title(){
 let $title := request:get-parameter('title', '')
 let $cleanString := data:clean-string($title[1])
-return         
+return  
     if($cleanString != '') then
-         if(starts-with($author,'http')) then
-           concat("[descendant::tei:author/@ref='",($title),"' or descendant::tei:editor/@ref='",($author),"']") 
+         if(starts-with($title,'http')) then
+           concat("[descendant::tei:title/@ref='",($title),"']") 
          else 
-         concat("[ft:query(descendant::tei:author,'",($cleanString),"',data:search-options()) or ft:query(descendant::tei:editor,'",($cleanString),"',data:search-options())]")
+            concat("[ft:query(descendant::tei:title,'",($cleanString),"',data:search-options())]")
     else ()
 };
 (:
@@ -710,34 +710,3 @@ return
          concat("[",$limits,"]")
     else ()
 };
-
-(:
-
-syrOtherLimit
-syrColophonsLimit
-syrExplicitsLimit
-syrIncipitsLimit
-syrFinalRubricsLimit
-syrRubricsLimit
-
-[] Titles/Rubrics = TEI:rubric and TEI:title[xml:Lang="syr"]
-[] Final Rubrics/Subscriptions = TEI:finalRubric
-[] Incipits = TEI:incipit
-[] Explicits/Desinits = TEI:explicit
-[] Colophons = /TEI/teiHeader/fileDesc/sourceDesc/msDesc/physDesc/additions/list/item[label["Colophon"]] (ie search in item (and children) where item has child with label with textnode "Colophon")
-[] Other = TEI:quote [xml:Lang="syr"] or TEI:foreign [xml:Lang="syr"]
-:)
-(:
-else concat(
-            data:bl-keyword-search(),
-            data:bl-author(),
-            data:bl-place(),
-            data:bl-person(),
-            data:bl-title(),
-            data:bl-syriTitle(),
-            data:element-search('idno',request:get-parameter('idno', '')),
-            data:relation-search(),
-            data:orginPlaceSearch(),
-            data:ref()
-            ) 
-:)
