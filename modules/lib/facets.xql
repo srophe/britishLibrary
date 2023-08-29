@@ -570,3 +570,30 @@ declare function sf:field-author($element as item()*, $name as xs:string){
    for $a in $element//tei:author[not(ancestor::tei:additional)]
    return $a      
 };
+
+(: British Library functions :)
+(: By script :)
+declare function sf:facet-scriptValues($element as item()*, $facet-definition as item(), $name as xs:string){
+   
+   let $script := $element/ancestor::tei:TEI/descendant::tei:msDesc/tei:physDesc/tei:handDesc/tei:handNote/@script
+   return 
+        if($script = 'syr-Syre') then 'Estrangela script'
+        else if($script = 'syr-Syrj') then 'West Syriac script'
+        else if($script = 'syr-Syrn') then 'East Syriac script'
+        else if($script = 'syr-x-syrm') then 'Melkite Syriac script'
+        else if($script = 'grc') then 'Greek'
+        else if($script = 'ar-Syrc') then 'Arabic Garshuni script'
+        else if($script = 'ar') then 'Unspecified Arabic script'
+        else if($script = 'syr') then 'Unspecified Syriac script'
+        else $script
+};
+
+(: By material :)
+declare function sf:facet-materialValues($element as item()*, $facet-definition as item(), $name as xs:string){
+    let $material := $element/ancestor::tei:TEI/descendant::tei:msDesc/tei:physDesc/tei:objectDesc/tei:supportDesc/@material
+    return 
+        if($material = 'perg') then 'Parchment'
+        else if($material = 'chart') then 'Paper'
+        else if($material = 'mixed') then 'Mixed Material'
+        else $material
+};
