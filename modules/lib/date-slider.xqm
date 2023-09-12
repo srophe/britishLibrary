@@ -35,12 +35,20 @@ let $endDate :=
                      request:get-parameter('endDate', '')
                 else() 
 return   
+(:These should have @when, @notBefore, and/or @notAfter attributes with ISO dates:)
     if(not(empty($startDate)) and not(empty($endDate))) then
         if($mode != '') then 
-            concat('[descendant::',$mode,'[
-            (@from gt "', $startDate,'" and @from lt "', $endDate,'") and
-            (@to gt "', $startDate,'" and @to lt "', $endDate,'")
-            ]]')
+            if($mode = 'origDate') then 
+                concat('[descendant::tei:origDate[@calendar="Gregorian"][
+                ((@notBefore gt "', $startDate,'" and @notBefore lt "', $endDate,'") and
+                (@notAfter gt "', $startDate,'" and @notAfter lt "', $endDate,'")) or 
+                (@when gt "', $startDate,'" and @when lt "', $endDate,'")
+                ]]')
+            else 
+                concat('[descendant::',$mode,'[
+                (@from gt "', $startDate,'" and @from lt "', $endDate,'") and
+                (@to gt "', $startDate,'" and @to lt "', $endDate,'")
+                ]]')
         else
            concat('[descendant::tei:state[@type="existence"][
             (@from gt "', $startDate,'" and @from lt "', $endDate,'") and
@@ -81,18 +89,29 @@ let $startDate := request:get-parameter('startDate', '')
 let $endDate := request:get-parameter('endDate', '')
 (: Dates in current results set :)  
 let $d := 
-        for $dates in $hits/descendant::tei:state[@type="existence"]/@to | 
-        $hits/descendant::tei:state[@type="existence"]/@from
-        order by xs:date(slider:expand-dates($dates)) 
-        return $dates    
+        if($mode = 'origDate') then 
+            for $dates in $hits/descendant::tei:origDate[@calendar="Gregorian"]/@notBefore | 
+            $hits/descendant::tei:origDate[@calendar="Gregorian"]/@notAfter |
+            $hits/descendant::tei:origDate[@calendar="Gregorian"]/@when
+            let $date := slider:expand-dates($dates)
+            order by $date 
+            return 
+                if($date castable as xs:date) then
+                    xs:date($date)
+                else () 
+        else 
+            for $dates in $hits/descendant::tei:state[@type="existence"]/@to | 
+            $hits/descendant::tei:state[@type="existence"]/@from
+            order by xs:date(slider:expand-dates($dates)) 
+            return $dates    
 let $min := if($startDate) then 
                 slider:expand-dates($startDate) 
-            else slider:expand-dates(xs:date(slider:expand-dates(string($d[1]))))
+            else $d[1]
 let $max := 
             if($endDate) then slider:expand-dates($endDate) 
-            else slider:expand-dates(xs:date(slider:expand-dates(string($d[last()]))))        
-let $minPadding := slider:expand-dates((xs:date(slider:expand-dates(string($d[1]))) - xs:yearMonthDuration('P10Y')))
-let $maxPadding := slider:expand-dates((xs:date(slider:expand-dates(string($d[last()]))) + xs:yearMonthDuration('P10Y')))
+            else $d[last()]        
+let $minPadding := $d[1] - xs:yearMonthDuration('P10Y')
+let $maxPadding := $d[last()] + xs:yearMonthDuration('P10Y')
 let $params := 
     string-join(
     for $param in request:get-parameter-names()
@@ -105,6 +124,10 @@ let $params :=
 return 
 if(not(empty($min)) and not(empty($max))) then
     <div>
+            <!-- Date Slider -->
+        <link rel="stylesheet" type="text/css" href="$nav-base/resources/dateSlider/css/slider.css"/>
+        <link rel="stylesheet" type="text/css" href="$nav-base/resources/dateSlider/css/slider-classic-min.css"/>
+        <script src="$nav-base/resources/dateSlider/js/jQDateRangeSlider-min.js"/>
         <h4 class="slider">Date range</h4>
         <div class="sliderContainer">
         <div id="slider"/>

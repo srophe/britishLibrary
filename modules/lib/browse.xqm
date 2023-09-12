@@ -13,7 +13,9 @@ import module namespace config="http://srophe.org/srophe/config" at "../config.x
 import module namespace data="http://srophe.org/srophe/data" at "data.xqm";
 import module namespace tei2html="http://srophe.org/srophe/tei2html" at "../content-negotiation/tei2html.xqm";
 import module namespace timeline = "http://srophe.org/srophe/timeline" at "lib/timeline.xqm";
+import module namespace global="http://srophe.org/srophe/global" at "lib/global.xqm";
 import module namespace sf="http://srophe.org/srophe/facets" at "facets.xql";
+import module namespace slider = "http://srophe.org/srophe/slider" at "../lib/date-slider.xqm";
 import module namespace maps="http://srophe.org/srophe/maps" at "maps.xqm";
 import module namespace page="http://srophe.org/srophe/page" at "paging.xqm";
 
@@ -46,6 +48,7 @@ declare function browse:get-all($node as node(), $model as map(*), $collection a
 :)
 declare function browse:show-hits($node as node(), $model as map(*), $collection, $sort-options as xs:string*, $facets as xs:string?){
   let $hits := $model("hits")
+  let $facet-config := global:facet-definition-file($collection)
   return 
     if($browse:view = 'map') then 
         <div class="col-md-12 map-lg" xmlns="http://www.w3.org/1999/xhtml">
@@ -55,7 +58,26 @@ declare function browse:show-hits($node as node(), $model as map(*), $collection
         <div class="col-md-12 map-lg" xmlns="http://www.w3.org/1999/xhtml">
             {timeline:timeline($hits, 'Timeline', 'tei:teiHeader/tei:publicationStmt/tei:date')}
         </div>
-    else
+    else if($facet-config != '') then
+        <div class="row">
+            <div class="col-md-8 col-md-push-4">
+                <h3>{(
+                    if(($browse:lang = 'syr') or ($browse:lang = 'ar')) then (attribute dir {"rtl"}, attribute lang {"syr"}, attribute class {"label pull-right"}) 
+                    else attribute class {"label"},
+                    if($browse:alpha-filter != '') then $browse:alpha-filter else 'A')}</h3>
+                <div class="results {if($browse:lang = 'syr' or $browse:lang = 'ar') then 'syr-list' else 'en-list'}">
+                            {if(($browse:lang = 'syr') or ($browse:lang = 'ar')) then (attribute dir {"rtl"}) else()}
+                            {browse:display-hits($hits)}
+                </div>
+            </div>
+            <div class="col-md-4 col-md-pull-8">
+                {(  
+                    slider:browse-date-slider($hits, 'origDate'),
+                    sf:display($hits, $facet-config)
+                    )}
+            </div>
+        </div>            
+    else 
         <div class="{if($browse:view = 'type' or $browse:view = 'date' or $browse:view = 'facets') then 'col-md-8 col-md-push-4' else 'col-md-12'}" xmlns="http://www.w3.org/1999/xhtml">
            {( if(($browse:lang = 'syr') or ($browse:lang = 'ar')) then (attribute dir {"rtl"}) else(),
                 <div class="float-container">

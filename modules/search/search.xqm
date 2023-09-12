@@ -86,13 +86,14 @@ function search:show-hits($node as node()*, $model as map(*), $collection as xs:
                     }</div>
                 </div>
                 <div class="col-md-4 col-md-pull-8">{
+                 (slider:browse-date-slider($hits, 'origDate'),
                  let $hits := $model("hits")
                  let $facet-config := global:facet-definition-file($collection)
                  return 
                      if(not(empty($facet-config))) then 
                          sf:display($model("hits"),$facet-config)
                      else ()  
-                }</div>
+                )}</div>
         </div>
         else 
          <div class="indent" id="search-results" xmlns="http://www.w3.org/1999/xhtml">
