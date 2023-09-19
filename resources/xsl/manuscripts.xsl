@@ -1,4 +1,4 @@
-<xsl:stylesheet xmlns="http://www.w3.torg/1999/xhtml" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:s="http://syriaca.org" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:x="http://www.w3.org/1999/xhtml" xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:saxon="http://saxon.sf.net/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:local="http://syriaca.org/ns" exclude-result-prefixes="xs t s saxon" version="2.0">
+<xsl:stylesheet xmlns="http://www.w3.org/1999/xhtml" xmlns:saxon="http://saxon.sf.net/" xmlns:local="http://syriaca.org/ns" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:s="http://syriaca.org" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:x="http://www.w3.org/1999/xhtml" xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" exclude-result-prefixes="xs t s saxon" version="2.0">
     
     <!-- ================================================================== 
        Copyright 2013 New York University
@@ -132,7 +132,7 @@
             </xsl:if>
                <xsl:if test="(count(//t:msDesc/t:msPart) &gt; 1 and self::t:msPart) or not(//t:msPart)">
                    <div>
-                       <xsl:if test="t:physDesc/t:handDesc/t:handNote[@scope='major']/@script">
+                       <xsl:if test="t:physDesc/t:handDesc/t:handNote[@scope='major' or @scope='sole']/@script">
                            <xsl:call-template name="script">
                                <xsl:with-param name="node" select="t:physDesc/t:handDesc/t:handNote[@scope='major']"/>
                            </xsl:call-template>
