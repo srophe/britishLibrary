@@ -134,7 +134,7 @@
                    <div>
                        <xsl:if test="t:physDesc/t:handDesc/t:handNote[@scope='major' or @scope='sole']/@script">
                            <xsl:call-template name="script">
-                               <xsl:with-param name="node" select="t:physDesc/t:handDesc/t:handNote[@scope='major']"/>
+                               <xsl:with-param name="node" select="t:physDesc/t:handDesc/t:handNote[@scope='major' or @scope='sole']"/>
                            </xsl:call-template>
                        </xsl:if>
                        <xsl:if test="descendant::t:handDesc[@hands castable as xs:integer]"><xsl:if test="descendant::t:handDesc[@hands &gt; 1]"> (multiple hands)</xsl:if></xsl:if>
