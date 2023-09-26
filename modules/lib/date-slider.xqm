@@ -39,7 +39,7 @@ return
     if(not(empty($startDate)) and not(empty($endDate))) then
         if($mode != '') then 
             if($mode = 'origDate') then 
-                concat('[descendant::tei:origDate[@calendar="Gregorian"][
+                concat('[descendant::tei:origDate[
                 ((@notBefore gt "', $startDate,'" and @notBefore lt "', $endDate,'") and
                 (@notAfter gt "', $startDate,'" and @notAfter lt "', $endDate,'")) or 
                 (@when gt "', $startDate,'" and @when lt "', $endDate,'")
@@ -90,9 +90,9 @@ let $endDate := request:get-parameter('endDate', '')
 (: Dates in current results set :)  
 let $d := 
         if($mode = 'origDate') then 
-            for $dates in $hits/descendant::tei:origDate[@calendar="Gregorian"]/@notBefore | 
-            $hits/descendant::tei:origDate[@calendar="Gregorian"]/@notAfter |
-            $hits/descendant::tei:origDate[@calendar="Gregorian"]/@when
+            for $dates in $hits/descendant::tei:origDate/@notBefore | 
+            $hits/descendant::tei:origDate/@notAfter |
+            $hits/descendant::tei:origDate/@when
             let $date := slider:expand-dates($dates)
             order by $date 
             return 
@@ -115,12 +115,22 @@ let $maxPadding := $d[last()] + xs:yearMonthDuration('P10Y')
 let $params := 
     string-join(
     for $param in request:get-parameter-names()
-    return 
+    return
+        for $pramName in request:get-parameter-names()
+        return 
+            if($pramName = ('start','perpage','sort-element','sort')) then () 
+            else 
+                for $param in request:get-parameter($pramName, '')
+                where $param != ''
+                return ($pramName || '=' || $param)
+                ,'')
+    (:
         if($param = 'startDate') then ()
         else if($param = 'endDate') then ()
         else if($param = 'start') then ()
         else if(request:get-parameter($param, '') = ' ') then ()
-        else concat('&amp;',$param, '=',request:get-parameter($param, '')),'')
+        else concat('&amp;',$param, '=',request:get-parameter($param, '')[1]):)
+        
 return 
 if(not(empty($min)) and not(empty($max))) then
     <div>

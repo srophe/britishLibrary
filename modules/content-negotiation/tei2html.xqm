@@ -308,45 +308,54 @@ declare function tei2html:summary-view-keyword($nodes as node()*, $id as xs:stri
 
 (: Generic short view template :)
 declare function tei2html:summary-view-generic($nodes as node()*, $id as xs:string?) as item()* {
-    let $title := if($nodes/descendant-or-self::tei:title[@syriaca-tags='#syriaca-headword'][@xml:lang='en']) then 
-                    $nodes/descendant-or-self::tei:title[@syriaca-tags='#syriaca-headword'][@xml:lang='en'][1]/text()
-                  else if($nodes/descendant-or-self::tei:title[@level='a']) then
-                    $nodes/descendant-or-self::tei:title[1]
-                  else $nodes/descendant-or-self::tei:title[1]
-    let $series := for $a in distinct-values($nodes/descendant::tei:seriesStmt/tei:biblScope/tei:title)
-                   return tei2html:translate-series($a)
-    let $url := (:<document-ids type="document-url">document-url</document-ids>:)
-                if($config:get-config//*:document-ids[@type='document-url']) then
-                    concat('record.html?doc=',document-uri(root($nodes[1])))
-                else replace(replace($id,$config:base-uri,$config:nav-base),'/tei','')                   
+        (: Updated for BL:)
+    let $id := replace(($nodes/descendant::tei:sourceDesc/tei:msDesc/tei:msIdentifier/tei:idno[@type="URI"])[1],'/tei','')
     return 
         <div class="short-rec-view">
-            <a href="{$url}" dir="ltr">{tei2html:tei2html($title)}</a>
-            <button type="button" class="btn btn-sm btn-default copy-sm clipboard"  
-                data-toggle="tooltip" title="Copies record title &amp; URI to clipboard." 
-                data-clipboard-action="copy" data-clipboard-text="{normalize-space($title[1])} - {normalize-space($id[1])}">
-                    <span class="glyphicon glyphicon-copy" aria-hidden="true"/>
-            </button>
-            {if($series != '') then <span class="results-list-desc type" dir="ltr" lang="en">{(' (',$series,') ')}</span> else ()}
-            {if($nodes/descendant-or-self::*[starts-with(@xml:id,'abstract')]) then 
-                for $abstract in $nodes/descendant::*[starts-with(@xml:id,'abstract')]
-                let $string := string-join(tei2html:tei2html($abstract)//text(),'')
-                let $blurb := 
-                    if(count(tokenize($string, '\W+')[. != '']) gt 25) then  
-                        concat(string-join(for $w in tokenize($string, '\W+')[position() lt 25]
-                        return $w,' '),'...')
-                     else $string 
-                return 
-                    <span class="results-list-desc desc" dir="ltr" lang="en">{
-                        $string
-                    }</span>
-            else()}
+            <span class="title">
+            {$nodes/descendant::tei:sourceDesc/tei:msDesc/tei:msIdentifier/tei:altIdentifer/tei:idno[@type="BL-Shelfmark-display"]}
+            | {$nodes/descendant::tei:sourceDesc/tei:msDesc/tei:msIdentifier/tei:altIdentifier/tei:idno[@type="Wright-BL-Roman"]}
+            | {string-join($nodes/descendant::tei:sourceDesc/tei:msDesc/tei:history/tei:origin/tei:origDate,' / ')}
+            </span><br/>
+            <a href="{replace($id,$config:base-uri,$config:nav-base)}" dir="ltr">{$id}</a><br/>
+            <span>
+            {tei2html:lang($nodes/descendant::tei:msDesc/tei:physDesc/tei:handDesc/tei:handNote[1]/@script)}
+            | {tei2html:material($nodes/descendant::tei:msDesc/tei:physDesc/tei:objectDesc/tei:supportDesc/@material)}
             {
-            if($id != '') then 
-            <span class="results-list-desc uri"><span class="srp-label">URI: </span><a href="{replace(replace($id,$config:base-uri,$config:nav-base),'/tei','')}">{replace($id,'/tei','')}</a></span>
-            else()
+                let $form := string($nodes/descendant::tei:msDesc/tei:physDesc/tei:objectDesc/@form)
+                return 
+                    concat(' ', upper-case(substring($form,1,1)),substring($form,2))
             }
+            | {$nodes/descendant::tei:msDesc/tei:physDesc/tei:objectDesc/tei:supportDesc/tei:extent/tei:measure/text()}
+            | Origin: {$nodes/descendant::tei:msDesc/tei:history/tei:origin/tei:origPlace}<br/>
+            </span>
+            <div>Contents Summary: {$nodes/descendant::tei:msDesc/tei:head/tei:note[@type="contents-note"]}</div>
         </div>   
+};
+
+declare function tei2html:material($nodes as node()*) as item()* {
+   let $material := tokenize($nodes,' ')
+   for $m in $material
+   return 
+    if($m = 'perg') then 'Parchment'
+    else if($m = 'chart') then 'Paper'
+    else if($m = 'mixed') then 'Mixed Material'
+    else ()
+};
+
+declare function tei2html:lang($nodes as node()*) as item()* {
+   let $script := tokenize($nodes,' ')
+   for $s in $script
+   return 
+    if($s = 'syr') then 'Unspecified Syriac script'
+    else if($s = 'syr-Syre') then 'Estrangela script'
+    else if($s = 'syr-Syrj') then 'West Syriac script'
+    else if($s = 'syr-Syrn') then 'East Syriac script'
+    else if($s = 'syr-x-syrm') then 'Melkite Syriac script'
+    else if($s = 'grc') then 'Greek'
+    else if($s = 'ar-Syrc') then 'Arabic Garshuni script'
+    else if($s = 'ar') then 'Unspecified Syriac script'
+    else ()
 };
 
 declare function tei2html:summary-view-bibl($nodes as node()*, $id as xs:string?) as item()* {
