@@ -115,12 +115,22 @@ let $maxPadding := $d[last()] + xs:yearMonthDuration('P10Y')
 let $params := 
     string-join(
     for $param in request:get-parameter-names()
-    return 
+    return
+        for $pramName in request:get-parameter-names()
+        return 
+            if($pramName = ('start','perpage','sort-element','sort')) then () 
+            else 
+                for $param in request:get-parameter($pramName, '')
+                where $param != ''
+                return ($pramName || '=' || $param)
+                ,'')
+    (:
         if($param = 'startDate') then ()
         else if($param = 'endDate') then ()
         else if($param = 'start') then ()
         else if(request:get-parameter($param, '') = ' ') then ()
-        else concat('&amp;',$param, '=',request:get-parameter($param, '')[1]),'')
+        else concat('&amp;',$param, '=',request:get-parameter($param, '')[1]):)
+        
 return 
 if(not(empty($min)) and not(empty($max))) then
     <div>
