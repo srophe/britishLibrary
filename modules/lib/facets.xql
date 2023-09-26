@@ -21,6 +21,7 @@ xquery version "3.1";
 module namespace sf = "http://srophe.org/srophe/facets";
 import module namespace functx="http://www.functx.com";
 import module namespace config="http://srophe.org/srophe/config" at "../config.xqm";
+import module namespace slider = "http://srophe.org/srophe/slider" at "date-slider.xqm";
 
 declare namespace srophe="https://srophe.app";
 declare namespace facet="http://expath.org/ns/facet";
@@ -222,7 +223,10 @@ declare function sf:display($result as item()*, $facet-definition as item()*) {
     let $count := if(request:get-parameter(concat('all-',$name), '') = 'on' ) then () else string($facet/facet:max-values/@show)
     let $f := ft:facets($result, $name, $count)
     return 
-        if (map:size($f) > 0) then
+        if($facet[@display = 'none']) then () 
+        else if($facet[@display = 'slider']) then 
+            slider:browse-date-slider($result,$facet/facet:group-by/facet:sub-path)
+        else if (map:size($f) > 0) then
             <span class="facet-grp">
                 <span class="facet-title">{string($facet/@label)}</span>
                 <span class="facet-list">
@@ -574,8 +578,8 @@ declare function sf:field-author($element as item()*, $name as xs:string){
 (: British Library functions :)
 (: By script :)
 declare function sf:facet-scriptValues($element as item()*, $facet-definition as item(), $name as xs:string){
-   
-   let $script := $element/ancestor::tei:TEI/descendant::tei:msDesc/tei:physDesc/tei:handDesc/tei:handNote/@script
+   for $handNote in $element/ancestor::tei:TEI/descendant::tei:handNote
+   let $script := $handNote/@script
    return 
         if($script = 'syr-Syre') then 'Estrangela script'
         else if($script = 'syr-Syrj') then 'West Syriac script'
@@ -597,3 +601,19 @@ declare function sf:facet-materialValues($element as item()*, $facet-definition 
         else if($material = 'mixed') then 'Mixed Material'
         else $material
 };
+
+declare function sf:facet-dates($element as item()*, $facet-definition as item(), $name as xs:string){
+    let $material := $element/ancestor::tei:TEI/descendant::tei:msDesc/tei:history/tei:origin/tei:origDate[@calendar="Gregorian"]
+    for $d in $material/@*
+    return $d
+};
+
+(:classficationValues:)
+(:
+declare function sf:facet-classficationValues($element as item()*, $facet-definition as item(), $name as xs:string){
+    let $values := $element/ancestor::tei:TEI/descendant::tei:msDesc/tei:head/tei:listRelation[@type='Wright-BL-Taxonomy']/tei:relation[@name='dcterms:type']
+    let $label := $values
+    return 
+        
+};
+:)
