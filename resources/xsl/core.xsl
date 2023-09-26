@@ -160,12 +160,7 @@
             <xsl:sequence select="local:add-footnotes(@source,.)"/>
         </span>
     </xsl:template>
-    <xsl:template match="*" mode="inline plain" xml:space="preserve">
-        <span><xsl:copy-of select="@xml:lang"/><xsl:attribute name="lang"><xsl:value-of select="@xml:lang"/></xsl:attribute>
-            <!--<xsl:sequence select="local:attributes(.)"/>-->
-            <xsl:apply-templates mode="plain"/>            
-        </span>
-    </xsl:template>
+    <xsl:template match="*" mode="inline plain" xml:space="preserve"><span class="tei-{local-name(.)}"><xsl:if test="@xml:lang"><xsl:attribute name="lang"><xsl:value-of select="@xml:lang"/></xsl:attribute></xsl:if><xsl:apply-templates mode="plain"/></span></xsl:template>
     <xsl:template match="text()" mode="cleanout">
         <xsl:value-of select="."/>
     </xsl:template>
