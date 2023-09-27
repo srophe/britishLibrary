@@ -363,7 +363,7 @@
             <xsl:otherwise><xsl:apply-templates/></xsl:otherwise>
         </xsl:choose>
     </xsl:template>
-    <xsl:template match="t:quote | t:incipit | t:editor | t:explicit | t:colophon | t:rubric | t:finalRubric | t:filiation | t:material |  t:layoutDesc | t:origDate | t:provenance | t:acquisition | t:availability | t:custodialHist | t:history | t:origin | t:extent">
+    <xsl:template match="t:accMat | t:quote | t:incipit | t:editor | t:explicit | t:colophon | t:rubric | t:finalRubric | t:filiation | t:material |  t:layoutDesc | t:origDate | t:provenance | t:acquisition | t:availability | t:custodialHist | t:history | t:origin | t:extent">
         <xsl:if test="not(empty(.))">
             <span class="tei-{local-name(.)}">
                 <xsl:choose>
@@ -377,6 +377,7 @@
                                 <xsl:when test="self::t:layoutDesc">Layout:</xsl:when>
                                 <xsl:when test="self::t:origDate">Date:</xsl:when>
                                 <xsl:when test="self::t:custodialHist">Custodial History:</xsl:when>
+                                <xsl:when test="self::t:accMat">Accompanying Material:</xsl:when>
                                 <xsl:otherwise><xsl:value-of select="concat(upper-case(substring(local-name(.),1,1)),substring(local-name(.),2))"/>:</xsl:otherwise>
                             </xsl:choose>
                         </span>                        

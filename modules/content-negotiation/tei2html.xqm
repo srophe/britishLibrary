@@ -314,20 +314,43 @@ declare function tei2html:summary-view-generic($nodes as node()*, $id as xs:stri
         <div class="short-rec-view">
             <span class="title">
             {$nodes/descendant::tei:sourceDesc/tei:msDesc/tei:msIdentifier/tei:altIdentifer/tei:idno[@type="BL-Shelfmark-display"]}
-            | {$nodes/descendant::tei:sourceDesc/tei:msDesc/tei:msIdentifier/tei:altIdentifier/tei:idno[@type="Wright-BL-Roman"]}
-            | {string-join($nodes/descendant::tei:sourceDesc/tei:msDesc/tei:history/tei:origin/tei:origDate,' / ')}
+            {if($nodes/descendant::tei:sourceDesc/tei:msDesc/tei:msIdentifier/tei:altIdentifier/tei:idno[@type="Wright-BL-Roman"] != '') then
+                (if($nodes/descendant::tei:sourceDesc/tei:msDesc/tei:msIdentifier/tei:altIdentifer/tei:idno[@type="BL-Shelfmark-display"] != '') then 
+                    ' | '
+                else (),
+                ($nodes/descendant::tei:sourceDesc/tei:msDesc/tei:msIdentifier/tei:altIdentifier/tei:idno[@type="Wright-BL-Roman"]))
+             else ()
+            }
+            {
+                if($nodes/descendant::tei:sourceDesc/tei:msDesc/tei:history/tei:origin/tei:origDate != '') then
+                    (' | ', string-join($nodes/descendant::tei:sourceDesc/tei:msDesc/tei:history/tei:origin/tei:origDate,' / '))
+                else ()
+            }
             </span><br/>
             <a href="{replace($id,$config:base-uri,$config:nav-base)}" dir="ltr">{$id}</a><br/>
             <span>
             {tei2html:lang($nodes/descendant::tei:msDesc/tei:physDesc/tei:handDesc/tei:handNote[1]/@script)}
-            | {tei2html:material($nodes/descendant::tei:msDesc/tei:physDesc/tei:objectDesc/tei:supportDesc/@material)}
+            {
+                if($nodes/descendant::tei:msDesc/tei:physDesc/tei:objectDesc/tei:supportDesc/@material != '') then
+                    (' | ', string($nodes/descendant::tei:msDesc/tei:physDesc/tei:objectDesc/tei:supportDesc/@material))
+                else ()
+            }    
             {
                 let $form := string($nodes/descendant::tei:msDesc/tei:physDesc/tei:objectDesc/@form)
                 return 
                     concat(' ', upper-case(substring($form,1,1)),substring($form,2))
             }
-            | {$nodes/descendant::tei:msDesc/tei:physDesc/tei:objectDesc/tei:supportDesc/tei:extent/tei:measure/text()}
-            | Origin: {$nodes/descendant::tei:msDesc/tei:history/tei:origin/tei:origPlace}<br/>
+            {
+                if($nodes/descendant::tei:msDesc/tei:physDesc/tei:objectDesc/tei:supportDesc/tei:extent/tei:measure/text() != '') then
+                    (' | ', $nodes/descendant::tei:msDesc/tei:physDesc/tei:objectDesc/tei:supportDesc/tei:extent/tei:measure/text())
+                else ()
+            }
+            {
+                if($nodes/descendant::tei:msDesc/tei:history/tei:origin/tei:origPlace != '') then
+                   ('| Origin: ',  $nodes/descendant::tei:msDesc/tei:history/tei:origin/tei:origPlace)
+                else ()
+            }
+            <br/>
             </span>
             <div>Contents Summary: {$nodes/descendant::tei:msDesc/tei:head/tei:note[@type="contents-note"]}</div>
         </div>   
