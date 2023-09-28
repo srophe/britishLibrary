@@ -372,7 +372,7 @@ declare function sf:facet-query() {
                     let $dimension := substring-after($param, 'facet-')
                     return
                         map {
-                            $dimension: request:get-parameter($param, ())
+                            $dimension: (request:get-parameter($param, ()))
                         }
                 ))
         }
@@ -580,16 +580,17 @@ declare function sf:field-author($element as item()*, $name as xs:string){
 declare function sf:facet-scriptValues($element as item()*, $facet-definition as item(), $name as xs:string){
    for $handNote in $element/ancestor::tei:TEI/descendant::tei:handNote
    let $script := $handNote/@script
+   for $s in tokenize($script,' ')
    return 
-        if($script = 'syr-Syre') then 'Estrangela script'
-        else if($script = 'syr-Syrj') then 'West Syriac script'
-        else if($script = 'syr-Syrn') then 'East Syriac script'
-        else if($script = 'syr-x-syrm') then 'Melkite Syriac script'
-        else if($script = 'grc') then 'Greek'
-        else if($script = 'ar-Syrc') then 'Arabic Garshuni script'
-        else if($script = 'ar') then 'Unspecified Arabic script'
-        else if($script = 'syr') then 'Unspecified Syriac script'
-        else $script
+        if($s = 'syr-Syre') then 'Estrangela script'
+        else if($s = 'syr-Syrj') then 'West Syriac script'
+        else if($s = 'syr-Syrn') then 'East Syriac script'
+        else if($s = 'syr-x-syrm') then 'Melkite Syriac script'
+        else if($s = 'grc') then 'Greek'
+        else if($s = 'ar-Syrc') then 'Arabic Garshuni script'
+        else if($s = 'ar') then 'Unspecified Arabic script'
+        else if($s = 'syr') then 'Unspecified Syriac script'
+        else $s
 };
 
 (: By material :)
