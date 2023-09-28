@@ -153,10 +153,9 @@ declare function data:get-records($collection as xs:string*, $element as xs:stri
                         ft:field($hit, request:get-parameter('sort', ''))[1]
                     else if(request:get-parameter('sort', '') != '' and request:get-parameter('sort', '') != 'title' and not(contains($sort, 'author'))) then
                         if($collection = 'bibl') then
-                            data:add-sort-options-bibl($hit, $sort)
-                        else data:add-sort-options($hit, $sort) 
-                    else ft:field($hit, "title")  
-                    
+                            data:add-sort-options-bibl($hit, $sort)[1]
+                        else data:add-sort-options($hit, $sort)[1] 
+                    else ft:field($hit, "title")[1]  
                 order by $s[1] collation 'http://www.w3.org/2013/collation/UCA'
                 where matches($s[1],global:get-alpha-filter())
                 return $root
@@ -168,14 +167,14 @@ declare function data:get-records($collection as xs:string*, $element as xs:stri
                         else if(request:get-parameter('sort', '') = 'title') then 
                             if(request:get-parameter('lang', '') = 'syr') then ft:field($hit, "titleSyriac")[1]
                             else if(request:get-parameter('lang', '') = 'ar') then ft:field($hit, "titleArabic")[1]
-                            else ft:field($hit, "title")
+                            else ft:field($hit, "title")[1]
                         else if(request:get-parameter('sort', '') = $data:SORT_FIELDS) then
                             ft:field($hit, request:get-parameter('sort', ''))[1]
                         else if(request:get-parameter('sort', '') != '' and request:get-parameter('sort', '') != 'title' and not(contains($sort, 'author'))) then
                             if($collection = 'bibl') then
-                                data:add-sort-options-bibl($hit, $sort)
-                            else data:add-sort-options($hit, $sort)  
-                        else ft:field($hit, "title")                
+                                data:add-sort-options-bibl($hit, $sort)[1]
+                            else data:add-sort-options($hit, $sort)[1]  
+                        else ft:field($hit, "title")[1]                
                 order by $s[1] collation 'http://www.w3.org/2013/collation/UCA', ft:field($hit, "author")[1]  collation 'http://www.w3.org/2013/collation/UCA'
                 return $root 
 };
@@ -222,15 +221,15 @@ declare function data:search($collection as xs:string*, $queryString as xs:strin
                     else if(request:get-parameter('sort', '') = 'title') then 
                         if(request:get-parameter('lang', '') = 'syr') then ft:field($hit, "titleSyriac")[1]
                         else if(request:get-parameter('lang', '') = 'ar') then ft:field($hit, "titleArabic")[1]
-                        else ft:field($hit, "title")
+                        else ft:field($hit, "title")[1]
                     else if(request:get-parameter('sort', '') = $data:SORT_FIELDS) then
                         ft:field($hit, request:get-parameter('sort', ''))[1]
                     else if(request:get-parameter('sort', '') != '' and request:get-parameter('sort', '') != 'title' and not(contains($sort, 'author'))) then
                         if($collection = 'bibl') then
-                            data:add-sort-options-bibl($hit, $sort)
-                        else data:add-sort-options($hit, $sort)                    
-                    else ft:field($hit, "title")                
-            order by $s collation 'http://www.w3.org/2013/collation/UCA'
+                            data:add-sort-options-bibl($hit, $sort)[1]
+                        else data:add-sort-options($hit, $sort)[1]                    
+                    else ft:field($hit, "title")[1]                
+            order by $s[1] collation 'http://www.w3.org/2013/collation/UCA'
             return $hit
         else 
             for $hit in $hits/ancestor-or-self::tei:TEI[ft:query(., (),sf:facet-query())]
