@@ -312,7 +312,7 @@ declare function tei2html:summary-view-generic($nodes as node()*, $id as xs:stri
     let $id := replace(($nodes/descendant::tei:sourceDesc/tei:msDesc/tei:msIdentifier/tei:idno[@type="URI"])[1],'/tei','')
     return 
         <div class="short-rec-view">
-            <span class="title">
+            <span>
             {$nodes/descendant::tei:sourceDesc/tei:msDesc/tei:msIdentifier/tei:altIdentifer/tei:idno[@type="BL-Shelfmark-display"]}
             {if($nodes/descendant::tei:sourceDesc/tei:msDesc/tei:msIdentifier/tei:altIdentifier/tei:idno[@type="Wright-BL-Roman"] != '') then
                 (if($nodes/descendant::tei:sourceDesc/tei:msDesc/tei:msIdentifier/tei:altIdentifer/tei:idno[@type="BL-Shelfmark-display"] != '') then 
@@ -332,7 +332,7 @@ declare function tei2html:summary-view-generic($nodes as node()*, $id as xs:stri
             {tei2html:lang($nodes/descendant::tei:msDesc/tei:physDesc/tei:handDesc/tei:handNote[1]/@script)}
             {
                 if($nodes/descendant::tei:msDesc/tei:physDesc/tei:objectDesc/tei:supportDesc/@material != '') then
-                    (' | ', string($nodes/descendant::tei:msDesc/tei:physDesc/tei:objectDesc/tei:supportDesc/@material))
+                    (' | ', tei2html:material($nodes/descendant::tei:msDesc/tei:physDesc/tei:objectDesc/tei:supportDesc/@material))
                 else ()
             }    
             {
