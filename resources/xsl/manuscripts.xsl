@@ -1,4 +1,4 @@
-<xsl:stylesheet xmlns="http://www.w3.org/1999/xhtml" xmlns:saxon="http://saxon.sf.net/" xmlns:local="http://syriaca.org/ns" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:s="http://syriaca.org" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:x="http://www.w3.org/1999/xhtml" xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" exclude-result-prefixes="xs t s saxon" version="2.0">
+<xsl:stylesheet xmlns="http://www.w3.org/1999/xhtml" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:s="http://syriaca.org" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:x="http://www.w3.org/1999/xhtml" xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:saxon="http://saxon.sf.net/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:local="http://syriaca.org/ns" exclude-result-prefixes="xs t s saxon" version="2.0">
     
     <!-- ================================================================== 
        Copyright 2013 New York University
@@ -441,7 +441,7 @@
                                 <span class="inline-h4">Notes:</span>
                                 <ul>
                                     <xsl:for-each select="t:note">
-                                        <li> <xsl:apply-templates/></li>
+                                        <li><xsl:apply-templates/></li>
                                     </xsl:for-each>    
                                 </ul>
                             </div> 
@@ -530,20 +530,20 @@
     <xsl:template match="t:title">
         <xsl:choose>
             <xsl:when test="ancestor::t:msItem and contains(@ref,'syriaca.org')">
-                <a href="{$nav-base}/search.html?ref={@ref}"><xsl:value-of select="."/></a>
+                <xsl:text> </xsl:text><a href="{$nav-base}/search.html?ref={@ref}"><xsl:value-of select="."/></a>
                 <xsl:if test="ancestor::t:msItem[@defective='true']"> [defective]</xsl:if>
             </xsl:when>
             <xsl:when test="ancestor::t:msItem">
                 <xsl:choose>
                     <xsl:when test="@ref">
-                        <a href="{@ref}">
+                        <xsl:text> </xsl:text><a href="{@ref}">
                             <xsl:sequence select="local:attributes(.)"/>
                             <xsl:value-of select="."/>
                             [<xsl:value-of select="@ref"/>]
                         </a>
                     </xsl:when>
                     <xsl:otherwise>
-                        <span>
+                        <xsl:text> </xsl:text><span>
                             <xsl:sequence select="local:attributes(.)"/>
                             <xsl:value-of select="."/>
                         </span>
@@ -552,14 +552,14 @@
                 <xsl:if test="ancestor::t:msItem[@defective='true']"> [defective]</xsl:if>
             </xsl:when>
             <xsl:when test="@ref">                
-                <a href="{@ref}">
+                <xsl:text> </xsl:text><a href="{@ref}">
                     <xsl:sequence select="local:attributes(.)"/>
                     <xsl:value-of select="."/>
                     [<xsl:value-of select="@ref"/>]
                 </a>
             </xsl:when>
             <xsl:otherwise>
-                <span>
+                <xsl:text> </xsl:text><span>
                     <xsl:sequence select="local:attributes(.)"/>
                     <xsl:value-of select="."/>
                 </span>
