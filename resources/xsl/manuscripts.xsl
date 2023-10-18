@@ -1,4 +1,4 @@
-<xsl:stylesheet xmlns="http://www.w3.org/1999/xhtml" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:s="http://syriaca.org" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:x="http://www.w3.org/1999/xhtml" xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:saxon="http://saxon.sf.net/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:local="http://syriaca.org/ns" exclude-result-prefixes="xs t s saxon" version="2.0">
+<xsl:stylesheet xmlns="http://www.w3.org/1999/xhtml" xmlns:saxon="http://saxon.sf.net/" xmlns:local="http://syriaca.org/ns" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:s="http://syriaca.org" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:x="http://www.w3.org/1999/xhtml" xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" exclude-result-prefixes="xs t s saxon" version="2.0">
     
     <!-- ================================================================== 
        Copyright 2013 New York University
@@ -396,6 +396,7 @@
         </div>
     </xsl:template>
     <xsl:template match="t:handNote">
+        <!--
         <xsl:choose>
             <xsl:when test="@scope='minor' and (t:desc = '' or t:desc='See additions.')"/>
             <xsl:otherwise>
@@ -405,6 +406,11 @@
                 </div>
             </xsl:otherwise>
         </xsl:choose>
+        -->
+        <div name="{string(@xml:id)}">
+            <span class="inline-h4">Hand <xsl:value-of select="substring-after(string(@xml:id),'ote')"/>
+                <xsl:if test="@scope or @script"> (<xsl:if test="@scope"><xsl:value-of select="@scope"/><xsl:if test="@script">, </xsl:if></xsl:if><xsl:if test="@script"><xsl:call-template name="script"><xsl:with-param name="node" select="."/></xsl:call-template></xsl:if>)</xsl:if>: </span><xsl:apply-templates mode="plain"/>
+        </div>
     </xsl:template>
     <xsl:template match="t:decoNote">
         <div name="{string(@xml:id)}">
