@@ -1,4 +1,4 @@
-<xsl:stylesheet xmlns="http://www.w3.org/1999/xhtml" xmlns:saxon="http://saxon.sf.net/" xmlns:local="http://syriaca.org/ns" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:s="http://syriaca.org" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:x="http://www.w3.org/1999/xhtml" xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" exclude-result-prefixes="xs t s saxon" version="2.0">
+<xsl:stylesheet xmlns="http://www.w3.org/1999/xhtml" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:s="http://syriaca.org" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:x="http://www.w3.org/1999/xhtml" xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:saxon="http://saxon.sf.net/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:local="http://syriaca.org/ns" exclude-result-prefixes="xs t s saxon" version="2.0">
     
     <!-- ================================================================== 
        Copyright 2013 New York University
@@ -76,13 +76,17 @@
                     <li><a href="#msPart{@n}">
                         <xsl:value-of select="@n"/>. <xsl:value-of select="t:msIdentifier/t:altIdentifier/t:idno[@type='BL-Shelfmark']"/>
                         <xsl:choose>
-                            <xsl:when test="t:history/t:origin/t:origDate/@when">
+                            <xsl:when test="t:history/t:origin/t:origDate/@when[. != '']">
                                 (<xsl:value-of select="local:trim-date(t:history/t:origin/t:origDate/@when)"/> CE)
                             </xsl:when>
-                            <xsl:otherwise>
+                            <xsl:when test="t:history/t:origin/t:origDate/@notBefore[. != '']">
                                 (<xsl:value-of select="local:trim-date(t:history/t:origin/t:origDate/@notBefore)"/> - <xsl:value-of select="local:trim-date(t:history/t:origin/t:origDate/@notAfter)"/> CE) 
-                            </xsl:otherwise>
-                        </xsl:choose></a>
+                            </xsl:when>
+                        </xsl:choose>
+                        <xsl:if test="t:msIdentifier/t:idno[@type='URI']">
+                            [<xsl:value-of select="t:msIdentifier/t:idno[@type='URI']"/>]
+                        </xsl:if>
+                    </a>
                     </li>
                 </xsl:for-each>  
             </ul>
@@ -433,6 +437,7 @@
             </xsl:choose>
             -->
             <xsl:call-template name="msItemTitleAuthor"/>
+            <xsl:if test="@defective='true'"><xsl:text> [defective]</xsl:text></xsl:if>
             <div class="msItemChild">
                 <xsl:apply-templates select="*[not(self::t:note) and not(self::t:locus) and not(self::t:title) and not(self::t:author) and not(self::t:msItem)]"/>
                 <xsl:if test="t:note">
@@ -537,7 +542,6 @@
         <xsl:choose>
             <xsl:when test="ancestor::t:msItem and contains(@ref,'syriaca.org')">
                 <xsl:text> </xsl:text><a href="{$nav-base}/search.html?ref={@ref}"><xsl:value-of select="."/></a>
-                <xsl:if test="ancestor::t:msItem[@defective='true']"> [defective]</xsl:if>
             </xsl:when>
             <xsl:when test="ancestor::t:msItem">
                 <xsl:choose>
