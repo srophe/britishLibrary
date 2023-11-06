@@ -82,7 +82,11 @@
                             <xsl:otherwise>
                                 (<xsl:value-of select="local:trim-date(t:history/t:origin/t:origDate/@notBefore)"/> - <xsl:value-of select="local:trim-date(t:history/t:origin/t:origDate/@notAfter)"/> CE) 
                             </xsl:otherwise>
-                        </xsl:choose></a>
+                        </xsl:choose>
+                        <xsl:if test="t:msIdentifier/t:idno[@type='URI']">
+                            [<xsl:value-of select="t:msIdentifier/t:idno[@type='URI']"/>]
+                        </xsl:if>
+                    </a>
                     </li>
                 </xsl:for-each>  
             </ul>
