@@ -1,4 +1,4 @@
-<xsl:stylesheet xmlns="http://www.w3.org/1999/xhtml" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:s="http://syriaca.org" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:x="http://www.w3.org/1999/xhtml" xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:saxon="http://saxon.sf.net/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:local="http://syriaca.org/ns" exclude-result-prefixes="xs t s saxon" version="2.0">
+<xsl:stylesheet xmlns="http://www.w3.org/1999/xhtml" xmlns:saxon="http://saxon.sf.net/" xmlns:local="http://syriaca.org/ns" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:s="http://syriaca.org" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:x="http://www.w3.org/1999/xhtml" xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" exclude-result-prefixes="xs t s saxon" version="2.0">
     
     <!-- ================================================================== 
        Copyright 2013 New York University
@@ -367,7 +367,7 @@
             <xsl:otherwise><xsl:apply-templates/></xsl:otherwise>
         </xsl:choose>
     </xsl:template>
-    <xsl:template match="t:accMat | t:quote | t:incipit | t:editor | t:explicit | t:colophon | t:rubric | t:finalRubric | t:filiation | t:material |  t:layoutDesc | t:origDate | t:provenance | t:acquisition | t:availability | t:custodialHist | t:history | t:origin | t:extent">
+    <xsl:template match="t:quote | t:incipit | t:editor | t:explicit | t:colophon | t:rubric | t:finalRubric | t:filiation | t:material |  t:layoutDesc | t:origDate | t:provenance | t:acquisition | t:availability | t:custodialHist | t:history | t:origin | t:extent">
         <xsl:if test="not(empty(.))">
             <span class="tei-{local-name(.)}">
                 <xsl:choose>
@@ -381,7 +381,6 @@
                                 <xsl:when test="self::t:layoutDesc">Layout:</xsl:when>
                                 <xsl:when test="self::t:origDate">Date:</xsl:when>
                                 <xsl:when test="self::t:custodialHist">Custodial History:</xsl:when>
-                                <xsl:when test="self::t:accMat">Accompanying Material:</xsl:when>
                                 <xsl:otherwise><xsl:value-of select="concat(upper-case(substring(local-name(.),1,1)),substring(local-name(.),2))"/>:</xsl:otherwise>
                             </xsl:choose>
                         </span>                        
@@ -625,7 +624,7 @@
             </xsl:otherwise>
         </xsl:choose>
     </xsl:template>
-    
+    <xsl:template match="t:accMat | t:bindingDesc | t:sealDesc"/>
     <!--
     <xsl:template match="* | @*" mode="labeled">
         <xsl:if test="not(empty(.))">
