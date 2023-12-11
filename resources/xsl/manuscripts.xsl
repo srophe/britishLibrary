@@ -1,4 +1,4 @@
-<xsl:stylesheet xmlns="http://www.w3.org/1999/xhtml" xmlns:saxon="http://saxon.sf.net/" xmlns:local="http://syriaca.org/ns" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:s="http://syriaca.org" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:x="http://www.w3.org/1999/xhtml" xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" exclude-result-prefixes="xs t s saxon" version="2.0">
+<xsl:stylesheet xmlns="http://www.w3.org/1999/xhtml" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:s="http://syriaca.org" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:x="http://www.w3.org/1999/xhtml" xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:saxon="http://saxon.sf.net/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:local="http://syriaca.org/ns" exclude-result-prefixes="xs t s saxon" version="2.0">
     
     <!-- ================================================================== 
        Copyright 2013 New York University
@@ -245,10 +245,12 @@
         </xsl:if>
     </xsl:template>
     <xsl:template match="t:msPart">
-        <div class="panel-group" id="accordion">
+        
+        <div class="panel-group">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <h2 class="panel-title" data-toggle="collapse" data-target="#msPart{@xml:id}">
+                    <h2 class="panel-title" data-toggle="collapse" data-target="#panelmsPart{@xml:id}">
+                        <span class="anchor" id="msPart{@xml:id}"/>
                         <xsl:choose>
                             <xsl:when test="count(//t:msPart) &gt; 1">
                                 <span class="shelfmark"><xsl:apply-templates select="t:msIdentifier/t:altIdentifier/t:idno[@type='BL-Shelfmark']"/></span>
@@ -259,7 +261,7 @@
                         </xsl:choose>
                     </h2>
                 </div>
-                <div id="msPart{@xml:id}" class="panel-collapse collapse in">
+                <div id="panelmsPart{@xml:id}" class="panel-collapse collapse in">
                     <div class="panel-body">
                         <div class="msDesc">
                             <xsl:call-template name="mssSectionHeader"/>
@@ -373,11 +375,11 @@
                 <xsl:choose>
                     <xsl:when test="self::t:quote and ancestor::t:note"/>
                     <xsl:otherwise>
-                        <span class="inline-h4">
+                        <span class="inline-h4">&#160;
                             <xsl:choose>
                                 <xsl:when test="self::t:quote and not(ancestor::t:note)">Excerpt<xsl:if test="t:folio"> <xsl:apply-templates select="t:folio"/></xsl:if>: </xsl:when>
                                 <xsl:when test="self::t:rubric">Title:</xsl:when>
-                                <xsl:when test="self::t:finalRubric">Subscription:</xsl:when>
+                                <xsl:when test="self::t:finalRubric">Subscription <xsl:for-each select="descendant::t:locus"><xsl:call-template name="locus"/></xsl:for-each>: </xsl:when>
                                 <xsl:when test="self::t:layoutDesc">Layout:</xsl:when>
                                 <xsl:when test="self::t:origDate">Date:</xsl:when>
                                 <xsl:when test="self::t:custodialHist">Custodial History:</xsl:when>
@@ -388,6 +390,7 @@
                 </xsl:choose>
                 <span>
                     <xsl:sequence select="local:attributes(.)"/>
+<!--                    <xsl:apply-templates/>-->
                     <xsl:apply-templates/>
                 </span>
             </span>
@@ -523,6 +526,15 @@
 ...
 </item>
         -->
+    </xsl:template>
+    <xsl:template name="locus">
+        <xsl:choose>
+            <xsl:when test="text()"/>
+            <xsl:when test="ancestor::tei:additions">
+                <strong> (Fol. <xsl:value-of select="@from"/>)</strong>
+            </xsl:when>
+            <xsl:otherwise> (Fol. <xsl:value-of select="@from"/>)</xsl:otherwise>
+        </xsl:choose>
     </xsl:template>
     <xsl:template name="script">
         <xsl:param name="node"/>
