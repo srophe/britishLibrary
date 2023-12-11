@@ -312,13 +312,15 @@ declare function tei2html:summary-view-generic($nodes as node()*, $id as xs:stri
     let $id := replace(($nodes/descendant::tei:sourceDesc/tei:msDesc/tei:msIdentifier/tei:idno[@type="URI"])[1],'/tei','')
     return 
         <div class="short-rec-view">
-            <span>
-            {$nodes/descendant::tei:sourceDesc/tei:msDesc/tei:msIdentifier/tei:altIdentifer/tei:idno[@type="BL-Shelfmark-display"]}
+            <span class="heading">
+            {if($nodes/descendant-or-self::tei:idno[@type="BL-Shelfmark-display"]) then
+                ($nodes/descendant-or-self::tei:idno[@type="BL-Shelfmark-display"][1],' | ')
+            else () }
             {if($nodes/descendant::tei:sourceDesc/tei:msDesc/tei:msIdentifier/tei:altIdentifier/tei:idno[@type="Wright-BL-Roman"] != '') then
                 (if($nodes/descendant::tei:sourceDesc/tei:msDesc/tei:msIdentifier/tei:altIdentifer/tei:idno[@type="BL-Shelfmark-display"] != '') then 
                     ' | '
                 else (),
-                ($nodes/descendant::tei:sourceDesc/tei:msDesc/tei:msIdentifier/tei:altIdentifier/tei:idno[@type="Wright-BL-Roman"]))
+                ('Wright ',$nodes/descendant::tei:sourceDesc/tei:msDesc/tei:msIdentifier/tei:altIdentifier/tei:idno[@type="Wright-BL-Roman"]))
              else ()
             }
             {
