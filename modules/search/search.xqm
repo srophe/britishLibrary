@@ -59,7 +59,8 @@ declare
 function search:show-hits($node as node()*, $model as map(*), $collection as xs:string?, $kwic as xs:string?) {
     let $hits := $model("hits")
     let $facet-config := global:facet-definition-file($collection)
-    return 
+    return( 
+        <div>{count($hits)}</div>,
         (:<div>{$hits}</div>:)
         if(not(empty($facet-config))) then 
             <div class="row" id="search-results" xmlns="http://www.w3.org/1999/xhtml">
@@ -73,6 +74,7 @@ function search:show-hits($node as node()*, $model as map(*), $collection as xs:
                              <div class="row record" xmlns="http://www.w3.org/1999/xhtml" style="border-bottom:1px dotted #eee; padding-top:.5em">
                                  <div class="col-md-1" style="margin-right:-1em; padding-top:.25em;">        
                                      <span class="badge" style="margin-right:1em;">{$search:start + $p - 1}</span>
+                                    
                                  </div>
                                  <div class="col-md-11" style="margin-right:-1em; padding-top:.25em;">
                                      {tei2html:summary-view($hit, '', $id)}
@@ -116,7 +118,7 @@ function search:show-hits($node as node()*, $model as map(*), $collection as xs:
                           }
                       </div>
                   </div>   
-         }</div>
+         }</div>)
 };
 
 (:~
@@ -260,7 +262,7 @@ declare function search:bl-search-form($node as node(), $model as map(*)) {
     <div class="searchHeading">
         <span class="h4">Advanced Search</span>
         <a class="btn btn-default search-btn pull-right" data-toggle="collapse" data-target="#advancedSearchBox" data-text-swap="Show search options">
-            <span class="glyphicon glyphicon-cog"></span> Search Options
+            <span class="glyphicon glyphicon-cog"></span> Show Search Options
         </a>
         
     </div>
@@ -279,6 +281,9 @@ declare function search:bl-search-form($node as node(), $model as map(*)) {
                         <div class="col-sm-10 col-md-9 ">
                             <div class="input-group">
                                 <input type="text" id="keyword" name="keyword" class="form-control keyboard"/>
+                                {if(request:get-parameter('keyword', '') != '') then
+                                    attribute value {request:get-parameter('keyword', '')}
+                                else()}
                                 <div class="input-group-btn">
                                     {global:keyboard-select-menu('keyword')}
                                 </div>
@@ -291,6 +296,9 @@ declare function search:bl-search-form($node as node(), $model as map(*)) {
                         <div class="col-sm-10 col-md-9 ">
                             <div class="input-group">
                                 <input type="text" id="author" name="author" class="form-control keyboard"/>
+                                 {if(request:get-parameter('author', '') != '') then
+                                    attribute value {request:get-parameter('author', '')}
+                                else()}
                                 <div class="input-group-btn">
                                    {global:keyboard-select-menu('author')}
                                 </div>
@@ -303,6 +311,9 @@ declare function search:bl-search-form($node as node(), $model as map(*)) {
                         <div class="col-sm-10 col-md-9 ">
                             <div class="input-group">
                                 <input type="text" id="title" name="title" class="form-control keyboard"/>
+                                 {if(request:get-parameter('title', '') != '') then
+                                    attribute value {request:get-parameter('title', '')}
+                                else()}
                                 <div class="input-group-btn">
                                     {global:keyboard-select-menu('title')}
                                 </div>
@@ -315,6 +326,9 @@ declare function search:bl-search-form($node as node(), $model as map(*)) {
                         <div class="col-sm-10 col-md-9 ">
                             <div class="input-group">
                                 <input type="text" id="syrText" name="syrText" class="form-control keyboard"/>
+                                 {if(request:get-parameter('syrText', '') != '') then
+                                    attribute value {request:get-parameter('syrText', '')}
+                                else()}
                                 <div class="input-group-btn">
                                 {global:keyboard-select-menu('syrTitle')}
                                 </div>
@@ -336,6 +350,9 @@ declare function search:bl-search-form($node as node(), $model as map(*)) {
                         <div class="col-sm-10 col-md-9 ">
                             <div class="input-group">
                                 <input type="text" id="place" name="place" class="form-control keyboard"/>
+                                {if(request:get-parameter('place', '') != '') then
+                                    attribute value {request:get-parameter('place', '')}
+                                else()}
                                 <div class="input-group-btn">
                                 {global:keyboard-select-menu('place')}
                                 </div>
@@ -353,6 +370,9 @@ declare function search:bl-search-form($node as node(), $model as map(*)) {
                         <div class="col-sm-10 col-md-9 ">
                             <div class="input-group">
                                 <input type="text" id="person" name="person" class="form-control keyboard"/>
+                                {if(request:get-parameter('person', '') != '') then
+                                    attribute value {request:get-parameter('person', '')}
+                                else()}
                                 <div class="input-group-btn">
                                 {global:keyboard-select-menu('person')}
                                 </div>
