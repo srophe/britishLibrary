@@ -375,23 +375,21 @@
                 <xsl:choose>
                     <xsl:when test="self::t:quote and ancestor::t:note"/>
                     <xsl:otherwise>
-                        <span class="inline-h4">&#160;
+                        <span class="inline-h4"> 
                             <xsl:choose>
                                 <xsl:when test="self::t:quote and not(ancestor::t:note)">Excerpt<xsl:if test="t:folio"> <xsl:apply-templates select="t:folio"/></xsl:if>: </xsl:when>
-                                <xsl:when test="self::t:rubric">Title:</xsl:when>
+                                <xsl:when test="self::t:rubric"><br/>Title: </xsl:when>
                                 <xsl:when test="self::t:finalRubric">Subscription <xsl:for-each select="descendant::t:locus"><xsl:call-template name="locus"/></xsl:for-each>: </xsl:when>
-                                <xsl:when test="self::t:layoutDesc">Layout:</xsl:when>
-                                <xsl:when test="self::t:origDate">Date:</xsl:when>
-                                <xsl:when test="self::t:custodialHist">Custodial History:</xsl:when>
-                                <xsl:otherwise><xsl:value-of select="concat(upper-case(substring(local-name(.),1,1)),substring(local-name(.),2))"/>:</xsl:otherwise>
+                                <xsl:when test="self::t:layoutDesc">Layout: </xsl:when>
+                                <xsl:when test="self::t:origDate">Date: </xsl:when>
+                                <xsl:when test="self::t:custodialHist">Custodial History: </xsl:when>
+                                <xsl:otherwise><xsl:value-of select="concat(upper-case(substring(local-name(.),1,1)),substring(local-name(.),2))"/>: </xsl:otherwise>
                             </xsl:choose>
                         </span>                        
                     </xsl:otherwise>
                 </xsl:choose>
                 <span>
-                    <xsl:sequence select="local:attributes(.)"/>
-<!--                    <xsl:apply-templates/>-->
-                    <xsl:apply-templates/>
+                    <xsl:sequence select="local:attributes(.)"/><xsl:apply-templates/>
                 </span>
             </span>
         </xsl:if>
