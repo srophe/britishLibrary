@@ -568,7 +568,7 @@
                         </span>
                     </xsl:otherwise>
                 </xsl:choose>
-                <xsl:if test="ancestor::t:msItem[@defective='true']"> [defective]</xsl:if>
+               <!-- <xsl:if test="ancestor::t:msItem[@defective='true']"> [defective]</xsl:if> -->
             </xsl:when>
             <xsl:when test="@ref">                
                 <xsl:text> </xsl:text><a href="{@ref}">
