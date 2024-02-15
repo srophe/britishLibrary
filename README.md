@@ -1,5 +1,5 @@
 # Srophé Application
-A TEI publishing application. The Digital Wright
+A TEI publishing application. Syriac Manuscripts in the British Library
 
 The Srophé Application is an open source TEI publishing framework. Originally developed as a digital publication platform for 
 Syriaca.org [http://syriaca.org/] the Srophé software has been generalize for use with any TEI publications. 
