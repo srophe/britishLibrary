@@ -26,29 +26,31 @@ import module namespace bibls="http://srophe.org/srophe/bibls" at "bibl-search.x
 declare namespace tei="http://www.tei-c.org/ns/1.0";
 (:declare namespace facet="http://expath.org/ns/facet";:)
 
-(: Variables:)
-declare variable $search:start {request:get-parameter('start', 1) cast as xs:integer};
-declare variable $search:perpage {request:get-parameter('perpage', 20) cast as xs:integer};
-
-(:~
- : Builds search result, saves to model("hits") for use in HTML display
-:)
+(: Global Variables:)
+declare variable $search:start {
+    if(request:get-parameter('start', 1)[1] castable as xs:integer) then 
+        xs:integer(request:get-parameter('start', 1)[1]) 
+    else 1};
+declare variable $search:perpage {
+    if(request:get-parameter('perpage', 25)[1] castable as xs:integer) then 
+        xs:integer(request:get-parameter('perpage', 25)[1]) 
+    else 25
+    };
 
 (:~
  : Search results stored in map for use by other HTML display functions 
 :)
 declare %templates:wrap function search:search-data($node as node(), $model as map(*), $collection as xs:string?, $sort-element as xs:string?){
-    let $queryExpr := if($collection = 'bibl') then
-                            bibls:query-string()
-                      else ()                     
-    let $hits := data:search($collection, $queryExpr, $sort-element)
+    let $queryExpr := ()                      
+    let $hits := data:search($collection,(),())
     return
-        map {
+         map {
                 "hits" :
                     if(exists(request:get-parameter-names())) then $hits 
                     else if(ends-with(request:get-url(), 'search.html')) then ()
-                    else $hits  
-        } 
+                    else $hits,
+                "query" : $queryExpr
+        }   
 };
 
 (:~ 
@@ -60,7 +62,6 @@ function search:show-hits($node as node()*, $model as map(*), $collection as xs:
     let $hits := $model("hits")
     let $facet-config := global:facet-definition-file($collection)
     return( 
-        <div>{count($hits)}</div>,
         (:<div>{$hits}</div>:)
         if(not(empty($facet-config))) then 
             <div class="row" id="search-results" xmlns="http://www.w3.org/1999/xhtml">
@@ -93,7 +94,7 @@ function search:show-hits($node as node()*, $model as map(*), $collection as xs:
                  let $facet-config := global:facet-definition-file($collection)
                  return 
                      if(not(empty($facet-config))) then 
-                         sf:display($model("hits"),$facet-config)
+                        (: sf:display($model("hits"),$facet-config):)facet:output-html-facets($hits, $facet-config/descendant::facet:facet-definition)
                      else ()  
                 )}</div>
         </div>
