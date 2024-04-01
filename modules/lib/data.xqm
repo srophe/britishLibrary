@@ -131,7 +131,8 @@ declare function data:get-records($collection as xs:string*, $element as xs:stri
         if(request:get-parameter('sort', '') != '') then request:get-parameter('sort', '') 
         else if(request:get-parameter('sort-element', '') != '') then request:get-parameter('sort-element', '')
         else ()  
-    let $hits := util:eval(concat(data:build-collection-path($collection),slider:date-filter('origDate')))[ft:query(., (),sf:facet-query())] 
+    let $facet-config := global:facet-definition-file($collection)    
+    let $hits := util:eval(concat(data:build-collection-path($collection),facet:facet-filter($facet-config),slider:date-filter('origDate')))
     return 
         if(request:get-parameter('view', '') = 'map') then $hits  
         else if(request:get-parameter('view', '') = 'timeline') then $hits
@@ -188,23 +189,15 @@ declare function data:search($collection as xs:string*, $queryString as xs:strin
     let $params := 
         for $p in request:get-parameter-names()
         where request:get-parameter($p, '') != ''
-        return $p
-    (: for debugging        
-    let $evalString := 
-            if($p != '') then  
-                if($queryString != '') then $queryString
-                else if(data:create-query($collection) != '') then
-                    concat(data:build-collection-path($collection), data:create-query($collection),slider:date-filter(()))
-                else()    
-            else ()
-    :)            
+        return $p  
+    let $facet-config := global:facet-definition-file($collection)
     let $hits :=
             if($params != '') then
                 if($queryString != '') then 
                     if(ends-with($queryString,'//tei:body') or ends-with($queryString,'//tei:TEI')) then () 
-                    else util:eval($queryString)
+                    else util:eval(concat($queryString, facet:facet-filter($facet-config),slider:date-filter('origDate')))
                 else if(data:create-query($collection) != '') then
-                    util:eval(concat(data:build-collection-path($collection), data:create-query($collection),slider:date-filter('origDate')))
+                    util:eval(concat(data:build-collection-path($collection), data:create-query($collection),facet:facet-filter($facet-config),slider:date-filter('origDate')))
                 else () 
             else ()      
     let $sort := if($sort-element != '') then 
@@ -215,7 +208,7 @@ declare function data:search($collection as xs:string*, $queryString as xs:strin
     return 
        (: <div>{concat(data:build-collection-path($collection), data:create-query($collection),slider:date-filter(()))}</div>:)
        if((request:get-parameter('sort-element', '') != '' and request:get-parameter('sort-element', '') != 'relevance') or ($sort-element != '' and $sort-element != 'relevance')) then 
-            for $hit in $hits/ancestor-or-self::tei:TEI[ft:query(., (),sf:facet-query())]
+            for $hit in $hits
             let $s := 
                     if(contains($sort, 'author')) then ft:field($hit, "author")[1]
                     else if(request:get-parameter('sort', '') = 'title') then 
@@ -232,7 +225,7 @@ declare function data:search($collection as xs:string*, $queryString as xs:strin
             order by $s[1] collation 'http://www.w3.org/2013/collation/UCA'
             return $hit
         else 
-            for $hit in $hits/ancestor-or-self::tei:TEI[ft:query(., (),sf:facet-query())]
+            for $hit in $hits
             order by ft:score($hit) descending
             return $hit
 };
@@ -506,7 +499,7 @@ let $keyword := (request:get-parameter('keyword', ''),request:get-parameter('q',
 let $cleanString := data:clean-string($keyword[1])
 return         
     if($cleanString != '') then 
-         concat("[ft:query(.,'",($cleanString),"',data:search-options())]")
+         concat("[descendant::tei:msDesc[ft:query(.,'",($cleanString),"',data:search-options())]]")
     else ()
 };
 

@@ -15,6 +15,8 @@ import module namespace tei2html="http://srophe.org/srophe/tei2html" at "../cont
 import module namespace timeline = "http://srophe.org/srophe/timeline" at "lib/timeline.xqm";
 import module namespace global="http://srophe.org/srophe/global" at "lib/global.xqm";
 import module namespace sf="http://srophe.org/srophe/facets" at "facets.xql";
+import module namespace facet="http://expath.org/ns/facet" at "lib/facet.xqm";
+(:import module namespace facet-defs="http://syriaca.org/facet-defs" at "facet-defs.xqm";:)
 import module namespace slider = "http://srophe.org/srophe/slider" at "../lib/date-slider.xqm";
 import module namespace maps="http://srophe.org/srophe/maps" at "maps.xqm";
 import module namespace page="http://srophe.org/srophe/page" at "paging.xqm";
@@ -73,7 +75,8 @@ declare function browse:show-hits($node as node(), $model as map(*), $collection
             <div class="col-md-4 col-md-pull-8">
                 {(  
                     slider:browse-date-slider($hits, 'origDate'),
-                    sf:display($hits, $facet-config)
+                    (:sf:display($hits, $facet-config):)
+                    facet:output-html-facets($hits, $facet-config/descendant::facet:facet-definition)
                     )}
             </div>
         </div>            
