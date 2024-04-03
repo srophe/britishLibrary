@@ -112,25 +112,29 @@ let $max :=
             else $d[last()]        
 let $minPadding := $d[1] - xs:yearMonthDuration('P10Y')
 let $maxPadding := $d[last()] + xs:yearMonthDuration('P10Y')
-let $params := 
-    string-join(
-    for $param in request:get-parameter-names()
-    return
+let $cleanParams :=
+        string-join(
         for $pramName in request:get-parameter-names()
         return 
-            if($pramName = ('start','perpage','sort-element','sort')) then () 
+            if($pramName = ('start','perpage','sort-element','sort','endDate','startDate')) then ()
             else 
                 for $param in request:get-parameter($pramName, '')
                 where $param != ''
                 return ($pramName || '=' || $param)
-                ,'')
-    (:
-        if($param = 'startDate') then ()
-        else if($param = 'endDate') then ()
-        else if($param = 'start') then ()
-        else if(request:get-parameter($param, '') = ' ') then ()
-        else concat('&amp;',$param, '=',request:get-parameter($param, '')[1]):)
-        
+                ,'&amp;')
+                
+let $sortParams := 
+        if(request:get-parameter('sort-element', '') != '') then 
+            ('sort-element'|| '=' || request:get-parameter('sort-element', '')[1])
+        else()
+let $param-string := 
+        if($cleanParams != '' and $sortParams != '') then 
+            ('&amp;' || $cleanParams || '&amp;' || $sortParams)
+        else if($cleanParams != '') then 
+            ('&amp;' || $cleanParams)
+        else if($sortParams != '') then 
+            ('&amp;' || $sortParams)
+        else ()
 return 
 if(not(empty($min)) and not(empty($max))) then
     <div>
@@ -142,7 +146,7 @@ if(not(empty($min)) and not(empty($max))) then
         <div class="sliderContainer">
         <div id="slider"/>
         {if($startDate != '') then
-                (<br/>,<a href="?start=1{$params}" class="btn btn-warning btn-sm" role="button"><i class="glyphicon glyphicon-remove-circle"></i> Reset Dates</a>,<br/>)
+                (<br/>,<a href="?start=1{$param-string}" class="btn btn-warning btn-sm" role="button"><i class="glyphicon glyphicon-remove-circle"></i> Reset Dates</a>,<br/>)
         else()}
         <script type="text/javascript">
         <![CDATA[
@@ -167,8 +171,8 @@ if(not(empty($min)) and not(empty($max))) then
                     var url = window.location.href.split('?')[0];
                     var minDate = data.values.min.toISOString().split('T')[0]
                     var maxDate = data.values.max.toISOString().split('T')[0]
-                    console.log(url + "?startDate=" + minDate + "&endDate=" + maxDate + "]]> {$params} <![CDATA[");
-                    window.location.href = url + "?startDate=" + minDate + "&endDate=" + maxDate + "]]> {$params} <![CDATA[" ;
+                    console.log(url + "?startDate=" + minDate + "&endDate=" + maxDate + "]]> {$param-string} <![CDATA[");
+                    window.location.href = url + "?startDate=" + minDate + "&endDate=" + maxDate + "]]> {$param-string} <![CDATA[" ;
                     //$('#browse-results').load(window.location.href + "?startDate=" + data.values.min.toISOString() + "&endDate=" + data.values.max.toISOString() + " #browse-results");
                 });
             ]]>
