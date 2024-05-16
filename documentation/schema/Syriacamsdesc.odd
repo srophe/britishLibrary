@@ -4153,47 +4153,149 @@ Comment @davidamichelson -->
             -->
                     
                     <elementSpec ident="abbr" module="core" mode="change">
-                        <!--<content>
-                            <alternate minOccurs="0" maxOccurs="unbounded">
+                        <content>
+                            <sequence preserveOrder="false">
                                 <textNode/>
-                                <elementRef key="foreign"/>
-                            </alternate>
-                        </content>-->
+                                <elementRef key="foreign" minOccurs="0" maxOccurs="unbounded"/>
+                            </sequence>
+                        </content>
+                    </elementSpec>
+                    
+                    
+                    <elementSpec ident="accMat" module="msdescription" mode="change">
+                        <content>
+                            <elementRef key="p" minOccurs="1" maxOccurs="unbounded"/>
+                        </content>
+                    </elementSpec>
+                    
+                    
+                    <elementSpec ident="acquisition" module="msdescription" mode="change">
+                        <content>
+                            <elementRef key="p" minOccurs="1" maxOccurs="unbounded"/>
+                        </content>
                     </elementSpec>
                     
                     
                     <elementSpec ident="additional" module="msdescription" mode="change">
-                        <!--<content>
-                            <alternate>
-                                <elementRef key="adminInfo"/>
-                                <elementRef key="listBibl"/>
-                            </alternate>
-                        </content>-->
+                        <content>
+                            <sequence preserveOrder="false">
+                                <elementRef key="adminInfo" minOccurs="1" maxOccurs="1"/>
+                                <elementRef key="listBibl" minOccurs="1" maxOccurs="1"/>
+                            </sequence>
+                        </content>
                     </elementSpec>
                     
                     
                     <elementSpec ident="additions" module="msdescription" mode="change">
-                        <!--<content>
-                            <alternate>
-                                <elementRef key="list"/>
-                                <elementRef key="note"/>
-                                <elementRef key="p"/>
-                            </alternate>
-                        </content>-->
+                        <content>
+                            <sequence preserveOrder="false">
+                                <elementRef key="list" minOccurs="0" maxOccurs="1"/>
+                                <elementRef key="note" minOccurs="0" maxOccurs="1"/>
+                                <elementRef key="p" minOccurs="0" maxOccurs="1"/><!-- Only 2 of 654 have a tei:p. Should we just be using tei:note? -->
+                            </sequence>
+                        </content>
                     </elementSpec>
                     
                     
                     <elementSpec ident="adminInfo" module="msdescription" mode="change">
+                        <content>
+                            <sequence preserveOrder="false">
+                                <elementRef key="note" minOccurs="0" maxOccurs="1"/>
+                                <elementRef key="recordHist" minOccurs="1" maxOccurs="1"/>
+                            </sequence>
+                        </content>
+                    </elementSpec>
+                    
+                    
+                    <elementSpec ident="altIdentifier" module="msdescription" mode="change">
+                        <content>
+                            <sequence preserveOrder="false">
+                                <elementRef key="collection" minOccurs="0" maxOccurs="1"/>
+                                <elementRef key="idno" minOccurs="1" maxOccurs="1"/>
+                            </sequence>
+                        </content>
+                    </elementSpec>
+                    
+                    
+                    <elementSpec ident="author" module="core" mode="change">
                         <!--<content>
-                            <alternate>
-                                <elementRef key="note"/>
-                                <elementRef key="recordHist"/>
-                            </alternate>
+                            <sequence preserveOrder="false">
+                                <elementRef key="persName" minOccurs="0" maxOccurs="1"/>
+                                <elementRef key="placeName" minOccurs="1" maxOccurs="unbounded"/>
+                                <textNode/>
+                            </sequence>
                         </content>-->
                     </elementSpec>
                     
                     
+                    <elementSpec ident="authority" module="header" mode="change">
+                        <content>
+                            <textNode/>
+                        </content>
+                    </elementSpec>
+                    
+                    
+                    <!-- add new attribute value "offsite" for the availability element -->
+                    <elementSpec ident="availability" module="msdescription" mode="change">
+                        <content>
+                            <elementRef key="licence" minOccurs="1" maxOccurs="1"/>
+                        </content>
+                        <attList>
+                            <attDef ident="status" mode="replace">
+                                <!-- Syriaca: We're not using this attribute. Should we keep this in the schema, implement it in the data, both, neither? -->
+                                <desc>Specifies the availability of a manuscript. This attribute
+                                    should not be used to specify the availability of manuscript
+                                    metadata: use the <gi>licence</gi> element for that
+                                    purpose.</desc>
+                                <datatype maxOccurs="unbounded">
+                                    <dataRef key="teidata.word"/>
+                                </datatype>
+                                <valList type="closed">
+                                    <valItem ident="free">
+                                        <desc>The item is available.</desc>
+                                    </valItem>
+                                    <!-- nb: not necessarily permanently restricted -->
+                                    <valItem ident="restricted">
+                                        <desc>Access to the item is restricted for conservation or
+                                            other reasons.</desc>
+                                    </valItem>
+                                    <valItem ident="exhibition">
+                                        <desc>The item is on exhibition at the owning library or
+                                            another institution, and is likely to be temporarily
+                                            unavailable.</desc>
+                                    </valItem>
+                                    <valItem ident="offsite">
+                                        <desc>The item is stored offsite, and will take at least
+                                            twenty-four hours to produce.</desc>
+                                    </valItem>
+                                    <valItem ident="printcat">
+                                        <desc>The item is orderable through a catalogue of printed materials, typically because it is a fragment in a printed book or because it is part of a collection of mostly printed material.</desc>
+                                    </valItem>
+                                    <valItem ident="none">
+                                        <desc>The item cannot be ordered, typically either because it is a stub record or because it is not held by the library which is responsible for the catalogue.</desc>
+                                    </valItem>
+                                    <valItem ident="unknown">
+                                        <desc>Availability of the item is unknown.</desc>
+                                    </valItem>
+                                </valList>
+                            </attDef>
+                        </attList>
+                    </elementSpec>
+                    
+                    
                     <elementSpec ident="bibl" module="core" mode="change">
+                        <content>
+                            <sequence preserveOrder="false"><!-- check the min/max values below -->
+                                <elementRef key="author" minOccurs="0" maxOccurs="unbounded"/>
+                                <elementRef key="citedRange" minOccurs="0" maxOccurs="unbounded"/>
+                                <elementRef key="date" minOccurs="0" maxOccurs="unbounded"/>
+                                <elementRef key="ptr" minOccurs="0" maxOccurs="unbounded"/>
+                                <elementRef key="pubPlace" minOccurs="0" maxOccurs="unbounded"/>
+                                <elementRef key="ref" minOccurs="0" maxOccurs="unbounded"/>
+                                <elementRef key="title" minOccurs="0" maxOccurs="unbounded"/>
+                                <textNode/>
+                            </sequence>
+                        </content>
                         <attList>
                             <attDef ident="type" mode="change">
                                 <valList mode="replace" type="semi">
@@ -4236,6 +4338,149 @@ Comment @davidamichelson -->
                             </attDef>
                         </attList>
                     </elementSpec>
+                    
+                    
+                    
+                    <elementSpec ident="binding" module="msdescription" mode="change">
+                        <content>
+                            <elementRef key="p" minOccurs="1" maxOccurs="unbounded"/>
+                        </content>
+                    </elementSpec>
+                    
+                    
+                    <elementSpec ident="bindingDesc" module="msdescription" mode="change">
+                        <content>
+                            <alternate>
+                                <elementRef key="binding"/>
+                                <elementRef key="condition"/>
+                            </alternate>
+                        </content>
+                    </elementSpec>
+                    
+                    
+                    
+                    <elementSpec ident="body" module="textstructure" mode="change">
+                        <content>
+                            <elementRef key="p" minOccurs="1" maxOccurs="1"/>
+                        </content>
+                    </elementSpec>
+                    
+                    
+                    <elementSpec ident="catDesc" module="header" mode="change">
+                        <content>
+                            <textNode/>
+                        </content>
+                    </elementSpec>
+                    
+                    
+                    <elementSpec ident="category" module="header" mode="change">
+                        <content>
+                            <alternate>
+                                <elementRef key="cateDesc" maxOccurs="1"/>
+                                <elementRef key="category" maxOccurs="unbounded"/>
+                            </alternate>
+                        </content>
+                    </elementSpec>
+                    
+                    
+                    <elementSpec ident="cell" module="figures" mode="change">
+                        <content>
+                            <sequence preserveOrder="false">
+                                <elementRef key="foreign" minOccurs="0" maxOccurs="unbounded"/>
+                                <elementRef key="locus" minOccurs="0" maxOccurs="unbounded"/>
+                                <elementRef key="ref" minOccurs="0" maxOccurs="unbounded"/>
+                                <textNode/>
+                            </sequence>
+                        </content>
+                    </elementSpec>
+                    
+                    
+                    <elementSpec ident="change" module="header" mode="change">
+                        <content>
+                            <sequence preserveOrder="false">
+                                <elementRef key="bibl" minOccurs="0" maxOccurs="unbounded"/>
+                                <elementRef key="gi" minOccurs="0" maxOccurs="unbounded"/>
+                                <elementRef key="ref" minOccurs="0" maxOccurs="unbounded"/>
+                                <textNode/>
+                            </sequence>
+                        </content>
+                    </elementSpec>
+                    
+                    
+                    
+                    <elementSpec ident="choice" module="core" mode="change">
+                        <!-- Data edits required before we can customize -->
+                    </elementSpec>
+                    
+                    
+                    
+                    <elementSpec ident="classDecl" module="header" mode="change">
+                        <!-- Probably do not need any customiztion here. -->
+                    </elementSpec>
+                    
+                    
+                    
+                    <!-- add new attribute "mainStructures" to collation -->
+                    <!-- Syriaca: We're not using this attribute. Should we keep this in the schema, implement it in the data, both, neither? -->
+                    <elementSpec ident="collation" module="msdescription" mode="change">
+                        <content>
+                            <elementRef key="p" minOccurs="1" maxOccurs="1"/>
+                        </content>
+                        <attList>
+                            <attDef ident="mainStructures">
+                                <desc>Specifies the typical quire structure(s) of the book,
+                                    according to English notation (i.e. the number of folios in the
+                                    original quire), e.g. <val>8</val>, <val>6 8</val>. Note: This
+                                    is a customization which is not currently part of the TEI P5
+                                    standard.</desc>
+                                <datatype minOccurs="1" maxOccurs="unbounded">
+                                    <dataRef key="teidata.count"/>
+                                </datatype>
+                            </attDef>
+                        </attList>
+                    </elementSpec>
+                    
+                    
+                    
+                    <elementSpec ident="collection" module="msdescription" mode="change">
+                        <content>
+                            <textNode/>
+                        </content>
+                    </elementSpec>
+                    
+                    
+                    <elementSpec ident="colophon" module="msdescription" mode="change">
+                        <!-- The best records all have a tei:ref containing a pointer to elsewhere in the file. 
+                            The text in all files refers users elsewhere. I think we should only allow tei:ref here. -->
+                        <content>
+                            <elementRef key="ref" minOccurs="1" maxOccurs="1"/>
+                        </content>
+                    </elementSpec>
+                    
+                    
+                    <elementSpec ident="condition" module="msdescription" mode="change">
+                        <!-- Compare condition in 1.xml and 10.xml. 1 has tei:condition with 
+                            multiple tei:p children. 10 has tei:condition/tei:list/tei:item/tei:p 
+                            for each paragraph discussing condition. -->
+                    </elementSpec>
+                    
+                    
+                    <elementSpec ident="country" module="namesdates" mode="change">
+                        <content>
+                            <textNode/>
+                        </content>
+                    </elementSpec>
+                    
+                    
+                    <elementSpec ident="decoDesc" module="msdescription" mode="change">
+                        <content>
+                            <elementRef key="decoNote" minOccurs="1" maxOccurs="unbounded"/>
+                        </content>
+                    </elementSpec>
+                    
+                    
+                    
+                    
                     <!-- decoNote/@type -->
                     <!-- 
             Original list: border, bordersInitials, decoration, diagram, diagrams, frieze, illustration, 
@@ -4279,6 +4524,11 @@ Comment @davidamichelson -->
             
             -->
                     <elementSpec ident="decoNote" module="msdescription" mode="change">
+                        <content>
+                            <!-- This needs work. I recommend we consistently put the text directly into tei:decoNote or 
+                            we use a tei:p child containing all the text/elements. We shouldn't use both p and desc. -->
+                            <textNode/>
+                        </content>
                         <attList>
                             <attDef ident="type" mode="change">
                                 <valList mode="replace" type="semi">
@@ -4379,8 +4629,279 @@ Comment @davidamichelson -->
                     </elementSpec>
                     
                     
+                    <elementSpec ident="del" module="core" mode="change">
+                        <!-- Probably do not need any customiztion here. -->
+                    </elementSpec>
+                    
+                    
+                    <elementSpec ident="desc" module="core" mode="change">
+                        <content>
+                            <!-- Reconsider whether or not we want to leave this more open? -->
+                            <sequence preserveOrder="false">
+                                <elementRef key="bibl" minOccurs="0" maxOccurs="unbounded"/>
+                                <elementRef key="date" minOccurs="0" maxOccurs="unbounded"/>
+                                <elementRef key="foreign" minOccurs="0" maxOccurs="unbounded"/>
+                                <elementRef key="persName" minOccurs="0" maxOccurs="unbounded"/>
+                                <elementRef key="placeName" minOccurs="0" maxOccurs="unbounded"/>
+                                <elementRef key="quote" minOccurs="0" maxOccurs="unbounded"/>
+                                <elementRef key="ref" minOccurs="0" maxOccurs="unbounded"/>
+                                <elementRef key="title" minOccurs="0" maxOccurs="unbounded"/>
+                                <textNode/>
+                            </sequence>
+                        </content>
+                    </elementSpec>
+                    
+                    
+                    <!-- dimensions/@type
+            
+            original: binding, book, folia, leaf, leaves, line-height, membrane, 'number of photograph', printed, ruled, ruledColumn, ruling, unknown, written
+            
+            In conversions:
+            binding: keep 
+            book: keep
+            folia: keep 
+            'number of folia', change to 'folia'
+            leaf: keep 
+            leaves: change to leaf
+            line-height: keep 
+            membrane: keep 
+            photograph: other
+            printed, ruled: keep 
+            ruledColumn: change to 'ruled'
+            ruling: change to 'ruling'
+            unknown: change to 'other'
+            written: keep
+            
+            Suggested values:
+            binding, folia, leaf, line-height, ruled, written, other
+            
+            -->
+                    <elementSpec ident="dimensions" module="msdescription" mode="change">
+                        <content>
+                            <!-- They aren't currently in our data but the Guidelines allow tei:dim and tei:depth. Do we want these as well?  -->
+                            <sequence preserveOrder="true">
+                                <elementRef key="height" minOccurs="1" maxOccurs="1"/>
+                                <elementRef key="width" minOccurs="1" maxOccurs="1"/>
+                            </sequence>
+                        </content>
+                        <constraintSpec ident="dimensions-unit.check" scheme="schematron">
+                            <constraint>
+                                <sch:rule context="//tei:dimensions">
+                                    <sch:assert test="@unit" role="error"> The unit of measurement
+                                        must be specified in the unit attribute on the dimensions
+                                        element </sch:assert>
+                                </sch:rule>
+                            </constraint>
+                        </constraintSpec>
+                        <attList>
+                            <attDef ident="type" mode="change">
+                                <valList mode="replace" type="semi">
+                                    <valItem ident="binding">
+                                        <desc>The dimensions concerns the binding(s)</desc>
+                                    </valItem>
+                                    <valItem ident="folia">
+                                        <desc>The dimensions concerns the folia as a whole</desc>
+                                    </valItem>
+                                    <valItem ident="leaf">
+                                        <desc>The dimensions concerns the leaf</desc>
+                                    </valItem>
+                                    <valItem ident="line-height">
+                                        <desc>The dimensions concerns the line-height</desc>
+                                    </valItem>
+                                    <valItem ident="ruled">
+                                        <desc>The dimensions concerns the ruling</desc>
+                                    </valItem>
+                                    <valItem ident="written">
+                                        <desc>The dimensions concerns the written area</desc>
+                                    </valItem>
+                                    <valItem ident="other">
+                                        <desc>The dimensions concerns other/unspecified aspects (you
+                                            may also provide a custom value)</desc>
+                                    </valItem>
+                                </valList>
+                            </attDef>
+                        </attList>
+                    </elementSpec>
+                    
+                    
+                    <elementSpec ident="edition" module="header" mode="change">
+                        <content>
+                            <textNode/>
+                        </content>
+                    </elementSpec>
+                    
+                    
+                    <elementSpec ident="editionStmt" module="header" mode="change">
+                        <content>
+                            <elementRef key="edition" minOccurs="1" maxOccurs="1"/>
+                        </content>
+                    </elementSpec>
+                    
+                    
+                    <elementSpec ident="editor" module="core" mode="change">
+                        <!-- There is some inconsistent practice here. In the tei:titleStmt we normally have text() as child of tei:editor. 
+                            But sometimes it's tei:persName or tei:name. Also, in 18 cases we have tei:msItem/tei:editor/text(), but in one 
+                            case we have the name wrapped in a tei:persName element. -->
+                    </elementSpec>
+                    
+                    
+                    <elementSpec ident="editorialDecl" module="header" mode="change">
+                        <content>
+                            <elementRef key="interpretation" minOccurs="1" maxOccurs="1"/>
+                        </content>
+                    </elementSpec>
+                    
+                    
+                    <elementSpec ident="encodingDesc" module="header" mode="change">
+                        <content>
+                            <sequence preserveOrder="true">
+                                <elementRef key="editorialDecl" minOccurs="1" maxOccurs="1"/>
+                                <elementRef key="classDecl" minOccurs="1" maxOccurs="1"/>
+                            </sequence>
+                        </content>
+                    </elementSpec>
+                    
+                    
+                    <elementSpec ident="expan" module="core" mode="change">
+                        <content>
+                            <!-- This is a very tight contstraint. Do we actually want this? -->
+                            <sequence preserveOrder="false">
+                                <elementRef key="foreign" minOccurs="0" maxOccurs="unbounded"/>
+                                <textNode/>
+                            </sequence>
+                        </content>
+                    </elementSpec>
+                    
+                    
+                    <elementSpec ident="explicit" module="msdescription" mode="change">
+                        <content>
+                            <sequence preserveOrder="false">
+                                <elementRef key="foreign" minOccurs="0" maxOccurs="unbounded"/>
+                                <elementRef key="locus" minOccurs="0" maxOccurs="unbounded"/><!-- Any chance this should be required? -->
+                                <elementRef key="note" minOccurs="0" maxOccurs="unbounded"/>
+                                <elementRef key="persName" minOccurs="0" maxOccurs="unbounded"/>
+                                <textNode/>
+                            </sequence>
+                        </content>
+                    </elementSpec>
+                    
+                    
+                    <elementSpec ident="extent" module="header" mode="change">
+                        <content>
+                            <sequence preserveOrder="true">
+                                <elementRef key="dimensions" minOccurs="1" maxOccurs="1"/>
+                                <elementRef key="measure" minOccurs="1" maxOccurs="1"/>
+                            </sequence>
+                        </content>
+                    </elementSpec>
+                    
+                    
+                    <elementSpec ident="fileDesc" module="header" mode="change">
+                        <content>
+                            <sequence preserveOrder="true">
+                                <elementRef key="titleStmt" minOccurs="1" maxOccurs="1"/>
+                                <elementRef key="editionStmt" minOccurs="1" maxOccurs="1"/>
+                                <elementRef key="publicationStmt" minOccurs="1" maxOccurs="1"/>
+                                <elementRef key="sourceDesc" minOccurs="1" maxOccurs="1"/>
+                            </sequence>
+                        </content>
+                    </elementSpec>
+                    
+                    
+                    <elementSpec ident="filiation" module="msdescription" mode="change">
+                        <content>
+                            <sequence preserveOrder="false">
+                                <elementRef key="bibl" minOccurs="0" maxOccurs="unbounded"/>
+                                <textNode/>
+                            </sequence>
+                        </content>
+                    </elementSpec>
+                    
+                    
+                    <elementSpec ident="finalRubric" module="msdescription" mode="change">
+                        <content>
+                            <sequence preserveOrder="false">
+                                <elementRef key="locus" minOccurs="0" maxOccurs="unbounded"/>
+                                <textNode/>
+                                <!-- Syriaca: The following do not appear in our three main files but I'm guessing we want most/all of them?-->
+                                <elementRef key="foreign" minOccurs="0" maxOccurs="unbounded"/>
+                                <elementRef key="gap" minOccurs="0" maxOccurs="unbounded"/>
+                                <elementRef key="note" minOccurs="0" maxOccurs="unbounded"/>
+                                <elementRef key="persName" minOccurs="0" maxOccurs="unbounded"/>
+                                <elementRef key="placeName" minOccurs="0" maxOccurs="unbounded"/>
+                                <elementRef key="quote" minOccurs="0" maxOccurs="unbounded"/>
+                                <elementRef key="sic" minOccurs="0" maxOccurs="unbounded"/>
+                                <elementRef key="supplied" minOccurs="0" maxOccurs="unbounded"/>
+                            </sequence>
+                        </content>
+                    </elementSpec>
+                    
+                                  
+                    
+                    <!-- make the foliation element a member of att.datable (this is to enable identification of medieval foliation, if desired -->
+                    <elementSpec ident="foliation" module="msdescription" mode="change">
+                        <!-- Syriaca: We only have 9 examples. Some have text, some have tei:p/text, and some have tei:ref/text. 
+                        Let's decide what we want before I start writing rules.-->
+                        <classes mode="change">
+                            <memberOf key="att.datable"/>
+                        </classes>
+                    </elementSpec>
+                    
+                    
+                    <elementSpec ident="foreign" module="core" mode="change">
+                        <content>
+                            <sequence preserveOrder="false">
+                                <!--<elementRef key="choice" minOccurs="0" maxOccurs="unbounded"/> I'd like this to throw an error until we're sure how we want to use choice-->
+                                <elementRef key="date" minOccurs="0" maxOccurs="unbounded"/>
+                                <elementRef key="foreign" minOccurs="0" maxOccurs="unbounded"/>
+                                <elementRef key="locus" minOccurs="0" maxOccurs="unbounded"/>
+                                <elementRef key="persName" minOccurs="0" maxOccurs="unbounded"/>
+                                <elementRef key="placeName" minOccurs="0" maxOccurs="unbounded"/>
+                                <elementRef key="supplied" minOccurs="0" maxOccurs="unbounded"/>
+                                <textNode/>
+                            </sequence>
+                        </content>
+                    </elementSpec>
+                    
+                    
+                    <elementSpec ident="funder" module="header" mode="change">
+                        <content>
+                            <textNode/>
+                        </content>
+                    </elementSpec>
+                    
+                    
+                    <elementSpec ident="fw" module="transcr" mode="change">
+                        <content>
+                            <sequence preserveOrder="false">
+                                <elementRef key="locus" minOccurs="0" maxOccurs="unbounded"/>
+                                <textNode/>
+                            </sequence>
+                        </content>
+                    </elementSpec>
+                    
+                    
+                    <elementSpec ident="handDesc" module="core" mode="change">
+                        <content>
+                            <elementRef key="handNote" minOccurs="1" maxOccurs="1"/>
+                        </content>
+                    </elementSpec>
+                    
+                    
                     <!-- suggested attribute values for script -->
                     <elementSpec ident="handNote" module="msdescription" mode="change">
+                        <content>
+                            <sequence preserveOrder="false">
+                                <elementRef key="bibl" minOccurs="0" maxOccurs="unbounded"/>
+                                <elementRef key="date" minOccurs="0" maxOccurs="unbounded"/>
+                                <elementRef key="foreign" minOccurs="0" maxOccurs="unbounded"/>
+                                <elementRef key="locus" minOccurs="0" maxOccurs="unbounded"/>
+                                <elementRef key="persName" minOccurs="0" maxOccurs="unbounded"/>
+                                <elementRef key="placeName" minOccurs="0" maxOccurs="unbounded"/>
+                                <elementRef key="ref" minOccurs="0" maxOccurs="unbounded"/>
+                                <textNode/>
+                            </sequence>
+                        </content>
                         <attList>
                             <attDef ident="execution" mode="add">
                                 <desc>Specifies the execution of the script according to a widely-used schema, where applicable. 
@@ -4477,170 +4998,36 @@ Comment @davidamichelson -->
                     </elementSpec>
                     
                     
-                    <!-- dimensions/@type
-            
-            original: binding, book, folia, leaf, leaves, line-height, membrane, 'number of photograph', printed, ruled, ruledColumn, ruling, unknown, written
-            
-            In conversions:
-            binding: keep 
-            book: keep
-            folia: keep 
-            'number of folia', change to 'folia'
-            leaf: keep 
-            leaves: change to leaf
-            line-height: keep 
-            membrane: keep 
-            photograph: other
-            printed, ruled: keep 
-            ruledColumn: change to 'ruled'
-            ruling: change to 'ruling'
-            unknown: change to 'other'
-            written: keep
-            
-            Suggested values:
-            binding, folia, leaf, line-height, ruled, written, other
-            
-            -->
-                    <elementSpec ident="dimensions" module="msdescription" mode="change">
-                        <constraintSpec ident="dimensions-unit.check" scheme="schematron">
-                            <constraint>
-                                <sch:rule context="//tei:dimensions">
-                                    <sch:assert test="@unit" role="error"> The unit of measurement
-                                        must be specified in the unit attribute on the dimensions
-                                        element </sch:assert>
-                                </sch:rule>
-                            </constraint>
-                        </constraintSpec>
-                        <attList>
-                            <attDef ident="type" mode="change">
-                                <valList mode="replace" type="semi">
-                                    <valItem ident="binding">
-                                        <desc>The dimensions concerns the binding(s)</desc>
-                                    </valItem>
-                                    <valItem ident="folia">
-                                        <desc>The dimensions concerns the folia as a whole</desc>
-                                    </valItem>
-                                    <valItem ident="leaf">
-                                        <desc>The dimensions concerns the leaf</desc>
-                                    </valItem>
-                                    <valItem ident="line-height">
-                                        <desc>The dimensions concerns the line-height</desc>
-                                    </valItem>
-                                    <valItem ident="ruled">
-                                        <desc>The dimensions concerns the ruling</desc>
-                                    </valItem>
-                                    <valItem ident="written">
-                                        <desc>The dimensions concerns the written area</desc>
-                                    </valItem>
-                                    <valItem ident="other">
-                                        <desc>The dimensions concerns other/unspecified aspects (you
-                                            may also provide a custom value)</desc>
-                                    </valItem>
-                                </valList>
-                            </attDef>
-                        </attList>
-                    </elementSpec>
-                    <!--
-               name/@type
-            Original: " (28) | artist (1) | church (1) | corporate (563) | dedicatee (1) | org (2) | person (8510) | place (10) | unknown (4) "
-            
-            In conversion: blank = delete attribute or change to 'other'
-            artist: change to person
-            church: change to org
-            corporate: change to org
-            dedicatee: keep 
-            org: ?
-            person keep
-            place keep
-            unknown/other: keep
-            
-            suggested values:
-            person
-            place
-            org
-            unknown
-            
-            -->
-                    <elementSpec ident="name" module="core" mode="change">
-                        <attList>
-                            <attDef ident="type" mode="change">
-                                <valList mode="replace" type="semi">
-                                    <valItem ident="person">
-                                        <desc>The name is of a person</desc>
-                                    </valItem>
-                                    <valItem ident="place">
-                                        <desc>The name is of a place</desc>
-                                    </valItem>
-                                    <valItem ident="org">
-                                        <desc>The name is of an organisation</desc>
-                                    </valItem>
-                                    <valItem ident="unknown">
-                                        <desc>The type of name is unknown</desc>
-                                    </valItem>
-                                    <valItem ident="other">
-                                        <desc>The name is of another type (you may also provide a
-                                            custom value)</desc>
-                                    </valItem>
-                                </valList>
-                            </attDef>
-                        </attList>
-                    </elementSpec>
-                    <!-- 
-            
-            title/@type
-            Original: alt (6286) | alternative (1) | collection (9017) | desc (4269) | general (38) | main (7) | parallel (223) | sub (14) | supplied (60) | uniform (1)
-         
-         conversion= alternative -> alt
-         
-          Suggested Vvalues:
-           main
-           sub
-           alt
-           short
-           desc
-           collection
-           
-            -->
-
-                    <elementSpec ident="title" module="core" mode="change">
-                        <attList>
-                            <attDef ident="type" mode="change">
-                                <valList mode="replace" type="semi">
-                                    <valItem ident="main">
-                                        <desc>The title is the main title</desc>
-                                    </valItem>
-                                    <valItem ident="sub">
-                                        <desc>The title is a subtitle or title of a part</desc>
-                                    </valItem>
-                                    <valItem ident="alt">
-                                        <desc>The title is an alternate title, translation, or
-                                            alias</desc>
-                                    </valItem>
-                                    <valItem ident="short">
-                                        <desc>The title is an abbreviated form of the main
-                                            title</desc>
-                                    </valItem>
-                                    <valItem ident="desc">
-                                        <desc>The title is a descriptive paraphrase of the work
-                                            functioning as a title</desc>
-                                    </valItem>
-                                    <valItem ident="collection">
-                                        <desc>The title is of a collection</desc>
-                                    </valItem>
-                                </valList>
-                            </attDef>
-                        </attList>
-                    </elementSpec>
-                    <!-- Non-TEI-conformant change (as per P5 3.1.0) adding 'hi' to locus -->
-                    <elementSpec ident="locus" module="msdescription" mode="change">
+                    <elementSpec ident="head" module="core" mode="change">
                         <content>
-                            <alternate minOccurs="0" maxOccurs="unbounded">
+                            <sequence preserveOrder="false">
+                                <elementRef key="listRelation" minOccurs="0" maxOccurs="unbounded"/>
+                                <elementRef key="note" minOccurs="0" maxOccurs="unbounded"/>
                                 <textNode/>
-                                <classRef key="model.gLike"/>
-                                <classRef key="model.hiLike"/>
-                            </alternate>
+                            </sequence>
                         </content>
                     </elementSpec>
+
+
+                    <elementSpec ident="hi" module="core" mode="change">
+                        <content>
+                            <textNode/>
+                        </content>
+                    </elementSpec>
+                    
+                    
+                    <elementSpec ident="history" module="core" mode="change">
+                        <content>
+                            <sequence preserveOrder="false">
+                                <elementRef key="acquisition" minOccurs="0" maxOccurs="unbounded"/>
+                                <elementRef key="origin" minOccurs="1" maxOccurs="unbounded"/>
+                                <elementRef key="provenance" minOccurs="0" maxOccurs="unbounded"/>
+                            </sequence>
+                        </content>
+                    </elementSpec>
+                    
+                    
+                    
                     <!-- Include XInclude into our schema -->
                     <elementSpec ident="include" ns="http://www.w3.org/2001/XInclude" mode="add">
                         <desc xml:lang="en" versionDate="2014-01-12">The W3C XInclude element</desc>
@@ -4703,52 +5090,8 @@ Comment @davidamichelson -->
                             </alternate>
                         </content>
                     </elementSpec>
-
-
-                    <!-- allow accMat to contain msPart (commented out 15.1.19 -->
-                    <!--<elementSpec ident="accMat" module="msdescription" mode="change">
-                        <content>
-                            <macroRef key="macro.specialPara"/>
-                            <elementRef key="msPart" minOccurs="0"/>
-                        </content>
-                    </elementSpec>-->
-
-                    <!-- add new attribute "mainStructures" to collation -->
-                    <elementSpec ident="collation" module="msdescription" mode="change">
-                        <attList>
-                            <attDef ident="mainStructures">
-                                <desc>Specifies the typical quire structure(s) of the book,
-                                    according to English notation (i.e. the number of folios in the
-                                    original quire), e.g. <val>8</val>, <val>6 8</val>. Note: This
-                                    is a customization which is not currently part of the TEI P5
-                                    standard.</desc>
-                                <datatype minOccurs="1" maxOccurs="unbounded">
-                                    <dataRef key="teidata.count"/>
-                                </datatype>
-                            </attDef>
-                        </attList>
-                    </elementSpec>
-
-
-
-
-
-                    <!-- make the signatures element member of att.typed
-                    (this is to allow distinction between quire signatures (or numbers) and leaf/bifolium signatures) -->
-                    <elementSpec ident="signatures" module="msdescription" mode="change">
-                        <classes mode="change">
-                            <memberOf key="att.typed"/>
-                        </classes>
-                    </elementSpec>
-
-
-                    <!-- make the foliation element a member of att.datable (this is to enable identification of medieval foliation, if desired -->
-                    <elementSpec ident="foliation" module="msdescription" mode="change">
-                        <classes mode="change">
-                            <memberOf key="att.datable"/>
-                        </classes>
-                    </elementSpec>
-
+                    
+                    
                     <!-- add new attributes "topLine" and "rulingMedium" to layout
                         make layout part of att.typed  -->
                     <elementSpec ident="layout" module="msdescription" mode="change">
@@ -4771,7 +5114,7 @@ Comment @davidamichelson -->
                                         <desc>The writing is variously above and below top line with
                                             no clear pattern.</desc>
                                     </valItem>
-
+                                    
                                 </valList>
                             </attDef>
                             <attDef ident="rulingMedium" mode="add">
@@ -4803,144 +5146,74 @@ Comment @davidamichelson -->
                                     <valItem ident="board">
                                         <desc>The ruling is carried out using a board.</desc>
                                     </valItem>
-
+                                    
                                 </valList>
                             </attDef>
                         </attList>
                     </elementSpec>
-
-                    <!-- add new attribute value "offsite" for the availability element -->
-                    <elementSpec ident="availability" module="header" mode="change">
+                    
+                    
+                    <!-- Non-TEI-conformant change (as per P5 3.1.0) adding 'hi' to locus -->
+                    <elementSpec ident="locus" module="msdescription" mode="change">
+                        <content>
+                            <alternate minOccurs="0" maxOccurs="unbounded">
+                                <textNode/>
+                                <classRef key="model.gLike"/>
+                                <classRef key="model.hiLike"/>
+                            </alternate>
+                        </content>
+                    </elementSpec>
+                    
+                    
+                    
+                    <!--
+               name/@type
+            Original: " (28) | artist (1) | church (1) | corporate (563) | dedicatee (1) | org (2) | person (8510) | place (10) | unknown (4) "
+            
+            In conversion: blank = delete attribute or change to 'other'
+            artist: change to person
+            church: change to org
+            corporate: change to org
+            dedicatee: keep 
+            org: ?
+            person keep
+            place keep
+            unknown/other: keep
+            
+            suggested values:
+            person
+            place
+            org
+            unknown
+            
+            -->
+                    <elementSpec ident="name" module="core" mode="change">
                         <attList>
-                            <attDef ident="status" mode="replace">
-                                <desc>Specifies the availability of a manuscript. This attribute
-                                    should not be used to specify the availability of manuscript
-                                    metadata: use the <gi>licence</gi> element for that
-                                    purpose.</desc>
-                                <datatype maxOccurs="unbounded">
-                                    <dataRef key="teidata.word"/>
-                                </datatype>
-                                <valList type="closed">
-                                    <valItem ident="free">
-                                        <desc>The item is available.</desc>
+                            <attDef ident="type" mode="change">
+                                <valList mode="replace" type="semi">
+                                    <valItem ident="person">
+                                        <desc>The name is of a person</desc>
                                     </valItem>
-                                    <!-- nb: not necessarily permanently restricted -->
-                                    <valItem ident="restricted">
-                                        <desc>Access to the item is restricted for conservation or
-                                            other reasons.</desc>
+                                    <valItem ident="place">
+                                        <desc>The name is of a place</desc>
                                     </valItem>
-                                    <valItem ident="exhibition">
-                                        <desc>The item is on exhibition at the owning library or
-                                            another institution, and is likely to be temporarily
-                                            unavailable.</desc>
-                                    </valItem>
-                                    <valItem ident="offsite">
-                                        <desc>The item is stored offsite, and will take at least
-                                            twenty-four hours to produce.</desc>
-                                    </valItem>
-                                    <valItem ident="printcat">
-                                        <desc>The item is orderable through a catalogue of printed materials, typically because it is a fragment in a printed book or because it is part of a collection of mostly printed material.</desc>
-                                    </valItem>
-                                    <valItem ident="none">
-                                        <desc>The item cannot be ordered, typically either because it is a stub record or because it is not held by the library which is responsible for the catalogue.</desc>
+                                    <valItem ident="org">
+                                        <desc>The name is of an organisation</desc>
                                     </valItem>
                                     <valItem ident="unknown">
-                                        <desc>Availability of the item is unknown.</desc>
-                                    </valItem>
-                                </valList>
-                            </attDef>
-                        </attList>
-                    </elementSpec>
-
-                    <!-- add a new element 'countermark'. Model should be same as for 'watermark'  
-                    Syriaca, deleted this new countermark element. -->
-                    <!--<elementSpec ident="countermark" mode="add"
-                        ns="https://github.com/msdesc/consolidated-tei-schema">
-                        <desc>Contains a description of a countermark. Note: This is a customization
-                            which is not currently part of the TEI P5 standard.</desc>
-                        <classes>
-                            <memberOf key="model.pPart.msDesc"/>
-                            <memberOf key="att.global"/>
-                            <memberOf key="att.global.rendition"/>
-                            <memberOf key="att.global.linking"/>
-                            <memberOf key="att.global.analytic"/>
-                            <memberOf key="att.global.change"/>
-                            <memberOf key="att.global.responsibility"/>
-                            <memberOf key="att.global.source"/>
-                        </classes>
-                        <content>
-                            <macroRef key="macro.phraseSeq"/>
-                        </content>
-                    </elementSpec>-->
-
-
-                    <!-- use ENRICH values for supportDesc/@material and make the attribute required -->
-                    <elementSpec ident="supportDesc" module="msdescription" mode="change">
-                        <constraintSpec ident="textLang.check" scheme="schematron">
-                            <constraint>
-                                <sch:rule 
-                                    see="https://msdesc.github.io/consolidated-tei-schema/msdesc.html#supportdesc"
-                                    context="//tei:sourceDesc/tei:msDesc[not(tei:msPart)]">
-                                    <sch:assert 
-                                        test="tei:physDesc/tei:objectDesc/tei:supportDesc[@material]" 
-                                        role="warn">
-                                        The material (parchment, paper, etc.) of a manuscript should be recorded 
-                                        in the supportDesc element, with a material attribute.
-                                    </sch:assert>
-                                </sch:rule>
-                                <sch:rule 
-                                    context="//tei:sourceDesc/tei:msDesc/tei:msPart">
-                                    <sch:assert 
-                                        test="
-                                            tei:physDesc/tei:objectDesc/tei:supportDesc[@material]
-                                            or ancestor::tei:msDesc/tei:physDesc/tei:objectDesc/tei:supportDesc[@material]
-                                            " 
-                                        role="warn">
-                                        The material (parchment, paper, etc.) of each part should be recorded in 
-                                        the supportDesc element, with a material attribute, unless it has been 
-                                        described for the entire manuscript.
-                                    </sch:assert>
-                                </sch:rule>
-                            </constraint>
-                        </constraintSpec>
-                        <attList>
-                            <attDef ident="material" mode="replace" usage="rec">
-                                <desc>The material composing the majority of the support</desc>
-                                <datatype maxOccurs="1">
-                                    <dataRef key="teidata.word"/>
-                                </datatype>
-                                <valList type="semi">
-                                    <valItem ident="perg">
-                                        <desc>The object is composed of parchment or vellum</desc>
-                                    </valItem>
-                                    <valItem ident="chart">
-                                        <desc>The object is composed of any kind of paper. Give more details, 
-                                            if any, in a child <gi>support</gi> element.</desc>
-                                    </valItem>
-                                    <valItem ident="papyrus">
-                                        <desc>The object is composed of papyrus.</desc>
-                                    </valItem>
-                                    <valItem ident="palm">
-                                        <desc>The object is composed of palm leaves.</desc>
-                                    </valItem>
-                                    <valItem ident="mixed">
-                                        <desc>The object is composed of a combination of paper and
-                                            parchment. The nature of the combination should be
-                                            specified in the <gi>support</gi> element.</desc>
+                                        <desc>The type of name is unknown</desc>
                                     </valItem>
                                     <valItem ident="other">
-                                        <desc>The object is composed of another material (e.g.
-                                            wood).</desc>
-                                    </valItem>
-                                    <valItem ident="unknown">
-                                        <desc>The material of which is object is composed is not
-                                            known.</desc>
+                                        <desc>The name is of another type (you may also provide a
+                                            custom value)</desc>
                                     </valItem>
                                 </valList>
                             </attDef>
                         </attList>
                     </elementSpec>
-
+                    
+                    
+                    
                     <!-- suggest values for @form on objectDesc and make the attribute required. Other projects should add other values. -->
                     <elementSpec ident="objectDesc" module="msdescription" mode="change">
                         <constraintSpec ident="objectDesc-textLang.check" scheme="schematron">
@@ -5011,7 +5284,175 @@ Comment @davidamichelson -->
                         </attList>
                     </elementSpec>
                     
+                    
+                    
+                    <elementSpec ident="signatures" module="msdescription" mode="change">
+                        <classes mode="change">
+                            <memberOf key="att.typed"/>
+                        </classes>
+                    </elementSpec>
+                    
+                    
+                    <!-- use ENRICH values for supportDesc/@material and make the attribute required -->
+                    <elementSpec ident="supportDesc" module="msdescription" mode="change">
+                        <constraintSpec ident="textLang.check" scheme="schematron">
+                            <constraint>
+                                <sch:rule 
+                                    see="https://msdesc.github.io/consolidated-tei-schema/msdesc.html#supportdesc"
+                                    context="//tei:sourceDesc/tei:msDesc[not(tei:msPart)]">
+                                    <sch:assert 
+                                        test="tei:physDesc/tei:objectDesc/tei:supportDesc[@material]" 
+                                        role="warn">
+                                        The material (parchment, paper, etc.) of a manuscript should be recorded 
+                                        in the supportDesc element, with a material attribute.
+                                    </sch:assert>
+                                </sch:rule>
+                                <sch:rule 
+                                    context="//tei:sourceDesc/tei:msDesc/tei:msPart">
+                                    <sch:assert 
+                                        test="
+                                        tei:physDesc/tei:objectDesc/tei:supportDesc[@material]
+                                        or ancestor::tei:msDesc/tei:physDesc/tei:objectDesc/tei:supportDesc[@material]
+                                        " 
+                                        role="warn">
+                                        The material (parchment, paper, etc.) of each part should be recorded in 
+                                        the supportDesc element, with a material attribute, unless it has been 
+                                        described for the entire manuscript.
+                                    </sch:assert>
+                                </sch:rule>
+                            </constraint>
+                        </constraintSpec>
+                        <attList>
+                            <attDef ident="material" mode="replace" usage="rec">
+                                <desc>The material composing the majority of the support</desc>
+                                <datatype maxOccurs="1">
+                                    <dataRef key="teidata.word"/>
+                                </datatype>
+                                <valList type="semi">
+                                    <valItem ident="perg">
+                                        <desc>The object is composed of parchment or vellum</desc>
+                                    </valItem>
+                                    <valItem ident="chart">
+                                        <desc>The object is composed of any kind of paper. Give more details, 
+                                            if any, in a child <gi>support</gi> element.</desc>
+                                    </valItem>
+                                    <valItem ident="papyrus">
+                                        <desc>The object is composed of papyrus.</desc>
+                                    </valItem>
+                                    <valItem ident="palm">
+                                        <desc>The object is composed of palm leaves.</desc>
+                                    </valItem>
+                                    <valItem ident="mixed">
+                                        <desc>The object is composed of a combination of paper and
+                                            parchment. The nature of the combination should be
+                                            specified in the <gi>support</gi> element.</desc>
+                                    </valItem>
+                                    <valItem ident="other">
+                                        <desc>The object is composed of another material (e.g.
+                                            wood).</desc>
+                                    </valItem>
+                                    <valItem ident="unknown">
+                                        <desc>The material of which is object is composed is not
+                                            known.</desc>
+                                    </valItem>
+                                </valList>
+                            </attDef>
+                        </attList>
+                    </elementSpec>
+                    
+                    
+                    <!-- 
+            
+            title/@type
+            Original: alt (6286) | alternative (1) | collection (9017) | desc (4269) | general (38) | main (7) | parallel (223) | sub (14) | supplied (60) | uniform (1)
+         
+         conversion= alternative -> alt
+         
+          Suggested Vvalues:
+           main
+           sub
+           alt
+           short
+           desc
+           collection
+           
+            -->
 
+                    <!-- make the signatures element member of att.typed
+                    (this is to allow distinction between quire signatures (or numbers) and leaf/bifolium signatures) -->
+                    <elementSpec ident="title" module="core" mode="change">
+                        <attList>
+                            <attDef ident="type" mode="change">
+                                <valList mode="replace" type="semi">
+                                    <valItem ident="main">
+                                        <desc>The title is the main title</desc>
+                                    </valItem>
+                                    <valItem ident="sub">
+                                        <desc>The title is a subtitle or title of a part</desc>
+                                    </valItem>
+                                    <valItem ident="alt">
+                                        <desc>The title is an alternate title, translation, or
+                                            alias</desc>
+                                    </valItem>
+                                    <valItem ident="short">
+                                        <desc>The title is an abbreviated form of the main
+                                            title</desc>
+                                    </valItem>
+                                    <valItem ident="desc">
+                                        <desc>The title is a descriptive paraphrase of the work
+                                            functioning as a title</desc>
+                                    </valItem>
+                                    <valItem ident="collection">
+                                        <desc>The title is of a collection</desc>
+                                    </valItem>
+                                </valList>
+                            </attDef>
+                        </attList>
+                    </elementSpec>
+                    
+                    
+                    
+                    <!-- allow accMat to contain msPart (commented out 15.1.19 -->
+                    <!--<elementSpec ident="accMat" module="msdescription" mode="change">
+                        <content>
+                            <macroRef key="macro.specialPara"/>
+                            <elementRef key="msPart" minOccurs="0"/>
+                        </content>
+                    </elementSpec>-->
+
+                    
+                    
+
+                    
+                    <!-- add a new element 'countermark'. Model should be same as for 'watermark'  
+                    Syriaca, deleted this new countermark element. -->
+                    <!--<elementSpec ident="countermark" mode="add"
+                        ns="https://github.com/msdesc/consolidated-tei-schema">
+                        <desc>Contains a description of a countermark. Note: This is a customization
+                            which is not currently part of the TEI P5 standard.</desc>
+                        <classes>
+                            <memberOf key="model.pPart.msDesc"/>
+                            <memberOf key="att.global"/>
+                            <memberOf key="att.global.rendition"/>
+                            <memberOf key="att.global.linking"/>
+                            <memberOf key="att.global.analytic"/>
+                            <memberOf key="att.global.change"/>
+                            <memberOf key="att.global.responsibility"/>
+                            <memberOf key="att.global.source"/>
+                        </classes>
+                        <content>
+                            <macroRef key="macro.phraseSeq"/>
+                        </content>
+                    </elementSpec>-->
+
+
+
+                    <!-- ********************** -->
+                    <!-- SYRIACA.ORG: decide whether the following are useful.  -->
+                    <!-- ********************** -->
+                    
+                    
+                    
 
                     <!-- ********************** -->
                     <!-- Schematron constraints -->
