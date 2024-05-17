@@ -4409,7 +4409,23 @@ Comment @davidamichelson -->
                     
                     
                     <elementSpec ident="choice" module="core" mode="change">
-                        <!-- Data edits required before we can customize -->
+                        <content>
+                            <!-- Syriaca: Data edits still in progress but this should be useful. -->
+                            <alternate>
+                                <sequence>
+                                    <elementRef key="sic"/>
+                                    <elementRef key="corr"/>
+                                </sequence>
+                                <sequence>
+                                    <elementRef key="orig"/>
+                                    <elementRef key="reg"/>
+                                </sequence>
+                                <sequence>
+                                    <elementRef key="abbr"/>
+                                    <elementRef key="expan"/>
+                                </sequence>
+                            </alternate>
+                        </content>
                     </elementSpec>
                     
                     
@@ -4823,7 +4839,7 @@ Comment @davidamichelson -->
                             <sequence preserveOrder="false">
                                 <elementRef key="locus" minOccurs="0" maxOccurs="unbounded"/>
                                 <textNode/>
-                                <!-- Syriaca: The following do not appear in our three main files but I'm guessing we want most/all of them?-->
+                                <!-- Syriaca: The following do not appear in our three main files but I'm guessing we want most/all of them? Perhaps we want a lot more?-->
                                 <elementRef key="foreign" minOccurs="0" maxOccurs="unbounded"/>
                                 <elementRef key="gap" minOccurs="0" maxOccurs="unbounded"/>
                                 <elementRef key="note" minOccurs="0" maxOccurs="unbounded"/>
@@ -5027,8 +5043,34 @@ Comment @davidamichelson -->
                     </elementSpec>
                     
                     
+                    <elementSpec ident="idno" module="header" mode="change">
+                        <content>
+                            <textNode/>
+                        </content>
+                    </elementSpec>
+                    
+                    
+                    <elementSpec ident="incipit" module="msdescription" mode="change">
+                        <content>
+                            <sequence preserveOrder="false">
+                                <elementRef key="choice" minOccurs="0" maxOccurs="unbounded"/>
+                                <elementRef key="foreign" minOccurs="0" maxOccurs="unbounded"/>
+                                <elementRef key="lb" minOccurs="0" maxOccurs="unbounded"/>
+                                <elementRef key="note" minOccurs="0" maxOccurs="unbounded"/>
+                                <elementRef key="quote" minOccurs="0" maxOccurs="unbounded"/>
+                                <elementRef key="persName" minOccurs="0" maxOccurs="unbounded"/>
+                                <elementRef key="placeName" minOccurs="0" maxOccurs="unbounded"/>
+                                <elementRef key="ref" minOccurs="0" maxOccurs="unbounded"/>
+                                <elementRef key="supplied" minOccurs="0" maxOccurs="unbounded"/>
+                                <textNode/>
+                            </sequence>
+                        </content>
+                    </elementSpec>
+                    
+                    
                     
                     <!-- Include XInclude into our schema -->
+                    <!-- Syriaca: we aren't using the include element in our data. -->
                     <elementSpec ident="include" ns="http://www.w3.org/2001/XInclude" mode="add">
                         <desc xml:lang="en" versionDate="2014-01-12">The W3C XInclude element</desc>
                         <classes>
@@ -5092,12 +5134,66 @@ Comment @davidamichelson -->
                     </elementSpec>
                     
                     
+                    <elementSpec ident="interpretation" module="header" mode="change">
+                        <content>
+                            <elementRef key="p" minOccurs="1" maxOccurs="unbounded"/>
+                        </content>
+                    </elementSpec>
+                    
+                    
+                    <elementSpec ident="item" module="core" mode="change">
+                        <content>
+                            <sequence preserveOrder="false">
+                                <elementRef key="choice" minOccurs="0" maxOccurs="unbounded"/>
+                                <elementRef key="bibl" minOccurs="0" maxOccurs="unbounded"/>
+                                <elementRef key="date" minOccurs="0" maxOccurs="unbounded"/>
+                                <elementRef key="label" minOccurs="0" maxOccurs="unbounded"/>
+                                <elementRef key="locus" minOccurs="0" maxOccurs="unbounded"/>
+                                <elementRef key="note" minOccurs="0" maxOccurs="unbounded"/>
+                                <elementRef key="p" minOccurs="0" maxOccurs="unbounded"/>
+                                <elementRef key="ref" minOccurs="0" maxOccurs="unbounded"/>
+                            </sequence>
+                        </content>
+                    </elementSpec>
+                    
+                    
+                    <elementSpec ident="keywords" module="header" mode="change">
+                        <content>
+                            <elementRef key="list" minOccurs="1" maxOccurs="1"/>
+                        </content>
+                    </elementSpec>
+                    
+                    
+                    <elementSpec ident="label" module="core" mode="change">
+                        <content>
+                            <textNode/>
+                        </content>
+                    </elementSpec>
+                    
+                    
+                    <elementSpec ident="langUsage" module="header" mode="change">
+                        <content>
+                            <elementRef key="language" minOccurs="1" maxOccurs="unbounded"/>
+                        </content>
+                    </elementSpec>
+                    
+                    
+                    <elementSpec ident="language" module="header" mode="change">
+                        <content>
+                            <textNode/>
+                        </content>
+                    </elementSpec>
+                    
+                    
                     <!-- add new attributes "topLine" and "rulingMedium" to layout
                         make layout part of att.typed  -->
                     <elementSpec ident="layout" module="msdescription" mode="change">
                         <classes mode="change">
                             <memberOf key="att.typed"/>
                         </classes>
+                        <content>
+                            <elementRef key="p" minOccurs="1" maxOccurs="unbounded"/>
+                        </content>
                         <attList>
                             <attDef ident="topLine" mode="add">
                                 <desc>Specifies the whether the writing is above top line, below top
@@ -5153,7 +5249,48 @@ Comment @davidamichelson -->
                     </elementSpec>
                     
                     
+                    <elementSpec ident="layoutDesc" module="msdescription" mode="change">
+                        <content>
+                            <elementRef key="layout" minOccurs="1" maxOccurs="unbounded"/>
+                        </content>
+                    </elementSpec>
+                    
+                    
+                    <elementSpec ident="licence" module="header" mode="change">
+                        <content>
+                            <elementRef key="p" minOccurs="1" maxOccurs="1"/>
+                        </content>
+                    </elementSpec>
+                    
+                    
+                    <elementSpec ident="list" module="core" mode="change">
+                        <content>
+                            <elementRef key="item" minOccurs="1" maxOccurs="unbounded"/>
+                        </content>
+                    </elementSpec>
+                    
+                    
+                    <elementSpec ident="listBibl" module="core" mode="change">
+                        <content>
+                            <elementRef key="bibl" minOccurs="1" maxOccurs="unbounded"/>
+                        </content>
+                    </elementSpec>
+                    
+                    
+                    <elementSpec ident="listRelation" module="namesdates" mode="change">
+                        <content>
+                            <elementRef key="desc" minOccurs="1" maxOccurs="1"/>
+                            <!-- Syriaca: I don't like the way we are using the desc element.  
+                            See: https://github.com/srophe/britishLibrary-data/blob/schema-edits/data/tei/1.xml#L79
+                            The path should be head/note[text()]/listRelation/relation/desc.
+                            The listRelation element should be inside the note element. (Although I'm not sure I like note either. Is this just a tei:desc here?)-->
+                            <elementRef key="relation" minOccurs="1" maxOccurs="unbounded"/>
+                        </content>
+                    </elementSpec>
+                    
+                    
                     <!-- Non-TEI-conformant change (as per P5 3.1.0) adding 'hi' to locus -->
+                    <!-- Syriaca: not sure what to do here as we only use text in tei:locus. I suppose we only allow that to start? -->
                     <elementSpec ident="locus" module="msdescription" mode="change">
                         <content>
                             <alternate minOccurs="0" maxOccurs="unbounded">
@@ -5164,6 +5301,52 @@ Comment @davidamichelson -->
                         </content>
                     </elementSpec>
                     
+                    
+                    <elementSpec ident="material" module="msdescription" mode="change">
+                        <content>
+                            <sequence preserveOrder="false">
+                                <elementRef key="locus" minOccurs="1" maxOccurs="unbounded"/>
+                                <textNode/>
+                            </sequence>
+                        </content>
+                    </elementSpec>
+                    
+                    
+                    <elementSpec ident="measure" module="core" mode="change">
+                        <content>
+                            <textNode/>
+                        </content>
+                    </elementSpec>
+                    
+                    
+                    <elementSpec ident="msContents" module="msdescription" mode="change">
+                        <content>
+                            <sequence preserveOrder="true">
+                                <elementRef key="textLang" minOccurs="1" maxOccurs="1"/>
+                                <elementRef key="msItem" minOccurs="1" maxOccurs="unbounded"/>
+                            </sequence>
+                        </content>
+                    </elementSpec>
+                    
+                    
+                    <elementSpec ident="msDesc" module="msdescription" mode="change">
+                        <!-- Syriaca: No content customization needed. -->
+                    </elementSpec>
+                    
+                    
+                    <elementSpec ident="msIdentifier" module="msdescription" mode="change">
+                        <!-- Syriaca: No content customization needed. -->
+                    </elementSpec>
+                    
+                    
+                    <elementSpec ident="msItem" module="msdescription" mode="change">
+                        <!-- Syriaca: Work with Dave and Will to create alternate sequences for parts within parts. -->
+                    </elementSpec>
+                    
+                    
+                    <elementSpec ident="msPart" module="msdescription" mode="change">
+                        <!-- Syriaca: Work with Dave and Will to create alternate sequences for parts within parts. -->
+                    </elementSpec>
                     
                     
                     <!--
@@ -5188,6 +5371,7 @@ Comment @davidamichelson -->
             
             -->
                     <elementSpec ident="name" module="core" mode="change">
+                        <!-- Syriaca: confirm use of name/persName before customizing. -->
                         <attList>
                             <attDef ident="type" mode="change">
                                 <valList mode="replace" type="semi">
@@ -5210,6 +5394,11 @@ Comment @davidamichelson -->
                                 </valList>
                             </attDef>
                         </attList>
+                    </elementSpec>
+                    
+                    
+                    <elementSpec ident="note" module="core" mode="change">
+                        <!-- Syriaca: We could contstrain for what we have or we could leave note/p/quote/supplied, etc. open for lots of content. Discuss. -->
                     </elementSpec>
                     
                     
@@ -5285,6 +5474,141 @@ Comment @davidamichelson -->
                     </elementSpec>
                     
                     
+                    <elementSpec ident="orgName" module="namesdates" mode="change">
+                        <content>
+                            <textNode/>
+                        </content>
+                    </elementSpec>
+                    
+                    
+                    <elementSpec ident="orig" module="core" mode="change">
+                        <!-- Syriaca: Revisit this as part of assessment of how we are currently using tei:choice. -->
+                    </elementSpec>
+                    
+                    
+                    <elementSpec ident="origDate" module="msdescription" mode="change">
+                        <content>
+                            <textNode/>
+                        </content>
+                    </elementSpec>
+                    
+                    
+                    <elementSpec ident="origPlace" module="msdescription" mode="change">
+                        <content>
+                            <elementRef key="placeName" minOccurs="1" maxOccurs="1"/>
+                        </content>
+                    </elementSpec>
+                    
+                    
+                    <elementSpec ident="origin" module="msdescription" mode="change">
+                        <content>
+                            <sequence preserveOrder="true">
+                                <!-- Syriaca: This should validate. However, in moving from Wright's prose to 
+                                    this more data-oriented encoding we encode different dating systems in separate tei:origDate elements 
+                                    and different name variants based on language in different tei:origPlace elements. 
+                                    It would be better in these cases to allow only one origDate[date[2]] and one origPlace[placeName[2]].
+                                -->
+                                <elementRef key="origDate" minOccurs="1" maxOccurs="unbounded"/>
+                                <elementRef key="orgPlace" minOccurs="1" maxOccurs="unbounded"/>
+                            </sequence>
+                        </content>
+                    </elementSpec>
+                    
+                    
+                    <elementSpec ident="p" module="core" mode="change">
+                        <!-- Syriaca: We could contstrain for what we have or we could leave note/p/quote/supplied, etc. open for lots of content. Discuss. -->
+                    </elementSpec>
+                    
+                    
+                    <elementSpec ident="persName" module="namesdates" mode="change">
+                        <content>
+                            <sequence preserveOrder="false">
+                                <elementRef key="persName" minOccurs="0" maxOccurs="unbounded"/>
+                                <elementRef key="placeName" minOccurs="0" maxOccurs="unbounded"/>
+                                <textNode/>
+                            </sequence>
+                        </content>
+                    </elementSpec>
+                    
+                    
+                    <elementSpec ident="physDesc" module="msdescription" mode="change">
+                        <content>
+                            <sequence preserveOrder="true">
+                                <elementRef key="p" minOccurs="1" maxOccurs="unbounded"/>
+                                <elementRef key="objectDesc" minOccurs="1" maxOccurs="1"/>
+                                <elementRef key="handDesc" minOccurs="0" maxOccurs="1"/>
+                                <elementRef key="decoDesc" minOccurs="0" maxOccurs="1"/>
+                                <elementRef key="additions" minOccurs="0" maxOccurs="1"/>
+                                <elementRef key="bindingDesc" minOccurs="0" maxOccurs="1"/>
+                                <elementRef key="accMat" minOccurs="0" maxOccurs="1"/>
+                            </sequence>
+                        </content>
+                    </elementSpec>
+                    
+                    
+                    <elementSpec ident="placeName" module="namesdates" mode="change">
+                        <content>
+                            <sequence preserveOrder="false">
+                                <elementRef key="persName" minOccurs="0" maxOccurs="unbounded"/>
+                                <elementRef key="placeName" minOccurs="0" maxOccurs="unbounded"/>
+                                <textNode/>
+                            </sequence>
+                        </content>
+                    </elementSpec>
+                    
+                    
+                    <elementSpec ident="principal" module="header" mode="change">
+                        <content>
+                            <textNode/>
+                        </content>
+                    </elementSpec>
+                    
+                    
+                    <elementSpec ident="profileDesc" module="header" mode="change">
+                        <content>
+                            <sequence preserveOrder="true">
+                                <elementRef key="langUsage" minOccurs="1" maxOccurs="1"/>
+                                <elementRef key="textClass" minOccurs="1" maxOccurs="1"/>
+                            </sequence>
+                        </content>
+                    </elementSpec>
+                    
+                    
+                    <elementSpec ident="provenance" module="msdescription" mode="change">
+                        <content>
+                            <elementRef key="p" minOccurs="1" maxOccurs="unbounded"/>
+                        </content>
+                    </elementSpec>
+                    
+                    
+                    <elementSpec ident="pubPlace" module="core" mode="change">
+                        <content>
+                            <textNode/>
+                        </content>
+                    </elementSpec>
+                    
+                    
+                    <elementSpec ident="publicationStmt" module="header" mode="change">
+                        <content>
+                            <sequence preserveOrder="true">
+                                <elementRef key="authority" minOccurs="1" maxOccurs="1"/>
+                                <elementRef key="idno" minOccurs="1" maxOccurs="1"/>
+                                <elementRef key="availability" minOccurs="1" maxOccurs="1"/>
+                                <elementRef key="date" minOccurs="1" maxOccurs="1"/>
+                            </sequence>
+                        </content>
+                    </elementSpec>
+                    
+                    
+                    <elementSpec ident="q" module="core" mode="change">
+                        <!-- Syriaca: Dave suggested we reconsider our use of this element. -->
+                    </elementSpec>
+                    
+                    
+                    <elementSpec ident="quote" module="core" mode="change">
+                        <!-- Syriaca: We could contstrain for what we have or we could leave note/p/quote/supplied, etc. open for lots of content. Discuss. -->
+                    </elementSpec>
+                    
                     
                     <elementSpec ident="signatures" module="msdescription" mode="change">
                         <classes mode="change">
@@ -5293,8 +5617,143 @@ Comment @davidamichelson -->
                     </elementSpec>
                     
                     
+                    <elementSpec ident="recordHist" module="msdescription" mode="change">
+                        <content>
+                            <elementRef key="source" minOccurs="1" maxOccurs="1"/>
+                        </content>
+                    </elementSpec>
+                    
+                    
+                    <elementSpec ident="ref" module="core" mode="change">
+                        <content>
+                            <sequence preserveOrder="false">
+                                <elementRef key="locus" minOccurs="0" maxOccurs="unbounded"/>
+                                <elementRef key="persName" minOccurs="0" maxOccurs="unbounded"/>
+                                <elementRef key="placeName" minOccurs="0" maxOccurs="unbounded"/>
+                                <textNode/>
+                            </sequence>
+                        </content>
+                    </elementSpec>
+                    
+                    
+                    <elementSpec ident="relation" module="namesdates" mode="change">
+                        <content>
+                            <!-- We have a lot or relation elements without child::desc. Are we good with that?
+                                Also, see note at elementSpec ident="listRelation"
+                            -->
+                            <elementRef key="desc" minOccurs="0" maxOccurs="1"/>
+                        </content>
+                    </elementSpec>
+                    
+                    
+                    <elementSpec ident="repository" module="msdescription" mode="change">
+                        <content>
+                            <textNode/>
+                        </content>
+                    </elementSpec>
+                    
+                    
+                    <elementSpec ident="resp" module="core" mode="change">
+                        <content>
+                            <textNode/>
+                        </content>
+                    </elementSpec>
+                    
+                    
+                    <elementSpec ident="resp" module="core" mode="change">
+                        <content>
+                            <sequence preserveOrder="true">
+                                <elementRef key="name" minOccurs="1" maxOccurs="1"/>
+                                <elementRef key="resp" minOccurs="1" maxOccurs="1"/>
+                            </sequence>
+                        </content>
+                    </elementSpec>
+                    
+                    
+                    <elementSpec ident="revisionDesc" module="header" mode="change">
+                        <content>
+                            <elementRef key="change" minOccurs="1" maxOccurs="1"/>
+                        </content>
+                    </elementSpec>
+                    
+                    
+                    <elementSpec ident="row" module="figures" mode="change">
+                        <!-- Syriaca: No content customization needed. -->
+                    </elementSpec>
+                    
+                    
+                    <elementSpec ident="rubric" module="msdescription" mode="change">
+                        <content>
+                            <sequence preserveOrder="false">
+                                <elementRef key="locus" minOccurs="0" maxOccurs="unbounded"/>
+                                <textNode/>
+                                <!-- Syriaca: The following do not appear in any files but see the comment on elementSpec ident="finalRubric" -->
+                                <elementRef key="foreign" minOccurs="0" maxOccurs="unbounded"/>
+                                <elementRef key="gap" minOccurs="0" maxOccurs="unbounded"/>
+                                <elementRef key="note" minOccurs="0" maxOccurs="unbounded"/>
+                                <elementRef key="persName" minOccurs="0" maxOccurs="unbounded"/>
+                                <elementRef key="placeName" minOccurs="0" maxOccurs="unbounded"/>
+                                <elementRef key="quote" minOccurs="0" maxOccurs="unbounded"/>
+                                <elementRef key="sic" minOccurs="0" maxOccurs="unbounded"/>
+                                <elementRef key="supplied" minOccurs="0" maxOccurs="unbounded"/>
+                            </sequence>
+                        </content>
+                    </elementSpec>
+                    
+                    
+                    <elementSpec ident="settlement" module="namesdates" mode="change">
+                        <content>
+                            <textNode/>
+                        </content>
+                    </elementSpec>
+                    
+                    
+                    <elementSpec ident="source" module="msdescription" mode="change">
+                        <content>
+                            <sequence preserveOrder="false">
+                                <elementRef key="bibl" minOccurs="1" maxOccurs="unbounded"/>
+                                <textNode/>
+                            </sequence>
+                        </content>
+                    </elementSpec>
+                    
+                    
+                    <elementSpec ident="sourceDesc" module="header" mode="change">
+                        <content>
+                            <elementRef key="msDesc" minOccurs="1" maxOccurs="1"/>
+                        </content>
+                    </elementSpec>
+                    
+                    
+                    <elementSpec ident="sponsor" module="header" mode="change">
+                        <content>
+                            <textNode/>
+                        </content>
+                    </elementSpec>
+                    
+                    
+                    <elementSpec ident="summary" module="msdescription" mode="change">
+                        <content>
+                            <textNode/>
+                        </content>
+                    </elementSpec>
+                    
+                    
+                    <elementSpec ident="supplied" module="transcr" mode="change">
+                        <!-- Syriaca: We could contstrain for what we have or we could leave note/p/quote/supplied, etc. open for lots of content. Discuss. -->
+                    </elementSpec>
+                    
+                    
+                    <elementSpec ident="support" module="msdescription" mode="change">
+                        <content>
+                            <elementRef key="material" minOccurs="1" maxOccurs="unbounded"/>
+                        </content>
+                    </elementSpec>
+                    
+                    
                     <!-- use ENRICH values for supportDesc/@material and make the attribute required -->
                     <elementSpec ident="supportDesc" module="msdescription" mode="change">
+                        <!-- Syriaca: No content customization needed. -->
                         <constraintSpec ident="textLang.check" scheme="schematron">
                             <constraint>
                                 <sch:rule 
@@ -5361,6 +5820,43 @@ Comment @davidamichelson -->
                     </elementSpec>
                     
                     
+                    <elementSpec ident="row" module="figures" mode="change">
+                        <!-- Syriaca: I'm reluctant to customize this as the content model is built to ensure a properly formatted table. -->
+                    </elementSpec>
+                    
+                    
+                    <elementSpec ident="taxonomy" module="header" mode="change">
+                        <content>
+                            <sequence preserveOrder="true">
+                                <elementRef key="bibl" minOccurs="1" maxOccurs="1"/>
+                                <elementRef key="category" minOccurs="1" maxOccurs="unbounded"/>
+                            </sequence>
+                        </content>
+                    </elementSpec>
+                    
+                    
+                    <elementSpec ident="text" module="textstructure" mode="change">
+                        <content>
+                            <elementRef key="body" minOccurs="1" maxOccurs="unbounded"/>
+                        </content>
+                    </elementSpec>
+                    
+                    
+                    <elementSpec ident="textClass" module="header" mode="change">
+                        <content>
+                            <elementRef key="keywords" minOccurs="1" maxOccurs="1"/>
+                        </content>
+                    </elementSpec>
+                    
+                    
+                    <elementSpec ident="textLang" module="core" mode="change">
+                        <content>
+                            <textNode/>
+                        </content>
+                    </elementSpec>
+                    
+                    
+                    
                     <!-- 
             
             title/@type
@@ -5381,6 +5877,14 @@ Comment @davidamichelson -->
                     <!-- make the signatures element member of att.typed
                     (this is to allow distinction between quire signatures (or numbers) and leaf/bifolium signatures) -->
                     <elementSpec ident="title" module="core" mode="change">
+                        <content>
+                            <sequence preserveOrder="false">
+                                <elementRef key="foreign" minOccurs="0" maxOccurs="unbounded"/>
+                                <elementRef key="persName" minOccurs="0" maxOccurs="unbounded"/>
+                                <!-- Syriaca: Dave suggested removing persName from title. Discuss. -->
+                                <textNode/>
+                            </sequence>
+                        </content>
                         <attList>
                             <attDef ident="type" mode="change">
                                 <valList mode="replace" type="semi">
@@ -5410,6 +5914,26 @@ Comment @davidamichelson -->
                         </attList>
                     </elementSpec>
                     
+                    
+                    <elementSpec ident="titleStmt" module="core" mode="change">
+                        <content>
+                            <sequence preserveOrder="true">
+                                <elementRef key="title" minOccurs="1" maxOccurs="unbounded"/>
+                                <elementRef key="sponsor" minOccurs="1" maxOccurs="unbounded"/>
+                                <elementRef key="funder" minOccurs="1" maxOccurs="unbounded"/>
+                                <elementRef key="principal" minOccurs="1" maxOccurs="unbounded"/>
+                                <elementRef key="editor" minOccurs="1" maxOccurs="unbounded"/>
+                                <elementRef key="respStmt" minOccurs="1" maxOccurs="unbounded"/>
+                            </sequence>
+                        </content>
+                    </elementSpec>
+                    
+                    
+                    <elementSpec ident="width" module="msdescription" mode="change">
+                        <content>
+                            <textNode/>
+                        </content>
+                    </elementSpec>
                     
                     
                     <!-- allow accMat to contain msPart (commented out 15.1.19 -->
