@@ -4510,7 +4510,8 @@ Comment @davidamichelson -->
                                 <textNode/>
                             </sequence>
                         </content>
-                        <!-- Syriaca: We have lots of examples of change elements without @type, @when, or @who. Should we require any? Problem of earlier changes not validating. -->
+                        <!-- Syriaca: We have lots of examples of change elements without @type, @when, or @who. Should we require any? 
+                            Guessing not because this would cause problems with earlier data not validating. -->
                     </elementSpec>
                     
                     
@@ -4906,7 +4907,6 @@ Comment @davidamichelson -->
                         <classes mode="change">
                             <memberOf key="att.global" mode="delete"/>
                             <memberOf key="att.ranging" mode="delete"/>
-                            <memberOf key="att.typed" mode="delete"/>
                         </classes>
                         <content>
                             <!-- They aren't currently in our data but the Guidelines allow tei:dim and tei:depth. Do we want these as well?  -->
@@ -5198,7 +5198,6 @@ Comment @davidamichelson -->
                             <memberOf key="att.global" mode="delete"/>
                             <memberOf key="att.placement" mode="delete"/>
                             <memberOf key="att.hand" mode="delete"/>
-                            <memberOf key="att.type" mode="delete"/>
                         </classes>
                         <content>
                             <sequence preserveOrder="false">
@@ -5226,14 +5225,30 @@ Comment @davidamichelson -->
                     
                     
                     <elementSpec ident="handDesc" module="core" mode="change">
+                        <classes mode="change">
+                            <memberOf key="att.global" mode="delete"/>
+                            <!-- I'm assuming that the 1/1149 @n attribute and 1/1149 @xml:id attribute are errors/unnecessary -->
+                        </classes>
                         <content>
                             <elementRef key="handNote" minOccurs="1" maxOccurs="1"/>
                         </content>
+                        <attList>
+                            <attDef ident="hands" mode="change" usage="req"/><!-- Only 8/1149 lacks a @hands attribute. Should this be required? -->
+                        </attList>
                     </elementSpec>
                     
                     
                     <!-- suggested attribute values for script -->
                     <elementSpec ident="handNote" module="msdescription" mode="change">
+                        <classes mode="change">
+                            <memberOf key="att.global.rendition" mode="delete"/>
+                            <memberOf key="att.global.linking" mode="delete"/>
+                            <memberOf key="att.global.analytic" mode="delete"/>
+                            <memberOf key="att.global.facs" mode="delete"/>
+                            <memberOf key="att.global.change" mode="delete"/>
+                            <memberOf key="att.global.responsibility" mode="delete"/>
+                            <memberOf key="att.global.source" mode="delete"/>
+                        </classes>
                         <content>
                             <sequence preserveOrder="false">
                                 <elementRef key="bibl" minOccurs="0" maxOccurs="unbounded"/>
@@ -5248,6 +5263,7 @@ Comment @davidamichelson -->
                         </content>
                         <attList>
                             <attDef ident="execution" mode="add">
+                                <!-- Syriaca: We're not using this attribute. -->
                                 <desc>Specifies the execution of the script according to a widely-used schema, where applicable. 
                                     The default value is assumed to be libraria. Note: This is a customization which is not
                                     currently part of the TEI P5 standard.</desc>
@@ -5267,7 +5283,7 @@ Comment @davidamichelson -->
                                     
                                 </valList>
                             </attDef>
-                            <attDef ident="script" mode="change">
+                            <attDef ident="script" mode="change"><!-- Syriaca: 9/2202 lack this. Should it be required? -->
                                 <valList mode="replace" type="semi">
                                     <valItem ident="capitalsSquare">
                                         <desc>The script of the hand is square capitals</desc>
@@ -5335,9 +5351,13 @@ Comment @davidamichelson -->
                                     <valItem ident="humanisticaCursiva">
                                         <desc>The script of the hand is humanistic cursive</desc>
                                     </valItem>
-                                
                                 </valList>
                             </attDef>
+                            <attList>
+                                <attDef ident="xml:id" mode="change" usage="req"/>
+                                <!-- Syriaca: 2/2202 lack @scope. Should it be required? -->
+                                <!-- Syriaca: 20/2202 lack @medium. Should it be required? -->
+                            </attList>
                         </attList>
                     </elementSpec>
                     
@@ -5360,16 +5380,34 @@ Comment @davidamichelson -->
                     
                     
                     <elementSpec ident="height" module="msdescription" mode="change">
+                        <classes mode="change">
+                            <memberOf key="att.global" mode="delete"/>
+                            <memberOf key="att.ranging" mode="delete"/>
+                        </classes>
                         <content>
                             <textNode/>
                         </content>
+                        <attList>
+                            <attDef ident="quantity" mode="change" usage="req"/>
+                        </attList>
                     </elementSpec>
 
 
                     <elementSpec ident="hi" module="core" mode="change">
+                        <classes mode="change">
+                            <memberOf key="att.global" mode="delete"/>
+                            <memberOf key="att.written" mode="delete"/>
+                        </classes>
                         <content>
                             <textNode/>
                         </content>
+                        <attList>
+                            <attDef ident="rend" mode="add" usage="req">
+                                <datatype>
+                                    <dataRef key="teidata.word"/><!-- Syriaca: We could instead give a required or recommended list. -->
+                                </datatype>
+                            </attDef>
+                        </attList>
                     </elementSpec>
                     
                     
@@ -5388,13 +5426,32 @@ Comment @davidamichelson -->
                     
                     
                     <elementSpec ident="idno" module="header" mode="change">
+                        <classes mode="change">
+                            <memberOf key="att.global" mode="delete"/>
+                            <memberOf key="att.sortable" mode="delete"/>
+                            <memberOf key="att.datable" mode="delete"/>
+                        </classes>
                         <content>
                             <textNode/>
                         </content>
+                        <attList>
+                            <attDef ident="type" mode="change" usage="req"/><!-- Syriaca: Assuming that the 2/8559 missing @type need to be fixed. -->
+                        </attList>
                     </elementSpec>
                     
                     
                     <elementSpec ident="incipit" module="msdescription" mode="change">
+                        <classes mode="change">
+                            <memberOf key="att.global.rendition" mode="delete"/>
+                            <memberOf key="att.global.linking" mode="delete"/>
+                            <memberOf key="att.global.analytic" mode="delete"/>
+                            <memberOf key="att.global.facs" mode="delete"/>
+                            <memberOf key="att.global.change" mode="delete"/>
+                            <memberOf key="att.global.responsibility" mode="delete"/>
+                            <memberOf key="att.global.source" mode="delete"/>
+                            <memberOf key="att.typed" mode="delete"/>
+                            <memberOf key="att.msExcerpt" mode="delete"/>
+                        </classes>
                         <content>
                             <sequence preserveOrder="false">
                                 <elementRef key="choice" minOccurs="0" maxOccurs="unbounded"/>
@@ -5409,6 +5466,9 @@ Comment @davidamichelson -->
                                 <textNode/>
                             </sequence>
                         </content>
+                        <attList>
+                            <attDef ident="xml:lang" mode="change" usage="req"/><!-- Syriaca: Only 7/1975 lack @xml:lang -->
+                        </attList>
                     </elementSpec>
                     
                     
@@ -5490,6 +5550,16 @@ Comment @davidamichelson -->
                     
                     
                     <elementSpec ident="item" module="core" mode="change">
+                        <classes mode="change">
+                            <memberOf key="att.global.rendition" mode="delete"/>
+                            <memberOf key="att.global.linking" mode="delete"/>
+                            <memberOf key="att.global.analytic" mode="delete"/>
+                            <memberOf key="att.global.facs" mode="delete"/>
+                            <memberOf key="att.global.change" mode="delete"/>
+                            <memberOf key="att.global.responsibility" mode="delete"/>
+                            <memberOf key="att.global.source" mode="delete"/>
+                            <memberOf key="att.sortable" mode="delete"/>
+                        </classes>
                         <content>
                             <sequence preserveOrder="false">
                                 <elementRef key="choice" minOccurs="0" maxOccurs="unbounded"/>
@@ -5502,10 +5572,14 @@ Comment @davidamichelson -->
                                 <elementRef key="ref" minOccurs="0" maxOccurs="unbounded"/>
                             </sequence>
                         </content>
+                        <!-- Syriaca: 1870/4413 have both @n and @xml:id. 2543 have neither. Should these remain optional? -->
                     </elementSpec>
                     
                     
                     <elementSpec ident="keywords" module="header" mode="change">
+                        <classes mode="change">
+                            <memberOf key="att.global" mode="delete"/>
+                        </classes>
                         <content>
                             <elementRef key="list" minOccurs="1" maxOccurs="1"/>
                         </content>
@@ -5537,6 +5611,9 @@ Comment @davidamichelson -->
                     
                     
                     <elementSpec ident="language" module="header" mode="change">
+                        <classes mode="change">
+                            <memberOf key="att.global" mode="delete"/>
+                        </classes>
                         <content>
                             <textNode/>
                         </content>
@@ -5547,13 +5624,14 @@ Comment @davidamichelson -->
                         make layout part of att.typed  -->
                     <elementSpec ident="layout" module="msdescription" mode="change">
                         <classes mode="change">
-                            <memberOf key="att.typed"/>
+                            <memberOf key="att.typed"/><!-- Syriaca: We aren't using these attributes and it's not TEI conformant. Delete?-->
+                            <memberOf key="att.global" mode="delete"/>
                         </classes>
                         <content>
                             <elementRef key="p" minOccurs="1" maxOccurs="unbounded"/>
                         </content>
                         <attList>
-                            <attDef ident="topLine" mode="add">
+                            <attDef ident="topLine" mode="add"><!-- Syriaca: We aren't using this attribute. Comment out?-->
                                 <desc>Specifies the whether the writing is above top line, below top
                                     line, or mixed. Note: This is a customization which is not
                                     currently part of the TEI P5 standard.</desc>
@@ -5571,7 +5649,7 @@ Comment @davidamichelson -->
                                     
                                 </valList>
                             </attDef>
-                            <attDef ident="rulingMedium" mode="add">
+                            <attDef ident="rulingMedium" mode="add"><!-- Syriaca: We aren't using this attribute. Comment out?-->
                                 <desc>Specifies the medium <!-- OK? --> used to carry out the
                                     ruling. Note: This is a customization which is not currently
                                     part of the TEI P5 standard.</desc>
@@ -5600,9 +5678,12 @@ Comment @davidamichelson -->
                                     <valItem ident="board">
                                         <desc>The ruling is carried out using a board.</desc>
                                     </valItem>
-                                    
                                 </valList>
                             </attDef>
+                            <attDef ident="columns" mode="change" usage="req"/>
+                            <attDef ident="writtenLines" mode="change" usage="req"/>
+                            <attDef ident="streams" mode="delete"/><!-- Syriaca: We aren't using this attribute. -->
+                            <attDef ident="ruledLines" mode="delete"/><!-- Syriaca: We aren't using this attribute. -->
                         </attList>
                     </elementSpec>
                     
@@ -5618,6 +5699,10 @@ Comment @davidamichelson -->
                     
                     
                     <elementSpec ident="licence" module="header" mode="change">
+                        <classes mode="change">
+                            <memberOf key="att.global" mode="delete"/>
+                            <memberOf key="att.datable" mode="delete"/>
+                        </classes>
                         <content>
                             <elementRef key="p" minOccurs="1" maxOccurs="1"/>
                         </content>
@@ -5625,6 +5710,11 @@ Comment @davidamichelson -->
                     
                     
                     <elementSpec ident="list" module="core" mode="change">
+                        <classes mode="change">
+                            <memberOf key="att.global" mode="delete"/>
+                            <memberOf key="att.sortable" mode="delete"/>
+                            <memberOf key="att.typed" mode="delete"/>
+                        </classes>
                         <content>
                             <elementRef key="item" minOccurs="1" maxOccurs="unbounded"/>
                         </content>
@@ -5645,6 +5735,10 @@ Comment @davidamichelson -->
                     
                     
                     <elementSpec ident="listRelation" module="namesdates" mode="change">
+                        <classes mode="change">
+                            <memberOf key="att.global" mode="delete"/>
+                            <memberOf key="att.sortable" mode="delete"/>
+                        </classes>
                         <content>
                             <elementRef key="desc" minOccurs="1" maxOccurs="1"/>
                             <!-- Syriaca: I don't like the way we are using the desc element.  
@@ -5653,12 +5747,20 @@ Comment @davidamichelson -->
                             The listRelation element should be inside the note element. (Although I'm not sure I like note either. Is this just a tei:desc here?)-->
                             <elementRef key="relation" minOccurs="1" maxOccurs="unbounded"/>
                         </content>
+                        <attList>
+                            <attDef ident="type" mode="change" usage="req"/>
+                        </attList>
                     </elementSpec>
                     
                     
                     <!-- Non-TEI-conformant change (as per P5 3.1.0) adding 'hi' to locus -->
                     <!-- Syriaca: not sure what to do here as we only use text in tei:locus. I suppose we only allow that to start? -->
                     <elementSpec ident="locus" module="msdescription" mode="change">
+                        <classes mode="change">
+                            <memberOf key="att.global" mode="delete"/>
+                            <memberOf key="att.pointing" mode="delete"/><!-- Syriaca: Some records use @target but it is rare and I believe this is an error. -->
+                            <memberOf key="att.typed" mode="delete"/>
+                        </classes>
                         <content>
                             <alternate minOccurs="0" maxOccurs="unbounded">
                                 <textNode/>
@@ -5666,6 +5768,10 @@ Comment @davidamichelson -->
                                 <classRef key="model.hiLike"/>
                             </alternate>
                         </content>
+                        <attList>
+                            <attDef ident="scheme" mode="delete"/>
+                            <!-- Syriaca: should there be required attributes, @from and/or @to? @from is rarely missing, @to is missing pretty often. -->
+                        </attList>
                     </elementSpec>
                     
                     
@@ -5685,9 +5791,20 @@ Comment @davidamichelson -->
                     
                     
                     <elementSpec ident="measure" module="core" mode="change">
+                        <classes mode="change">
+                            <memberOf key="att.global" mode="delete"/>
+                            <memberOf key="att.ranging" mode="delete"/>
+                        </classes>
                         <content>
                             <textNode/>
                         </content>
+                        <attList>
+                            <attDef ident="unitRef" mode="delete"/>
+                            <attDef ident="commodity" mode="delete"/>
+                            <attDef ident="unit" mode="change" usage="req"/>
+                            <attDef ident="quantity" mode="change" usage="req"/>
+                            <attDef ident="type" mode="change" usage="req"/>
+                        </attList>
                     </elementSpec>
                     
                     
@@ -5707,7 +5824,21 @@ Comment @davidamichelson -->
                     
                     
                     <elementSpec ident="msDesc" module="msdescription" mode="change">
+                        <classes mode="change">
+                            <memberOf key="att.global.rendition" mode="delete"/>
+                            <memberOf key="att.global.linking" mode="delete"/>
+                            <memberOf key="att.global.analytic" mode="delete"/>
+                            <memberOf key="att.global.facs" mode="delete"/>
+                            <memberOf key="att.global.change" mode="delete"/>
+                            <memberOf key="att.global.responsibility" mode="delete"/>
+                            <memberOf key="att.global.source" mode="delete"/>
+                            <memberOf key="att.sortable" mode="delete"/>
+                            <memberOf key="att.typed" mode="delete"/>
+                            <memberOf key="att.declaring" mode="delete"/>
+                            <memberOf key="att.docStatus" mode="delete"/>
+                        </classes>
                         <!-- Syriaca: No content customization needed. -->
+                        <!-- 317/577 have no @xml:lang. Should this be required or remain optional? -->
                     </elementSpec>
                     
                     
@@ -5720,12 +5851,40 @@ Comment @davidamichelson -->
                     
                     
                     <elementSpec ident="msItem" module="msdescription" mode="change">
+                        <classes mode="change">
+                            <memberOf key="att.global.rendition" mode="delete"/>
+                            <memberOf key="att.global.linking" mode="delete"/>
+                            <memberOf key="att.global.analytic" mode="delete"/>
+                            <memberOf key="att.global.facs" mode="delete"/>
+                            <memberOf key="att.global.change" mode="delete"/>
+                            <memberOf key="att.global.responsibility" mode="delete"/>
+                            <memberOf key="att.global.source" mode="delete"/>
+                        </classes>
                         <!-- Syriaca: Work with Dave and Will to create alternate sequences for parts within parts. -->
+                        <attList>
+                            <attDef ident="xml:id" mode="change" usage="req"/>
+                            <attDef ident="n" mode="change" usage="req"/>
+                            <!-- Syriaca: We have 4 instances of @class="#translation". This doesn't seem to point to anything. Should this be a @type attribute instead? -->
+                        </attList>
                     </elementSpec>
                     
                     
                     <elementSpec ident="msPart" module="msdescription" mode="change">
+                        <classes mode="change">
+                            <memberOf key="att.global.rendition" mode="delete"/>
+                            <memberOf key="att.global.linking" mode="delete"/>
+                            <memberOf key="att.global.analytic" mode="delete"/>
+                            <memberOf key="att.global.facs" mode="delete"/>
+                            <memberOf key="att.global.change" mode="delete"/>
+                            <memberOf key="att.global.responsibility" mode="delete"/>
+                            <memberOf key="att.global.source" mode="delete"/>
+                            <memberOf key="att.typed" mode="delete"/>
+                        </classes>
                         <!-- Syriaca: Work with Dave and Will to create alternate sequences for parts within parts. -->
+                        <attList>
+                            <attDef ident="xml:id" mode="change" usage="req"/>
+                            <attDef ident="n" mode="change" usage="req"/>
+                        </attList>
                     </elementSpec>
                     
                     
@@ -5751,6 +5910,13 @@ Comment @davidamichelson -->
             
             -->
                     <elementSpec ident="name" module="core" mode="change">
+                        <classes mode="change">
+                            <memberOf key="att.global" mode="delete"/>
+                            <memberOf key="att.personal" mode="delete"/>
+                            <memberOf key="att.datable" mode="delete"/>
+                            <memberOf key="att.editLike" mode="delete"/>
+                            <memberOf key="att.canonical" mode="add"/>
+                        </classes>
                         <!-- Syriaca: confirm use of name/persName before customizing. -->
                         <attList>
                             <attDef ident="type" mode="change">
@@ -5773,11 +5939,26 @@ Comment @davidamichelson -->
                                     </valItem>
                                 </valList>
                             </attDef>
+                            <attDef ident="key" mode="delete"/>
+                            <attDef ident="ref" mode="change" usage="req"/>
+                            <attDef ident="type" mode="change" usage="req"/>
                         </attList>
                     </elementSpec>
                     
                     
                     <elementSpec ident="note" module="core" mode="change">
+                        <classes mode="change">
+                            <memberOf key="att.global.rendition" mode="delete"/>
+                            <memberOf key="att.global.linking" mode="delete"/>
+                            <memberOf key="att.global.analytic" mode="delete"/>
+                            <memberOf key="att.global.facs" mode="delete"/>
+                            <memberOf key="att.global.change" mode="delete"/>
+                            <memberOf key="att.global.source" mode="delete"/>
+                            <memberOf key="att.placement" mode="delete"/>
+                            <memberOf key="att.pointing" mode="delete"/>
+                            <memberOf key="att.written" mode="delete"/>
+                            <memberOf key="att.anchoring" mode="delete"/>
+                        </classes>
                         <!-- Syriaca: We could contstrain for what we have or we could leave note/p/quote/supplied, etc. open for lots of content. Discuss. -->
                     </elementSpec>
                     
@@ -5785,6 +5966,15 @@ Comment @davidamichelson -->
                     
                     <!-- suggest values for @form on objectDesc and make the attribute required. Other projects should add other values. -->
                     <elementSpec ident="objectDesc" module="msdescription" mode="change">
+                        <classes mode="change">
+                            <memberOf key="att.global" mode="delete"/>
+                        </classes>
+                        <content>
+                            <sequence preserveOrder="true">
+                                <elementRef key="supportDesc" minOccurs="1"/>
+                                <elementRef key="layoutDesc" minOccurs="0"/>
+                            </sequence>
+                        </content>
                         <constraintSpec ident="objectDesc-textLang.check" scheme="schematron">
                             <constraint>
                                 <sch:rule 
@@ -5855,9 +6045,25 @@ Comment @davidamichelson -->
                     
                     
                     <elementSpec ident="orgName" module="namesdates" mode="change">
+                        <classes mode="change">
+                            <memberOf key="att.global.rendition" mode="delete"/>
+                            <memberOf key="att.global.linking" mode="delete"/>
+                            <memberOf key="att.global.analytic" mode="delete"/>
+                            <memberOf key="att.global.facs" mode="delete"/>
+                            <memberOf key="att.global.change" mode="delete"/>
+                            <memberOf key="att.global.responsibility" mode="delete"/>
+                            <memberOf key="att.global.source" mode="delete"/>
+                            <memberOf key="att.personal" mode="delete"/>
+                            <memberOf key="att.datable" mode="delete"/>
+                            <memberOf key="att.editLike" mode="delete"/>
+                            <memberOf key="att.canonical" mode="add"/>
+                        </classes>
                         <content>
                             <textNode/>
                         </content>
+                        <attList>
+                            <attDef ident="key" mode="delete"/>
+                        </attList>
                     </elementSpec>
                     
                     
@@ -5867,6 +6073,13 @@ Comment @davidamichelson -->
                     
                     
                     <elementSpec ident="origDate" module="msdescription" mode="change">
+                        <classes mode="change">
+                            <memberOf key="att.global" mode="delete"/>
+                            <memberOf key="att.datable.iso" mode="delete"/>
+                            <memberOf key="att.dimensions" mode="delete"/>
+                            <memberOf key="att.editlike" mode="delete"/>
+                            <memberOf key="att.typed" mode="delete"/>
+                        </classes>
                         <content>
                             <textNode/>
                         </content>
@@ -5874,6 +6087,19 @@ Comment @davidamichelson -->
                     
                     
                     <elementSpec ident="origPlace" module="msdescription" mode="change">
+                        <classes mode="change">
+                            <memberOf key="att.global.rendition" mode="delete"/>
+                            <memberOf key="att.global.linking" mode="delete"/>
+                            <memberOf key="att.global.analytic" mode="delete"/>
+                            <memberOf key="att.global.facs" mode="delete"/>
+                            <memberOf key="att.global.change" mode="delete"/>
+                            <memberOf key="att.global.responsibility" mode="delete"/>
+                            <memberOf key="att.global.source" mode="delete"/>
+                            <memberOf key="att.naming" mode="delete"/>
+                            <memberOf key="att.datable" mode="delete"/>
+                            <memberOf key="att.editlike" mode="delete"/>
+                            <memberOf key="att.typed" mode="delete"/>
+                        </classes>
                         <content>
                             <elementRef key="placeName" minOccurs="1" maxOccurs="1"/>
                         </content>
@@ -5914,6 +6140,19 @@ Comment @davidamichelson -->
                     
                     
                     <elementSpec ident="persName" module="namesdates" mode="change">
+                        <classes mode="change">
+                            <memberOf key="att.global.rendition" mode="delete"/>
+                            <memberOf key="att.global.linking" mode="delete"/>
+                            <memberOf key="att.global.analytic" mode="delete"/>
+                            <memberOf key="att.global.facs" mode="delete"/>
+                            <memberOf key="att.global.change" mode="delete"/>
+                            <memberOf key="att.global.responsibility" mode="delete"/>
+                            <memberOf key="att.global.source" mode="delete"/>
+                            <memberOf key="att.datable" mode="delete"/>
+                            <memberOf key="att.editlike" mode="delete"/>
+                            <memberOf key="att.personal" mode="delete"/>
+                            <memberOf key="att.canonical" mode="add"/>
+                        </classes>
                         <content>
                             <sequence preserveOrder="false">
                                 <elementRef key="persName" minOccurs="0" maxOccurs="unbounded"/>
@@ -5921,6 +6160,10 @@ Comment @davidamichelson -->
                                 <textNode/>
                             </sequence>
                         </content>
+                        <attList>
+                            <attDef ident="key" mode="delete"/>
+                            <attDef ident="ref" mode="change" usage="req"/>
+                        </attList>
                     </elementSpec>
                     
                     
@@ -5943,6 +6186,19 @@ Comment @davidamichelson -->
                     
                     
                     <elementSpec ident="placeName" module="namesdates" mode="change">
+                        <classes mode="change">
+                            <memberOf key="att.global.rendition" mode="delete"/>
+                            <memberOf key="att.global.linking" mode="delete"/>
+                            <memberOf key="att.global.analytic" mode="delete"/>
+                            <memberOf key="att.global.facs" mode="delete"/>
+                            <memberOf key="att.global.change" mode="delete"/>
+                            <memberOf key="att.global.responsibility" mode="delete"/>
+                            <memberOf key="att.global.source" mode="delete"/>
+                            <memberOf key="att.datable" mode="delete"/>
+                            <memberOf key="att.editlike" mode="delete"/>
+                            <memberOf key="att.personal" mode="delete"/>
+                            <memberOf key="att.canonical" mode="add"/>
+                        </classes>
                         <content>
                             <sequence preserveOrder="false">
                                 <elementRef key="persName" minOccurs="0" maxOccurs="unbounded"/>
@@ -5950,6 +6206,10 @@ Comment @davidamichelson -->
                                 <textNode/>
                             </sequence>
                         </content>
+                        <attList>
+                            <attDef ident="key" mode="delete"/>
+                            <attDef ident="ref" mode="change" usage="req"/>
+                        </attList>
                     </elementSpec>
                     
                     
@@ -5990,6 +6250,22 @@ Comment @davidamichelson -->
                     </elementSpec>
                     
                     
+                    <elementSpec ident="ptr" module="core" mode="change">
+                        <classes mode="change">
+                            <memberOf key="att.global" mode="delete"/>
+                            <memberOf key="att.dReferencing" mode="delete"/>
+                            <memberOf key="att.declaring" mode="delete"/>
+                            <memberOf key="att.internetMedia" mode="delete"/>
+                            <memberOf key="att.typed" mode="delete"/>
+                        </classes>
+                        <attList>
+                            <attDef ident="targetLang" mode="delete"/>
+                            <attDef ident="evaluate" mode="delete"/>
+                            <attDef ident="target" mode="change" usage="req"/>
+                        </attList>
+                    </elementSpec>
+                    
+                    
                     <elementSpec ident="pubPlace" module="core" mode="change">
                         <classes mode="change">
                             <memberOf key="att.global" mode="delete"/>
@@ -6017,19 +6293,30 @@ Comment @davidamichelson -->
                     
                     
                     <elementSpec ident="q" module="core" mode="change">
+                        <classes mode="change">
+                            <memberOf key="att.globalt" mode="delete"/>
+                            <memberOf key="att.ascribed" mode="delete"/>
+                            <memberOf key="att.ascribed.directed" mode="delete"/>
+                        </classes>
                         <!-- Syriaca: Dave suggested we reconsider our use of this element. -->
                     </elementSpec>
                     
                     
                     <elementSpec ident="quote" module="core" mode="change">
-                        <!-- Syriaca: We could contstrain for what we have or we could leave note/p/quote/supplied, etc. open for lots of content. Discuss. -->
-                    </elementSpec>
-                    
-                    
-                    <elementSpec ident="signatures" module="msdescription" mode="change">
                         <classes mode="change">
-                            <memberOf key="att.typed"/>
+                            <memberOf key="att.global.rendition" mode="delete"/>
+                            <memberOf key="att.global.linking" mode="delete"/>
+                            <memberOf key="att.global.analytic" mode="delete"/>
+                            <memberOf key="att.global.facs" mode="delete"/>
+                            <memberOf key="att.global.change" mode="delete"/>
+                            <memberOf key="att.global.responsibility" mode="delete"/>
+                            <memberOf key="att.global.source" mode="delete"/>
+                            <memberOf key="att.typed" mode="delete"/>
+                            <memberOf key="att.msExcerpt" mode="delete"/>
+                            <memberOf key="att.notated" mode="delete"/>
                         </classes>
+                        <!-- Syriaca: We could contstrain for what we have or we could leave note/p/quote/supplied, etc. open for lots of content. Discuss. -->
+                        <!-- Syriaca: We would likely benefit from looking more closely at how we use quote. I see some slightly confusing stuff even in file 1.xml. -->
                     </elementSpec>
                     
                     
@@ -6044,6 +6331,12 @@ Comment @davidamichelson -->
                     
                     
                     <elementSpec ident="ref" module="core" mode="change">
+                        <classes mode="change">
+                            <memberOf key="att.global" mode="delete"/>
+                            <memberOf key="att.dReferencing" mode="delete"/>
+                            <memberOf key="att.declaring" mode="delete"/>
+                            <memberOf key="att.internetMedia" mode="delete"/>
+                        </classes>
                         <content>
                             <sequence preserveOrder="false">
                                 <elementRef key="locus" minOccurs="0" maxOccurs="unbounded"/>
@@ -6052,16 +6345,33 @@ Comment @davidamichelson -->
                                 <textNode/>
                             </sequence>
                         </content>
+                        <attList>
+                            <attDef ident="targetLang" mode="delete"/>
+                            <attDef ident="evaluate" mode="delete"/>
+                            <attDef ident="target" mode="change" usage="req"/>
+                        </attList>
                     </elementSpec>
                     
                     
                     <elementSpec ident="relation" module="namesdates" mode="change">
+                        <classes mode="change">
+                            <memberOf key="att.global" mode="delete"/>
+                            <memberOf key="att.datable" mode="delete"/>
+                            <memberOf key="att.editLike" mode="delete"/>
+                            <memberOf key="att.sortable" mode="delete"/>
+                            <memberOf key="att.typed" mode="delete"/>
+                        </classes>
                         <content>
                             <!-- We have a lot or relation elements without child::desc. Are we good with that?
                                 Also, see note at elementSpec ident="listRelation"
                             -->
                             <elementRef key="desc" minOccurs="0" maxOccurs="1"/>
                         </content>
+                        <attList>
+                            <attDef ident="key" mode="delete"/>
+                            <attDef ident="name" mode="change" usage="req"/>
+                            <attDef ident="ref" mode="change" usage="req"/>
+                        </attList>
                     </elementSpec>
                     
                     
@@ -6103,6 +6413,9 @@ Comment @davidamichelson -->
                     
                     
                     <elementSpec ident="revisionDesc" module="header" mode="change">
+                        <classes mode="change">
+                            <memberOf key="att.global" mode="delete"/>
+                        </classes>
                         <content>
                             <elementRef key="change" minOccurs="1" maxOccurs="1"/>
                         </content>
@@ -6114,11 +6427,21 @@ Comment @davidamichelson -->
                             <memberOf key="att.global" mode="delete"/>
                             <memberOf key="att.tableDecoration" mode="delete"/>
                         </classes>
-                        <!-- Syriaca: No content customization needed. -->
-                    </elementSpec>
+                        <!-- Syriaca: I'm reluctant to customize this as the content model is built to ensure a properly formatted table. -->                    </elementSpec>
                     
                     
                     <elementSpec ident="rubric" module="msdescription" mode="change">
+                        <classes mode="change">
+                            <memberOf key="att.global.rendition" mode="delete"/>
+                            <memberOf key="att.global.linking" mode="delete"/>
+                            <memberOf key="att.global.analytic" mode="delete"/>
+                            <memberOf key="att.global.facs" mode="delete"/>
+                            <memberOf key="att.global.change" mode="delete"/>
+                            <memberOf key="att.global.responsibility" mode="delete"/>
+                            <memberOf key="att.global.source" mode="delete"/>
+                            <memberOf key="att.typed" mode="delete"/>
+                            <memberOf key="att.msExcerpt" mode="delete"/>
+                        </classes>
                         <content>
                             <sequence preserveOrder="false">
                                 <elementRef key="locus" minOccurs="0" maxOccurs="unbounded"/>
@@ -6134,6 +6457,9 @@ Comment @davidamichelson -->
                                 <elementRef key="supplied" minOccurs="0" maxOccurs="unbounded"/>
                             </sequence>
                         </content>
+                        <attList>
+                            <attDef ident="xml:lang" mode="change" usage="req"/>
+                        </attList>
                     </elementSpec>
                     
                     
@@ -6147,6 +6473,13 @@ Comment @davidamichelson -->
                         <content>
                             <textNode/>
                         </content>
+                    </elementSpec>
+                    
+                    
+                    <elementSpec ident="signatures" module="msdescription" mode="change">
+                        <classes mode="change">
+                            <memberOf key="att.typed"/>
+                        </classes>
                     </elementSpec>
                     
                     
@@ -6197,7 +6530,20 @@ Comment @davidamichelson -->
                     
                     
                     <elementSpec ident="supplied" module="transcr" mode="change">
+                        <classes mode="change">
+                            <memberOf key="att.global.rendition" mode="delete"/>
+                            <memberOf key="att.global.linking" mode="delete"/>
+                            <memberOf key="att.global.analytic" mode="delete"/>
+                            <memberOf key="att.global.facs" mode="delete"/>
+                            <memberOf key="att.global.change" mode="delete"/>
+                            <memberOf key="att.global.source" mode="delete"/>
+                            <memberOf key="att.editLike" mode="delete"/>
+                            <memberOf key="att.dimensions" mode="delete"/>
+                        </classes>
                         <!-- Syriaca: We could contstrain for what we have or we could leave note/p/quote/supplied, etc. open for lots of content. Discuss. -->
+                        <attList>
+                            <attDef ident="resp" mode="change" usage="req"/>
+                        </attList>
                     </elementSpec>
                     
                     
@@ -6213,6 +6559,9 @@ Comment @davidamichelson -->
                     
                     <!-- use ENRICH values for supportDesc/@material and make the attribute required -->
                     <elementSpec ident="supportDesc" module="msdescription" mode="change">
+                        <classes mode="change">
+                            <memberOf key="att.global" mode="delete"/>
+                        </classes>
                         <!-- Syriaca: No content customization needed. -->
                         <constraintSpec ident="textLang.check" scheme="schematron">
                             <constraint>
@@ -6242,7 +6591,7 @@ Comment @davidamichelson -->
                             </constraint>
                         </constraintSpec>
                         <attList>
-                            <attDef ident="material" mode="replace" usage="rec">
+                            <attDef ident="material" mode="replace" usage="req"><!-- Syriaca: We've updated this to required. -->
                                 <desc>The material composing the majority of the support</desc>
                                 <datatype maxOccurs="1">
                                     <dataRef key="teidata.word"/>
@@ -6280,18 +6629,33 @@ Comment @davidamichelson -->
                     </elementSpec>
                     
                     
-                    <elementSpec ident="row" module="figures" mode="change">
-                        <!-- Syriaca: I'm reluctant to customize this as the content model is built to ensure a properly formatted table. -->
+                    <elementSpec ident="table" module="figures" mode="change">
+                        <classes mode="change">
+                            <memberOf key="att.global" mode="delete"/>
+                            <memberOf key="att.typed" mode="delete"/>
+                        </classes>
                     </elementSpec>
                     
                     
                     <elementSpec ident="taxonomy" module="header" mode="change">
+                        <classes mode="change">
+                            <memberOf key="att.global.rendition" mode="delete"/>
+                            <memberOf key="att.global.linking" mode="delete"/>
+                            <memberOf key="att.global.analytic" mode="delete"/>
+                            <memberOf key="att.global.facs" mode="delete"/>
+                            <memberOf key="att.global.change" mode="delete"/>
+                            <memberOf key="att.global.source" mode="delete"/>
+                            <memberOf key="att.datcat" mode="delete"/>
+                        </classes>
                         <content>
                             <sequence preserveOrder="true">
                                 <elementRef key="bibl" minOccurs="1" maxOccurs="1"/>
                                 <elementRef key="category" minOccurs="1" maxOccurs="unbounded"/>
                             </sequence>
                         </content>
+                        <attList>
+                            <attDef ident="xml:id" mode="change" usage="req"/>
+                        </attList>
                     </elementSpec>
                     
                     
@@ -6314,9 +6678,15 @@ Comment @davidamichelson -->
                     
                     
                     <elementSpec ident="textLang" module="core" mode="change">
+                        <classes mode="change">
+                            <memberOf key="att.global" mode="delete"/>
+                        </classes>
                         <content>
                             <textNode/>
                         </content>
+                        <attList>
+                            <attDef ident="mainLang" mode="change" usage="req"/>
+                        </attList>
                     </elementSpec>
                     
                     
@@ -6649,7 +7019,6 @@ Comment @davidamichelson -->
                     </elementSpec>
 
                     <classSpec ident="att.global.rendition" type="atts" mode="change" module="tei">
-                        
                         <!-- Inform people when they use the rend attribute in ways that the web sites will ignore, 
                          and rendition/style attributes which it always ignores  -->
                         <constraintSpec ident="rend.info" scheme="schematron">
