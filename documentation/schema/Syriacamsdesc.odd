@@ -4252,7 +4252,6 @@ Comment @davidamichelson -->
                     <elementSpec ident="author" module="core" mode="change">
                         <classes mode="change">
                             <memberOf key="att.global" mode="delete"/>
-                            <memberOf key="att.naming" mode="delete"/>
                             <memberOf key="att.datable" mode="delete"/>
                             <memberOf key="att.global.responsibility" mode="add"/>
                         </classes>
@@ -4263,6 +4262,22 @@ Comment @davidamichelson -->
                                 <textNode/>
                             </sequence>
                         </content>-->
+                        <constraintSpec ident="author.key.check" scheme="schematron">
+                            <!-- author inside msItem must have @key -->
+                            <constraint>
+                                <sch:rule
+                                    context="//tei:msItem//tei:author[ancestor::tei:fileDesc[descendant::tei:idno[@type='catalogue']='Western']]">
+                                    <sch:assert test="@key[matches(., 'person_\d+')]">In the
+                                        medieval catalogue, the author element, when a child of
+                                        msItem, must have a key matching the pattern
+                                        'person_\d+'.</sch:assert>
+                                </sch:rule>
+                            </constraint>
+                        </constraintSpec>
+                        <attList>
+                            <attDef ident="nymRef" mode="delete"/>
+                            <attDef ident="key" mode="delete"/>
+                        </attList>
                     </elementSpec>
                     
                     
@@ -4414,6 +4429,20 @@ Comment @davidamichelson -->
                         <content>
                             <elementRef key="p" minOccurs="1" maxOccurs="unbounded"/>
                         </content>
+                        <constraintSpec ident="binding.check" scheme="schematron">
+                            <!-- binding element must have dating attributes -->
+                            <constraint>
+                                <sch:rule
+                                    context="//tei:binding">
+                                    <sch:assert 
+                                        test="@when or @notBefore or @notAfter or @contemporary='true'" 
+                                        role="warn">
+                                        The binding element should have dating attributes (when or notBefore/notAfter) 
+                                        or a contemporary attribute (with the value 'true').
+                                    </sch:assert>
+                                </sch:rule>
+                            </constraint>
+                        </constraintSpec>
                         <attList>
                             <attDef ident="xml:id" mode="change" usage="req"/>
                         </attList>
@@ -5072,8 +5101,8 @@ Comment @davidamichelson -->
                         </classes>
                         <content>
                             <sequence preserveOrder="true">
-                                <elementRef key="dimensions" minOccurs="1" maxOccurs="1"/>
                                 <elementRef key="measure" minOccurs="1" maxOccurs="1"/>
+                                <elementRef key="dimensions" minOccurs="1" maxOccurs="1"/>
                             </sequence>
                         </content>
                     </elementSpec>
@@ -5230,7 +5259,7 @@ Comment @davidamichelson -->
                             <!-- I'm assuming that the 1/1149 @n attribute and 1/1149 @xml:id attribute are errors/unnecessary -->
                         </classes>
                         <content>
-                            <elementRef key="handNote" minOccurs="1" maxOccurs="1"/>
+                            <elementRef key="handNote" minOccurs="1" maxOccurs="unbounded"/>
                         </content>
                         <attList>
                             <attDef ident="hands" mode="change" usage="req"/><!-- Only 8/1149 lacks a @hands attribute. Should this be required? -->
@@ -5740,7 +5769,7 @@ Comment @davidamichelson -->
                             <memberOf key="att.sortable" mode="delete"/>
                         </classes>
                         <content>
-                            <elementRef key="desc" minOccurs="1" maxOccurs="1"/>
+                            <elementRef key="desc" minOccurs="0" maxOccurs="1"/>
                             <!-- Syriaca: I don't like the way we are using the desc element.  
                             See: https://github.com/srophe/britishLibrary-data/blob/schema-edits/data/tei/1.xml#L79
                             The path should be head/note[text()]/listRelation/relation/desc.
@@ -5919,7 +5948,7 @@ Comment @davidamichelson -->
                         </classes>
                         <!-- Syriaca: confirm use of name/persName before customizing. -->
                         <attList>
-                            <attDef ident="type" mode="change">
+                            <attDef ident="type" mode="change" usage="req">
                                 <valList mode="replace" type="semi">
                                     <valItem ident="person">
                                         <desc>The name is of a person</desc>
@@ -5941,7 +5970,6 @@ Comment @davidamichelson -->
                             </attDef>
                             <attDef ident="key" mode="delete"/>
                             <attDef ident="ref" mode="change" usage="req"/>
-                            <attDef ident="type" mode="change" usage="req"/>
                         </attList>
                     </elementSpec>
                     
@@ -6083,6 +6111,20 @@ Comment @davidamichelson -->
                         <content>
                             <textNode/>
                         </content>
+                        <constraintSpec ident="origDate.check" scheme="schematron">
+                            <!-- origDate element must have dating attributes -->
+                            <constraint>
+                                <sch:rule
+                                    context="//tei:origDate">
+                                    <sch:assert 
+                                        test="@calendar and (@when or @notBefore or @notAfter or @from or @to) and string-length(normalize-space(string())) gt 0" 
+                                        role="error">
+                                        The origDate element must have two or more attributes - calendar and at least one of
+                                        when, notBefore, notAfter, from and/or to - and must contain some text describing the date.
+                                    </sch:assert>
+                                </sch:rule>
+                            </constraint>
+                        </constraintSpec>
                     </elementSpec>
                     
                     
@@ -6405,8 +6447,8 @@ Comment @davidamichelson -->
                         </classes>
                         <content>
                             <sequence preserveOrder="true">
-                                <elementRef key="name" minOccurs="1" maxOccurs="1"/>
                                 <elementRef key="resp" minOccurs="1" maxOccurs="1"/>
+                                <elementRef key="name" minOccurs="1" maxOccurs="1"/>
                             </sequence>
                         </content>
                     </elementSpec>
@@ -6659,6 +6701,32 @@ Comment @davidamichelson -->
                     </elementSpec>
                     
                     
+                    <elementSpec ident="TEI" module="textstructure" mode="change">
+                        <!-- The TEI element must have xml:id in the form "manuscript_1234" (except in Genizah where it must be "volume_5678") -->
+                        <constraintSpec scheme="schematron" ident="TEI.xmlid.check">
+                            <constraint>
+                                <sch:rule
+                                    context="tei:TEI">
+                                    <sch:assert 
+                                        test="matches(@xml:id, '^manuscript_\d+$') or contains(base-uri(.), 'genizah-mss')" 
+                                        role="fatal">
+                                        The root TEI element must have an @xml:id beginning with 
+                                        "manuscript_" then a number (which must also be unique 
+                                        across the entire catalogue).
+                                    </sch:assert>
+                                    <sch:assert 
+                                        test="matches(@xml:id, '^volume_\d+$') or not(contains(base-uri(.), 'genizah-mss'))" 
+                                        role="fatal">
+                                        The root TEI element must have an @xml:id beginning with
+                                        "volume_" then a number (which must also be unique 
+                                        across the entire catalogue).
+                                    </sch:assert>
+                                </sch:rule>
+                            </constraint>
+                        </constraintSpec>
+                    </elementSpec>
+                    
+                    
                     <elementSpec ident="text" module="textstructure" mode="change">
                         <content>
                             <elementRef key="body" minOccurs="1" maxOccurs="unbounded"/>
@@ -6684,6 +6752,50 @@ Comment @davidamichelson -->
                         <content>
                             <textNode/>
                         </content>
+                        <constraintSpec ident="textLang-textLang.check" scheme="schematron">
+                            <!-- a manuscript must have one or more languages, except for the 'parent' manuscript in a composite manuscript  -->
+                            <constraint>
+                                <sch:rule context="//tei:msItem">
+                                    <sch:assert 
+                                        test="
+                                        tei:textLang
+                                        or ancestor::tei:msContents/tei:textLang
+                                        or ancestor::tei:msItem/tei:textLang
+                                        or (
+                                        tei:msItem 
+                                        and (every $i in tei:msItem satisfies $i/descendant-or-self::tei:textLang)
+                                        )
+                                        " 
+                                        role="warn">
+                                        The language of each item should be recorded in a textLang element,
+                                        unless it has been described for the entire manuscript or part. Use
+                                        'und' for undetermined or 'zxx' if there is no linguistic content.
+                                    </sch:assert>
+                                </sch:rule>
+                                <sch:rule context="//tei:textLang">
+                                    <sch:assert
+                                        test="@mainLang and string-length(normalize-space(string())) gt 0"
+                                        role="error">
+                                        The predominant language must be recorded in
+                                        using a code in a mainLang attribute (and an otherLang
+                                        attribute if there are other languages) and described as
+                                        text within the textLang element.
+                                    </sch:assert>
+                                </sch:rule>
+                                <sch:rule
+                                    context="//tei:textLang/@mainLang | //tei:textLang/@otherLangs | //@xml:lang">
+                                    <sch:assert
+                                        test="every $code in tokenize(., ' ') satisfies matches($code, '^[a-z]{2,3}(-|$)')"
+                                        role="error">
+                                        Codes in <sch:value-of select="name(.)"/>
+                                        attributes must conform to BCP 47
+                                        (https://tools.ietf.org/html/bcp47), starting with an ISO
+                                        639 code for the language, then optionally further codes for
+                                        the script (ISO 15924), region, transliteration, etc.
+                                    </sch:assert>
+                                </sch:rule>
+                            </constraint>
+                        </constraintSpec>
                         <attList>
                             <attDef ident="mainLang" mode="change" usage="req"/>
                         </attList>
@@ -6820,48 +6932,9 @@ Comment @davidamichelson -->
                     <!-- ********************** -->
 
 
-                    <!-- The TEI element must have xml:id in the form "manuscript_1234" (except in Genizah where it must be "volume_5678") -->
-                    <elementSpec ident="TEI" module="textstructure" mode="change">
-                        <constraintSpec scheme="schematron" ident="TEI.xmlid.check">
-                            <constraint>
-                                <sch:rule
-                                    context="tei:TEI">
-                                    <sch:assert 
-                                        test="matches(@xml:id, '^manuscript_\d+$') or contains(base-uri(.), 'genizah-mss')" 
-                                        role="fatal">
-                                        The root TEI element must have an @xml:id beginning with 
-                                        "manuscript_" then a number (which must also be unique 
-                                        across the entire catalogue).
-                                    </sch:assert>
-                                    <sch:assert 
-                                        test="matches(@xml:id, '^volume_\d+$') or not(contains(base-uri(.), 'genizah-mss'))" 
-                                        role="fatal">
-                                        The root TEI element must have an @xml:id beginning with
-                                        "volume_" then a number (which must also be unique 
-                                        across the entire catalogue).
-                                    </sch:assert>
-                                </sch:rule>
-                            </constraint>
-                        </constraintSpec>
-                    </elementSpec>
-
-
-                    <!-- author inside msItem must have @key -->
-                    <elementSpec ident="author" module="core" mode="change">
-                        <constraintSpec ident="author.key.check" scheme="schematron">
-                            <constraint>
-                                <sch:rule
-                                    context="//tei:msItem//tei:author[ancestor::tei:fileDesc[descendant::tei:idno[@type='catalogue']='Western']]">
-                                    <sch:assert test="@key[matches(., 'person_\d+')]">In the
-                                        medieval catalogue, the author element, when a child of
-                                        msItem, must have a key matching the pattern
-                                        'person_\d+'.</sch:assert>
-                                </sch:rule>
-                            </constraint>
-                        </constraintSpec>
-                    </elementSpec>
-
-                    <!-- persName inside msDesc must have a key -->
+                    
+                    <!-- Syriaca: Comment out because we don't use @key. Delete?
+                        <!-\- persName inside msDesc must have a key -\->
                     <elementSpec ident="persName" module="namesdates" mode="change">
                         <constraintSpec ident="persName.key.check" scheme="schematron">
                             <constraint>
@@ -6874,9 +6947,10 @@ Comment @davidamichelson -->
                                 </sch:rule>
                             </constraint>
                         </constraintSpec>
-                    </elementSpec>
+                    </elementSpec>-->
 
-                    <!-- placeName inside msDesc must have a key -->
+                    <!-- Syriaca: Comment out because we don't use @key. Delete?
+                        <!-\- placeName inside msDesc must have a key -\->
                     <elementSpec ident="placeName" module="namesdates" mode="change">
                         <constraintSpec ident="placeName.key.check" scheme="schematron">
                             <constraint>
@@ -6889,9 +6963,10 @@ Comment @davidamichelson -->
                                 </sch:rule>
                             </constraint>
                         </constraintSpec>
-                    </elementSpec>
+                    </elementSpec>-->
 
-                    <!-- orgName inside msDesc must have a key -->
+                    <!-- Syriaca: Comment out because we don't use @key. Delete?
+                        <!-\- orgName inside msDesc must have a key -\->
                     <elementSpec ident="orgName" module="namesdates" mode="change">
                         <constraintSpec ident="orgName.key.check" scheme="schematron">
                             <constraint>
@@ -6903,11 +6978,12 @@ Comment @davidamichelson -->
                                 </sch:rule>
                             </constraint>
                         </constraintSpec>
-                    </elementSpec>
+                    </elementSpec>-->
 
                     <!-- not yet adding a rule about @key for works -->
 
-                    <!-- county inside origin must have a key -->
+                    <!-- Syriaca: Comment out because we don't use @key. Delete?
+                        <!-\- county inside origin must have a key -\->
                     <elementSpec ident="country" module="namesdates" mode="change">
                         <constraintSpec ident="country.key.check" scheme="schematron">
                             <constraint>
@@ -6920,9 +6996,10 @@ Comment @davidamichelson -->
                                 </sch:rule>
                             </constraint>
                         </constraintSpec>
-                    </elementSpec>
+                    </elementSpec>-->
 
-                    <!-- settlement inside origin must have a key -->
+                    <!-- Syriaca: Comment out because we don't use @key. Delete?
+                        <!-\- settlement inside origin must have a key -\->
                     <elementSpec ident="settlement" module="namesdates" mode="change">
                         <constraintSpec ident="settlement.key.check" scheme="schematron">
                             <constraint>
@@ -6935,92 +7012,16 @@ Comment @davidamichelson -->
                                 </sch:rule>
                             </constraint>
                         </constraintSpec>
-                    </elementSpec>
+                    </elementSpec>-->
 
-                    <!-- a manuscript must have one or more languages, except for the 'parent' manuscript in a composite manuscript  -->
-                    <elementSpec ident="textLang" module="core" mode="change">
-                        <constraintSpec ident="textLang-textLang.check" scheme="schematron">
-                            <constraint>
-                                <sch:rule context="//tei:msItem">
-                                    <sch:assert 
-                                        test="
-                                            tei:textLang
-                                            or ancestor::tei:msContents/tei:textLang
-                                            or ancestor::tei:msItem/tei:textLang
-                                            or (
-                                                tei:msItem 
-                                                and (every $i in tei:msItem satisfies $i/descendant-or-self::tei:textLang)
-                                            )
-                                            " 
-                                        role="warn">
-                                        The language of each item should be recorded in a textLang element,
-                                        unless it has been described for the entire manuscript or part. Use
-                                        'und' for undetermined or 'zxx' if there is no linguistic content.
-                                    </sch:assert>
-                                </sch:rule>
-                                <sch:rule context="//tei:textLang">
-                                    <sch:assert
-                                        test="@mainLang and string-length(normalize-space(string())) gt 0"
-                                        role="error">
-                                        The predominant language must be recorded in
-                                        using a code in a mainLang attribute (and an otherLang
-                                        attribute if there are other languages) and described as
-                                        text within the textLang element.
-                                    </sch:assert>
-                                </sch:rule>
-                                <sch:rule
-                                    context="//tei:textLang/@mainLang | //tei:textLang/@otherLangs | //@xml:lang">
-                                    <sch:assert
-                                        test="every $code in tokenize(., ' ') satisfies matches($code, '^[a-z]{2,3}(-|$)')"
-                                        role="error">
-                                        Codes in <sch:value-of select="name(.)"/>
-                                        attributes must conform to BCP 47
-                                        (https://tools.ietf.org/html/bcp47), starting with an ISO
-                                        639 code for the language, then optionally further codes for
-                                        the script (ISO 15924), region, transliteration, etc.
-                                    </sch:assert>
-                                </sch:rule>
-                            </constraint>
-                        </constraintSpec>
-                    </elementSpec>
-
-                    <!-- binding element must have dating attributes -->
-                    <elementSpec ident="binding" module="msdescription" mode="change">
-                        <constraintSpec ident="binding.check" scheme="schematron">
-                            <constraint>
-                                <sch:rule
-                                    context="//tei:binding">
-                                    <sch:assert 
-                                        test="@when or @notBefore or @notAfter or @contemporary='true'" 
-                                        role="warn">
-                                        The binding element should have dating attributes (when or notBefore/notAfter) 
-                                        or a contemporary attribute (with the value 'true').
-                                    </sch:assert>
-                                </sch:rule>
-                            </constraint>
-                        </constraintSpec>
-                    </elementSpec>
-
-                    <!-- origDate element must have dating attributes -->
-                    <elementSpec ident="origDate" module="msdescription" mode="change">
-                        <constraintSpec ident="origDate.check" scheme="schematron">
-                            <constraint>
-                                <sch:rule
-                                    context="//tei:origDate">
-                                    <sch:assert 
-                                        test="@calendar and (@when or @notBefore or @notAfter or @from or @to) and string-length(normalize-space(string())) gt 0" 
-                                        role="error">
-                                        The origDate element must have two or more attributes - calendar and at least one of
-                                        when, notBefore, notAfter, from and/or to - and must contain some text describing the date.
-                                    </sch:assert>
-                                </sch:rule>
-                            </constraint>
-                        </constraintSpec>
-                    </elementSpec>
-
-                    <classSpec ident="att.global.rendition" type="atts" mode="change" module="tei">
-                        <!-- Inform people when they use the rend attribute in ways that the web sites will ignore, 
-                         and rendition/style attributes which it always ignores  -->
+                    
+                    
+                                       
+                    
+                    <!-- Syriaca: Check these again. I'm not sure they are necessary.
+                        <classSpec ident="att.global.rendition" type="atts" mode="change" module="tei">
+                        <!-\- Inform people when they use the rend attribute in ways that the web sites will ignore, 
+                         and rendition/style attributes which it always ignores  -\->
                         <constraintSpec ident="rend.info" scheme="schematron">
                             <constraint>
                                 <sch:rule 
@@ -7055,9 +7056,7 @@ Comment @davidamichelson -->
                             </constraint>
                         </constraintSpec>
                         
-                      
-                        
-                        <!-- Warn about empty or self-closing elements with a @key -->
+                        <!-\- Warn about empty or self-closing elements with a @key -\->
                         <constraintSpec ident="selfclosing.warn" scheme="schematron">
                             <constraint>
                                 <sch:rule 
@@ -7072,7 +7071,7 @@ Comment @davidamichelson -->
                             </constraint>
                         </constraintSpec>
                         
-                        <!-- Warn about empty dimension elements -->
+                        <!-\- Warn about empty dimension elements -\->
                         <constraintSpec ident="emptyDimensions.warn" scheme="schematron">
                             <constraint>
                                 <sch:rule 
@@ -7085,12 +7084,10 @@ Comment @davidamichelson -->
                                 </sch:rule>
                             </constraint>
                         </constraintSpec>
-                        
-                    </classSpec>
+                    </classSpec>-->
                     
                     
                     <classSpec ident="att.datable.w3c" type="atts" mode="change" module="tei">
-                        
                         <!-- Error if date ranges are impossible (only checks YYYY-MM-DD and YYYY formats, and if both ends are the same format) -->
                         <constraintSpec ident="datable.ranging.check" scheme="schematron">
                             <constraint>
@@ -7113,12 +7110,10 @@ Comment @davidamichelson -->
                                 </sch:rule>
                             </constraint>
                         </constraintSpec>
-                        
                     </classSpec>
                     
                     
                     <classSpec ident="att.ranging" type="atts" mode="change" module="tei">
-                        
                         <!-- Warn if numerical ranges have a lower maximum value than the minimum (assumes there are no reverse scales in codicology) -->
                         <constraintSpec ident="numerical.ranging.check" scheme="schematron">
                             <constraint>
@@ -7137,11 +7132,11 @@ Comment @davidamichelson -->
                                 </sch:rule>
                             </constraint>
                         </constraintSpec>
-                        
                     </classSpec>
                   
                     
-                    <!-- Warn about a common typo -->
+                    <!--Syriaca: Commented out because not in use. Reactivate or delete?
+                        <!-\- Warn about a common typo -\->
                     <elementSpec ident="surrogates" module="msdescription" mode="change">
                         <constraintSpec ident="facsimile.warn" scheme="schematron">
                             <constraint>
@@ -7155,10 +7150,10 @@ Comment @davidamichelson -->
                                 </sch:rule>
                             </constraint>
                         </constraintSpec>
-                    </elementSpec>
+                    </elementSpec>-->
                     
                     <!-- dimensions must have unit attribute -->
-                    <!---->
+                    
 
                     <!-- TODO?: the initial title in titleStmt should match the shelfmark -->
 
