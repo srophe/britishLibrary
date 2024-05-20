@@ -4768,9 +4768,17 @@ Comment @davidamichelson -->
                             <memberOf key="att.global.source" mode="delete"/>
                         </classes>
                         <content>
-                            <!-- Syriaca: This needs work. I recommend we consistently put the text directly into tei:decoNote or 
-                            we use a tei:p child containing all the text/elements. We shouldn't alternately use p or desc or nothing. -->
-                            <textNode/>
+                            <!-- Syriaca: We have temporarily changed all tei:p to tei:desc. Check with Will to decide 
+                                whether we want to keep tei:desc or simply have the text node (with foreign, locus, persName)
+                                appear as child of decoNote. 
+                            -->
+                            <sequence preserveOrder="false">
+                                <elementRef key="desc" minOccurs="0" maxOccurs="unbounded"/>
+                                <elementRef key="foreign" minOccurs="0" maxOccurs="unbounded"/>
+                                <elementRef key="locus" minOccurs="0" maxOccurs="unbounded"/>
+                                <elementRef key="persName" minOccurs="0" maxOccurs="unbounded"/>
+                                <textNode/>
+                            </sequence>
                         </content>
                         <attList>
                             <attDef ident="xml:id" mode="change" usage="req"/>
@@ -5263,7 +5271,7 @@ Comment @davidamichelson -->
                             <elementRef key="handNote" minOccurs="1" maxOccurs="unbounded"/>
                         </content>
                         <attList>
-                            <attDef ident="hands" mode="change" usage="req"/><!-- Syriaca: Only 8/1149 lacks a @hands attribute. Should this be required? -->
+                            <attDef ident="hands" mode="change" usage="req"/><!-- Syriaca: KEEP: Only 8/1149 lacks a @hands attribute. Should this be required? -->
                         </attList>
                     </elementSpec>
                     
@@ -5465,7 +5473,7 @@ Comment @davidamichelson -->
                             <textNode/>
                         </content>
                         <attList>
-                            <attDef ident="type" mode="change" usage="req"/><!-- Syriaca: Assuming that the 2/8559 missing @type need to be fixed. -->
+                            <attDef ident="type" mode="change" usage="req"/><!-- Syriaca: KEEP: Assuming that the 2/8559 missing @type need to be fixed. -->
                         </attList>
                     </elementSpec>
                     
@@ -6142,10 +6150,15 @@ Comment @davidamichelson -->
                             <memberOf key="att.datable" mode="delete"/>
                             <memberOf key="att.editlike" mode="delete"/>
                             <memberOf key="att.typed" mode="delete"/>
+                            <memberOf key="att.canonical" mode="add"/>
                         </classes>
                         <content>
                             <elementRef key="placeName" minOccurs="1" maxOccurs="1"/>
+                            <textNode/>
                         </content>
+                        <attList>
+                            <attDef ident="key" mode="delete"/>
+                        </attList>
                     </elementSpec>
                     
                     
@@ -6163,7 +6176,7 @@ Comment @davidamichelson -->
                                     It would be better in these cases to allow only one origDate[date[2]] and one origPlace[placeName[2]].
                                 -->
                                 <elementRef key="origDate" minOccurs="1" maxOccurs="unbounded"/>
-                                <elementRef key="orgPlace" minOccurs="1" maxOccurs="unbounded"/>
+                                <elementRef key="origPlace" minOccurs="1" maxOccurs="unbounded"/>
                             </sequence>
                         </content>
                     </elementSpec>
