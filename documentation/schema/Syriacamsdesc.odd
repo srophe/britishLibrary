@@ -4263,18 +4263,6 @@ Comment @davidamichelson -->
                                 <textNode/>
                             </sequence>
                         </content>-->
-                        <constraintSpec ident="author.key.check" scheme="schematron">
-                            <!-- author inside msItem must have @key -->
-                            <constraint>
-                                <sch:rule
-                                    context="//tei:msItem//tei:author[ancestor::tei:fileDesc[descendant::tei:idno[@type='catalogue']='Western']]">
-                                    <sch:assert test="@key[matches(., 'person_\d+')]">In the
-                                        medieval catalogue, the author element, when a child of
-                                        msItem, must have a key matching the pattern
-                                        'person_\d+'.</sch:assert>
-                                </sch:rule>
-                            </constraint>
-                        </constraintSpec>
                         <attList>
                             <attDef ident="nymRef" mode="delete"/>
                             <attDef ident="key" mode="delete"/>
@@ -4638,10 +4626,11 @@ Comment @davidamichelson -->
                             <memberOf key="att.global.source" mode="delete"/>
                             <memberOf key="att.msExcerpt" mode="delete"/>
                         </classes>
-                        <!-- Syriaca: The best records all have a tei:ref containing a pointer to elsewhere in the file. 
-                            The text in all files refers users elsewhere. I think we should only allow tei:ref here. -->
                         <content>
-                            <elementRef key="ref" minOccurs="1" maxOccurs="1"/>
+                            <sequence preserveOrder="false">
+                                <elementRef key="ref" minOccurs="0" maxOccurs="1"/>
+                                <textNode/>
+                            </sequence>
                         </content>
                     </elementSpec>
                     
@@ -5155,7 +5144,6 @@ Comment @davidamichelson -->
                             <memberOf key="att.global.change" mode="delete"/>
                             <memberOf key="att.global.responsibility" mode="delete"/>
                             <memberOf key="att.global.source" mode="delete"/>
-                            <memberOf key="att.typed" mode="delete"/>
                             <memberOf key="att.msExcerpt" mode="delete"/>
                         </classes>
                         <content>
@@ -5265,7 +5253,6 @@ Comment @davidamichelson -->
                     <elementSpec ident="handDesc" module="core" mode="change">
                         <classes mode="change">
                             <memberOf key="att.global" mode="delete"/>
-                            <!-- Syriaca: I'm assuming that the 1/1149 @n attribute and 1/1149 @xml:id attribute are errors/unnecessary -->
                         </classes>
                         <content>
                             <elementRef key="handNote" minOccurs="1" maxOccurs="unbounded"/>
@@ -5949,7 +5936,13 @@ Comment @davidamichelson -->
             -->
                     <elementSpec ident="name" module="core" mode="change">
                         <classes mode="change">
-                            <memberOf key="att.global" mode="delete"/>
+                            <memberOf key="att.global.rendition" mode="delete"/>
+                            <memberOf key="att.global.linking" mode="delete"/>
+                            <memberOf key="att.global.analytic" mode="delete"/>
+                            <memberOf key="att.global.facs" mode="delete"/>
+                            <memberOf key="att.global.change" mode="delete"/>
+                            <memberOf key="att.global.responsibility" mode="delete"/>
+                            <memberOf key="att.global.source" mode="delete"/>
                             <memberOf key="att.personal" mode="delete"/>
                             <memberOf key="att.datable" mode="delete"/>
                             <memberOf key="att.editLike" mode="delete"/>
@@ -6843,7 +6836,6 @@ Comment @davidamichelson -->
                         <content>
                             <sequence preserveOrder="false">
                                 <elementRef key="foreign" minOccurs="0" maxOccurs="unbounded"/>
-                                <elementRef key="persName" minOccurs="0" maxOccurs="unbounded"/>
                                 <!-- Syriaca: Dave suggested removing persName from title. Discuss. -->
                                 <textNode/>
                             </sequence>
@@ -6965,6 +6957,20 @@ Comment @davidamichelson -->
                             </constraint>
                         </constraintSpec>
                     </elementSpec>-->
+                    
+                    <!-- Syriaca: Comment out because we don't use @key. Delete?
+                        <!-\- author inside msItem must have @key -\->
+                    <constraintSpec ident="author.key.check" scheme="schematron">
+                        <constraint>
+                            <sch:rule
+                                context="//tei:msItem//tei:author[ancestor::tei:fileDesc[descendant::tei:idno[@type='catalogue']='Western']]">
+                                <sch:assert test="@key[matches(., 'person_\d+')]">In the
+                                    medieval catalogue, the author element, when a child of
+                                    msItem, must have a key matching the pattern
+                                    'person_\d+'.</sch:assert>
+                            </sch:rule>
+                        </constraint>
+                    </constraintSpec>-->
 
                     <!-- Syriaca: Comment out because we don't use @key. Delete?
                         <!-\- placeName inside msDesc must have a key -\->
