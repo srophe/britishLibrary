@@ -4349,13 +4349,19 @@ Comment @davidamichelson -->
                         <content>
                             <sequence preserveOrder="false"><!-- Syriaca: check the min/max values below -->
                                 <elementRef key="author" minOccurs="0" maxOccurs="unbounded"/>
+                                <elementRef key="choice" minOccurs="0" maxOccurs="unbounded"/>
                                 <elementRef key="citedRange" minOccurs="0" maxOccurs="unbounded"/>
                                 <elementRef key="date" minOccurs="0" maxOccurs="unbounded"/>
+                                <elementRef key="foreign" minOccurs="0" maxOccurs="unbounded"/>
                                 <elementRef key="ptr" minOccurs="0" maxOccurs="unbounded"/>
                                 <elementRef key="pubPlace" minOccurs="0" maxOccurs="unbounded"/>
                                 <elementRef key="ref" minOccurs="0" maxOccurs="unbounded"/>
                                 <elementRef key="title" minOccurs="0" maxOccurs="unbounded"/>
                                 <textNode/>
+                                <!-- Syriaca: Write schematron rule throwing an error when author, date, pubPlace, title 
+                                    appear at tei:bibl[not(descendant::tei:additional)]
+                                -->
+                                <!-- Syriaca: Consider schematron rule to constrain pointers on tei:ref and tei:ptr. -->
                             </sequence>
                         </content>
                         <attList>
@@ -4759,15 +4765,16 @@ Comment @davidamichelson -->
                             <memberOf key="att.global.source" mode="delete"/>
                         </classes>
                         <content>
-                            <!-- Syriaca: We have temporarily changed all tei:p to tei:desc. Check with Will to decide 
-                                whether we want to keep tei:desc or simply have the text node (with foreign, locus, persName)
-                                appear as child of decoNote. 
+                            <!-- Syriaca: remove desc from decoNote and put text directly into decoNote. 
                             -->
                             <sequence preserveOrder="false">
-                                <elementRef key="desc" minOccurs="0" maxOccurs="unbounded"/>
+                                <elementRef key="bibl" minOccurs="0" maxOccurs="unbounded"/>
                                 <elementRef key="foreign" minOccurs="0" maxOccurs="unbounded"/>
                                 <elementRef key="locus" minOccurs="0" maxOccurs="unbounded"/>
                                 <elementRef key="persName" minOccurs="0" maxOccurs="unbounded"/>
+                                <elementRef key="placeName" minOccurs="0" maxOccurs="unbounded"/>
+                                <elementRef key="quote" minOccurs="0" maxOccurs="unbounded"/>
+                                <elementRef key="ref" minOccurs="0" maxOccurs="unbounded"/>
                                 <textNode/>
                             </sequence>
                         </content>
@@ -6157,7 +6164,7 @@ Comment @davidamichelson -->
                         </classes>
                         <content>
                             <sequence preserveOrder="false">
-                                <elementRef key="placeName" minOccurs="1" maxOccurs="unbounded"/>
+                                <elementRef key="placeName" minOccurs="0" maxOccurs="unbounded"/>
                                 <textNode/>
                             </sequence>
                         </content>
@@ -6195,7 +6202,7 @@ Comment @davidamichelson -->
                             <memberOf key="att.fragmentable" mode="delete"/>
                             <memberOf key="att.written" mode="delete"/>
                         </classes>
-                        <!-- Syriaca: We could contstrain for what we have or we could leave note/p/quote/supplied, etc. 
+                        <!-- Syriaca: We could contstrain for what we have or we could leave note/p/quote, etc. 
                             open for lots of content. Discuss. 
                         -->
                     </elementSpec>
