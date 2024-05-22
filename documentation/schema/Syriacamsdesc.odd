@@ -4582,7 +4582,7 @@ Comment @davidamichelson -->
                             <constraint>
                                 <sch:rule context="//tei:revisionDesc//tei:change/@who">
                                     <sch:let name="edsDoc" value="doc('https://raw.githubusercontent.com/srophe/britishLibrary/main/documentation/editors.xml')"/>
-                                    <sch:let name="eds" value="$edsDoc//tei:text/tei:body/tei:listPerson/tei:person/@xml:id"/>
+                                    <sch:let name="eds" value="$edsDoc//tei:text/tei:body/tei:listPerson/tei:person/@xml:id | $edsDoc//tei:text/tei:body/tei:listPerson/tei:person/@xml:id"/>
                                     <sch:let name="refValues" value="for $i in $eds return concat('https://bl.syriac.uk/documentation/editors.xml#', $i)"/>
                                     <sch:assert test="every $i in . satisfies $i = $refValues">
                                         Acceptable values for this @who attribute include: 
@@ -4591,6 +4591,43 @@ Comment @davidamichelson -->
                                 </sch:rule>
                             </constraint>
                         </constraintSpec>
+                        <attList>
+                            <attDef ident="type" mode="change">
+                                <valList type="closed">
+                                    <valItem ident="consultation"/>
+                                    <valItem ident="manuscript-division"/>
+                                    <valItem ident="missing"/>
+                                    <valItem ident="planned"/>
+                                </valList>
+                            </attDef>
+                            <attDef ident="subtype" mode="change">
+                                <valList type="closed">
+                                    <valItem ident="arabic"/>
+                                    <valItem ident="arithmetical"/>
+                                    <valItem ident="author"/>
+                                    <valItem ident="checkArabic"/>
+                                    <valItem ident="checkSyriac"/>
+                                    <valItem ident="consult-ms"/>
+                                    <valItem ident="consult-phys"/>
+                                    <valItem ident="consultation"/>
+                                    <valItem ident="coptic"/>
+                                    <valItem ident="file"/>
+                                    <valItem ident="greek"/>
+                                    <valItem ident="hebrew"/>
+                                    <valItem ident="missing"/>
+                                    <valItem ident="msparts"/>
+                                    <valItem ident="numbering"/>
+                                    <valItem ident="palimpsest"/>
+                                    <valItem ident="question"/>
+                                    <valItem ident="reconstruction"/>
+                                    <valItem ident="renumbering"/>
+                                    <valItem ident="syriac"/>
+                                    <valItem ident="table"/>
+                                    <valItem ident="URI"/>
+                                    <valItem ident="vocalization"/>
+                                </valList>
+                            </attDef>
+                        </attList>
                     </elementSpec>
                     
                     
@@ -5134,9 +5171,9 @@ Comment @davidamichelson -->
                             case we have the name wrapped in a tei:persName element. -->
                         <constraintSpec ident="ref-on-editor" scheme="schematron">
                             <constraint>
-                                <sch:rule context="//tei:editor/@ref">
+                                <sch:rule context="//tei:titleStmt/tei:editor/@ref">
                                     <sch:let name="edsDoc" value="doc('https://raw.githubusercontent.com/srophe/britishLibrary/main/documentation/editors.xml')"/>
-                                    <sch:let name="eds" value="$edsDoc//tei:text/tei:body/tei:listPerson/tei:person/@xml:id"/>
+                                    <sch:let name="eds" value="$edsDoc//tei:text/tei:body/tei:listPerson/tei:person/@xml:id | $edsDoc//tei:text/tei:body/tei:listPerson/tei:person/@xml:id"/>
                                     <sch:let name="refValues" value="for $i in $eds return concat('https://bl.syriac.uk/documentation/editors.xml#', $i)"/>
                                     <sch:assert test="every $i in . satisfies $i = $refValues">
                                         Acceptable values for this @ref attribute include: 
@@ -5144,6 +5181,9 @@ Comment @davidamichelson -->
                                     </sch:assert>
                                 </sch:rule>
                             </constraint>
+                            <!-- Syriaca: Write schematron rule that fires at //tei:msItem/tei:editor/@ref that validates against all Syriaca persName URIs. -->
+                            <!-- Syriaca: Write schematron rule that fires at //tei:msItem/tei:editor/@role with value "translator". -->
+                            <!-- Syriaca: Write schematron rule that fires at //tei:titleStmt/tei:editor/@role with values "creator", "general-editor", "technical". -->
                         </constraintSpec>
                         <attList>
                             <attDef ident="nymRef" mode="delete"/>
