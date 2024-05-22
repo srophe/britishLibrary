@@ -4579,18 +4579,17 @@ Comment @davidamichelson -->
                         <constraintSpec ident="who-on-change" scheme="schematron">
                             <constraint>
                                 <sch:rule context="//tei:revisionDesc//tei:change/@who">
-                                    <sch:let name="edsDoc" value="doc('https://bl.syriac.uk/documentation/editors.xml')"/>
+                                    <sch:let name="edsDoc" value="doc('https://raw.githubusercontent.com/srophe/britishLibrary/main/documentation/editors.xml')"/>
                                     <sch:let name="eds" value="$edsDoc//tei:text/tei:body/tei:listPerson/tei:person/@xml:id"/>
                                     <sch:let name="refValues" value="for $i in $eds return concat('https://bl.syriac.uk/documentation/editors.xml#', $i)"/>
                                     <sch:assert test="every $i in . satisfies $i = $refValues">
-                                        Acceptable values for the @who attribute on a &lt;change&gt; element inside the &lt;revisionDesc&gt; include: 
+                                        Acceptable values for this @who attribute include: 
                                         <sch:value-of select="string-join($refValues, ' | ')"/>.
                                     </sch:assert>
                                 </sch:rule>
                             </constraint>
                         </constraintSpec>
                     </elementSpec>
-                    
                     
                     
                     <elementSpec ident="choice" module="core" mode="change">
@@ -4625,6 +4624,16 @@ Comment @davidamichelson -->
                         <content>
                             <textNode/>
                         </content>
+                        <attList>
+                            <attDef ident="unit" mode="change">
+                                <valList type="closed">
+                                    <valItem ident="entry"/>
+                                    <valItem ident="fol"/>
+                                    <valItem ident="locus"/>
+                                    <valItem ident="p"/>
+                                </valList>
+                            </attDef>
+                        </attList>
                     </elementSpec>
                     
                     
@@ -4730,6 +4739,13 @@ Comment @davidamichelson -->
                         <content>
                             <textNode/>
                         </content>
+                        <attList>
+                            <attDef ident="unit" mode="change">
+                                <valList type="semi">
+                                    <valItem ident="rubbing"/>
+                                </valList>
+                            </attDef>
+                        </attList>
                     </elementSpec>
                     
                     
@@ -4835,7 +4851,7 @@ Comment @davidamichelson -->
                         <attList>
                             <attDef ident="xml:id" mode="change" usage="req"/>
                             <attDef ident="type" mode="change">
-                                <valList mode="replace" type="semi">
+                                <valList mode="replace" type="semi"><!-- Syriaca: Do we want to close this? Do we want to keep all of these? -->
                                     <valItem ident="border">
                                         <desc>The decoration note concerns the border(s)</desc>
                                     </valItem>
@@ -4929,6 +4945,20 @@ Comment @davidamichelson -->
                                     </valItem>
                                 </valList>
                             </attDef>
+                            <attDef ident="subtype" mode="change">
+                                <!-- Syriaca: We can work with this in a linked data context, but in general I don't this these faux namespaces are a good idea. -->
+                                <valList type="closed">
+                                    <valItem ident="hmml:border"/>
+                                    <valItem ident="hmml:diagram"/>
+                                    <valItem ident="hmml:drawing"/>
+                                    <valItem ident="hmml:geometric"/>
+                                    <valItem ident="hmml:illustration"/>
+                                    <valItem ident="hmml:marginalia"/>
+                                    <valItem ident="hmml:portrait"/>
+                                    <valItem ident="hmml:seal"/>
+                                    <valItem ident="hmml:zoomorphic"/>
+                                </valList>
+                            </attDef>
                         </attList>
                     </elementSpec>
                     
@@ -5017,7 +5047,7 @@ Comment @davidamichelson -->
                             </constraint>
                         </constraintSpec>
                         <attList>
-                            <attDef ident="type" mode="change">
+                            <attDef ident="type" mode="change"><!-- Syriaca: Do we want to close this? Do we want to keep all of these? -->
                                 <valList mode="replace" type="semi">
                                     <valItem ident="binding">
                                         <desc>The dimensions concerns the binding(s)</desc>
@@ -5091,6 +5121,20 @@ Comment @davidamichelson -->
                         <!-- Syriaca: There is some inconsistent practice here. In the tei:titleStmt we normally have text() as child of tei:editor. 
                             But sometimes it's tei:persName or tei:name. Also, in 18 cases we have tei:msItem/tei:editor/text(), but in one 
                             case we have the name wrapped in a tei:persName element. -->
+                        <constraintSpec ident="ref-on-editor" scheme="schematron">
+                            <constraint>
+                                <sch:rule context="//tei:editor/@ref">
+                                    <sch:let name="edsDoc" value="doc('https://raw.githubusercontent.com/srophe/britishLibrary/main/documentation/editors.xml')"/>
+                                    <sch:let name="eds" value="$edsDoc//tei:text/tei:body/tei:listPerson/tei:person/@xml:id"/>
+                                    <sch:let name="refValues" value="for $i in $eds return concat('https://bl.syriac.uk/documentation/editors.xml#', $i)"/>
+                                    <sch:let name="refValues" value="for $i in $eds return concat($edsPrefix, $i)"/>
+                                    <sch:assert test="every $i in . satisfies $i = $refValues">
+                                        Acceptable values for this @ref attribute include: 
+                                        <sch:value-of select="string-join($refValues, ' | ')"/>.
+                                    </sch:assert>
+                                </sch:rule>
+                            </constraint>
+                        </constraintSpec>
                         <attList>
                             <attDef ident="nymRef" mode="delete"/>
                             <attDef ident="key" mode="delete"/>
