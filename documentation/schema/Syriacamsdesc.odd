@@ -4267,6 +4267,45 @@ Comment @davidamichelson -->
                         <attList>
                             <attDef ident="nymRef" mode="delete"/>
                             <attDef ident="key" mode="delete"/>
+                            <attDef ident="resp" mode="change">
+                                <valList type="closed">
+                                    <valItem ident="https://bl.syriac.uk/documentation/editors.xml#wwright">
+                                        <gloss>William Wright</gloss>
+                                    </valItem>
+                                </valList>
+                            </attDef>
+                            <attDef ident="role" mode="change">
+                                <valList type="closed">
+                                    <valItem ident="https://syriaca.org/documentation/author-editor-roles.xml#claimed">
+                                        <gloss>Claimed</gloss>
+                                        <desc>A person whose authorship or editing of the work has been claimed, whether by herself/himself or by others.</desc>
+                                    </valItem>
+                                    <valItem ident="https://syriaca.org/documentation/author-editor-roles.xml#attributed">
+                                        <gloss>Claimed: Attributed</gloss>
+                                        <desc>A person whom others have credited at any time with the authorship or editing of a work, regardless of whether or not the person is an actual author or editor of the work.</desc>
+                                    </valItem>
+                                    <valItem ident="https://syriaca.org/documentation/author-editor-roles.xml#incorrectly-attributed">
+                                        <gloss>Claimed: Attributed: Incorrectly</gloss>
+                                        <desc>A person whom others have erroneously credited at any time with the authorship or editing of a work.</desc>
+                                    </valItem>
+                                    <valItem ident="https://syriaca.org/documentation/author-editor-roles.xml#disputed">
+                                        <gloss>Claimed: Disputed</gloss>
+                                        <desc>A person whose authorship or editing of the work has been significantly disputed in scholarly literature, and who may or may not actually be an author or editor of the work.</desc>
+                                    </valItem>
+                                    <valItem ident="https://syriaca.org/documentation/author-editor-roles.xml#correctly-disputed">
+                                        <gloss>Claimed: Disputed: Correctly</gloss>
+                                        <desc>A person whose authorship or editing of the work has been rightly disputed in scholarly literature.</desc>
+                                    </valItem>
+                                    <valItem ident="https://syriaca.org/documentation/author-editor-roles.xml#incorrectly-disputed">
+                                        <gloss>Claimed: Disputed: Incorrectly</gloss>
+                                        <desc>A person whose authorship or editing of the work has been wrongly disputed in scholarly literature.</desc>
+                                    </valItem>
+                                    <valItem ident="https://syriaca.org/documentation/author-editor-roles.xml#pseudo">
+                                        <gloss>Claimed: Pseudo</gloss>
+                                        <desc>A person who was not the work's author or editor, but whose identity was assumed by an author or editor of the work.</desc>
+                                    </valItem>
+                                </valList>
+                            </attDef>
                         </attList>
                     </elementSpec>
                     
@@ -4366,7 +4405,7 @@ Comment @davidamichelson -->
                         </content>
                         <attList>
                             <attDef ident="type" mode="change">
-                                <valList mode="replace" type="semi">
+                                <valList mode="replace" type="semi"><!-- Syriaca: We currently only use "MS". Should we continue to allow the others? Should this list be closed? -->
                                     <valItem ident="MS">
                                         <desc>The reference is to a manuscript</desc>
                                     </valItem>
@@ -4537,6 +4576,19 @@ Comment @davidamichelson -->
                         </content>
                         <!-- Syriaca: We have lots of examples of change elements without @type, @when, or @who. Should we require any? 
                             Guessing not because this would cause problems with earlier data not validating. -->
+                        <constraintSpec ident="who-on-change" scheme="schematron">
+                            <constraint>
+                                <sch:rule context="//tei:revisionDesc//tei:change/@who">
+                                    <sch:let name="edsDoc" value="doc('https://bl.syriac.uk/documentation/editors.xml')"/>
+                                    <sch:let name="eds" value="$edsDoc//tei:text/tei:body/tei:listPerson/tei:person/@xml:id"/>
+                                    <sch:let name="refValues" value="for $i in $eds return concat('https://bl.syriac.uk/documentation/editors.xml#', $i)"/>
+                                    <sch:assert test="every $i in . satisfies $i = $refValues">
+                                        Acceptable values for the @who attribute on a &lt;change&gt; element inside the &lt;revisionDesc&gt; include: 
+                                        <sch:value-of select="string-join($refValues, ' | ')"/>.
+                                    </sch:assert>
+                                </sch:rule>
+                            </constraint>
+                        </constraintSpec>
                     </elementSpec>
                     
                     
