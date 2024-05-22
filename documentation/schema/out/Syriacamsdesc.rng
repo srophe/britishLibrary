@@ -5,7 +5,7 @@
          xmlns:xlink="http://www.w3.org/1999/xlink"
          datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes"
          ns="http://www.tei-c.org/ns/1.0"><!--
-Schema generated from ODD source 2024-05-22T21:16:30Z. . 
+Schema generated from ODD source 2024-05-22T21:51:08Z. . 
 TEI Edition: Version 4.5.0. Last updated on 25th October 2022, revision 3e98e619e 
 TEI Edition Location: https://www.tei-c.org/Vault/P5/4.5.0/ 
   
@@ -87,23 +87,6 @@ TEI Edition Location: https://www.tei-c.org/Vault/P5/4.5.0/
             </choice>
          </zeroOrMore>
       </element>
-   </define>
-   <define name="att.ascribed.attributes">
-      <ref name="att.ascribed.attribute.who"/>
-   </define>
-   <define name="att.ascribed.attribute.who">
-      <optional>
-         <attribute name="who">
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">indicates the person, or group of people, to whom the element content is ascribed.</a:documentation>
-            <list>
-               <oneOrMore>
-                  <data type="anyURI">
-                     <param name="pattern">\S+</param>
-                  </data>
-               </oneOrMore>
-            </list>
-         </attribute>
-      </optional>
    </define>
    <define name="att.canonical.attributes">
       <ref name="att.canonical.attribute.key"/>
@@ -3924,6 +3907,24 @@ Sample values include: 1] rubbing; 2] mildew; 3] smoke</a:documentation>
                </oneOrMore>
             </list>
          </attribute>
+         <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
+                  id="msdesc-name-ref-ref-on-name-constraint-rule-13">
+            <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
+                      xmlns:rng="http://relaxng.org/ns/structure/1.0"
+                      xmlns:sch="http://purl.oclc.org/dsdl/schematron"
+                      context="//tei:name/@ref">
+               <sch:let name="edsDoc"
+                        value="doc('https://raw.githubusercontent.com/srophe/britishLibrary/main/documentation/editors.xml')"/>
+               <sch:let name="eds"
+                        value="$edsDoc//tei:text/tei:body/tei:listPerson/tei:person/@xml:id | $edsDoc//tei:text/tei:body/tei:listPerson/tei:org/@xml:id"/>
+               <sch:let name="refValues"
+                        value="for $i in $eds return concat('https://bl.syriac.uk/documentation/editors.xml#', $i)"/>
+               <sch:assert test="every $i in . satisfies $i = $refValues">
+                                                Acceptable values for this attribute include: 
+                                                <sch:value-of select="string-join($refValues, ' | ')"/>.
+                                            </sch:assert>
+            </sch:rule>
+         </pattern>
          <attribute name="type">
             <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">characterizes the element in some sense, using any convenient classification scheme or typology.</a:documentation>
             <choice>
@@ -4227,7 +4228,15 @@ attributes @target and @cRef may be supplied on <name/>.</report>
          </pattern>
          <ref name="att.cReferencing.attributes"/>
          <ref name="att.pointing.attribute.target"/>
-         <ref name="att.typed.attributes"/>
+         <ref name="att.typed.attribute.subtype"/>
+         <optional>
+            <attribute name="type">
+               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">characterizes the element in some sense, using any convenient classification scheme or typology.</a:documentation>
+               <data type="token">
+                  <param name="pattern">[^\p{C}\p{Z}]+</param>
+               </data>
+            </attribute>
+         </optional>
          <empty/>
       </element>
    </define>
@@ -4238,7 +4247,7 @@ attributes @target and @cRef may be supplied on <name/>.</report>
             <ref name="item"/>
          </oneOrMore>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="msdesc-list-gloss-list-must-have-labels-constraint-rule-13">
+                  id="msdesc-list-gloss-list-must-have-labels-constraint-rule-14">
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:rng="http://relaxng.org/ns/structure/1.0"
                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
@@ -4317,8 +4326,65 @@ attributes @target and @cRef may be supplied on <name/>.</report>
       <element name="note">
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(note) contains a note or annotation. [3.9.1. Notes and Simple Annotation 2.2.6. The Notes Statement 3.12.2.8. Notes and Statement of Language 9.3.5.4. Notes within Entries]</a:documentation>
          <ref name="macro.specialPara"/>
-         <ref name="att.global.attributes"/>
-         <ref name="att.typed.attributes"/>
+         <ref name="att.global.attribute.xmlid"/>
+         <ref name="att.global.attribute.n"/>
+         <ref name="att.global.attribute.xmllang"/>
+         <ref name="att.global.attribute.xmlbase"/>
+         <ref name="att.global.attribute.xmlspace"/>
+         <ref name="att.global.rendition.attribute.rend"/>
+         <ref name="att.global.rendition.attribute.style"/>
+         <ref name="att.global.rendition.attribute.rendition"/>
+         <ref name="att.global.linking.attribute.corresp"/>
+         <ref name="att.global.linking.attribute.synch"/>
+         <ref name="att.global.linking.attribute.sameAs"/>
+         <ref name="att.global.linking.attribute.copyOf"/>
+         <ref name="att.global.linking.attribute.next"/>
+         <ref name="att.global.linking.attribute.prev"/>
+         <ref name="att.global.linking.attribute.exclude"/>
+         <ref name="att.global.linking.attribute.select"/>
+         <ref name="att.global.facs.attribute.facs"/>
+         <ref name="att.global.change.attribute.change"/>
+         <ref name="att.global.responsibility.attribute.cert"/>
+         <ref name="att.global.source.attribute.source"/>
+         <ref name="att.typed.attribute.subtype"/>
+         <optional>
+            <attribute name="resp">
+               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(responsible party) indicates the agency responsible for the intervention or interpretation, for example an editor or transcriber.</a:documentation>
+               <list>
+                  <oneOrMore>
+                     <data type="anyURI">
+                        <param name="pattern">\S+</param>
+                     </data>
+                  </oneOrMore>
+               </list>
+            </attribute>
+         </optional>
+         <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
+                  id="msdesc-note-resp-resp-on-note-constraint-rule-15">
+            <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
+                      xmlns:rng="http://relaxng.org/ns/structure/1.0"
+                      xmlns:sch="http://purl.oclc.org/dsdl/schematron"
+                      context="//tei:name/@resp">
+               <sch:let name="edsDoc"
+                        value="doc('https://raw.githubusercontent.com/srophe/britishLibrary/main/documentation/editors.xml')"/>
+               <sch:let name="eds"
+                        value="$edsDoc//tei:text/tei:body/tei:listPerson/tei:person/@xml:id | $edsDoc//tei:text/tei:body/tei:listPerson/tei:org/@xml:id"/>
+               <sch:let name="refValues"
+                        value="for $i in $eds return concat('https://bl.syriac.uk/documentation/editors.xml#', $i)"/>
+               <sch:assert test="every $i in . satisfies $i = $refValues">
+                                                Acceptable values for this attribute include: 
+                                                <sch:value-of select="string-join($refValues, ' | ')"/>.
+                                            </sch:assert>
+            </sch:rule>
+         </pattern>
+         <optional>
+            <attribute name="type">
+               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">characterizes the element in some sense, using any convenient classification scheme or typology.</a:documentation>
+               <data type="token">
+                  <param name="pattern">[^\p{C}\p{Z}]+</param>
+               </data>
+            </attribute>
+         </optional>
          <empty/>
       </element>
    </define>
@@ -4530,26 +4596,19 @@ Elements 7.2.5. Speech Contents]</a:documentation>
       <element name="editor">
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">contains a secondary statement of responsibility for a bibliographic item, for example the name of an individual, institution or organization, (or of several such) acting as editor, compiler, translator, etc. [3.12.2.2. Titles, Authors, and Editors]</a:documentation>
          <ref name="macro.phraseSeq"/>
+         <ref name="att.global.attributes"/>
+         <attribute name="role">
+            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">may be used to specify further information about the entity referenced by this name in the form of a set of whitespace-separated values, for example the occupation of a person, or the status of a place.</a:documentation>
+            <list>
+               <oneOrMore>
+                  <data type="token">
+                     <param name="pattern">[^\p{C}\p{Z}]+</param>
+                  </data>
+               </oneOrMore>
+            </list>
+         </attribute>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="msdesc-editor-ref-on-editor-constraint-rule-14">
-            <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
-                      xmlns:rng="http://relaxng.org/ns/structure/1.0"
-                      xmlns:sch="http://purl.oclc.org/dsdl/schematron"
-                      context="//tei:titleStmt/tei:editor/@ref">
-               <sch:let name="edsDoc"
-                        value="doc('https://raw.githubusercontent.com/srophe/britishLibrary/main/documentation/editors.xml')"/>
-               <sch:let name="eds"
-                        value="$edsDoc//tei:text/tei:body/tei:listPerson/tei:person/@xml:id | $edsDoc//tei:text/tei:body/tei:listPerson/tei:org/@xml:id"/>
-               <sch:let name="refValues"
-                        value="for $i in $eds return concat('https://bl.syriac.uk/documentation/editors.xml#', $i)"/>
-               <sch:assert test="every $i in . satisfies $i = $refValues">
-                                        Acceptable values for this @ref attribute include: 
-                                        <sch:value-of select="string-join($refValues, ' | ')"/>.
-                                    </sch:assert>
-            </sch:rule>
-         </pattern>
-         <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="msdesc-editor-role-on-editor-constraint-rule-15">
+                  id="msdesc-editor-role-role-on-editor-constraint-rule-16">
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:rng="http://relaxng.org/ns/structure/1.0"
                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
@@ -4563,18 +4622,36 @@ Elements 7.2.5. Speech Contents]</a:documentation>
                <sch:assert test=". = 'creator' or . = 'general-editor' or . = 'technical-editor'">Value of @role must be one of the following: "creator", "general-editor", "technical-editor".</sch:assert>
             </sch:rule>
          </pattern>
-         <ref name="att.global.attributes"/>
-         <ref name="att.canonical.attribute.ref"/>
-         <attribute name="role">
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">may be used to specify further information about the entity referenced by this name in the form of a set of whitespace-separated values, for example the occupation of a person, or the status of a place.</a:documentation>
-            <list>
-               <oneOrMore>
-                  <data type="token">
-                     <param name="pattern">[^\p{C}\p{Z}]+</param>
-                  </data>
-               </oneOrMore>
-            </list>
-         </attribute>
+         <optional>
+            <attribute name="ref">
+               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(reference) provides an explicit means of locating a full definition or identity for the entity being named by means of one or more URIs.</a:documentation>
+               <list>
+                  <oneOrMore>
+                     <data type="anyURI">
+                        <param name="pattern">\S+</param>
+                     </data>
+                  </oneOrMore>
+               </list>
+            </attribute>
+         </optional>
+         <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
+                  id="msdesc-editor-ref-ref-on-editor-constraint-rule-18">
+            <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
+                      xmlns:rng="http://relaxng.org/ns/structure/1.0"
+                      xmlns:sch="http://purl.oclc.org/dsdl/schematron"
+                      context="//tei:titleStmt/tei:editor/@ref">
+               <sch:let name="edsDoc"
+                        value="doc('https://raw.githubusercontent.com/srophe/britishLibrary/main/documentation/editors.xml')"/>
+               <sch:let name="eds"
+                        value="$edsDoc//tei:text/tei:body/tei:listPerson/tei:person/@xml:id | $edsDoc//tei:text/tei:body/tei:listPerson/tei:org/@xml:id"/>
+               <sch:let name="refValues"
+                        value="for $i in $eds return concat('https://bl.syriac.uk/documentation/editors.xml#', $i)"/>
+               <sch:assert test="every $i in . satisfies $i = $refValues">
+                                                Acceptable values for this attribute include: 
+                                                <sch:value-of select="string-join($refValues, ' | ')"/>.
+                                            </sch:assert>
+            </sch:rule>
+         </pattern>
          <empty/>
       </element>
    </define>
@@ -4620,24 +4697,10 @@ Elements 7.2.5. Speech Contents]</a:documentation>
          <optional>
             <attribute name="type">
                <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">classifies the title according to some convenient typology.
-Suggested values include: 1] main; 2] sub; 3] alt; 4] short; 5] desc; 6] collection</a:documentation>
-               <choice>
-                  <value>main</value>
-                  <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">The title is the main title</a:documentation>
-                  <value>sub</value>
-                  <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">The title is a subtitle or title of a part</a:documentation>
-                  <value>alt</value>
-                  <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">The title is an alternate title, translation, or alias</a:documentation>
-                  <value>short</value>
-                  <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">The title is an abbreviated form of the main title</a:documentation>
-                  <value>desc</value>
-                  <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">The title is a descriptive paraphrase of the work functioning as a title</a:documentation>
-                  <value>collection</value>
-                  <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">The title is of a collection</a:documentation>
-                  <data type="token">
-                     <param name="pattern">[^\p{C}\p{Z}]+</param>
-                  </data>
-               </choice>
+Sample values include: 1] main; 2] sub (subordinate); 3] alt (alternate); 4] short; 5] desc (descriptive)</a:documentation>
+               <data type="token">
+                  <param name="pattern">[^\p{C}\p{Z}]+</param>
+               </data>
             </attribute>
          </optional>
          <optional>
@@ -4946,7 +5009,7 @@ relatedItem element must be empty</sch:report>
             </zeroOrMore>
          </group>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="msdesc-lg-atleast1oflggapl-constraint-assert-11">
+                  id="msdesc-lg-atleast1oflggapl-constraint-assert-13">
             <rule context="tei:lg">
                <sch:assert xmlns="http://www.tei-c.org/ns/1.0"
                            xmlns:rng="http://relaxng.org/ns/structure/1.0"
@@ -4981,7 +5044,7 @@ relatedItem element must be empty</sch:report>
          </zeroOrMore>
          <text/>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="msdesc-textLang-textLang-textLang.check-constraint-rule-17">
+                  id="msdesc-textLang-textLang-textLang.check-constraint-rule-19">
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:rng="http://relaxng.org/ns/structure/1.0"
                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
@@ -5711,8 +5774,19 @@ Suggested values include: 1] ISBN; 2] ISSN; 3] DOI; 4] URI; 5] VIAF; 6] ESTC; 7]
             </zeroOrMore>
             <text/>
          </interleave>
+         <ref name="att.datable.w3c.attributes"/>
+         <attribute name="who">
+            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">indicates the person, or group of people, to whom the element content is ascribed.</a:documentation>
+            <list>
+               <oneOrMore>
+                  <data type="anyURI">
+                     <param name="pattern">\S+</param>
+                  </data>
+               </oneOrMore>
+            </list>
+         </attribute>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="msdesc-change-who-on-change-constraint-rule-20">
+                  id="msdesc-change-who-who-on-change-constraint-rule-22">
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:rng="http://relaxng.org/ns/structure/1.0"
                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
@@ -5725,13 +5799,11 @@ Suggested values include: 1] ISBN; 2] ISSN; 3] DOI; 4] URI; 5] VIAF; 6] ESTC; 7]
                <sch:let name="refValues"
                         value="for $i in $eds return concat('https://bl.syriac.uk/documentation/editors.xml#', $i)"/>
                <sch:assert test="every $i in . satisfies $i = $refValues">
-                                        Acceptable values for this @who attribute include: 
-                                        <sch:value-of select="string-join($refValues, ' | ')"/>.
-                                    </sch:assert>
+                                                Acceptable values for this attribute include: 
+                                                <sch:value-of select="string-join($refValues, ' | ')"/>.
+                                            </sch:assert>
             </sch:rule>
          </pattern>
-         <ref name="att.datable.w3c.attributes"/>
-         <ref name="att.ascribed.attributes"/>
          <optional>
             <attribute name="type">
                <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">characterizes the element in some sense, using any convenient classification scheme or typology.</a:documentation>
@@ -5962,7 +6034,39 @@ Suggested values include: 1] ISBN; 2] ISSN; 3] DOI; 4] URI; 5] VIAF; 6] ESTC; 7]
                </group>
             </choice>
          </group>
-         <ref name="att.global.attributes"/>
+         <ref name="att.global.attribute.xmlid"/>
+         <ref name="att.global.attribute.n"/>
+         <ref name="att.global.attribute.xmlbase"/>
+         <ref name="att.global.attribute.xmlspace"/>
+         <ref name="att.global.rendition.attribute.rend"/>
+         <ref name="att.global.rendition.attribute.style"/>
+         <ref name="att.global.rendition.attribute.rendition"/>
+         <ref name="att.global.linking.attribute.corresp"/>
+         <ref name="att.global.linking.attribute.synch"/>
+         <ref name="att.global.linking.attribute.sameAs"/>
+         <ref name="att.global.linking.attribute.copyOf"/>
+         <ref name="att.global.linking.attribute.next"/>
+         <ref name="att.global.linking.attribute.prev"/>
+         <ref name="att.global.linking.attribute.exclude"/>
+         <ref name="att.global.linking.attribute.select"/>
+         <ref name="att.global.facs.attribute.facs"/>
+         <ref name="att.global.change.attribute.change"/>
+         <ref name="att.global.responsibility.attribute.cert"/>
+         <ref name="att.global.responsibility.attribute.resp"/>
+         <ref name="att.global.source.attribute.source"/>
+         <optional>
+            <attribute name="xml:lang">
+               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(language) indicates the language of the element content using a tag generated according to <a xmlns="http://www.w3.org/1999/xhtml"
+                     href="http://www.rfc-editor.org/rfc/bcp/bcp47.txt">BCP 47</a>.</a:documentation>
+               <choice>
+                  <data type="language"/>
+                  <choice>
+                     <value/>
+                     <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"/>
+                  </choice>
+               </choice>
+            </attribute>
+         </optional>
          <empty/>
       </element>
    </define>
@@ -5971,7 +6075,7 @@ Suggested values include: 1] ISBN; 2] ISSN; 3] DOI; 4] URI; 5] VIAF; 6] ESTC; 7]
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(catchwords) describes the system used to ensure correct ordering of the quires or similar making up a codex, incunable, or other object typically by means of annotations at the foot of the page. [10.3.7. Catchwords, Signatures, Secundo Folio]</a:documentation>
          <ref name="macro.phraseSeq"/>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="msdesc-catchwords-catchword_in_msDesc-constraint-assert-16">
+                  id="msdesc-catchwords-catchword_in_msDesc-constraint-assert-18">
             <rule context="tei:catchwords">
                <sch:assert xmlns="http://www.tei-c.org/ns/1.0"
                            xmlns:rng="http://relaxng.org/ns/structure/1.0"
@@ -5995,7 +6099,7 @@ Suggested values include: 1] ISBN; 2] ISSN; 3] DOI; 4] URI; 5] VIAF; 6] ESTC; 7]
             </optional>
          </group>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="msdesc-dimensions-dimensions-unit.check-constraint-rule-21">
+                  id="msdesc-dimensions-dimensions-unit.check-constraint-rule-23">
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:rng="http://relaxng.org/ns/structure/1.0"
                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
@@ -6237,7 +6341,7 @@ Sample values include: 1] binding; 2] endband; 3] slipcase; 4] support; 5] tie</
          </zeroOrMore>
          <text/>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="msdesc-origDate-origDate.check-constraint-rule-22">
+                  id="msdesc-origDate-origDate.check-constraint-rule-24">
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:rng="http://relaxng.org/ns/structure/1.0"
                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
@@ -6277,7 +6381,7 @@ Sample values include: 1] binding; 2] endband; 3] slipcase; 4] support; 5] tie</
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(second folio) marks the word or words taken from a fixed point in a codex (typically the beginning of the second leaf) in order to provide a unique identifier for it.  [10.3.7. Catchwords, Signatures, Secundo Folio]</a:documentation>
          <ref name="macro.phraseSeq"/>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="msdesc-secFol-secFol_in_msDesc-constraint-assert-19">
+                  id="msdesc-secFol-secFol_in_msDesc-constraint-assert-21">
             <rule context="tei:secFol">
                <sch:assert xmlns="http://www.tei-c.org/ns/1.0"
                            xmlns:rng="http://relaxng.org/ns/structure/1.0"
@@ -6294,7 +6398,7 @@ Sample values include: 1] binding; 2] endband; 3] slipcase; 4] support; 5] tie</
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(signatures) contains discussion of the leaf or quire signatures found within a codex or similar object. [10.3.7. Catchwords, Signatures, Secundo Folio]</a:documentation>
          <ref name="macro.specialPara"/>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="msdesc-signatures-signatures_in_msDesc-constraint-assert-20">
+                  id="msdesc-signatures-signatures_in_msDesc-constraint-assert-22">
             <rule context="tei:signatures">
                <sch:assert xmlns="http://www.tei-c.org/ns/1.0"
                            xmlns:rng="http://relaxng.org/ns/structure/1.0"
@@ -6727,7 +6831,6 @@ Sample values include: 1] binding; 2] endband; 3] slipcase; 4] support; 5] tie</
          <ref name="att.global.responsibility.attribute.cert"/>
          <ref name="att.global.responsibility.attribute.resp"/>
          <ref name="att.global.source.attribute.source"/>
-         <ref name="att.msExcerpt.attributes"/>
          <attribute name="xml:id">
             <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(identifier) provides a unique identifier for the element bearing the attribute.</a:documentation>
             <data type="ID"/>
@@ -6736,6 +6839,20 @@ Sample values include: 1] binding; 2] endband; 3] slipcase; 4] support; 5] tie</
             <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(number) gives a number (or other label) for an element, which is not necessarily unique within the document.</a:documentation>
             <data type="string"/>
          </attribute>
+         <optional>
+            <attribute name="defective">
+               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">indicates whether the passage being quoted is defective, i.e. incomplete through loss or damage.</a:documentation>
+               <choice>
+                  <data type="boolean"/>
+                  <choice>
+                     <value>unknown</value>
+                     <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"/>
+                     <value>inapplicable</value>
+                     <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"/>
+                  </choice>
+               </choice>
+            </attribute>
+         </optional>
          <empty/>
       </element>
    </define>
@@ -6931,7 +7048,7 @@ Sample values include: 1] binding; 2] endband; 3] slipcase; 4] support; 5] tie</
             </optional>
          </group>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="msdesc-objectDesc-objectDesc-textLang.check-constraint-rule-23">
+                  id="msdesc-objectDesc-objectDesc-textLang.check-constraint-rule-25">
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:rng="http://relaxng.org/ns/structure/1.0"
                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
@@ -6989,7 +7106,7 @@ Sample values include: 1] binding; 2] endband; 3] slipcase; 4] support; 5] tie</
             </group>
          </choice>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="msdesc-supportDesc-textLang.check-constraint-rule-25">
+                  id="msdesc-supportDesc-textLang.check-constraint-rule-27">
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:rng="http://relaxng.org/ns/structure/1.0"
                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
@@ -7319,7 +7436,7 @@ Suggested values include: 1] ink; 2] leadpoint; 3] hardpoint; 4] crayon; 5] mixe
             <text/>
          </interleave>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="msdesc-binding-binding.check-constraint-rule-27">
+                  id="msdesc-binding-binding.check-constraint-rule-29">
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:rng="http://relaxng.org/ns/structure/1.0"
                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
@@ -7919,7 +8036,15 @@ Suggested values include: 1] ink; 2] leadpoint; 3] hardpoint; 4] crayon; 5] mixe
          <ref name="att.canonical.attribute.ref"/>
          <ref name="att.global.attributes"/>
          <ref name="att.editLike.attributes"/>
-         <ref name="att.typed.attributes"/>
+         <ref name="att.typed.attribute.subtype"/>
+         <optional>
+            <attribute name="type">
+               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">characterizes the element in some sense, using any convenient classification scheme or typology.</a:documentation>
+               <data type="token">
+                  <param name="pattern">[^\p{C}\p{Z}]+</param>
+               </data>
+            </attribute>
+         </optional>
          <empty/>
       </element>
    </define>
@@ -8259,7 +8384,7 @@ Suggested values include: 1] ink; 2] leadpoint; 3] hardpoint; 4] crayon; 5] mixe
             <ref name="desc"/>
          </optional>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="msdesc-relation-reforkeyorname-constraint-assert-26">
+                  id="msdesc-relation-reforkeyorname-constraint-assert-28">
             <rule context="tei:relation">
                <assert xmlns:rng="http://relaxng.org/ns/structure/1.0"
                        xmlns:sch="http://purl.oclc.org/dsdl/schematron"
@@ -8381,7 +8506,7 @@ Sample values include: 1] TEI; 2] DBK (docbook); 3] XX (unknown); 4] Schematron;
             </choice>
          </group>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="msdesc-TEI-TEI.xmlid.check-constraint-rule-28">
+                  id="msdesc-TEI-TEI.xmlid.check-constraint-rule-30">
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:rng="http://relaxng.org/ns/structure/1.0"
                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
@@ -8680,7 +8805,7 @@ Sample values include: 1] TEI; 2] DBK (docbook); 3] XX (unknown); 4] Schematron;
             </oneOrMore>
          </group>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="msdesc-facsimile-no_facsimile_text_nodes-constraint-rule-29">
+                  id="msdesc-facsimile-no_facsimile_text_nodes-constraint-rule-31">
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:rng="http://relaxng.org/ns/structure/1.0"
                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
@@ -8892,7 +9017,7 @@ Sample values include: 1] header; 2] footer; 3] pageNum (page number); 4] lineNu
             </choice>
          </oneOrMore>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="msdesc-subst-substContents1-constraint-assert-29">
+                  id="msdesc-subst-substContents1-constraint-assert-31">
             <rule context="tei:subst">
                <assert xmlns:rng="http://relaxng.org/ns/structure/1.0"
                        xmlns:sch="http://purl.oclc.org/dsdl/schematron"
