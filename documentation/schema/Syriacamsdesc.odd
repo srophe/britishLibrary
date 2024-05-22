@@ -4597,7 +4597,7 @@ Comment @davidamichelson -->
                             <constraint>
                                 <sch:rule context="//tei:revisionDesc//tei:change/@who">
                                     <sch:let name="edsDoc" value="doc('https://raw.githubusercontent.com/srophe/britishLibrary/main/documentation/editors.xml')"/>
-                                    <sch:let name="eds" value="$edsDoc//tei:text/tei:body/tei:listPerson/tei:person/@xml:id | $edsDoc//tei:text/tei:body/tei:listPerson/tei:person/@xml:id"/>
+                                    <sch:let name="eds" value="$edsDoc//tei:text/tei:body/tei:listPerson/tei:person/@xml:id | $edsDoc//tei:text/tei:body/tei:listPerson/tei:org/@xml:id"/>
                                     <sch:let name="refValues" value="for $i in $eds return concat('https://bl.syriac.uk/documentation/editors.xml#', $i)"/>
                                     <sch:assert test="every $i in . satisfies $i = $refValues">
                                         Acceptable values for this @who attribute include: 
@@ -5195,7 +5195,7 @@ Comment @davidamichelson -->
                             <constraint>
                                 <sch:rule context="//tei:titleStmt/tei:editor/@ref">
                                     <sch:let name="edsDoc" value="doc('https://raw.githubusercontent.com/srophe/britishLibrary/main/documentation/editors.xml')"/>
-                                    <sch:let name="eds" value="$edsDoc//tei:text/tei:body/tei:listPerson/tei:person/@xml:id | $edsDoc//tei:text/tei:body/tei:listPerson/tei:person/@xml:id"/>
+                                    <sch:let name="eds" value="$edsDoc//tei:text/tei:body/tei:listPerson/tei:person/@xml:id | $edsDoc//tei:text/tei:body/tei:listPerson/tei:org/@xml:id"/>
                                     <sch:let name="refValues" value="for $i in $eds return concat('https://bl.syriac.uk/documentation/editors.xml#', $i)"/>
                                     <sch:assert test="every $i in . satisfies $i = $refValues">
                                         Acceptable values for this @ref attribute include: 
@@ -5207,9 +5207,20 @@ Comment @davidamichelson -->
                             <!-- Syriaca: Write schematron rule that fires at //tei:msItem/tei:editor/@role with value "translator". -->
                             <!-- Syriaca: Write schematron rule that fires at //tei:titleStmt/tei:editor/@role with values "creator", "general-editor", "technical". -->
                         </constraintSpec>
+                        <constraintSpec ident="role-on-editor" scheme="schematron">
+                            <constraint>
+                                <sch:rule context="//tei:msItem/tei:editor/@role">
+                                    <sch:assert test="translator">Value of @role must be "translator".</sch:assert>
+                                </sch:rule>
+                                <!--<sch:rule context="//tei:titleStmt/tei:editor/@role">
+                                    <sch:assert test="creator | general-editor | technical">Value of @role must be "translator".</sch:assert>
+                                </sch:rule>-->
+                            </constraint>
+                        </constraintSpec>
                         <attList>
                             <attDef ident="nymRef" mode="delete"/>
                             <attDef ident="key" mode="delete"/>
+                            <attDef ident="role" mode="change" usage="req"/>
                         </attList>
                     </elementSpec>
                     
