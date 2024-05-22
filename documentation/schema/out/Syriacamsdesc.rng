@@ -5,7 +5,7 @@
          xmlns:xlink="http://www.w3.org/1999/xlink"
          datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes"
          ns="http://www.tei-c.org/ns/1.0"><!--
-Schema generated from ODD source 2024-05-22T19:17:40Z. . 
+Schema generated from ODD source 2024-05-22T19:36:17Z. . 
 TEI Edition: Version 4.5.0. Last updated on 25th October 2022, revision 3e98e619e 
 TEI Edition Location: https://www.tei-c.org/Vault/P5/4.5.0/ 
   
@@ -4492,11 +4492,11 @@ Elements 7.2.5. Speech Contents]</a:documentation>
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:rng="http://relaxng.org/ns/structure/1.0"
                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
-                      context="//tei:editor/@ref">
+                      context="//tei:titleStmt/tei:editor/@ref">
                <sch:let name="edsDoc"
                         value="doc('https://raw.githubusercontent.com/srophe/britishLibrary/main/documentation/editors.xml')"/>
                <sch:let name="eds"
-                        value="$edsDoc//tei:text/tei:body/tei:listPerson/tei:person/@xml:id"/>
+                        value="$edsDoc//tei:text/tei:body/tei:listPerson/tei:person/@xml:id | $edsDoc//tei:text/tei:body/tei:listPerson/tei:person/@xml:id"/>
                <sch:let name="refValues"
                         value="for $i in $eds return concat('https://bl.syriac.uk/documentation/editors.xml#', $i)"/>
                <sch:assert test="every $i in . satisfies $i = $refValues">
@@ -5668,7 +5668,7 @@ Suggested values include: 1] formata; 2] libraria; 3] currens</a:documentation>
                <sch:let name="edsDoc"
                         value="doc('https://raw.githubusercontent.com/srophe/britishLibrary/main/documentation/editors.xml')"/>
                <sch:let name="eds"
-                        value="$edsDoc//tei:text/tei:body/tei:listPerson/tei:person/@xml:id"/>
+                        value="$edsDoc//tei:text/tei:body/tei:listPerson/tei:person/@xml:id | $edsDoc//tei:text/tei:body/tei:listPerson/tei:person/@xml:id"/>
                <sch:let name="refValues"
                         value="for $i in $eds return concat('https://bl.syriac.uk/documentation/editors.xml#', $i)"/>
                <sch:assert test="every $i in . satisfies $i = $refValues">
@@ -5679,7 +5679,22 @@ Suggested values include: 1] formata; 2] libraria; 3] currens</a:documentation>
          </pattern>
          <ref name="att.datable.w3c.attributes"/>
          <ref name="att.ascribed.attributes"/>
-         <ref name="att.typed.attributes"/>
+         <optional>
+            <attribute name="type">
+               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">characterizes the element in some sense, using any convenient classification scheme or typology.</a:documentation>
+               <data type="token">
+                  <param name="pattern">[^\p{C}\p{Z}]+</param>
+               </data>
+            </attribute>
+         </optional>
+         <optional>
+            <attribute name="subtype">
+               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(subtype) provides a sub-categorization of the element, if needed</a:documentation>
+               <data type="token">
+                  <param name="pattern">[^\p{C}\p{Z}]+</param>
+               </data>
+            </attribute>
+         </optional>
          <optional>
             <attribute name="target">
                <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(target) points to one or more elements that belong to this change.</a:documentation>
