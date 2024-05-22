@@ -6342,7 +6342,7 @@ Comment @davidamichelson -->
                             <attDef ident="resp" mode="change">
                                 <constraintSpec ident="resp-on-note" scheme="schematron">
                                     <constraint>
-                                        <sch:rule context="//tei:name/@resp">
+                                        <sch:rule context="//tei:note/@resp">
                                             <sch:let name="edsDoc" value="doc('https://raw.githubusercontent.com/srophe/britishLibrary/main/documentation/editors.xml')"/>
                                             <sch:let name="eds" value="$edsDoc//tei:text/tei:body/tei:listPerson/tei:person/@xml:id | $edsDoc//tei:text/tei:body/tei:listPerson/tei:org/@xml:id"/>
                                             <sch:let name="refValues" value="for $i in $eds return concat('https://bl.syriac.uk/documentation/editors.xml#', $i)"/>
@@ -6885,6 +6885,14 @@ Comment @davidamichelson -->
                         <content>
                             <elementRef key="change" minOccurs="1" maxOccurs="unbounded"/>
                         </content>
+                        <attList>
+                            <attDef ident="status" mode="change" usage="req">
+                                <valList type="closed">
+                                    <valItem ident="draft"/>
+                                    <valItem ident="peer-reviewed"/>
+                                </valList>
+                            </attDef>
+                        </attList>
                     </elementSpec>
                     
                     
@@ -7004,7 +7012,32 @@ Comment @davidamichelson -->
                         </classes>
                         <!-- Syriaca: We could contstrain for what we have or we could leave note/p/quote/supplied, etc. open for lots of content. Discuss. -->
                         <attList>
-                            <attDef ident="resp" mode="change" usage="req"/>
+                            <attDef ident="reason" mode="change" usage="req">
+                                <valList type="closed">
+                                    <valItem ident="illegible"/>
+                                    <valItem ident="lack-facsimile"/>
+                                    <valItem ident="marginalia"/>
+                                    <valItem ident="reference"/>
+                                    <valItem ident="transcription"/>
+                                    <valItem ident="translation"/>
+                                    <valItem ident="unknown"/>
+                                </valList>
+                            </attDef>
+                            <attDef ident="resp" mode="change" usage="req">
+                                <constraintSpec ident="resp-on-supplied" scheme="schematron">
+                                    <constraint>
+                                        <sch:rule context="//tei:supplied/@resp">
+                                            <sch:let name="edsDoc" value="doc('https://raw.githubusercontent.com/srophe/britishLibrary/main/documentation/editors.xml')"/>
+                                            <sch:let name="eds" value="$edsDoc//tei:text/tei:body/tei:listPerson/tei:person/@xml:id | $edsDoc//tei:text/tei:body/tei:listPerson/tei:org/@xml:id"/>
+                                            <sch:let name="refValues" value="for $i in $eds return concat('https://bl.syriac.uk/documentation/editors.xml#', $i)"/>
+                                            <sch:assert test="every $i in . satisfies $i = $refValues">
+                                                Acceptable values for this attribute include: 
+                                                <sch:value-of select="string-join($refValues, ' | ')"/>.
+                                            </sch:assert>
+                                        </sch:rule>
+                                    </constraint>
+                                </constraintSpec>
+                            </attDef>
                         </attList>
                     </elementSpec>
                     
@@ -7252,7 +7285,13 @@ Comment @davidamichelson -->
                     (this is to allow distinction between quire signatures (or numbers) and leaf/bifolium signatures) -->
                     <elementSpec ident="title" module="core" mode="change">
                         <classes mode="change">
-                            <memberOf></memberOf>
+                            <memberOf key="att.global.rendition" mode="delete"/>
+                            <memberOf key="att.global.linking" mode="delete"/>
+                            <memberOf key="att.global.analytic" mode="delete"/>
+                            <memberOf key="att.global.facs" mode="delete"/>
+                            <memberOf key="att.global.change" mode="delete"/>
+                            <memberOf key="att.global.source" mode="delete"/>
+                            <memberOf key="att.datable" mode="delete"/>
                         </classes>
                         <content>
                             <sequence preserveOrder="false">
@@ -7263,7 +7302,7 @@ Comment @davidamichelson -->
                             </sequence>
                         </content>
                         <attList>
-                             
+                            <attDef ident="key" mode="delete"/>
                             <attDef ident="type" mode="change">
                                 <valList type="closed">
                                     <valItem ident="supplied"/>
@@ -7304,6 +7343,11 @@ Comment @davidamichelson -->
                                         <gloss>monographic</gloss>
                                         <desc>the title applies to a monograph such as a book or other item considered to be a distinct publication, including single volumes of multi-volume works</desc>
                                     </valItem>
+                                </valList>
+                            </attDef>
+                            <attDef ident="resp" mode="change">
+                                <valList type="closed">
+                                    <valItem ident="https://bl.syriac.uk/documentation/editors.xml#ngibson"/>
                                 </valList>
                             </attDef>
                         </attList>
