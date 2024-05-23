@@ -5,7 +5,7 @@
          xmlns:xlink="http://www.w3.org/1999/xlink"
          datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes"
          ns="http://www.tei-c.org/ns/1.0"><!--
-Schema generated from ODD source 2024-05-23T17:09:11Z. . 
+Schema generated from ODD source 2024-05-23T18:35:05Z. . 
 TEI Edition: Version 4.5.0. Last updated on 25th October 2022, revision 3e98e619e 
 TEI Edition Location: https://www.tei-c.org/Vault/P5/4.5.0/ 
   
@@ -4603,9 +4603,9 @@ Elements 7.2.5. Speech Contents]</a:documentation>
       <element name="author">
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(author) in a bibliographic reference, contains the name(s) of an author, personal or corporate, of a work; for example in the same form as that provided by a recognized bibliographic name authority. [3.12.2.2. Titles, Authors, and Editors 2.2.1. The Title Statement]</a:documentation>
          <interleave>
-            <optional>
+            <zeroOrMore>
                <ref name="persName"/>
-            </optional>
+            </zeroOrMore>
             <text/>
          </interleave>
          <ref name="att.global.responsibility.attribute.cert"/>
@@ -4658,7 +4658,7 @@ Elements 7.2.5. Speech Contents]</a:documentation>
                       xmlns:rng="http://relaxng.org/ns/structure/1.0"
                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
                       context="//tei:msItem/tei:editor/@role">
-               <sch:assert test="translator">Value of @role must be "translator".</sch:assert>
+               <sch:assert test=". = 'translator'">Value of @role must be "translator".</sch:assert>
             </sch:rule>
             <sch:rule xmlns="http://www.tei-c.org/ns/1.0"
                       xmlns:rng="http://relaxng.org/ns/structure/1.0"
@@ -4732,6 +4732,9 @@ Elements 7.2.5. Speech Contents]</a:documentation>
             </zeroOrMore>
             <zeroOrMore>
                <ref name="sic"/>
+            </zeroOrMore>
+            <zeroOrMore>
+               <ref name="supplied"/>
             </zeroOrMore>
             <text/>
          </interleave>
@@ -4973,7 +4976,6 @@ Suggested values include: 1] volume (volume); 2] issue; 3] page (page); 4] line;
             <zeroOrMore>
                <ref name="title"/>
             </zeroOrMore>
-            <text/>
          </interleave>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
                   id="msdesc-bibl-bibl-children-constraint-rule-22">
@@ -5868,10 +5870,10 @@ Suggested values include: 1] ISBN; 2] ISSN; 3] DOI; 4] URI; 5] VIAF; 6] ESTC; 7]
                       context="//tei:handNote/@script">
                <sch:let name="langIdents"
                         value="//tei:profileDesc/tei:langUsage/tei:language/@ident"/>
-               <sch:assert test=". = $langIdents or . = 'mixed'">
+               <sch:assert test=". = $langIdents or . = 'mixed' or . = 'unknown'">
                                                 Attribute value much match one of the following language codes in the &lt;profileDesc&gt;:
                                                 <sch:value-of select="string-join($langIdents, ' | ')"/> or contain the value "mixed" if a
-                                                the &lt;handNote&gt; contains more than one script.
+                                                the &lt;handNote&gt; contains more than one script or "unknown" if the script is unknown.
                                             </sch:assert>
             </sch:rule>
          </pattern>
@@ -6244,7 +6246,6 @@ Sample values include: 1] approved; 2] candidate; 3] cleared; 4] deprecated; 5] 
             </choice>
          </group>
          <ref name="att.global.attribute.n"/>
-         <ref name="att.global.attribute.xmllang"/>
          <ref name="att.global.attribute.xmlbase"/>
          <ref name="att.global.attribute.xmlspace"/>
          <ref name="att.global.rendition.attribute.rend"/>
@@ -7494,30 +7495,6 @@ Sample values include: 1] binding; 2] endband; 3] slipcase; 4] support; 5] tie</
             </zeroOrMore>
             <text/>
          </interleave>
-         <ref name="att.global.attribute.n"/>
-         <ref name="att.global.attribute.xmllang"/>
-         <ref name="att.global.attribute.xmlbase"/>
-         <ref name="att.global.attribute.xmlspace"/>
-         <ref name="att.global.rendition.attribute.rend"/>
-         <ref name="att.global.rendition.attribute.style"/>
-         <ref name="att.global.rendition.attribute.rendition"/>
-         <ref name="att.global.linking.attribute.corresp"/>
-         <ref name="att.global.linking.attribute.synch"/>
-         <ref name="att.global.linking.attribute.sameAs"/>
-         <ref name="att.global.linking.attribute.copyOf"/>
-         <ref name="att.global.linking.attribute.next"/>
-         <ref name="att.global.linking.attribute.prev"/>
-         <ref name="att.global.linking.attribute.exclude"/>
-         <ref name="att.global.linking.attribute.select"/>
-         <ref name="att.global.facs.attribute.facs"/>
-         <ref name="att.global.change.attribute.change"/>
-         <ref name="att.global.responsibility.attribute.cert"/>
-         <ref name="att.global.responsibility.attribute.resp"/>
-         <ref name="att.global.source.attribute.source"/>
-         <attribute name="xml:id">
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(identifier) provides a unique identifier for the element bearing the attribute.</a:documentation>
-            <data type="ID"/>
-         </attribute>
          <optional>
             <attribute name="type">
                <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">characterizes the element in some sense, using any convenient classification scheme or typology.</a:documentation>
@@ -7616,30 +7593,6 @@ Sample values include: 1] binding; 2] endband; 3] slipcase; 4] support; 5] tie</
                                     </sch:assert>
             </sch:rule>
          </pattern>
-         <ref name="att.global.attribute.n"/>
-         <ref name="att.global.attribute.xmllang"/>
-         <ref name="att.global.attribute.xmlbase"/>
-         <ref name="att.global.attribute.xmlspace"/>
-         <ref name="att.global.rendition.attribute.rend"/>
-         <ref name="att.global.rendition.attribute.style"/>
-         <ref name="att.global.rendition.attribute.rendition"/>
-         <ref name="att.global.linking.attribute.corresp"/>
-         <ref name="att.global.linking.attribute.synch"/>
-         <ref name="att.global.linking.attribute.sameAs"/>
-         <ref name="att.global.linking.attribute.copyOf"/>
-         <ref name="att.global.linking.attribute.next"/>
-         <ref name="att.global.linking.attribute.prev"/>
-         <ref name="att.global.linking.attribute.exclude"/>
-         <ref name="att.global.linking.attribute.select"/>
-         <ref name="att.global.facs.attribute.facs"/>
-         <ref name="att.global.change.attribute.change"/>
-         <ref name="att.global.responsibility.attribute.cert"/>
-         <ref name="att.global.responsibility.attribute.resp"/>
-         <ref name="att.global.source.attribute.source"/>
-         <attribute name="xml:id">
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(identifier) provides a unique identifier for the element bearing the attribute.</a:documentation>
-            <data type="ID"/>
-         </attribute>
          <optional>
             <attribute name="contemporary">
                <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(contemporary) specifies whether or not the binding is contemporary with the majority of its contents</a:documentation>
@@ -8214,15 +8167,10 @@ Sample values include: 1] binding; 2] endband; 3] slipcase; 4] support; 5] tie</
                         value="doc('https://raw.githubusercontent.com/srophe/syriaca/master/documentation/indexes/persons.xml')"/>
                <sch:let name="personURIs" value="$personIndex//tei:person/@ref"/>
                <sch:let name="error" value="."/>
-               <sch:report test="contains(., ' ')" role="error">This @ref may contain only one URI.</sch:report>
-               <sch:assert test="matches(., concat('http://syriaca.org/person/', '\d+'))"
+               <sch:assert test="                                                 every $i in tokenize(., '\s')                                                 satisfies $i = $personURIs"
                            role="error">
-                                                The @ref attribute must take a Syriaca.org person URI which reqires 
+                                                The @ref attribute contains a value that is not a Syriaca.org person URI. A Syriaca.org person URI reqires 
                                                 the form 'http://syriaca.org/person/{\d+}' (where {\d+} is a number).
-                                            </sch:assert>
-               <sch:assert test="                                                 every $i in .                                                 satisfies $i = $personURIs"
-                           role="warning">
-                  <sch:value-of select="$error"/> is not a Syriaca.org person URI. 
                                             </sch:assert>
             </sch:rule>
          </pattern>
@@ -8305,15 +8253,10 @@ Sample values include: 1] binding; 2] endband; 3] slipcase; 4] support; 5] tie</
                         value="doc('https://raw.githubusercontent.com/srophe/syriaca/master/documentation/indexes/places.xml')"/>
                <sch:let name="placeURIs" value="$placeIndex//tei:place/@ref"/>
                <sch:let name="error" value="."/>
-               <sch:report test="contains(., ' ')" role="error">This @ref may contain only one URI.</sch:report>
-               <sch:assert test="matches(., concat('http://syriaca.org/place/', '\d+'))"
+               <sch:assert test="                                                 every $i in tokenize(., '\s')                                                 satisfies $i = $placeURIs"
                            role="error">
-                                                The @ref attribute must take a Syriaca.org place URI which reqires 
-                                                the form 'http://syriaca.org/place/{\d+}' (where {\d+} is a number).
-                                            </sch:assert>
-               <sch:assert test="                                                 every $i in .                                                 satisfies $i = $placeURIs"
-                           role="warning">
-                  <sch:value-of select="$error"/> is not a Syriaca.org place URI. 
+                                                The @ref attribute contains a value that is not a Syriaca.org place URI. A Syriaca.org place URI requires 
+                                                the form 'http://syriaca.org/place/{\d+}' (where {\d+} is a number). 
                                             </sch:assert>
             </sch:rule>
          </pattern>
@@ -8607,7 +8550,7 @@ Sample values include: 1] binding; 2] endband; 3] slipcase; 4] support; 5] tie</
             <ref name="desc"/>
          </optional>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="msdesc-relation-reforkeyorname-constraint-assert-40">
+                  id="msdesc-relation-reforkeyorname-constraint-assert-38">
             <rule context="tei:relation">
                <assert xmlns:rng="http://relaxng.org/ns/structure/1.0"
                        xmlns:sch="http://purl.oclc.org/dsdl/schematron"
@@ -8616,7 +8559,7 @@ Sample values include: 1] binding; 2] endband; 3] slipcase; 4] support; 5] tie</
             </rule>
          </pattern>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="msdesc-relation-activemutual-constraint-report-26">
+                  id="msdesc-relation-activemutual-constraint-report-24">
             <rule context="tei:relation">
                <report xmlns:rng="http://relaxng.org/ns/structure/1.0"
                        xmlns:sch="http://purl.oclc.org/dsdl/schematron"
@@ -8625,7 +8568,7 @@ Sample values include: 1] binding; 2] endband; 3] slipcase; 4] support; 5] tie</
             </rule>
          </pattern>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="msdesc-relation-activepassive-constraint-report-27">
+                  id="msdesc-relation-activepassive-constraint-report-25">
             <rule context="tei:relation">
                <report xmlns:rng="http://relaxng.org/ns/structure/1.0"
                        xmlns:sch="http://purl.oclc.org/dsdl/schematron"
@@ -8891,7 +8834,7 @@ Sample values include: 1] TEI; 2] DBK (docbook); 3] XX (unknown); 4] Schematron;
             </optional>
          </group>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="msdesc-div-abstractModel-structure-div-in-l-or-lg-constraint-report-28">
+                  id="msdesc-div-abstractModel-structure-div-in-l-or-lg-constraint-report-26">
             <rule context="tei:div">
                <sch:report xmlns="http://www.tei-c.org/ns/1.0"
                            xmlns:rng="http://relaxng.org/ns/structure/1.0"
@@ -8902,7 +8845,7 @@ Sample values include: 1] TEI; 2] DBK (docbook); 3] XX (unknown); 4] Schematron;
             </rule>
          </pattern>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="msdesc-div-abstractModel-structure-div-in-ab-or-p-constraint-report-29">
+                  id="msdesc-div-abstractModel-structure-div-in-ab-or-p-constraint-report-27">
             <rule context="tei:div">
                <sch:report xmlns="http://www.tei-c.org/ns/1.0"
                            xmlns:rng="http://relaxng.org/ns/structure/1.0"
@@ -9276,7 +9219,7 @@ Sample values include: 1] header; 2] footer; 3] pageNum (page number); 4] lineNu
             </choice>
          </oneOrMore>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="msdesc-subst-substContents1-constraint-assert-46">
+                  id="msdesc-subst-substContents1-constraint-assert-44">
             <rule context="tei:subst">
                <assert xmlns:rng="http://relaxng.org/ns/structure/1.0"
                        xmlns:sch="http://purl.oclc.org/dsdl/schematron"

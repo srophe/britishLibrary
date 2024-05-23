@@ -6637,15 +6637,11 @@ Comment @davidamichelson -->
                                             <sch:let name="personIndex" value="doc('https://raw.githubusercontent.com/srophe/syriaca/master/documentation/indexes/persons.xml')"></sch:let>
                                             <sch:let name="personURIs" value="$personIndex//tei:person/@ref"/>
                                             <sch:let name="error" value="."/>
-                                            <sch:report test="contains(., ' ')" role="error">This @ref may contain only one URI.</sch:report>
-                                            <sch:assert test="matches(., concat('http://syriaca.org/person/', '\d+'))" role="error">
-                                                The @ref attribute must take a Syriaca.org person URI which reqires 
-                                                the form 'http://syriaca.org/person/{\d+}' (where {\d+} is a number).
-                                            </sch:assert>
                                             <sch:assert test="
-                                                every $i in .
-                                                satisfies $i = $personURIs" role="warning">
-                                                <sch:value-of select="$error"/> is not a Syriaca.org person URI. 
+                                                every $i in tokenize(., '\s')
+                                                satisfies $i = $personURIs" role="error">
+                                                The @ref attribute contains a value that is not a Syriaca.org person URI. A Syriaca.org person URI reqires 
+                                                the form 'http://syriaca.org/person/{\d+}' (where {\d+} is a number).
                                             </sch:assert>
                                         </sch:rule>
                                     </constraint>
@@ -6703,15 +6699,11 @@ Comment @davidamichelson -->
                                             <sch:let name="placeIndex" value="doc('https://raw.githubusercontent.com/srophe/syriaca/master/documentation/indexes/places.xml')"/>
                                             <sch:let name="placeURIs" value="$placeIndex//tei:place/@ref"/>
                                             <sch:let name="error" value="."/>
-                                            <sch:report test="contains(., ' ')" role="error">This @ref may contain only one URI.</sch:report>
-                                            <sch:assert test="matches(., concat('http://syriaca.org/place/', '\d+'))" role="error">
-                                                The @ref attribute must take a Syriaca.org place URI which reqires 
-                                                the form 'http://syriaca.org/place/{\d+}' (where {\d+} is a number).
-                                            </sch:assert>
                                             <sch:assert test="
-                                                every $i in .
-                                                satisfies $i = $placeURIs" role="warning">
-                                                <sch:value-of select="$error"/> is not a Syriaca.org place URI. 
+                                                every $i in tokenize(., '\s')
+                                                satisfies $i = $placeURIs" role="error">
+                                                The @ref attribute contains a value that is not a Syriaca.org place URI. A Syriaca.org place URI requires 
+                                                the form 'http://syriaca.org/place/{\d+}' (where {\d+} is a number). 
                                             </sch:assert>
                                         </sch:rule>
                                     </constraint>
