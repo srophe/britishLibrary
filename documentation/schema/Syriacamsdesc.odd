@@ -5540,7 +5540,17 @@ Comment @davidamichelson -->
                                 </valList>
                             </attDef>-->
                             <attDef ident="script" mode="change" usage="req">
-                                
+                                <constraintSpec ident="script-on-handNote" scheme="schematron">
+                                    <constraint>
+                                        <sch:rule context="//tei:handNote/@script">
+                                            <sch:let name="langIdents" value="//tei:profileDesc/tei:langUsage/tei:language/@ident"/>
+                                            <sch:assert test=". = $langIdents">
+                                                Attribute value much match one of the following language codes in the &lt;profileDesc&gt;:
+                                                <sch:value-of select="string-join($langIdents, ' | ')"/>.
+                                            </sch:assert>
+                                        </sch:rule>
+                                    </constraint>
+                                </constraintSpec>
                                 <!-- Syraica: These values allowed in the consolidated BL schema but we aren't using them.
                                     <valList mode="replace" type="semi">
                                     <valItem ident="capitalsSquare">
@@ -5947,6 +5957,21 @@ Comment @davidamichelson -->
                             <elementRef key="sic" minOccurs="0" maxOccurs="unbounded"/>
                             <textNode/>
                         </content>
+                        <attList>
+                            <attDef ident="ident" mode="change">
+                                <constraintSpec ident="ident-on-language" scheme="schematron">
+                                    <constraint>
+                                        <sch:rule context="//tei:language/@ident">
+                                            <sch:let name="langIdents" value="//tei:profileDesc/tei:langUsage/tei:language/@ident"/>
+                                            <sch:assert test=". = $langIdents">
+                                                Attribute value much match one of the following language codes in the &lt;profileDesc&gt;:
+                                                <sch:value-of select="string-join($langIdents, ' | ')"/>.
+                                            </sch:assert>
+                                        </sch:rule>
+                                    </constraint>
+                                </constraintSpec>
+                            </attDef>
+                        </attList>
                     </elementSpec>
                     
                     
@@ -7345,6 +7370,7 @@ Comment @davidamichelson -->
                                         text within the textLang element.
                                     </sch:assert>
                                 </sch:rule>
+                                <!-- Syriaca: Not using this rule from the consolidated schema but instead validating against language/@ident values
                                 <sch:rule
                                     context="//tei:textLang/@mainLang | //tei:textLang/@otherLangs | //@xml:lang">
                                     <sch:assert
@@ -7356,11 +7382,23 @@ Comment @davidamichelson -->
                                         639 code for the language, then optionally further codes for
                                         the script (ISO 15924), region, transliteration, etc.
                                     </sch:assert>
-                                </sch:rule>
+                                </sch:rule>-->
                             </constraint>
                         </constraintSpec>
                         <attList>
-                            <attDef ident="mainLang" mode="change" usage="req"/>
+                            <attDef ident="mainLang" mode="change" usage="req">
+                                <constraintSpec ident="mainLang-on-textLang" scheme="schematron">
+                                    <constraint>
+                                        <sch:rule context="//tei:textLang/@mainLang">
+                                            <sch:let name="langIdents" value="//tei:profileDesc/tei:langUsage/tei:language/@ident"/>
+                                            <sch:assert test=". = $langIdents">
+                                                Attribute value much match one of the following language codes in the &lt;profileDesc&gt;:
+                                                <sch:value-of select="string-join($langIdents, ' | ')"/>.
+                                            </sch:assert>
+                                        </sch:rule>                                        
+                                    </constraint>
+                                </constraintSpec>
+                            </attDef>
                         </attList>
                     </elementSpec>
                     
@@ -7459,6 +7497,19 @@ Comment @davidamichelson -->
                                             <sch:assert test="matches(., 'http://syriaca.org/work/\d{1,5}$')">
                                                 The value of @ref must be a Syriaca.org work URI, "http://syriaca.org/work/" followed by 1-5 digits. 
                                                 Please confirm that this URI matches the correct work record.
+                                            </sch:assert>
+                                        </sch:rule>
+                                    </constraint>
+                                </constraintSpec>
+                            </attDef>
+                            <attDef ident="xml:lang" mode="change">
+                                <constraintSpec ident="xmlLang-on-title" scheme="schematron">
+                                    <constraint>
+                                        <sch:rule context="//tei:title/@xml:lang">
+                                            <sch:let name="langIdents" value="//tei:profileDesc/tei:langUsage/tei:language/@ident"/>
+                                            <sch:assert test=". = $langIdents">
+                                                Attribute value much match one of the following language codes in the &lt;profileDesc&gt;:
+                                                <sch:value-of select="string-join($langIdents, ' | ')"/>.
                                             </sch:assert>
                                         </sch:rule>
                                     </constraint>
