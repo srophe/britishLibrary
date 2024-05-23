@@ -4093,7 +4093,6 @@ Comment @davidamichelson -->
                         forename 
                         geo geogFeat geogName
                         listPerson listPlace listRelation
-                        orgName 
                         persName person place placeName 
                         relation region 
                         settlement surname 
@@ -4257,15 +4256,12 @@ Comment @davidamichelson -->
                             <memberOf key="att.datable" mode="delete"/>
                             <memberOf key="att.global.responsibility" mode="add"/>
                         </classes>
-                        <!-- Syriaca: What are the desired children of author
-                            <content>
+                        <content>
                             <sequence preserveOrder="false">
                                 <elementRef key="persName" minOccurs="0" maxOccurs="1"/>
-                                <elementRef key="placeName" minOccurs="1" maxOccurs="unbounded"/>
-                                <elementRef key="sic" minOccurs="0" maxOccurs="unbounded"/>
                                 <textNode/>
                             </sequence>
-                        </content>-->
+                        </content>                            
                         <attList>
                             <attDef ident="nymRef" mode="delete"/>
                             <attDef ident="key" mode="delete"/>
@@ -4333,9 +4329,9 @@ Comment @davidamichelson -->
                         <content>
                             <elementRef key="licence" minOccurs="1" maxOccurs="1"/>
                         </content>
+                        <!-- Syriaca: We're not using this attribute.
                         <attList>
                             <attDef ident="status" mode="replace">
-                                <!-- Syriaca: We're not using this attribute. Should we keep this in the schema, implement it in the data, both, neither? -->
                                 <desc>Specifies the availability of a manuscript. This attribute
                                     should not be used to specify the availability of manuscript
                                     metadata: use the <gi>licence</gi> element for that
@@ -4347,7 +4343,7 @@ Comment @davidamichelson -->
                                     <valItem ident="free">
                                         <desc>The item is available.</desc>
                                     </valItem>
-                                    <!-- nb: not necessarily permanently restricted -->
+                                    <!-\- nb: not necessarily permanently restricted -\->
                                     <valItem ident="restricted">
                                         <desc>Access to the item is restricted for conservation or
                                             other reasons.</desc>
@@ -4372,7 +4368,7 @@ Comment @davidamichelson -->
                                     </valItem>
                                 </valList>
                             </attDef>
-                        </attList>
+                        </attList>-->
                     </elementSpec>
                     
                     
@@ -4389,7 +4385,7 @@ Comment @davidamichelson -->
                             <memberOf key="att.datable" mode="delete"/>
                         </classes>
                         <content>
-                            <sequence preserveOrder="false"><!-- Syriaca: check the min/max values below -->
+                            <sequence preserveOrder="false">
                                 <elementRef key="author" minOccurs="0" maxOccurs="unbounded"/>
                                 <elementRef key="choice" minOccurs="0" maxOccurs="unbounded"/>
                                 <elementRef key="citedRange" minOccurs="0" maxOccurs="unbounded"/>
@@ -4401,12 +4397,33 @@ Comment @davidamichelson -->
                                 <elementRef key="sic" minOccurs="0" maxOccurs="unbounded"/>
                                 <elementRef key="title" minOccurs="0" maxOccurs="unbounded"/>
                                 <textNode/>
-                                <!-- Syriaca: Write schematron rule throwing an error when author, date, pubPlace, title 
-                                    appear at tei:bibl[not(descendant::tei:additional)]
-                                -->
                                 <!-- Syriaca: Consider schematron rule to constrain pointers on tei:ref and tei:ptr. -->
                             </sequence>
                         </content>
+                        <constraintSpec ident="bibl-children" scheme="schematron">
+                            <constraint>
+                                <sch:rule context="//tei:bibl[not(ancestor::tei:additional)]">
+                                    <sch:report test="tei:author">
+                                        Element &lt;author&gt; not allowed here.
+                                    </sch:report>
+                                </sch:rule>
+                                <sch:rule context="//tei:bibl[not(ancestor::tei:additional)]">
+                                    <sch:report test="tei:date">
+                                        Element &lt;date&gt; not allowed here.
+                                    </sch:report>
+                                </sch:rule>
+                                <sch:rule context="//tei:bibl[not(ancestor::tei:additional)]">
+                                    <sch:report test="tei:pubPlace">
+                                        Element &lt;pubPlace&gt; not allowed here.
+                                    </sch:report>
+                                </sch:rule>
+                                <sch:rule context="//tei:bibl[not(ancestor::tei:additional)]">
+                                    <sch:report test="tei:title">
+                                        Element &lt;title&gt; not allowed here.
+                                    </sch:report>
+                                </sch:rule>
+                            </constraint>
+                        </constraintSpec>
                         <attList>
                             <attDef ident="type" mode="change">
                                 <valList mode="replace" type="closed">
@@ -4591,21 +4608,6 @@ Comment @davidamichelson -->
                                 <textNode/>
                             </sequence>
                         </content>
-                        <!-- Syriaca: We have lots of examples of change elements without @type, @when, or @who. Should we require any? 
-                            Guessing not because this would cause problems with earlier data not validating. -->
-                        <constraintSpec ident="who-on-change" scheme="schematron">
-                            <constraint>
-                                <sch:rule context="//tei:revisionDesc//tei:change/@who">
-                                    <sch:let name="edsDoc" value="doc('https://raw.githubusercontent.com/srophe/britishLibrary/main/documentation/editors.xml')"/>
-                                    <sch:let name="eds" value="$edsDoc//tei:text/tei:body/tei:listPerson/tei:person/@xml:id | $edsDoc//tei:text/tei:body/tei:listPerson/tei:org/@xml:id"/>
-                                    <sch:let name="refValues" value="for $i in $eds return concat('https://bl.syriac.uk/documentation/editors.xml#', $i)"/>
-                                    <sch:assert test="every $i in . satisfies $i = $refValues">
-                                        Acceptable values for this @who attribute include: 
-                                        <sch:value-of select="string-join($refValues, ' | ')"/>.
-                                    </sch:assert>
-                                </sch:rule>
-                            </constraint>
-                        </constraintSpec>
                         <attList>
                             <attDef ident="type" mode="change">
                                 <valList type="closed">
@@ -4641,6 +4643,21 @@ Comment @davidamichelson -->
                                     <valItem ident="URI"/>
                                     <valItem ident="vocalization"/>
                                 </valList>
+                            </attDef>
+                            <attDef ident="who" mode="change" usage="req">
+                                <constraintSpec ident="who-on-change" scheme="schematron">
+                                    <constraint>
+                                        <sch:rule context="//tei:revisionDesc//tei:change/@who">
+                                            <sch:let name="edsDoc" value="doc('https://raw.githubusercontent.com/srophe/britishLibrary/main/documentation/editors.xml')"/>
+                                            <sch:let name="eds" value="$edsDoc//tei:text/tei:body/tei:listPerson/tei:person/@xml:id | $edsDoc//tei:text/tei:body/tei:listPerson/tei:org/@xml:id"/>
+                                            <sch:let name="refValues" value="for $i in $eds return concat('https://bl.syriac.uk/documentation/editors.xml#', $i)"/>
+                                            <sch:assert test="every $i in . satisfies $i = $refValues">
+                                                Acceptable values for this attribute include: 
+                                                <sch:value-of select="string-join($refValues, ' | ')"/>.
+                                            </sch:assert>
+                                        </sch:rule>
+                                    </constraint>
+                                </constraintSpec>
                             </attDef>
                         </attList>
                     </elementSpec>
@@ -4702,7 +4719,6 @@ Comment @davidamichelson -->
                     
                     
                     <!-- add new attribute "mainStructures" to collation -->
-                    <!-- Syriaca: We're not using this attribute. Should we keep this in the schema, implement it in the data, both, neither? -->
                     <elementSpec ident="collation" module="msdescription" mode="change">
                         <classes mode="change">
                             <memberOf key="att.global" mode="delete"/>
@@ -4710,6 +4726,7 @@ Comment @davidamichelson -->
                         <content>
                             <elementRef key="p" minOccurs="0" maxOccurs="unbounded"/>
                         </content>
+                        <!-- Syriaca: We're not using this attribute. 
                         <attList>
                             <attDef ident="mainStructures">
                                 <desc>Specifies the typical quire structure(s) of the book,
@@ -4721,7 +4738,7 @@ Comment @davidamichelson -->
                                     <dataRef key="teidata.count"/>
                                 </datatype>
                             </attDef>
-                        </attList>
+                        </attList>-->
                     </elementSpec>
                     
                     
@@ -4786,7 +4803,6 @@ Comment @davidamichelson -->
                     
                     
                     <elementSpec ident="damage" module="transcr" mode="change">
-                        <!-- Syriac: This element is only used once. That makes constraining it difficult. -->
                         <classes mode="change">
                             <memberOf key="att.global" mode="delete"/>
                             <memberOf key="att.typed" mode="delete"/>
@@ -4894,8 +4910,6 @@ Comment @davidamichelson -->
                             <memberOf key="att.global.source" mode="delete"/>
                         </classes>
                         <content>
-                            <!-- Syriaca: remove desc from decoNote and put text directly into decoNote. 
-                            -->
                             <sequence preserveOrder="false">
                                 <elementRef key="bibl" minOccurs="0" maxOccurs="unbounded"/>
                                 <elementRef key="foreign" minOccurs="0" maxOccurs="unbounded"/>
@@ -5009,7 +5023,7 @@ Comment @davidamichelson -->
                                 </valList>
                             </attDef>
                             <attDef ident="subtype" mode="change">
-                                <!-- Syriaca: We can work with this in a linked data context, but in general I don't this these faux namespaces are a good idea. -->
+                                <!-- Syriaca: In general I don't think these faux namespaces are a good idea. -->
                                 <valList type="closed">
                                     <valItem ident="hmml:border"/>
                                     <valItem ident="hmml:diagram"/>
@@ -5027,7 +5041,6 @@ Comment @davidamichelson -->
                     
                     
                     <elementSpec ident="del" module="core" mode="change">
-                        <!-- Syriac: This element is only used twice. That makes constraining it difficult. -->
                         <classes mode="change">
                             <memberOf key="att.global" mode="delete"/>
                             <memberOf key="att.naming" mode="delete"/>
@@ -5043,7 +5056,6 @@ Comment @davidamichelson -->
                             <memberOf key="att.typed" mode="delete"/>
                         </classes>
                         <content>
-                            <!-- Syriaca: Reconsider whether or not we want to leave this more open? -->
                             <sequence preserveOrder="false">
                                 <elementRef key="bibl" minOccurs="0" maxOccurs="unbounded"/>
                                 <elementRef key="date" minOccurs="0" maxOccurs="unbounded"/>
@@ -5094,7 +5106,6 @@ Comment @davidamichelson -->
                             <memberOf key="att.ranging" mode="delete"/>
                         </classes>
                         <content>
-                            <!-- Syriaca: They aren't currently in our data but the Guidelines allow tei:dim and tei:depth. Do we want these as well?  -->
                             <sequence preserveOrder="true">
                                 <elementRef key="height" minOccurs="0" maxOccurs="1"/>
                                 <elementRef key="width" minOccurs="0" maxOccurs="1"/>
@@ -5188,37 +5199,36 @@ Comment @davidamichelson -->
                             <memberOf key="att.global.source" mode="delete"/>
                             <memberOf key="att.datable" mode="delete"/>
                         </classes>
-                        <!-- Syriaca: There is some inconsistent practice here. In the tei:titleStmt we normally have text() as child of tei:editor. 
-                            But sometimes it's tei:persName or tei:name. Also, in 18 cases we have tei:msItem/tei:editor/text(), but in one 
-                            case we have the name wrapped in a tei:persName element. -->
-                        <constraintSpec ident="ref-on-editor" scheme="schematron">
-                            <constraint>
-                                <sch:rule context="//tei:titleStmt/tei:editor/@ref">
-                                    <sch:let name="edsDoc" value="doc('https://raw.githubusercontent.com/srophe/britishLibrary/main/documentation/editors.xml')"/>
-                                    <sch:let name="eds" value="$edsDoc//tei:text/tei:body/tei:listPerson/tei:person/@xml:id | $edsDoc//tei:text/tei:body/tei:listPerson/tei:org/@xml:id"/>
-                                    <sch:let name="refValues" value="for $i in $eds return concat('https://bl.syriac.uk/documentation/editors.xml#', $i)"/>
-                                    <sch:assert test="every $i in . satisfies $i = $refValues">
-                                        Acceptable values for this @ref attribute include: 
-                                        <sch:value-of select="string-join($refValues, ' | ')"/>.
-                                    </sch:assert>
-                                </sch:rule>
-                                <!-- Syriaca: Write schematron rule that fires at //tei:msItem/tei:editor/@ref that validates against all Syriaca persName URIs. -->
-                            </constraint>
-                        </constraintSpec>
-                        <constraintSpec ident="role-on-editor" scheme="schematron">
-                            <constraint>
-                                <sch:rule context="//tei:msItem/tei:editor/@role">
-                                    <sch:assert test="translator">Value of @role must be "translator".</sch:assert>
-                                </sch:rule>
-                                <sch:rule context="//tei:titleStmt/tei:editor/@role">
-                                    <sch:assert test=". = 'creator' or . = 'general-editor' or . = 'technical-editor'">Value of @role must be one of the following: "creator", "general-editor", "technical-editor".</sch:assert>
-                                </sch:rule>
-                            </constraint>
-                        </constraintSpec>
                         <attList>
                             <attDef ident="nymRef" mode="delete"/>
                             <attDef ident="key" mode="delete"/>
-                            <attDef ident="role" mode="change" usage="req"/>
+                            <attDef ident="role" mode="change" usage="req">
+                                <constraintSpec ident="role-on-editor" scheme="schematron">
+                                    <constraint>
+                                        <sch:rule context="//tei:msItem/tei:editor/@role">
+                                            <sch:assert test="translator">Value of @role must be "translator".</sch:assert>
+                                        </sch:rule>
+                                        <sch:rule context="//tei:titleStmt/tei:editor/@role">
+                                            <sch:assert test=". = 'creator' or . = 'general-editor' or . = 'technical-editor'">Value of @role must be one of the following: "creator", "general-editor", "technical-editor".</sch:assert>
+                                        </sch:rule>
+                                    </constraint>
+                                </constraintSpec>
+                            </attDef>
+                            <attDef ident="ref" mode="change">
+                                <constraintSpec ident="ref-on-editor" scheme="schematron">
+                                    <constraint>
+                                        <sch:rule context="//tei:titleStmt/tei:editor/@ref">
+                                            <sch:let name="edsDoc" value="doc('https://raw.githubusercontent.com/srophe/britishLibrary/main/documentation/editors.xml')"/>
+                                            <sch:let name="eds" value="$edsDoc//tei:text/tei:body/tei:listPerson/tei:person/@xml:id | $edsDoc//tei:text/tei:body/tei:listPerson/tei:org/@xml:id"/>
+                                            <sch:let name="refValues" value="for $i in $eds return concat('https://bl.syriac.uk/documentation/editors.xml#', $i)"/>
+                                            <sch:assert test="every $i in . satisfies $i = $refValues">
+                                                Acceptable values for this attribute include: 
+                                                <sch:value-of select="string-join($refValues, ' | ')"/>.
+                                            </sch:assert>
+                                        </sch:rule>
+                                    </constraint>
+                                </constraintSpec>
+                            </attDef>
                         </attList>
                     </elementSpec>
                     
@@ -5254,7 +5264,6 @@ Comment @davidamichelson -->
                             <memberOf key="att.global.responsibility" mode="add"/>
                         </classes>
                         <content>
-                            <!-- Syriaca: This is a very tight contstraint. Do we actually want this? -->
                             <sequence preserveOrder="false">
                                 <elementRef key="foreign" minOccurs="0" maxOccurs="unbounded"/>
                                 <elementRef key="sic" minOccurs="0" maxOccurs="unbounded"/>
@@ -5279,7 +5288,7 @@ Comment @davidamichelson -->
                         <content>
                             <sequence preserveOrder="false">
                                 <elementRef key="foreign" minOccurs="0" maxOccurs="unbounded"/>
-                                <elementRef key="locus" minOccurs="0" maxOccurs="unbounded"/><!-- Syriaca: Any chance this should be required? -->
+                                <elementRef key="locus" minOccurs="0" maxOccurs="unbounded"/>
                                 <elementRef key="note" minOccurs="0" maxOccurs="unbounded"/>
                                 <elementRef key="persName" minOccurs="0" maxOccurs="unbounded"/>
                                 <elementRef key="placeName" minOccurs="0" maxOccurs="unbounded"/>
@@ -5373,7 +5382,7 @@ Comment @davidamichelson -->
                     
                     <!-- make the foliation element a member of att.datable (this is to enable identification of medieval foliation, if desired -->
                     <elementSpec ident="foliation" module="msdescription" mode="change">
-                        <!-- Syriaca: We only have 9 examples. Some have text, some have tei:p/text, and some have tei:ref/text. 
+                        <!-- Syriaca: We only have 9 examples. Some have text(), some have tei:p/text(), and some have tei:ref/text(). 
                         Let's decide what we want before I start writing rules.-->
                         <classes mode="change">
                             <memberOf key="att.datable"/><!-- Syriaca: We don't use this. Delete? See note about medieval foliation several lines above. -->
@@ -5485,7 +5494,7 @@ Comment @davidamichelson -->
                             <elementRef key="handNote" minOccurs="1" maxOccurs="unbounded"/>
                         </content>
                         <attList>
-                            <attDef ident="hands" mode="change" usage="req"/><!-- Syriaca: KEEP: Only 8/1149 lacks a @hands attribute. Should this be required? -->
+                            <attDef ident="hands" mode="change" usage="req"/>
                         </attList>
                     </elementSpec>
                     
@@ -5540,7 +5549,18 @@ Comment @davidamichelson -->
                                 </valList>
                             </attDef>-->
                             <attDef ident="script" mode="change" usage="req">
-                                
+                                <constraintSpec ident="script-on-handNote" scheme="schematron">
+                                    <constraint>
+                                        <sch:rule context="//tei:handNote/@script">
+                                            <sch:let name="langIdents" value="//tei:profileDesc/tei:langUsage/tei:language/@ident"/>
+                                            <sch:assert test=". = $langIdents or . = 'mixed'">
+                                                Attribute value much match one of the following language codes in the &lt;profileDesc&gt;:
+                                                <sch:value-of select="string-join($langIdents, ' | ')"/> or contain the value "mixed" if a
+                                                the &lt;handNote&gt; contains more than one script.
+                                            </sch:assert>
+                                        </sch:rule>
+                                    </constraint>
+                                </constraintSpec>
                                 <!-- Syraica: These values allowed in the consolidated BL schema but we aren't using them.
                                     <valList mode="replace" type="semi">
                                     <valItem ident="capitalsSquare">
@@ -5719,6 +5739,23 @@ Comment @davidamichelson -->
                             <elementRef key="sic" minOccurs="0" maxOccurs="unbounded"/>
                             <textNode/>
                         </content>
+                        <constraintSpec ident="idno-uri" scheme="schematron">
+                            <constraint>
+                                <sch:rule context="//tei:publicationStmt/tei:idno[@type='URI']/text()">
+                                    <sch:let name="fileNo" value="replace(document-uri(/), '.*?(\d{1,5}).xml', '$1')"/>
+                                    <sch:let name="docURIno" value="replace(., '.+?(\d+).+', '$1')"/>
+                                    <sch:let name="msDescIdnoNo" value="replace(./following::tei:msDesc/tei:msIdentifier/tei:idno[@type='URI']/text(), '.+?(\d+)', '$1')"/>
+                                    <sch:let name="id" value="@xml:id"/>
+                                    <sch:assert test="$fileNo = $docURIno">
+                                        The number portion of the &lt;idno&gt; element must be the same as the URI number in the file name: <sch:value-of select="$fileNo"/>
+                                    </sch:assert>
+                                    <sch:assert test="$docURIno = $msDescIdnoNo">
+                                        The number portion of this &lt;idno&gt; element must match the number portion of the &lt;idno&gt; in &lt;publicationStmt&gt;: <sch:value-of select="$docURIno"/>
+                                    </sch:assert>
+                                    <sch:report test="preceding-sibling::element()[@xml:id = $id]">This @xml:id is already in use.</sch:report>
+                                </sch:rule>
+                            </constraint>
+                        </constraintSpec>
                         <attList>
                             <attDef ident="type" mode="change" usage="req">
                                 <valList type="closed">
@@ -5763,14 +5800,14 @@ Comment @davidamichelson -->
                             </sequence>
                         </content>
                         <attList>
-                            <attDef ident="xml:lang" mode="change" usage="req"/><!-- Syriaca: Only 7/1975 lack @xml:lang. Should this be required? -->
+                            <attDef ident="xml:lang" mode="change" usage="req"/>
                         </attList>
                     </elementSpec>
                     
                     
                     
                     <!-- Include XInclude into our schema -->
-                    <!-- Syriaca: we aren't using the include element in our data. Delete?-->
+                    <!-- Syriaca: we aren't using the include element in our data.
                     <elementSpec ident="include" ns="http://www.w3.org/2001/XInclude" mode="add">
                         <desc xml:lang="en" versionDate="2014-01-12">The W3C XInclude element</desc>
                         <classes>
@@ -5789,7 +5826,7 @@ Comment @davidamichelson -->
                                 </datatype>
                             </attDef>
                             <attDef ident="parse" usage="opt">
-                                <!-- Syriaca: We're not using this attribute. -->
+                                <!-\- Syriaca: We're not using this attribute. -\->
                                 <defaultVal>xml</defaultVal>
                                 <valList type="closed">
                                     <valItem ident="xml"/>
@@ -5822,10 +5859,10 @@ Comment @davidamichelson -->
                                 </datatype>
                             </attDef>
                         </attList>
-                    </elementSpec>
+                    </elementSpec>-->
                     
                     
-                    <!-- Syriaca: Not using this element -->
+                    <!-- Syriaca: Not using this element. 
                     <elementSpec ident="fallback" ns="http://www.w3.org/2001/XInclude" mode="add">
                         <desc xml:lang="en" versionDate="2014-01-12">Wrapper for fallback elements
                             if an XInclude fails</desc>
@@ -5835,7 +5872,7 @@ Comment @davidamichelson -->
                                 <anyElement/>
                             </alternate>
                         </content>
-                    </elementSpec>
+                    </elementSpec>-->
                     
                     
                     <elementSpec ident="interpretation" module="header" mode="change">
@@ -5874,9 +5911,6 @@ Comment @davidamichelson -->
                                 <elementRef key="ref" minOccurs="0" maxOccurs="unbounded"/>
                             </sequence>
                         </content>
-                        <!-- Syriaca: 1870/4413 have both @n and @xml:id. 2543 have neither. Assuming these attributes should remain optional?
-                            Neither required in additions//item. Both attributes required in additions/item.
-                        -->
                     </elementSpec>
                     
                     
@@ -5930,6 +5964,21 @@ Comment @davidamichelson -->
                             <elementRef key="sic" minOccurs="0" maxOccurs="unbounded"/>
                             <textNode/>
                         </content>
+                        <attList>
+                            <attDef ident="ident" mode="change">
+                                <constraintSpec ident="ident-on-language" scheme="schematron">
+                                    <constraint>
+                                        <sch:rule context="//tei:language/@ident">
+                                            <sch:let name="langIdents" value="//tei:profileDesc/tei:langUsage/tei:language/@ident"/>
+                                            <sch:assert test=". = $langIdents">
+                                                Attribute value must match one of the following language codes in the &lt;profileDesc&gt;:
+                                                <sch:value-of select="string-join($langIdents, ' | ')"/>.
+                                            </sch:assert>
+                                        </sch:rule>
+                                    </constraint>
+                                </constraintSpec>
+                            </attDef>
+                        </attList>
                     </elementSpec>
                     
                     
@@ -5937,7 +5986,7 @@ Comment @davidamichelson -->
                         make layout part of att.typed  -->
                     <elementSpec ident="layout" module="msdescription" mode="change">
                         <classes mode="change">
-                            <memberOf key="att.typed"/><!-- Syriaca: We aren't using these attributes and it's not TEI conformant. Delete?-->
+                            <!-- Syriaca: We aren't using these attributes and it's not TEI conformant. <memberOf key="att.typed"/>-->
                             <memberOf key="att.global" mode="delete"/>
                         </classes>
                         <content>
@@ -5945,8 +5994,8 @@ Comment @davidamichelson -->
                             <elementRef key="p" minOccurs="0" maxOccurs="unbounded"/>
                         </content>
                         <attList>
+                            <!-- Syriaca: Not using this attribute
                             <attDef ident="topLine" mode="add">
-                                <!-- Syriaca: We aren't using this attribute. Comment out/delete?-->
                                 <desc>Specifies the whether the writing is above top line, below top
                                     line, or mixed. Note: This is a customization which is not
                                     currently part of the TEI P5 standard.</desc>
@@ -5963,10 +6012,10 @@ Comment @davidamichelson -->
                                     </valItem>
                                     
                                 </valList>
-                            </attDef>
+                            </attDef>-->
+                            <!-- Syriaca: Not using this attribute
                             <attDef ident="rulingMedium" mode="add">
-                                <!-- Syriaca: We aren't using this attribute. Comment out/selete?-->
-                                <desc>Specifies the medium <!-- OK? --> used to carry out the
+                                <desc>Specifies the medium <!-\- OK? -\-> used to carry out the
                                     ruling. Note: This is a customization which is not currently
                                     part of the TEI P5 standard.</desc>
                                 <datatype minOccurs="1" maxOccurs="1">
@@ -5995,9 +6044,9 @@ Comment @davidamichelson -->
                                         <desc>The ruling is carried out using a board.</desc>
                                     </valItem>
                                 </valList>
-                            </attDef>
-                            <attDef ident="streams" mode="delete"/><!-- Syriaca: We aren't using this attribute. Allow it or keep this deletion?-->
-                            <attDef ident="ruledLines" mode="delete"/><!-- Syriaca: We aren't using this attribute. Allow it or keep this deletion?-->
+                            </attDef>-->
+                            <attDef ident="streams" mode="delete"/>
+                            <attDef ident="ruledLines" mode="delete"/>
                         </attList>
                     </elementSpec>
                     
@@ -6074,11 +6123,10 @@ Comment @davidamichelson -->
                     
                     
                     <!-- Non-TEI-conformant change (as per P5 3.1.0) adding 'hi' to locus -->
-                    <!-- Syriaca: not sure what to do here as we only use text in tei:locus. I suppose we only allow that to start? -->
                     <elementSpec ident="locus" module="msdescription" mode="change">
                         <classes mode="change">
                             <memberOf key="att.global" mode="delete"/>
-                            <memberOf key="att.pointing" mode="delete"/><!-- Syriaca: Some records use @target but it is rare and I believe this is an error. -->
+                            <memberOf key="att.pointing" mode="delete"/>
                             <memberOf key="att.typed" mode="delete"/>
                         </classes>
                         <content>
@@ -6091,7 +6139,6 @@ Comment @davidamichelson -->
                         </content>
                         <attList>
                             <attDef ident="scheme" mode="delete"/>
-                            <!-- Syriaca: should there be required attributes, @from and/or @to? @from is rarely missing, @to is missing pretty often. -->
                         </attList>
                     </elementSpec>
                     
@@ -6169,7 +6216,21 @@ Comment @davidamichelson -->
                             <memberOf key="att.docStatus" mode="delete"/>
                         </classes>
                         <!-- Syriaca: No content customization needed. -->
-                        <!-- Syriaca: 317/577 have no @xml:lang. Should this be required or remain optional? -->
+                        <attList>
+                            <attDef ident="xml:id" mode="change">
+                                <constraintSpec ident="xmlID-on-msDesc" scheme="schematron">
+                                    <constraint>
+                                        <sch:rule context="//tei:msDesc/@xml:id">
+                                            <sch:let name="docURIno" value="replace(ancestor::tei:fileDesc/tei:publicationStmt/tei:idno[@type='URI']/text(), '.+?(\d+).+', '$1')"/>
+                                            <sch:let name="msDescIDno" value="replace(., '.+?(\d+)', '$1')"/>
+                                            <sch:assert test="$msDescIDno = $docURIno">
+                                                The number portion of this @xml:id attribute must match the number portion of the &lt;idno&gt; in &lt;publicationStmt&gt;: <sch:value-of select="$docURIno"/>
+                                            </sch:assert>
+                                        </sch:rule>
+                                    </constraint>
+                                </constraintSpec>
+                            </attDef>
+                        </attList>
                     </elementSpec>
                     
                     
@@ -6196,7 +6257,13 @@ Comment @davidamichelson -->
                         <attList>
                             <attDef ident="xml:id" mode="change" usage="req"/>
                             <attDef ident="n" mode="change" usage="req"/>
-                            <!-- Syriaca: We have 4 instances of @class="#translation". This doesn't seem to point to anything. Should this be a @type attribute instead? -->
+                            <attDef ident="defective" mode="change">
+                                <valList type="closed">
+                                    <valItem ident="false"/>
+                                    <valItem ident="true"/>
+                                    <valItem ident="unknown"/>
+                                </valList>
+                            </attDef>
                         </attList>
                     </elementSpec>
                     
@@ -6255,7 +6322,9 @@ Comment @davidamichelson -->
                             <memberOf key="att.editLike" mode="delete"/>
                             <memberOf key="att.canonical" mode="add"/>
                         </classes>
-                        <!-- Syriaca: confirm use of name/persName before customizing. -->
+                        <content>
+                            <textNode/>
+                        </content>
                         <attList>
                             <attDef ident="type" mode="change" usage="req">
                                 <valList mode="replace" type="closed">
@@ -6280,7 +6349,21 @@ Comment @davidamichelson -->
                                 </valList>
                             </attDef>
                             <attDef ident="key" mode="delete"/>
-                            <attDef ident="ref" mode="change" usage="req"/>
+                            <attDef ident="ref" mode="change" usage="req">
+                                <constraintSpec ident="ref-on-name" scheme="schematron">
+                                    <constraint>
+                                        <sch:rule context="//tei:name/@ref">
+                                            <sch:let name="edsDoc" value="doc('https://raw.githubusercontent.com/srophe/britishLibrary/main/documentation/editors.xml')"/>
+                                            <sch:let name="eds" value="$edsDoc//tei:text/tei:body/tei:listPerson/tei:person/@xml:id | $edsDoc//tei:text/tei:body/tei:listPerson/tei:org/@xml:id"/>
+                                            <sch:let name="refValues" value="for $i in $eds return concat('https://bl.syriac.uk/documentation/editors.xml#', $i)"/>
+                                            <sch:assert test="every $i in . satisfies $i = $refValues">
+                                                Acceptable values for this attribute include: 
+                                                <sch:value-of select="string-join($refValues, ' | ')"/>.
+                                            </sch:assert>
+                                        </sch:rule>
+                                    </constraint>
+                                </constraintSpec>
+                            </attDef>
                         </attList>
                     </elementSpec>
                     
@@ -6298,7 +6381,57 @@ Comment @davidamichelson -->
                             <memberOf key="att.written" mode="delete"/>
                             <memberOf key="att.anchoring" mode="delete"/>
                         </classes>
-                        <!-- Syriaca: We could contstrain for what we have or we could leave note/p/quote/supplied, etc. open for lots of content. Discuss. -->
+                        <content>
+                            <sequence preserveOrder="false">
+                                <elementRef key="bibl" minOccurs="0" maxOccurs="unbounded"/>
+                                <elementRef key="choice" minOccurs="0" maxOccurs="unbounded"/>
+                                <elementRef key="date" minOccurs="0" maxOccurs="unbounded"/>
+                                <elementRef key="foreign" minOccurs="0" maxOccurs="unbounded"/>
+                                <elementRef key="list" minOccurs="0" maxOccurs="unbounded"/>
+                                <elementRef key="locus" minOccurs="0" maxOccurs="unbounded"/>
+                                <elementRef key="note" minOccurs="0" maxOccurs="unbounded"/>
+                                <elementRef key="p" minOccurs="0" maxOccurs="unbounded"/>
+                                <elementRef key="persName" minOccurs="0" maxOccurs="unbounded"/>
+                                <elementRef key="placeName" minOccurs="0" maxOccurs="unbounded"/>
+                                <elementRef key="ptr" minOccurs="0" maxOccurs="unbounded"/>
+                                <elementRef key="quote" minOccurs="0" maxOccurs="unbounded"/>
+                                <elementRef key="ref" minOccurs="0" maxOccurs="unbounded"/>
+                                <elementRef key="sic" minOccurs="0" maxOccurs="unbounded"/>
+                                <elementRef key="table" minOccurs="0" maxOccurs="unbounded"/>
+                                <elementRef key="title" minOccurs="0" maxOccurs="unbounded"/>
+                                <textNode/>
+                            </sequence>
+                        </content>
+                        <attList>
+                            <attDef ident="type" mode="change">
+                                <valList type="closed">
+                                    <valItem ident="contents-note"/>
+                                    <valItem ident="data-model-incomplete"/>
+                                    <valItem ident="description-incomplete"/>
+                                    <valItem ident="errata"/>
+                                    <valItem ident="footnote"/>
+                                    <valItem ident="incerta"/>
+                                    <valItem ident="incomplete"/>
+                                    <valItem ident="manuscript-division"/>
+                                    <valItem ident="proofreader-note"/>
+                                </valList>
+                            </attDef>
+                            <attDef ident="resp" mode="change">
+                                <constraintSpec ident="resp-on-note" scheme="schematron">
+                                    <constraint>
+                                        <sch:rule context="//tei:note/@resp">
+                                            <sch:let name="edsDoc" value="doc('https://raw.githubusercontent.com/srophe/britishLibrary/main/documentation/editors.xml')"/>
+                                            <sch:let name="eds" value="$edsDoc//tei:text/tei:body/tei:listPerson/tei:person/@xml:id | $edsDoc//tei:text/tei:body/tei:listPerson/tei:org/@xml:id"/>
+                                            <sch:let name="refValues" value="for $i in $eds return concat('https://bl.syriac.uk/documentation/editors.xml#', $i)"/>
+                                            <sch:assert test="every $i in . satisfies $i = $refValues">
+                                                Acceptable values for this attribute include: 
+                                                <sch:value-of select="string-join($refValues, ' | ')"/>.
+                                            </sch:assert>
+                                        </sch:rule>
+                                    </constraint>
+                                </constraintSpec>
+                            </attDef>
+                        </attList>
                     </elementSpec>
                     
                     
@@ -6382,30 +6515,6 @@ Comment @davidamichelson -->
                                     </valItem>-->
                                 </valList>
                             </attDef>
-                        </attList>
-                    </elementSpec>
-                    
-                    
-                    <elementSpec ident="orgName" module="namesdates" mode="change">
-                        <classes mode="change">
-                            <memberOf key="att.global.rendition" mode="delete"/>
-                            <memberOf key="att.global.linking" mode="delete"/>
-                            <memberOf key="att.global.analytic" mode="delete"/>
-                            <memberOf key="att.global.facs" mode="delete"/>
-                            <memberOf key="att.global.change" mode="delete"/>
-                            <memberOf key="att.global.responsibility" mode="delete"/>
-                            <memberOf key="att.global.source" mode="delete"/>
-                            <memberOf key="att.personal" mode="delete"/>
-                            <memberOf key="att.datable" mode="delete"/>
-                            <memberOf key="att.editLike" mode="delete"/>
-                            <memberOf key="att.canonical" mode="add"/>
-                        </classes>
-                        <content>
-                            <elementRef key="sic" minOccurs="0" maxOccurs="unbounded"/>
-                            <textNode/>
-                        </content>
-                        <attList>
-                            <attDef ident="key" mode="delete"/>
                         </attList>
                     </elementSpec>
                     
@@ -6530,7 +6639,33 @@ Comment @davidamichelson -->
                         </content>
                         <attList>
                             <attDef ident="key" mode="delete"/>
-                            <!-- Syriaca: There are many instances where @ref is missing. Should it be required? <attDef ident="ref" mode="change" usage="req"/> -->
+                            <attDef ident="type" mode="change">
+                                <valList type="closed">
+                                    <valItem ident="supplied"/>
+                                    <valItem ident="uniform"/>
+                                </valList>
+                            </attDef>
+                            <attDef ident="ref" mode="change">
+                                <constraintSpec ident="ref-on-persName" scheme="schematron">
+                                    <constraint>
+                                        <sch:rule context="tei:persName/@ref">
+                                            <sch:let name="personIndex" value="doc('https://raw.githubusercontent.com/srophe/syriaca/master/documentation/indexes/persons.xml')"></sch:let>
+                                            <sch:let name="personURIs" value="$personIndex//tei:person/@ref"/>
+                                            <sch:let name="error" value="."/>
+                                            <sch:report test="contains(., ' ')" role="error">This @ref may contain only one URI.</sch:report>
+                                            <sch:assert test="matches(., concat('http://syriaca.org/person/', '\d+'))" role="error">
+                                                The @ref attribute must take a Syriaca.org person URI which reqires 
+                                                the form 'http://syriaca.org/person/{\d+}' (where {\d+} is a number).
+                                            </sch:assert>
+                                            <sch:assert test="
+                                                every $i in .
+                                                satisfies $i = $personURIs" role="warning">
+                                                <sch:value-of select="$error"/> is not a Syriaca.org person URI. 
+                                            </sch:assert>
+                                        </sch:rule>
+                                    </constraint>
+                                </constraintSpec>
+                            </attDef>
                         </attList>
                     </elementSpec>
                     
@@ -6576,7 +6711,27 @@ Comment @davidamichelson -->
                         </content>
                         <attList>
                             <attDef ident="key" mode="delete"/>
-                            <!-- Syriaca: There are many instances where @ref is missing. Should it be required? <attDef ident="ref" mode="change" usage="req"/> -->
+                            <attDef ident="ref" mode="change">
+                                <constraintSpec ident="ref-on-placeName" scheme="schematron">
+                                    <constraint>
+                                        <sch:rule context="//tei:text//tei:placeName/@ref">
+                                            <sch:let name="placeIndex" value="doc('https://raw.githubusercontent.com/srophe/syriaca/master/documentation/indexes/places.xml')"/>
+                                            <sch:let name="placeURIs" value="$placeIndex//tei:place/@ref"/>
+                                            <sch:let name="error" value="."/>
+                                            <sch:report test="contains(., ' ')" role="error">This @ref may contain only one URI.</sch:report>
+                                            <sch:assert test="matches(., concat('http://syriaca.org/place/', '\d+'))" role="error">
+                                                The @ref attribute must take a Syriaca.org place URI which reqires 
+                                                the form 'http://syriaca.org/place/{\d+}' (where {\d+} is a number).
+                                            </sch:assert>
+                                            <sch:assert test="
+                                                every $i in .
+                                                satisfies $i = $placeURIs" role="warning">
+                                                <sch:value-of select="$error"/> is not a Syriaca.org place URI. 
+                                            </sch:assert>
+                                        </sch:rule>
+                                    </constraint>
+                                </constraintSpec>
+                            </attDef>
                         </attList>
                     </elementSpec>
                     
@@ -6730,6 +6885,26 @@ Comment @davidamichelson -->
                         <attList>
                             <attDef ident="targetLang" mode="delete"/>
                             <attDef ident="evaluate" mode="delete"/>
+                            <attDef ident="type" mode="change">
+                                <valList type="closed">
+                                    <valItem ident="internet-archive-pdf"/>
+                                    <valItem ident="work"/>
+                                </valList>
+                            </attDef>
+                            <attDef ident="target" mode="change">
+                                <constraintSpec ident="ref-on-target" scheme="schematron">
+                                    <constraint>
+                                        <sch:rule context="//tei:ref/@target[contains(., 'hand')]">
+                                            <sch:let name="handIDs" value="//@xml:id[contains(., 'hand')]"/>
+                                            <sch:let name="IDsToPointers" value="for $i in $handIDs return concat('#', $i)"/>
+                                            <sch:assert test=". = $IDsToPointers">
+                                                Attribute value must match one of the following @xml:id attributes:
+                                                <sch:value-of select="string-join($IDsToPointers, ' | ')"/>.
+                                            </sch:assert>
+                                        </sch:rule>
+                                    </constraint>
+                                </constraintSpec>
+                            </attDef>
                         </attList>
                     </elementSpec>
                     
@@ -6750,8 +6925,42 @@ Comment @davidamichelson -->
                         </content>
                         <attList>
                             <attDef ident="key" mode="delete"/>
-                            <attDef ident="name" mode="change" usage="req"/>
-                            <attDef ident="ref" mode="change" usage="req"/>
+                            <attDef ident="name" mode="change" usage="req">
+                                <valList type="closed">
+                                    <valItem ident="dcterms:type"/>
+                                    <valItem ident="syriaca:has-palimpsest-lower"/>
+                                    <valItem ident="syriaca:has-palimpsest-upper"/>
+                                    <valItem ident="syriaca:has-unspecified-codicological-part"/>
+                                    <valItem ident="syriaca:is-unspecified-codicological-part-of"/>
+                                </valList>
+                            </attDef>
+                            <attDef ident="ref" mode="change" usage="req">
+                                <valList type="closed">
+                                    <valItem ident="http://purl.org/dc/terms/type"/>
+                                    <valItem ident="#syriaca:has-palimpsest-lower"/>
+                                    <valItem ident="#syriaca:has-palimpsest-upper"/>
+                                    <valItem ident="#syriaca:has-unspecified-codicological-part"/>
+                                    <valItem ident="#syriaca:is-unspecified-codicological-part-of"/>
+                                </valList>
+                            </attDef>
+                            <attDef ident="active" mode="change">
+                                <constraintSpec ident="active-on-relation" scheme="schematron">
+                                    <constraint>
+                                        <sch:rule context="//tei:msDesc/tei:head//tei:relation/@active">
+                                            <sch:let name="msDescURI" value="ancestor::tei:msDesc/tei:msIdentifier/tei:idno[@type='URI']/text()"/>
+                                            <sch:assert test=". = $msDescURI">
+                                                The value of @active must match the &lt;idno&gt; in the containing &lt;msDesc&gt;: <sch:value-of select="$msDescURI"/>
+                                            </sch:assert>
+                                        </sch:rule>
+                                        <sch:rule context="//tei:msPart/tei:head//tei:relation/@active">
+                                            <sch:let name="msPartURI" value="ancestor::tei:msPart/tei:msIdentifier/tei:idno[@type='URI']/text()"/>
+                                            <sch:assert test=". = $msPartURI">
+                                                The value of @active must match the &lt;idno&gt; in the containing &lt;msPart&gt;: <sch:value-of select="$msPartURI"/>
+                                            </sch:assert>
+                                        </sch:rule>
+                                    </constraint>
+                                </constraintSpec>
+                            </attDef>
                         </attList>
                     </elementSpec>
                     
@@ -6802,6 +7011,14 @@ Comment @davidamichelson -->
                         <content>
                             <elementRef key="change" minOccurs="1" maxOccurs="unbounded"/>
                         </content>
+                        <attList>
+                            <attDef ident="status" mode="change" usage="req">
+                                <valList type="closed">
+                                    <valItem ident="draft"/>
+                                    <valItem ident="peer-reviewed"/>
+                                </valList>
+                            </attDef>
+                        </attList>
                     </elementSpec>
                     
                     
@@ -6921,7 +7138,32 @@ Comment @davidamichelson -->
                         </classes>
                         <!-- Syriaca: We could contstrain for what we have or we could leave note/p/quote/supplied, etc. open for lots of content. Discuss. -->
                         <attList>
-                            <attDef ident="resp" mode="change" usage="req"/>
+                            <attDef ident="reason" mode="change">
+                                <valList type="closed">
+                                    <valItem ident="illegible"/>
+                                    <valItem ident="lack-facsimile"/>
+                                    <valItem ident="marginalia"/>
+                                    <valItem ident="reference"/>
+                                    <valItem ident="transcription"/>
+                                    <valItem ident="translation"/>
+                                    <valItem ident="unknown"/>
+                                </valList>
+                            </attDef>
+                            <attDef ident="resp" mode="change" usage="req">
+                                <constraintSpec ident="resp-on-supplied" scheme="schematron">
+                                    <constraint>
+                                        <sch:rule context="//tei:supplied/@resp">
+                                            <sch:let name="edsDoc" value="doc('https://raw.githubusercontent.com/srophe/britishLibrary/main/documentation/editors.xml')"/>
+                                            <sch:let name="eds" value="$edsDoc//tei:text/tei:body/tei:listPerson/tei:person/@xml:id | $edsDoc//tei:text/tei:body/tei:listPerson/tei:org/@xml:id"/>
+                                            <sch:let name="refValues" value="for $i in $eds return concat('https://bl.syriac.uk/documentation/editors.xml#', $i)"/>
+                                            <sch:assert test="every $i in . satisfies $i = $refValues">
+                                                Acceptable values for this attribute include: 
+                                                <sch:value-of select="string-join($refValues, ' | ')"/>.
+                                            </sch:assert>
+                                        </sch:rule>
+                                    </constraint>
+                                </constraintSpec>
+                            </attDef>
                         </attList>
                     </elementSpec>
                     
@@ -7036,7 +7278,11 @@ Comment @davidamichelson -->
                             </sequence>
                         </content>
                         <attList>
-                            <attDef ident="xml:id" mode="change" usage="req"/>
+                            <attDef ident="xml:id" mode="change" usage="req">
+                                <valList type="closed">
+                                    <valItem ident="Wright-BL-Taxonomy"/>
+                                </valList>
+                            </attDef>
                         </attList>
                     </elementSpec>
                     
@@ -7060,6 +7306,13 @@ Comment @davidamichelson -->
                                         The root TEI element must have an @xml:id beginning with
                                         "volume_" then a number (which must also be unique 
                                         across the entire catalogue).
+                                    </sch:assert>
+                                </sch:rule>
+                                <sch:rule context="//tei:TEI/@xml:id">
+                                    <sch:let name="fileNo" value="replace(document-uri(/), '.*?(\d{1,5}).xml', '$1')"/>
+                                    <sch:let name="TEIIDno" value="replace(., '.+?(\d+)', '$1')"/>
+                                    <sch:assert test="$TEIIDno = $fileNo">
+                                        The @xml:id attribute must match the number portion of the file name: "manuscript_<sch:value-of select="$fileNo"/>".
                                     </sch:assert>
                                 </sch:rule>
                             </constraint>
@@ -7123,6 +7376,7 @@ Comment @davidamichelson -->
                                         text within the textLang element.
                                     </sch:assert>
                                 </sch:rule>
+                                <!-- Syriaca: Not using this rule from the consolidated schema but instead validating against language/@ident values
                                 <sch:rule
                                     context="//tei:textLang/@mainLang | //tei:textLang/@otherLangs | //@xml:lang">
                                     <sch:assert
@@ -7134,11 +7388,23 @@ Comment @davidamichelson -->
                                         639 code for the language, then optionally further codes for
                                         the script (ISO 15924), region, transliteration, etc.
                                     </sch:assert>
-                                </sch:rule>
+                                </sch:rule>-->
                             </constraint>
                         </constraintSpec>
                         <attList>
-                            <attDef ident="mainLang" mode="change" usage="req"/>
+                            <attDef ident="mainLang" mode="change" usage="req">
+                                <constraintSpec ident="mainLang-on-textLang" scheme="schematron">
+                                    <constraint>
+                                        <sch:rule context="//tei:textLang/@mainLang">
+                                            <sch:let name="langIdents" value="//tei:profileDesc/tei:langUsage/tei:language/@ident"/>
+                                            <sch:assert test=". = $langIdents">
+                                                Attribute value must match one of the following language codes in the &lt;profileDesc&gt;:
+                                                <sch:value-of select="string-join($langIdents, ' | ')"/>.
+                                            </sch:assert>
+                                        </sch:rule>                                        
+                                    </constraint>
+                                </constraintSpec>
+                            </attDef>
                         </attList>
                     </elementSpec>
                     
@@ -7164,6 +7430,15 @@ Comment @davidamichelson -->
                     <!-- make the signatures element member of att.typed
                     (this is to allow distinction between quire signatures (or numbers) and leaf/bifolium signatures) -->
                     <elementSpec ident="title" module="core" mode="change">
+                        <classes mode="change">
+                            <memberOf key="att.global.rendition" mode="delete"/>
+                            <memberOf key="att.global.linking" mode="delete"/>
+                            <memberOf key="att.global.analytic" mode="delete"/>
+                            <memberOf key="att.global.facs" mode="delete"/>
+                            <memberOf key="att.global.change" mode="delete"/>
+                            <memberOf key="att.global.source" mode="delete"/>
+                            <memberOf key="att.datable" mode="delete"/>
+                        </classes>
                         <content>
                             <sequence preserveOrder="false">
                                 <elementRef key="choice" minOccurs="0" maxOccurs="unbounded"/>
@@ -7173,8 +7448,12 @@ Comment @davidamichelson -->
                             </sequence>
                         </content>
                         <attList>
+                            <attDef ident="key" mode="delete"/>
                             <attDef ident="type" mode="change">
-                                <!-- Syriaca: We're not using this attribute. Delete?-->
+                                <valList type="closed">
+                                    <valItem ident="supplied"/>
+                                </valList>
+                                <!-- Syraica: These values allowed in the consolidated BL schema but we aren't using them.
                                 <valList mode="replace" type="semi">
                                     <valItem ident="main">
                                         <desc>The title is the main title</desc>
@@ -7198,6 +7477,49 @@ Comment @davidamichelson -->
                                         <desc>The title is of a collection</desc>
                                     </valItem>
                                 </valList>
+                                -->
+                            </attDef>
+                            <attDef ident="level" mode="change">
+                                <valList type="closed">
+                                    <valItem ident="a">
+                                        <gloss>analytic</gloss>
+                                        <desc>the title applies to an analytic item, such as an article, poem, or other work published as part of a larger item</desc>
+                                    </valItem>
+                                    <valItem ident="m">
+                                        <gloss>monographic</gloss>
+                                        <desc>the title applies to a monograph such as a book or other item considered to be a distinct publication, including single volumes of multi-volume works</desc>
+                                    </valItem>
+                                </valList>
+                            </attDef>
+                            <attDef ident="resp" mode="change">
+                                <valList type="closed">
+                                    <valItem ident="https://bl.syriac.uk/documentation/editors.xml#ngibson"/>
+                                </valList>
+                            </attDef>
+                            <attDef ident="ref" mode="change">
+                                <constraintSpec ident="ref-on-title" scheme="schematron">
+                                    <constraint>
+                                        <sch:rule context="//tei:title/@ref">
+                                            <sch:assert test="matches(., 'http://syriaca.org/work/\d{1,5}$')">
+                                                The value of @ref must be a Syriaca.org work URI, "http://syriaca.org/work/" followed by 1-5 digits. 
+                                                Please confirm that this URI matches the correct work record.
+                                            </sch:assert>
+                                        </sch:rule>
+                                    </constraint>
+                                </constraintSpec>
+                            </attDef>
+                            <attDef ident="xml:lang" mode="change">
+                                <constraintSpec ident="xmlLang-on-title" scheme="schematron">
+                                    <constraint>
+                                        <sch:rule context="//tei:title/@xml:lang">
+                                            <sch:let name="langIdents" value="//tei:profileDesc/tei:langUsage/tei:language/@ident"/>
+                                            <sch:assert test=". = $langIdents">
+                                                Attribute value must match one of the following language codes in the &lt;profileDesc&gt;:
+                                                <sch:value-of select="string-join($langIdents, ' | ')"/>.
+                                            </sch:assert>
+                                        </sch:rule>
+                                    </constraint>
+                                </constraintSpec>
                             </attDef>
                         </attList>
                     </elementSpec>
