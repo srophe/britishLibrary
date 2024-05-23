@@ -5719,6 +5719,23 @@ Comment @davidamichelson -->
                             <elementRef key="sic" minOccurs="0" maxOccurs="unbounded"/>
                             <textNode/>
                         </content>
+                        <constraintSpec ident="idno-uri" scheme="schematron">
+                            <constraint>
+                                <sch:rule context="//tei:publicationStmt/tei:idno[@type='URI']/text()">
+                                    <sch:let name="fileNo" value="replace(document-uri(/), '.*?(\d{1,5}).xml', '$1')"/>
+                                    <sch:let name="docURIno" value="replace(., '.+?(\d+).+', '$1')"/>
+                                    <sch:let name="msDescIdnoNo" value="replace(./following::tei:msDesc/tei:msIdentifier/tei:idno[@type='URI']/text(), '.+?(\d+)', '$1')"/>
+                                    <sch:let name="id" value="@xml:id"/>
+                                    <sch:assert test="$fileNo = $docURIno">
+                                        The number portion of the &lt;idno&gt; element must be the same as the URI number in the file name: <sch:value-of select="$fileNo"/>
+                                    </sch:assert>
+                                    <sch:assert test="$docURIno = $msDescIdnoNo">
+                                        The number portion of this &lt;idno&gt; element must match the number portion of the &lt;idno&gt; in &lt;publicationStmt&gt;: <sch:value-of select="$docURIno"/>
+                                    </sch:assert>
+                                    <sch:report test="preceding-sibling::element()[@xml:id = $id]">This @xml:id is already in use.</sch:report>
+                                </sch:rule>
+                            </constraint>
+                        </constraintSpec>
                         <attList>
                             <attDef ident="type" mode="change" usage="req">
                                 <valList type="closed">
@@ -6175,6 +6192,19 @@ Comment @davidamichelson -->
                                     <valItem ident="en"/>
                                 </valList>
                             </attDef>
+                            <attDef ident="xml:id" mode="change">
+                                <constraintSpec ident="xmlID-on-msDesc" scheme="schematron">
+                                    <constraint>
+                                        <sch:rule context="//tei:msDesc/@xml:id">
+                                            <sch:let name="docURIno" value="replace(ancestor::tei:fileDesc/tei:publicationStmt/tei:idno[@type='URI']/text(), '.+?(\d+).+', '$1')"/>
+                                            <sch:let name="msDescIDno" value="replace(., '.+?(\d+)', '$1')"/>
+                                            <sch:assert test="$msDescIDno = $docURIno">
+                                                The number portion of this @xml:id attribute must match the number portion of the &lt;idno&gt; in &lt;publicationStmt&gt;: <sch:value-of select="$docURIno"/>
+                                            </sch:assert>
+                                        </sch:rule>
+                                    </constraint>
+                                </constraintSpec>
+                            </attDef>
                         </attList>
                     </elementSpec>
                     
@@ -6592,6 +6622,27 @@ Comment @davidamichelson -->
                                     <valItem ident="uniform"/>
                                 </valList>
                             </attDef>
+                            <attDef ident="ref" mode="change">
+                                <constraintSpec ident="ref-on-persName" scheme="schematron">
+                                    <constraint>
+                                        <sch:rule context="tei:persName/@ref">
+                                            <sch:let name="personIndex" value="doc('https://raw.githubusercontent.com/srophe/syriaca/master/documentation/indexes/persons.xml')"></sch:let>
+                                            <sch:let name="personURIs" value="$personIndex//tei:person/@ref"/>
+                                            <sch:let name="error" value="."/>
+                                            <sch:report test="contains(., ' ')" role="error">This @ref may contain only one URI.</sch:report>
+                                            <sch:assert test="matches(., concat('http://syriaca.org/person/', '\d+'))" role="error">
+                                                The @ref attribute must take a Syriaca.org person URI which reqires 
+                                                the form 'http://syriaca.org/person/{\d+}' (where {\d+} is a number).
+                                            </sch:assert>
+                                            <sch:assert test="
+                                                every $i in .
+                                                satisfies $i = $personURIs" role="warning">
+                                                <sch:value-of select="$error"/> is not a Syriaca.org person URI. 
+                                            </sch:assert>
+                                        </sch:rule>
+                                    </constraint>
+                                </constraintSpec>
+                            </attDef>
                         </attList>
                     </elementSpec>
                     
@@ -6637,7 +6688,27 @@ Comment @davidamichelson -->
                         </content>
                         <attList>
                             <attDef ident="key" mode="delete"/>
-                            <!-- Syriaca: There are many instances where @ref is missing. Should it be required? <attDef ident="ref" mode="change" usage="req"/> -->
+                            <attDef ident="ref" mode="change">
+                                <constraintSpec ident="ref-on-placeName" scheme="schematron">
+                                    <constraint>
+                                        <sch:rule context="//tei:text//tei:placeName/@ref">
+                                            <sch:let name="placeIndex" value="doc('https://raw.githubusercontent.com/srophe/syriaca/master/documentation/indexes/places.xml')"/>
+                                            <sch:let name="placeURIs" value="$placeIndex//tei:place/@ref"/>
+                                            <sch:let name="error" value="."/>
+                                            <sch:report test="contains(., ' ')" role="error">This @ref may contain only one URI.</sch:report>
+                                            <sch:assert test="matches(., concat('http://syriaca.org/place/', '\d+'))" role="error">
+                                                The @ref attribute must take a Syriaca.org place URI which reqires 
+                                                the form 'http://syriaca.org/place/{\d+}' (where {\d+} is a number).
+                                            </sch:assert>
+                                            <sch:assert test="
+                                                every $i in .
+                                                satisfies $i = $placeURIs" role="warning">
+                                                <sch:value-of select="$error"/> is not a Syriaca.org place URI. 
+                                            </sch:assert>
+                                        </sch:rule>
+                                    </constraint>
+                                </constraintSpec>
+                            </attDef>
                         </attList>
                     </elementSpec>
                     
@@ -6834,6 +6905,24 @@ Comment @davidamichelson -->
                                     <valItem ident="#syriaca:has-unspecified-codicological-part"/>
                                     <valItem ident="#syriaca:is-unspecified-codicological-part-of"/>
                                 </valList>
+                            </attDef>
+                            <attDef ident="active" mode="change">
+                                <constraintSpec ident="active-on-relation" scheme="schematron">
+                                    <constraint>
+                                        <sch:rule context="//tei:msDesc/tei:head//tei:relation/@active">
+                                            <sch:let name="msDescURI" value="ancestor::tei:msDesc/tei:msIdentifier/tei:idno[@type='URI']/text()"/>
+                                            <sch:assert test=". = $msDescURI">
+                                                The value of @active must match the &lt;idno&gt; in the containing &lt;msDesc&gt;: <sch:value-of select="$msDescURI"/>
+                                            </sch:assert>
+                                        </sch:rule>
+                                        <sch:rule context="//tei:msPart/tei:head//tei:relation/@active">
+                                            <sch:let name="msPartURI" value="ancestor::tei:msPart/tei:msIdentifier/tei:idno[@type='URI']/text()"/>
+                                            <sch:assert test=". = $msPartURI">
+                                                The value of @active must match the &lt;idno&gt; in the containing &lt;msPart&gt;: <sch:value-of select="$msPartURI"/>
+                                            </sch:assert>
+                                        </sch:rule>
+                                    </constraint>
+                                </constraintSpec>
                             </attDef>
                         </attList>
                     </elementSpec>
@@ -7349,6 +7438,18 @@ Comment @davidamichelson -->
                                 <valList type="closed">
                                     <valItem ident="https://bl.syriac.uk/documentation/editors.xml#ngibson"/>
                                 </valList>
+                            </attDef>
+                            <attDef ident="ref" mode="change">
+                                <constraintSpec ident="ref-on-title" scheme="schematron">
+                                    <constraint>
+                                        <sch:rule context="//tei:title/@ref">
+                                            <sch:assert test="matches(., 'http://syriaca.org/work/\d{1,5}$')">
+                                                The value of @ref must be a Syriaca.org work URI, "http://syriaca.org/work/" followed by 1-5 digits. 
+                                                Please confirm that this URI matches the correct work record.
+                                            </sch:assert>
+                                        </sch:rule>
+                                    </constraint>
+                                </constraintSpec>
                             </attDef>
                         </attList>
                     </elementSpec>
