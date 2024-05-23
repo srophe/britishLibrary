@@ -4258,7 +4258,7 @@ Comment @davidamichelson -->
                         </classes>
                         <content>
                             <sequence preserveOrder="false">
-                                <elementRef key="persName" minOccurs="0" maxOccurs="1"/>
+                                <elementRef key="persName" minOccurs="0" maxOccurs="unbounded"/>
                                 <textNode/>
                             </sequence>
                         </content>                            
@@ -4396,7 +4396,6 @@ Comment @davidamichelson -->
                                 <elementRef key="ref" minOccurs="0" maxOccurs="unbounded"/>
                                 <elementRef key="sic" minOccurs="0" maxOccurs="unbounded"/>
                                 <elementRef key="title" minOccurs="0" maxOccurs="unbounded"/>
-                                <textNode/>
                                 <!-- Syriaca: Consider schematron rule to constrain pointers on tei:ref and tei:ptr. -->
                             </sequence>
                         </content>
@@ -4473,13 +4472,7 @@ Comment @davidamichelson -->
                     
                     <elementSpec ident="binding" module="msdescription" mode="change">
                         <classes mode="change">
-                            <memberOf key="att.global.rendition" mode="delete"/>
-                            <memberOf key="att.global.linking" mode="delete"/>
-                            <memberOf key="att.global.analytic" mode="delete"/>
-                            <memberOf key="att.global.facs" mode="delete"/>
-                            <memberOf key="att.global.change" mode="delete"/>
-                            <memberOf key="att.global.responsibility" mode="delete"/>
-                            <memberOf key="att.global.source" mode="delete"/>
+                            <memberOf key="att.global" mode="delete"/>
                             <memberOf key="att.naming" mode="delete"/>
                             <memberOf key="att.datable" mode="delete"/>
                             <memberOf key="att.dabable.w3c" mode="add"/>
@@ -4509,9 +4502,6 @@ Comment @davidamichelson -->
                                 </sch:rule>
                             </constraint>
                         </constraintSpec>
-                        <attList>
-                            <attDef ident="xml:id" mode="change" usage="req"/>
-                        </attList>
                     </elementSpec>
                     
                     
@@ -4901,13 +4891,7 @@ Comment @davidamichelson -->
             -->
                     <elementSpec ident="decoNote" module="msdescription" mode="change">
                         <classes mode="change">
-                            <memberOf key="att.global.rendition" mode="delete"/>
-                            <memberOf key="att.global.linking" mode="delete"/>
-                            <memberOf key="att.global.analytic" mode="delete"/>
-                            <memberOf key="att.global.facs" mode="delete"/>
-                            <memberOf key="att.global.change" mode="delete"/>
-                            <memberOf key="att.global.responsibility" mode="delete"/>
-                            <memberOf key="att.global.source" mode="delete"/>
+                            <memberOf key="att.global" mode="delete"/>
                         </classes>
                         <content>
                             <sequence preserveOrder="false">
@@ -4923,7 +4907,6 @@ Comment @davidamichelson -->
                             </sequence>
                         </content>
                         <attList>
-                            <attDef ident="xml:id" mode="change" usage="req"/>
                             <attDef ident="type" mode="change">
                                 <valList mode="replace" type="closed">
                                     <valItem ident="border">
@@ -5206,7 +5189,7 @@ Comment @davidamichelson -->
                                 <constraintSpec ident="role-on-editor" scheme="schematron">
                                     <constraint>
                                         <sch:rule context="//tei:msItem/tei:editor/@role">
-                                            <sch:assert test="translator">Value of @role must be "translator".</sch:assert>
+                                            <sch:assert test=". = 'translator'">Value of @role must be "translator".</sch:assert>
                                         </sch:rule>
                                         <sch:rule context="//tei:titleStmt/tei:editor/@role">
                                             <sch:assert test=". = 'creator' or . = 'general-editor' or . = 'technical-editor'">Value of @role must be one of the following: "creator", "general-editor", "technical-editor".</sch:assert>
@@ -5553,10 +5536,10 @@ Comment @davidamichelson -->
                                     <constraint>
                                         <sch:rule context="//tei:handNote/@script">
                                             <sch:let name="langIdents" value="//tei:profileDesc/tei:langUsage/tei:language/@ident"/>
-                                            <sch:assert test=". = $langIdents or . = 'mixed'">
+                                            <sch:assert test=". = $langIdents or . = 'mixed' or . = 'unknown'">
                                                 Attribute value much match one of the following language codes in the &lt;profileDesc&gt;:
                                                 <sch:value-of select="string-join($langIdents, ' | ')"/> or contain the value "mixed" if a
-                                                the &lt;handNote&gt; contains more than one script.
+                                                the &lt;handNote&gt; contains more than one script or "unknown" if the script is unknown.
                                             </sch:assert>
                                         </sch:rule>
                                     </constraint>
@@ -6230,6 +6213,7 @@ Comment @davidamichelson -->
                                     </constraint>
                                 </constraintSpec>
                             </attDef>
+                            <attDef ident="xml:lang" mode="delete"/>
                         </attList>
                     </elementSpec>
                     
@@ -6254,6 +6238,7 @@ Comment @davidamichelson -->
                             <memberOf key="att.msClass" mode="delete"/>
                         </classes>
                         <!-- Syriaca: Work with Dave and Will to create alternate sequences for parts within parts. -->
+                        <!-- Syriaca: write schematron re editor/@role-->
                         <attList>
                             <attDef ident="xml:id" mode="change" usage="req"/>
                             <attDef ident="n" mode="change" usage="req"/>
@@ -6652,15 +6637,11 @@ Comment @davidamichelson -->
                                             <sch:let name="personIndex" value="doc('https://raw.githubusercontent.com/srophe/syriaca/master/documentation/indexes/persons.xml')"></sch:let>
                                             <sch:let name="personURIs" value="$personIndex//tei:person/@ref"/>
                                             <sch:let name="error" value="."/>
-                                            <sch:report test="contains(., ' ')" role="error">This @ref may contain only one URI.</sch:report>
-                                            <sch:assert test="matches(., concat('http://syriaca.org/person/', '\d+'))" role="error">
-                                                The @ref attribute must take a Syriaca.org person URI which reqires 
-                                                the form 'http://syriaca.org/person/{\d+}' (where {\d+} is a number).
-                                            </sch:assert>
                                             <sch:assert test="
-                                                every $i in .
-                                                satisfies $i = $personURIs" role="warning">
-                                                <sch:value-of select="$error"/> is not a Syriaca.org person URI. 
+                                                every $i in tokenize(., '\s')
+                                                satisfies $i = $personURIs" role="error">
+                                                The @ref attribute contains a value that is not a Syriaca.org person URI. A Syriaca.org person URI reqires 
+                                                the form 'http://syriaca.org/person/{\d+}' (where {\d+} is a number).
                                             </sch:assert>
                                         </sch:rule>
                                     </constraint>
@@ -6718,15 +6699,11 @@ Comment @davidamichelson -->
                                             <sch:let name="placeIndex" value="doc('https://raw.githubusercontent.com/srophe/syriaca/master/documentation/indexes/places.xml')"/>
                                             <sch:let name="placeURIs" value="$placeIndex//tei:place/@ref"/>
                                             <sch:let name="error" value="."/>
-                                            <sch:report test="contains(., ' ')" role="error">This @ref may contain only one URI.</sch:report>
-                                            <sch:assert test="matches(., concat('http://syriaca.org/place/', '\d+'))" role="error">
-                                                The @ref attribute must take a Syriaca.org place URI which reqires 
-                                                the form 'http://syriaca.org/place/{\d+}' (where {\d+} is a number).
-                                            </sch:assert>
                                             <sch:assert test="
-                                                every $i in .
-                                                satisfies $i = $placeURIs" role="warning">
-                                                <sch:value-of select="$error"/> is not a Syriaca.org place URI. 
+                                                every $i in tokenize(., '\s')
+                                                satisfies $i = $placeURIs" role="error">
+                                                The @ref attribute contains a value that is not a Syriaca.org place URI. A Syriaca.org place URI requires 
+                                                the form 'http://syriaca.org/place/{\d+}' (where {\d+} is a number). 
                                             </sch:assert>
                                         </sch:rule>
                                     </constraint>
@@ -7444,6 +7421,7 @@ Comment @davidamichelson -->
                                 <elementRef key="choice" minOccurs="0" maxOccurs="unbounded"/>
                                 <elementRef key="foreign" minOccurs="0" maxOccurs="unbounded"/>
                                 <elementRef key="sic" minOccurs="0" maxOccurs="unbounded"/>
+                                <elementRef key="supplied" minOccurs="0" maxOccurs="unbounded"/>
                                 <textNode/>
                             </sequence>
                         </content>
