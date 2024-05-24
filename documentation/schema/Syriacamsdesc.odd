@@ -4273,36 +4273,19 @@ Comment @davidamichelson -->
                                 </valList>
                             </attDef>
                             <attDef ident="role" mode="change">
-                                <valList type="closed">
-                                    <valItem ident="https://syriaca.org/documentation/author-editor-roles.xml#claimed">
-                                        <gloss>Claimed</gloss>
-                                        <desc>A person whose authorship or editing of the work has been claimed, whether by herself/himself or by others.</desc>
-                                    </valItem>
-                                    <valItem ident="https://syriaca.org/documentation/author-editor-roles.xml#attributed">
-                                        <gloss>Claimed: Attributed</gloss>
-                                        <desc>A person whom others have credited at any time with the authorship or editing of a work, regardless of whether or not the person is an actual author or editor of the work.</desc>
-                                    </valItem>
-                                    <valItem ident="https://syriaca.org/documentation/author-editor-roles.xml#incorrectly-attributed">
-                                        <gloss>Claimed: Attributed: Incorrectly</gloss>
-                                        <desc>A person whom others have erroneously credited at any time with the authorship or editing of a work.</desc>
-                                    </valItem>
-                                    <valItem ident="https://syriaca.org/documentation/author-editor-roles.xml#disputed">
-                                        <gloss>Claimed: Disputed</gloss>
-                                        <desc>A person whose authorship or editing of the work has been significantly disputed in scholarly literature, and who may or may not actually be an author or editor of the work.</desc>
-                                    </valItem>
-                                    <valItem ident="https://syriaca.org/documentation/author-editor-roles.xml#correctly-disputed">
-                                        <gloss>Claimed: Disputed: Correctly</gloss>
-                                        <desc>A person whose authorship or editing of the work has been rightly disputed in scholarly literature.</desc>
-                                    </valItem>
-                                    <valItem ident="https://syriaca.org/documentation/author-editor-roles.xml#incorrectly-disputed">
-                                        <gloss>Claimed: Disputed: Incorrectly</gloss>
-                                        <desc>A person whose authorship or editing of the work has been wrongly disputed in scholarly literature.</desc>
-                                    </valItem>
-                                    <valItem ident="https://syriaca.org/documentation/author-editor-roles.xml#pseudo">
-                                        <gloss>Claimed: Pseudo</gloss>
-                                        <desc>A person who was not the work's author or editor, but whose identity was assumed by an author or editor of the work.</desc>
-                                    </valItem>
-                                </valList>
+                                <constraintSpec ident="role-on-author" scheme="schematron">
+                                    <constraint>
+                                        <sch:rule context="//tei:msItem/tei:author/@role">
+                                            <sch:let name="rolesDoc" value="doc('https://raw.githubusercontent.com/srophe/britishLibrary/main/documentation/author-editor-roles.xml')"/>
+                                            <sch:let name="roles" value="$rolesDoc//tei:taxonomy//tei:category/@xml:id"/>
+                                            <sch:let name="roleValues" value="for $i in $roles return concat('#', $i)"/>
+                                            <sch:assert test="every $i in . satisfies $i = $roleValues">
+                                                Acceptable values for @role include: 
+                                                <sch:value-of select="string-join($roleValues, ' | ')"/>.
+                                            </sch:assert>
+                                        </sch:rule>
+                                    </constraint>
+                                </constraintSpec>
                             </attDef>
                         </attList>
                     </elementSpec>
