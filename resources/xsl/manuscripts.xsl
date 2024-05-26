@@ -1,4 +1,4 @@
-<xsl:stylesheet xmlns="http://www.w3.org/1999/xhtml" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:s="http://syriaca.org" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:x="http://www.w3.org/1999/xhtml" xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:saxon="http://saxon.sf.net/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:local="http://syriaca.org/ns" exclude-result-prefixes="xs t s saxon" version="2.0">
+<xsl:stylesheet xmlns="http://www.w3.org/1999/xhtml" xmlns:saxon="http://saxon.sf.net/" xmlns:local="http://syriaca.org/ns" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:s="http://syriaca.org" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:x="http://www.w3.org/1999/xhtml" xmlns:xs="http://www.w3.org/2001/XMLSchema" exclude-result-prefixes="xs t s saxon" version="2.0">
     
     <!-- ================================================================== 
        Copyright 2013 New York University
@@ -418,7 +418,7 @@
     </xsl:template>
     <xsl:template match="t:decoNote">
         <div name="{string(@xml:id)}">
-            <span class="msItem"><span class="inline-h4">Decoration<xsl:if test="@type"> (<xsl:value-of select="concat(upper-case(substring(@type,1,1)),substring(@type,2))"/> )</xsl:if><xsl:if test="@medium"> [Medium: <xsl:value-of select="@medium"/>]</xsl:if>:</span> <xsl:apply-templates mode="plain"/></span>
+            <span class="msItem"><span class="inline-h4">Decoration<xsl:if test="@type"> (<xsl:value-of select="concat(upper-case(substring(@type,1,1)),substring(@type,2))"/>)</xsl:if><xsl:if test="@medium"> [Medium: <xsl:value-of select="@medium"/>]</xsl:if>:</span> <xsl:apply-templates mode="plain"/></span>
         </div>
     </xsl:template>
     <xsl:template match="t:msItem">
