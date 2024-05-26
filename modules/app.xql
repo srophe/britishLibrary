@@ -12,7 +12,6 @@ import module namespace templates="http://exist-db.org/xquery/templates" ;
 (: Import Srophe application modules. :)
 import module namespace config="http://srophe.org/srophe/config" at "config.xqm";
 import module namespace data="http://srophe.org/srophe/data" at "lib/data.xqm";
-import module namespace facet="http://expath.org/ns/facet" at "lib/facet.xqm";
 import module namespace sf="http://srophe.org/srophe/facets" at "lib/facets.xql";
 import module namespace global="http://srophe.org/srophe/global" at "lib/global.xqm";
 import module namespace maps="http://srophe.org/srophe/maps" at "lib/maps.xqm";
@@ -148,6 +147,7 @@ declare function app:h1($node as node(), $model as map(*)){
 (:~ 
  : Data formats and sharing
  : to replace app-link
+ github-mark
  :)
 declare %templates:wrap function app:other-data-formats($node as node(), $model as map(*), $formats as xs:string?){
 let $id := (:replace($model("hits")/descendant::tei:idno[contains(., $config:base-uri)][1],'/tei',''):)request:get-parameter('id', '')
@@ -185,6 +185,10 @@ return
                         (<a href="{concat(replace($id,$config:base-uri,$config:nav-base),'.tei')}" class="btn btn-default btn-xs" id="teiBtn" data-toggle="tooltip" title="Click to view the TEI XML data for this record." >
                              <span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span> TEI/XML
                         </a>, '&#160;')
+                    else if($f = 'github') then
+                        (<a href="{concat('https://github.com/srophe/britishLibrary-data/blob/main/data/tei/',tokenize($id,'/')[last()],'.xml')}" class="btn btn-default btn-xs" id="teiBtn" data-toggle="tooltip" title="Click to view the TEI XML data for this record." >
+                             <img src="{$config:nav-base}/resources/images/github-mark.png" height="18px"/>
+                        </a>, '&#160;')                        
                     else if($f = 'text') then
                         (<a href="{concat(replace($id,$config:base-uri,$config:nav-base),'.txt')}" class="btn btn-default btn-xs" id="teiBtn" data-toggle="tooltip" title="Click to view the plain text data for this record." >
                              <span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span> Text
