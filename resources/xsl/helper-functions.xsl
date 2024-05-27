@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<xsl:stylesheet xmlns="http://www.w3.org/1999/xhtml" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:x="http://www.w3.org/1999/xhtml" xmlns:saxon="http://saxon.sf.net/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:local="http://syriaca.org/ns" exclude-result-prefixes="xs t x saxon local" version="2.0">
+<xsl:stylesheet xmlns="http://www.w3.org/1999/xhtml" xmlns:saxon="http://saxon.sf.net/" xmlns:local="http://syriaca.org/ns" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:x="http://www.w3.org/1999/xhtml" xmlns:xs="http://www.w3.org/2001/XMLSchema" exclude-result-prefixes="xs t x saxon local" version="2.0">
     
     <!-- =================================================================== -->
     <!-- Helper Functions  -->
@@ -288,6 +287,22 @@
         <xsl:param name="lang" as="xs:string"/>
         <xsl:param name="type" as="xs:string"/>
         <xsl:choose>
+            <!-- BL values from https://github.com/srophe/britishLibrary/issues/310 -->
+            <xsl:when test="$lang='ar'">Unspecified Arabic script</xsl:when>
+            <xsl:when test="$lang='ar-Syrc'">Arabic Garshuni script</xsl:when>
+            <xsl:when test="$lang='cop'">Unspecified Coptic script</xsl:when>
+            <xsl:when test="$lang='fr'">Unspecified French script</xsl:when>
+            <xsl:when test="$lang='grc'">Unspecified Greek script</xsl:when>
+            <xsl:when test="$lang='he'">Unspecified Hebrew script</xsl:when>
+            <xsl:when test="$lang='hy'">Unspecified Armenian script</xsl:when>
+            <xsl:when test="$lang='la'">Unspecified Latin script</xsl:when>
+            <xsl:when test="$lang='syr'">Unspecified Syriac script</xsl:when>
+            <xsl:when test="$lang='syr-Syre'">Estrangela script</xsl:when>
+            <xsl:when test="$lang='syr-Syrj'">West Syriac script</xsl:when>
+            <xsl:when test="$lang='syr-Syrn'">East Syriac script</xsl:when>
+            <xsl:when test="$lang='syr-x-syrm'">Melkite Syriac script</xsl:when>
+            <xsl:when test="$lang='qhy-x-cpas'">Christian Palestinian Aramaic script</xsl:when>
+            <xsl:when test="$lang='mixed'">Mixed scripts</xsl:when>
             <xsl:when test="$lang='la'">
                 <xsl:text>Latin</xsl:text>
             </xsl:when>

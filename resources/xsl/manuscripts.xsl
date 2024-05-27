@@ -537,14 +537,22 @@
     <xsl:template name="script">
         <xsl:param name="node"/>
         <xsl:choose>
+            <!-- BL values from https://github.com/srophe/britishLibrary/issues/310 -->
+            <xsl:when test="$node/@script = 'ar'">Unspecified Arabic script</xsl:when>
+            <xsl:when test="$node/@script = 'ar-Syrc'">Arabic Garshuni script</xsl:when>
+            <xsl:when test="$node/@script = 'cop'">Unspecified Coptic script</xsl:when>
+            <xsl:when test="$node/@script = 'fr'">Unspecified French script</xsl:when>
+            <xsl:when test="$node/@script = 'grc'">Unspecified Greek script</xsl:when>
+            <xsl:when test="$node/@script = 'he'">Unspecified Hebrew script</xsl:when>
+            <xsl:when test="$node/@script = 'hy'">Unspecified Armenian script</xsl:when>
+            <xsl:when test="$node/@script = 'la'">Unspecified Latin script</xsl:when>
             <xsl:when test="$node/@script = 'syr'">Unspecified Syriac script</xsl:when>
             <xsl:when test="$node/@script = 'syr-Syre'">Estrangela script</xsl:when>
             <xsl:when test="$node/@script = 'syr-Syrj'">West Syriac script</xsl:when>
             <xsl:when test="$node/@script = 'syr-Syrn'">East Syriac script</xsl:when>
             <xsl:when test="$node/@script = 'syr-x-syrm'">Melkite Syriac script</xsl:when>
-            <xsl:when test="$node/@script = 'grc'">Greek</xsl:when>
-            <xsl:when test="$node/@script = 'ar-Syrc'">Arabic Garshuni script</xsl:when>
-            <xsl:when test="$node/@script = 'ar'">Unspecified Arabic script</xsl:when>
+            <xsl:when test="$node/@script = 'qhy-x-cpas'">Christian Palestinian Aramaic script</xsl:when>
+            <xsl:when test="$node/@script = 'mixed'">Mixed scripts</xsl:when>
         </xsl:choose>
     </xsl:template>
     <xsl:template match="t:title">
@@ -645,4 +653,3 @@
         </xsl:if>
     </xsl:template>
     -->
-</xsl:stylesheet>
