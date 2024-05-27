@@ -309,9 +309,7 @@
                                     <div class="panel-body">
                                         <div class="msContent">
                                             <!--<h3>Manuscript Contents</h3>-->
-                                            <p class="summary indent">This manuscript contains <xsl:value-of select="count(descendant::t:msItem)"/> items 
-                                                <xsl:if test="descendant::t:msItem/t:msItem"> <xsl:text> including nested subsections</xsl:text>
-                                                </xsl:if>. N.B. Items were re-numbered by Syriaca.org and may not reflect previous numeration.</p>
+                                            <p class="summary indent">This manuscript contains <xsl:value-of select="count(descendant::t:msItem)"/> item(s)<xsl:if test="descendant::t:msItem/t:msItem"> <xsl:text> including nested subsections</xsl:text></xsl:if>. N.B. Items were re-numbered for this online catalog and may not reflect William Wright's previous numeration.</p>
                                             <div class="indent">
                                                 <xsl:apply-templates select="t:msContents | t:msPart"/>
                                             </div>
