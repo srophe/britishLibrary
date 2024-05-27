@@ -4092,7 +4092,7 @@ Comment @davidamichelson -->
                         district 
                         forename 
                         geo geogFeat geogName
-                        listPerson listPlace listRelation
+                        listRelation
                         persName person place placeName 
                         relation region 
                         settlement surname 
@@ -4151,6 +4151,14 @@ Comment @davidamichelson -->
             translation: keep
             
             -->
+                    
+                    
+                    <classSpec type="atts" ident="att.canonical" module="tei" mode="change">
+                        <attList>
+                            <attDef ident="key" mode="delete"/>
+                        </attList>
+                    </classSpec>
+                    
                     
                     <elementSpec ident="abbr" module="core" mode="change">
                         <classes mode="change">
@@ -4264,7 +4272,6 @@ Comment @davidamichelson -->
                         </content>                            
                         <attList>
                             <attDef ident="nymRef" mode="delete"/>
-                            <attDef ident="key" mode="delete"/>
                             <attDef ident="resp" mode="change">
                                 <valList type="closed">
                                     <valItem ident="https://bl.syriac.uk/documentation/editors.xml#wwright">
@@ -4273,19 +4280,59 @@ Comment @davidamichelson -->
                                 </valList>
                             </attDef>
                             <attDef ident="role" mode="change">
-                                <constraintSpec ident="role-on-author" scheme="schematron">
-                                    <constraint>
-                                        <sch:rule context="//tei:msItem/tei:author/@role">
-                                            <sch:let name="rolesDoc" value="doc('https://raw.githubusercontent.com/srophe/britishLibrary/main/documentation/author-editor-roles.xml')"/>
-                                            <sch:let name="roles" value="$rolesDoc//tei:taxonomy//tei:category/@xml:id"/>
-                                            <sch:let name="roleValues" value="for $i in $roles return concat('#', $i)"/>
-                                            <sch:assert test="every $i in . satisfies $i = $roleValues">
-                                                Acceptable values for @role include: 
-                                                <sch:value-of select="string-join($roleValues, ' | ')"/>.
-                                            </sch:assert>
-                                        </sch:rule>
-                                    </constraint>
-                                </constraintSpec>
+                                <valList type="closed">
+                                    <valItem ident="claimed">
+                                        <desc>A person whose authorship or editing of the work has been claimed, whether by herself/himself or by others.</desc>
+                                    </valItem>
+                                    <valItem ident="attributed">
+                                        <desc>A person whom others have credited at any time with the authorship or editing of a work, regardless of whether or not the person is an actual author or editor of the work.</desc>
+                                    </valItem>
+                                    <valItem ident="incorrectly-attributed">
+                                        <desc>A person whom others have erroneously credited at any time with the authorship or editing of a work.</desc>
+                                    </valItem>
+                                    <valItem ident="disputed">
+                                        <desc>A person whose authorship or editing of the work has been significantly disputed in scholarly literature, and who may or may not actually be an author or editor of the work.</desc>
+                                    </valItem>
+                                    <valItem ident="correctly-disputed">
+                                        <desc>A person whose authorship or editing of the work has been rightly disputed in scholarly literature.</desc>
+                                    </valItem>
+                                    <valItem ident="incorrectly-disputed">
+                                        <desc>A person whose authorship or editing of the work has been wrongly disputed in scholarly literature.</desc>
+                                    </valItem>
+                                    <valItem ident="pseudo">
+                                        <desc>A person who was not the work's author or editor, but whose identity was assumed by an author or editor of the work.</desc>
+                                    </valItem>
+                                    <valItem ident="editor">
+                                        <desc>Any kind of editor.</desc>
+                                    </valItem>
+                                    <valItem ident="creator">
+                                        <desc>A person directly responsible for the creation of a specific document.</desc>
+                                    </valItem>
+                                    <valItem ident="general">
+                                        <desc>A person who has the official title of "general editor" for a work.</desc>
+                                    </valItem>
+                                    <valItem ident="redactor">
+                                        <desc>A person responsible for compiling, rearranging, abbreviating, or interpolating text in a work.</desc>
+                                    </valItem>
+                                    <valItem ident="abbreviator">
+                                        <desc>A person responsible for abbreviating the text of a work, whether by removing text or by summarizing or paraphrasing it.</desc>
+                                    </valItem>
+                                    <valItem ident="arranger">
+                                        <desc>A person responsible for rearranging or reordering the text of a work.</desc>
+                                    </valItem>
+                                    <valItem ident="compiler">
+                                        <desc>A person responsible for compiling the text of a work from multiple sources.</desc>
+                                    </valItem>
+                                    <valItem ident="interpolator">
+                                        <desc>A person responsible for an insertion in the text of a work.</desc>
+                                    </valItem>
+                                    <valItem ident="scribe">
+                                        <desc>A person who copied the text of the work onto a physical object.</desc>
+                                    </valItem>
+                                    <valItem ident="translator">
+                                        <desc>A person responsible for rendering the text of the work into a different language.</desc>
+                                    </valItem>
+                                </valList>
                             </attDef>
                         </attList>
                     </elementSpec>
@@ -4626,7 +4673,7 @@ Comment @davidamichelson -->
                                             <sch:let name="eds" value="$edsDoc//tei:text/tei:body/tei:listPerson/tei:person/@xml:id | $edsDoc//tei:text/tei:body/tei:listPerson/tei:org/@xml:id"/>
                                             <sch:let name="refValues" value="for $i in $eds return concat('https://bl.syriac.uk/documentation/editors.xml#', $i)"/>
                                             <sch:assert test="every $i in . satisfies $i = $refValues">
-                                                Acceptable values for this attribute include: 
+                                                Acceptable values for this @who attribute include: 
                                                 <sch:value-of select="string-join($refValues, ' | ')"/>.
                                             </sch:assert>
                                         </sch:rule>
@@ -4645,16 +4692,16 @@ Comment @davidamichelson -->
                             <!-- Syriaca: Data edits still in progress but this should be useful. -->
                             <alternate>
                                 <sequence preserveOrder="false">
-                                    <elementRef key="sic"/>
-                                    <elementRef key="corr"/>
+                                    <elementRef key="sic" minOccurs="0" maxOccurs="unbounded"/>
+                                    <elementRef key="corr" minOccurs="0" maxOccurs="unbounded"/>
                                 </sequence>
                                 <sequence preserveOrder="false">
-                                    <elementRef key="orig"/>
-                                    <elementRef key="reg"/>
+                                    <elementRef key="orig" minOccurs="0" maxOccurs="unbounded"/>
+                                    <elementRef key="reg" minOccurs="0" maxOccurs="unbounded"/>
                                 </sequence>
                                 <sequence preserveOrder="false">
-                                    <elementRef key="abbr"/>
-                                    <elementRef key="expan"/>
+                                    <elementRef key="abbr" minOccurs="0" maxOccurs="unbounded"/>
+                                    <elementRef key="expan" minOccurs="0" maxOccurs="unbounded"/>
                                 </sequence>
                             </alternate>
                         </content>
@@ -5168,18 +5215,60 @@ Comment @davidamichelson -->
                         </classes>
                         <attList>
                             <attDef ident="nymRef" mode="delete"/>
-                            <attDef ident="key" mode="delete"/>
                             <attDef ident="role" mode="change" usage="req">
-                                <constraintSpec ident="role-on-editor" scheme="schematron">
-                                    <constraint>
-                                        <sch:rule context="//tei:msItem/tei:editor/@role">
-                                            <sch:assert test=". = 'translator'">Value of @role must be "translator".</sch:assert>
-                                        </sch:rule>
-                                        <sch:rule context="//tei:titleStmt/tei:editor/@role">
-                                            <sch:assert test=". = 'creator' or . = 'general-editor' or . = 'technical-editor'">Value of @role must be one of the following: "creator", "general-editor", "technical-editor".</sch:assert>
-                                        </sch:rule>
-                                    </constraint>
-                                </constraintSpec>
+                                <valList type="closed">
+                                    <valItem ident="claimed">
+                                        <desc>A person whose authorship or editing of the work has been claimed, whether by herself/himself or by others.</desc>
+                                    </valItem>
+                                    <valItem ident="attributed">
+                                        <desc>A person whom others have credited at any time with the authorship or editing of a work, regardless of whether or not the person is an actual author or editor of the work.</desc>
+                                    </valItem>
+                                    <valItem ident="incorrectly-attributed">
+                                        <desc>A person whom others have erroneously credited at any time with the authorship or editing of a work.</desc>
+                                    </valItem>
+                                    <valItem ident="disputed">
+                                        <desc>A person whose authorship or editing of the work has been significantly disputed in scholarly literature, and who may or may not actually be an author or editor of the work.</desc>
+                                    </valItem>
+                                    <valItem ident="correctly-disputed">
+                                        <desc>A person whose authorship or editing of the work has been rightly disputed in scholarly literature.</desc>
+                                    </valItem>
+                                    <valItem ident="incorrectly-disputed">
+                                        <desc>A person whose authorship or editing of the work has been wrongly disputed in scholarly literature.</desc>
+                                    </valItem>
+                                    <valItem ident="pseudo">
+                                        <desc>A person who was not the work's author or editor, but whose identity was assumed by an author or editor of the work.</desc>
+                                    </valItem>
+                                    <valItem ident="editor">
+                                        <desc>Any kind of editor.</desc>
+                                    </valItem>
+                                    <valItem ident="creator">
+                                        <desc>A person directly responsible for the creation of a specific document.</desc>
+                                    </valItem>
+                                    <valItem ident="general">
+                                        <desc>A person who has the official title of "general editor" for a work.</desc>
+                                    </valItem>
+                                    <valItem ident="redactor">
+                                        <desc>A person responsible for compiling, rearranging, abbreviating, or interpolating text in a work.</desc>
+                                    </valItem>
+                                    <valItem ident="abbreviator">
+                                        <desc>A person responsible for abbreviating the text of a work, whether by removing text or by summarizing or paraphrasing it.</desc>
+                                    </valItem>
+                                    <valItem ident="arranger">
+                                        <desc>A person responsible for rearranging or reordering the text of a work.</desc>
+                                    </valItem>
+                                    <valItem ident="compiler">
+                                        <desc>A person responsible for compiling the text of a work from multiple sources.</desc>
+                                    </valItem>
+                                    <valItem ident="interpolator">
+                                        <desc>A person responsible for an insertion in the text of a work.</desc>
+                                    </valItem>
+                                    <valItem ident="scribe">
+                                        <desc>A person who copied the text of the work onto a physical object.</desc>
+                                    </valItem>
+                                    <valItem ident="translator">
+                                        <desc>A person responsible for rendering the text of the work into a different language.</desc>
+                                    </valItem>
+                                </valList>
                             </attDef>
                             <attDef ident="ref" mode="change">
                                 <constraintSpec ident="ref-on-editor" scheme="schematron">
@@ -5189,7 +5278,7 @@ Comment @davidamichelson -->
                                             <sch:let name="eds" value="$edsDoc//tei:text/tei:body/tei:listPerson/tei:person/@xml:id | $edsDoc//tei:text/tei:body/tei:listPerson/tei:org/@xml:id"/>
                                             <sch:let name="refValues" value="for $i in $eds return concat('https://bl.syriac.uk/documentation/editors.xml#', $i)"/>
                                             <sch:assert test="every $i in . satisfies $i = $refValues">
-                                                Acceptable values for this attribute include: 
+                                                Acceptable values for this @ref attribute include: 
                                                 <sch:value-of select="string-join($refValues, ' | ')"/>.
                                             </sch:assert>
                                         </sch:rule>
@@ -5265,7 +5354,19 @@ Comment @davidamichelson -->
                             </sequence>
                         </content>
                         <attList>
-                            <attDef ident="xml:lang" mode="change" usage="req"/>
+                            <attDef ident="xml:lang" mode="change" usage="req">
+                                <constraintSpec ident="xmlLang-on-explicit" scheme="schematron">
+                                    <constraint>
+                                        <sch:rule context="//tei:explicit/@xml:lang">
+                                            <sch:let name="langIdents" value="//tei:profileDesc/tei:langUsage/tei:language/@ident"/>
+                                            <sch:assert test=". = $langIdents">
+                                                Attribute value must match one of the following language codes in the &lt;profileDesc&gt;:
+                                                <sch:value-of select="string-join($langIdents, ' | ')"/>.
+                                            </sch:assert>
+                                        </sch:rule>
+                                    </constraint>
+                                </constraintSpec>
+                            </attDef>
                         </attList>
                     </elementSpec>
                     
@@ -5341,7 +5442,19 @@ Comment @davidamichelson -->
                             </sequence>
                         </content>
                         <attList>
-                            <attDef ident="xml:lang" mode="change" usage="req"/>
+                            <attDef ident="xml:lang" mode="change" usage="req">
+                                <constraintSpec ident="xmlLang-on-finalRubric" scheme="schematron">
+                                    <constraint>
+                                        <sch:rule context="//tei:finalRubric/@xml:lang">
+                                            <sch:let name="langIdents" value="//tei:profileDesc/tei:langUsage/tei:language/@ident"/>
+                                            <sch:assert test=". = $langIdents">
+                                                Attribute value must match one of the following language codes in the &lt;profileDesc&gt;:
+                                                <sch:value-of select="string-join($langIdents, ' | ')"/>.
+                                            </sch:assert>
+                                        </sch:rule>
+                                    </constraint>
+                                </constraintSpec>
+                            </attDef>
                         </attList>
                     </elementSpec>
                     
@@ -5383,7 +5496,19 @@ Comment @davidamichelson -->
                             </sequence>
                         </content>
                         <attList>
-                            <attDef ident="xml:lang" mode="change" usage="req"/>
+                            <attDef ident="xml:lang" mode="change" usage="req">
+                                <constraintSpec ident="xmlLang-on-foreign" scheme="schematron">
+                                    <constraint>
+                                        <sch:rule context="//tei:foreign/@xml:lang">
+                                            <sch:let name="langIdents" value="//tei:profileDesc/tei:langUsage/tei:language/@ident"/>
+                                            <sch:assert test=". = $langIdents">
+                                                Attribute value must match one of the following language codes in the &lt;profileDesc&gt;:
+                                                <sch:value-of select="string-join($langIdents, ' | ')"/>.
+                                            </sch:assert>
+                                        </sch:rule>
+                                    </constraint>
+                                </constraintSpec>
+                            </attDef>
                         </attList>
                     </elementSpec>
                     
@@ -5520,10 +5645,9 @@ Comment @davidamichelson -->
                                     <constraint>
                                         <sch:rule context="//tei:handNote/@script">
                                             <sch:let name="langIdents" value="//tei:profileDesc/tei:langUsage/tei:language/@ident"/>
-                                            <sch:assert test=". = $langIdents or . = 'mixed' or . = 'unknown'">
-                                                Attribute value much match one of the following language codes in the &lt;profileDesc&gt;:
-                                                <sch:value-of select="string-join($langIdents, ' | ')"/> or contain the value "mixed" if a
-                                                the &lt;handNote&gt; contains more than one script or "unknown" if the script is unknown.
+                                            <sch:assert test="every $i in tokenize(., '\s') satisfies $i = $langIdents">
+                                                Attribute value(s) must match one of the following language codes in the &lt;profileDesc&gt;:
+                                                <sch:value-of select="string-join($langIdents, ' | ')"/>.
                                             </sch:assert>
                                         </sch:rule>
                                     </constraint>
@@ -5767,7 +5891,19 @@ Comment @davidamichelson -->
                             </sequence>
                         </content>
                         <attList>
-                            <attDef ident="xml:lang" mode="change" usage="req"/>
+                            <attDef ident="xml:lang" mode="change" usage="req">
+                                <constraintSpec ident="xmlLang-on-incipit" scheme="schematron">
+                                    <constraint>
+                                        <sch:rule context="//tei:incipit/@xml:lang">
+                                            <sch:let name="langIdents" value="//tei:profileDesc/tei:langUsage/tei:language/@ident"/>
+                                            <sch:assert test=". = $langIdents">
+                                                Attribute value must match one of the following language codes in the &lt;profileDesc&gt;:
+                                                <sch:value-of select="string-join($langIdents, ' | ')"/>.
+                                            </sch:assert>
+                                        </sch:rule>
+                                    </constraint>
+                                </constraintSpec>
+                            </attDef>
                         </attList>
                     </elementSpec>
                     
@@ -6317,7 +6453,6 @@ Comment @davidamichelson -->
                                     </valItem>-->
                                 </valList>
                             </attDef>
-                            <attDef ident="key" mode="delete"/>
                             <attDef ident="ref" mode="change" usage="req">
                                 <constraintSpec ident="ref-on-name" scheme="schematron">
                                     <constraint>
@@ -6326,7 +6461,7 @@ Comment @davidamichelson -->
                                             <sch:let name="eds" value="$edsDoc//tei:text/tei:body/tei:listPerson/tei:person/@xml:id | $edsDoc//tei:text/tei:body/tei:listPerson/tei:org/@xml:id"/>
                                             <sch:let name="refValues" value="for $i in $eds return concat('https://bl.syriac.uk/documentation/editors.xml#', $i)"/>
                                             <sch:assert test="every $i in . satisfies $i = $refValues">
-                                                Acceptable values for this attribute include: 
+                                                Acceptable values for this @ref attribute include: 
                                                 <sch:value-of select="string-join($refValues, ' | ')"/>.
                                             </sch:assert>
                                         </sch:rule>
@@ -6393,7 +6528,7 @@ Comment @davidamichelson -->
                                             <sch:let name="eds" value="$edsDoc//tei:text/tei:body/tei:listPerson/tei:person/@xml:id | $edsDoc//tei:text/tei:body/tei:listPerson/tei:org/@xml:id"/>
                                             <sch:let name="refValues" value="for $i in $eds return concat('https://bl.syriac.uk/documentation/editors.xml#', $i)"/>
                                             <sch:assert test="every $i in . satisfies $i = $refValues">
-                                                Acceptable values for this attribute include: 
+                                                Acceptable values for this @resp attribute include: 
                                                 <sch:value-of select="string-join($refValues, ' | ')"/>.
                                             </sch:assert>
                                         </sch:rule>
@@ -6499,7 +6634,6 @@ Comment @davidamichelson -->
                             <memberOf key="att.datable.iso" mode="delete"/>
                             <memberOf key="att.dimensions" mode="delete"/>
                             <memberOf key="att.editlike" mode="delete"/>
-                            <memberOf key="att.typed" mode="delete"/>
                         </classes>
                         <content>
                             <elementRef key="sic" minOccurs="0" maxOccurs="unbounded"/>
@@ -6511,14 +6645,22 @@ Comment @davidamichelson -->
                                 <sch:rule
                                     context="//tei:origDate">
                                     <sch:assert 
-                                        test="@calendar and (@when or @notBefore or @notAfter or @from or @to) and string-length(normalize-space(string())) gt 0" 
-                                        role="error">
-                                        The origDate element must have two or more attributes - calendar and at least one of
-                                        when, notBefore, notAfter, from and/or to - and must contain some text describing the date.
+                                        test="@calendar and ((@when or @notBefore or @notAfter or @from or @to) or (@when-custom or @notBefore-custom or @notAfter-custom or @from-custom or @to-custom)) and string-length(normalize-space(string())) gt 0" 
+                                        role="error"><!-- Syriaca: Update to allow either regular or custom dates. -->
+                                        The origDate element must have two or more attributes - calendar and at least one of the regular date attributes 
+                                        (when, notBefore, notAfter, from, and/or to) -OR- custom dates (when-custom, notBefore-custom, notAfter-custom, from-custom, and/or to-custom) 
+                                        and must contain some text describing the date.
                                     </sch:assert>
                                 </sch:rule>
                             </constraint>
                         </constraintSpec>
+                        <attList>
+                            <attDef ident="type" mode="change">
+                                <valList type="closed">
+                                    <valItem ident="unknown"/>
+                                </valList>
+                            </attDef>
+                        </attList>
                     </elementSpec>
                     
                     
@@ -6544,9 +6686,6 @@ Comment @davidamichelson -->
                                 <textNode/>
                             </sequence>
                         </content>
-                        <attList>
-                            <attDef ident="key" mode="delete"/>
-                        </attList>
                     </elementSpec>
                     
                     
@@ -6607,7 +6746,6 @@ Comment @davidamichelson -->
                             </sequence>
                         </content>
                         <attList>
-                            <attDef ident="key" mode="delete"/>
                             <attDef ident="type" mode="change">
                                 <valList type="closed">
                                     <valItem ident="supplied"/>
@@ -6675,7 +6813,6 @@ Comment @davidamichelson -->
                             </sequence>
                         </content>
                         <attList>
-                            <attDef ident="key" mode="delete"/>
                             <attDef ident="ref" mode="change">
                                 <constraintSpec ident="ref-on-placeName" scheme="schematron">
                                     <constraint>
@@ -6885,7 +7022,6 @@ Comment @davidamichelson -->
                             <elementRef key="desc" minOccurs="0" maxOccurs="1"/>
                         </content>
                         <attList>
-                            <attDef ident="key" mode="delete"/>
                             <attDef ident="name" mode="change" usage="req">
                                 <valList type="closed">
                                     <valItem ident="dcterms:type"/>
@@ -7021,7 +7157,19 @@ Comment @davidamichelson -->
                             </sequence>
                         </content>
                         <attList>
-                            <attDef ident="xml:lang" mode="change" usage="req"/>
+                            <attDef ident="xml:lang" mode="change" usage="req">
+                                <constraintSpec ident="xmlLang-on-rubric" scheme="schematron">
+                                    <constraint>
+                                        <sch:rule context="//tei:rubric/@xml:lang">
+                                            <sch:let name="langIdents" value="//tei:profileDesc/tei:langUsage/tei:language/@ident"/>
+                                            <sch:assert test=". = $langIdents">
+                                                Attribute value must match one of the following language codes in the &lt;profileDesc&gt;:
+                                                <sch:value-of select="string-join($langIdents, ' | ')"/>.
+                                            </sch:assert>
+                                        </sch:rule>
+                                    </constraint>
+                                </constraintSpec>
+                            </attDef>
                         </attList>
                     </elementSpec>
                     
@@ -7035,6 +7183,13 @@ Comment @davidamichelson -->
                         </classes>
                         <content>
                             <elementRef key="sic" minOccurs="0" maxOccurs="unbounded"/>
+                            <textNode/>
+                        </content>
+                    </elementSpec>
+                    
+                    
+                    <elementSpec ident="sic" module="core" mode="change">
+                        <content>
                             <textNode/>
                         </content>
                     </elementSpec>
@@ -7117,7 +7272,7 @@ Comment @davidamichelson -->
                                             <sch:let name="eds" value="$edsDoc//tei:text/tei:body/tei:listPerson/tei:person/@xml:id | $edsDoc//tei:text/tei:body/tei:listPerson/tei:org/@xml:id"/>
                                             <sch:let name="refValues" value="for $i in $eds return concat('https://bl.syriac.uk/documentation/editors.xml#', $i)"/>
                                             <sch:assert test="every $i in . satisfies $i = $refValues">
-                                                Acceptable values for this attribute include: 
+                                                Acceptable values for this @resp attribute include: 
                                                 <sch:value-of select="string-join($refValues, ' | ')"/>.
                                             </sch:assert>
                                         </sch:rule>
@@ -7409,7 +7564,6 @@ Comment @davidamichelson -->
                             </sequence>
                         </content>
                         <attList>
-                            <attDef ident="key" mode="delete"/>
                             <attDef ident="type" mode="change">
                                 <valList type="closed">
                                     <valItem ident="supplied"/>

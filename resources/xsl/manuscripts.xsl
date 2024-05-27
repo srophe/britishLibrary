@@ -1,4 +1,4 @@
-<xsl:stylesheet xmlns="http://www.w3.org/1999/xhtml" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:s="http://syriaca.org" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:x="http://www.w3.org/1999/xhtml" xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:saxon="http://saxon.sf.net/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:local="http://syriaca.org/ns" exclude-result-prefixes="xs t s saxon" version="2.0">
+<xsl:stylesheet xmlns="http://www.w3.org/1999/xhtml" xmlns:saxon="http://saxon.sf.net/" xmlns:local="http://syriaca.org/ns" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:s="http://syriaca.org" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:x="http://www.w3.org/1999/xhtml" xmlns:xs="http://www.w3.org/2001/XMLSchema" exclude-result-prefixes="xs t s saxon" version="2.0">
     
     <!-- ================================================================== 
        Copyright 2013 New York University
@@ -99,17 +99,37 @@
                <xsl:if test="count(//t:msDesc/t:msPart) &gt; 1 and self::t:msPart">
                    <div>URI: <xsl:apply-templates select="t:msIdentifier/t:idno[@type='URI']"/></div>
                 </xsl:if>   
-            <xsl:if test="t:msIdentifier/t:altIdentifier/t:idno[@type='Wright-BL-Roman']">
+               <xsl:if test="t:msIdentifier/t:altIdentifier/t:idno[@type='Wright-BL-Roman']">
                 <div>
                     <xsl:choose>
                         <xsl:when test="t:additional/t:listBibl/t:bibl/t:ref[@target != '']">
-                            <a href="{string(t:additional/t:listBibl/t:bibl/t:ref/@target)}" target="_blank">
-                                Description based on Wright <xsl:apply-templates select="t:msIdentifier/t:altIdentifier/t:idno[@type='Wright-BL-Roman']"/> (<xsl:apply-templates select="t:additional/t:listBibl/t:bibl/t:citedRange[@unit='pp']"/>)
+                            Description based on Wright
+                            <xsl:choose>
+                                <xsl:when test="t:additional/t:listBibl/t:bibl/tei:citedRange/@unit='entry'">
+                                    <a href="#" data-toggle="tooltip" title="This entry number is from Wright's printed catalogue. Due to renumbering, Wright's entry numbers do not match the numbering used in this digital catalogue.">
+                                        <xsl:apply-templates select="t:msIdentifier/t:altIdentifier/t:idno[@type='Wright-BL-Roman']"/>
+                                    </a>
+                                </xsl:when>
+                                <xsl:otherwise>
+                                    <xsl:apply-templates select="t:msIdentifier/t:altIdentifier/t:idno[@type='Wright-BL-Roman']"/>
+                                </xsl:otherwise>
+                            </xsl:choose>
+                            (<xsl:apply-templates select="t:additional/t:listBibl/t:bibl/t:citedRange[@unit='pp']"/>)
+                            <a href="{string(t:additional/t:listBibl/t:bibl/t:ref/@target)}" target="_blank">   
                                 <img src="$nav-base/resources/images/ialogo.jpg" alt="Link to Archive.org Bibliographic record" height="18px"/>
                             </a>
                         </xsl:when>
                         <xsl:otherwise>
-                            Description based on Wright <xsl:apply-templates select="t:msIdentifier/t:altIdentifier/t:idno[@type='Wright-BL-Roman']"/> (<xsl:apply-templates select="t:additional/t:listBibl/t:bibl/t:citedRange[@unit='pp']"/>)
+                            Description based on Wright <xsl:choose>
+                                <xsl:when test="t:additional/t:listBibl/t:bibl/tei:citedRange/@unit='entry'">
+                                    <a href="#" data-toggle="tooltip" title="This entry number is from Wright's printed catalogue. Due to renumbering, Wright's entry numbers do not match the numbering used in this digital catalogue.">
+                                        <xsl:apply-templates select="t:msIdentifier/t:altIdentifier/t:idno[@type='Wright-BL-Roman']"/>
+                                    </a>
+                                </xsl:when>
+                                <xsl:otherwise>
+                                    <xsl:apply-templates select="t:msIdentifier/t:altIdentifier/t:idno[@type='Wright-BL-Roman']"/>
+                                </xsl:otherwise>
+                            </xsl:choose> (<xsl:apply-templates select="t:additional/t:listBibl/t:bibl/t:citedRange[@unit='pp']"/>)
                         </xsl:otherwise>
                     </xsl:choose>
                     </div>    
@@ -418,7 +438,7 @@
     </xsl:template>
     <xsl:template match="t:decoNote">
         <div name="{string(@xml:id)}">
-            <span class="msItem"><span class="inline-h4">Decoration<xsl:if test="@type"> (<xsl:value-of select="concat(upper-case(substring(@type,1,1)),substring(@type,2))"/> )</xsl:if><xsl:if test="@medium"> [Medium: <xsl:value-of select="@medium"/>]</xsl:if>:</span> <xsl:apply-templates mode="plain"/></span>
+            <span class="msItem"><span class="inline-h4">Decoration<xsl:if test="@type"> (<xsl:value-of select="concat(upper-case(substring(@type,1,1)),substring(@type,2))"/>)</xsl:if><xsl:if test="@medium"> [Medium: <xsl:value-of select="@medium"/>]</xsl:if>:</span> <xsl:apply-templates mode="plain"/></span>
         </div>
     </xsl:template>
     <xsl:template match="t:msItem">
@@ -537,14 +557,22 @@
     <xsl:template name="script">
         <xsl:param name="node"/>
         <xsl:choose>
+            <!-- BL values from https://github.com/srophe/britishLibrary/issues/310 -->
+            <xsl:when test="$node/@script = 'ar'">Unspecified Arabic script</xsl:when>
+            <xsl:when test="$node/@script = 'ar-Syrc'">Arabic Garshuni script</xsl:when>
+            <xsl:when test="$node/@script = 'cop'">Unspecified Coptic script</xsl:when>
+            <xsl:when test="$node/@script = 'fr'">Unspecified French script</xsl:when>
+            <xsl:when test="$node/@script = 'grc'">Unspecified Greek script</xsl:when>
+            <xsl:when test="$node/@script = 'he'">Unspecified Hebrew script</xsl:when>
+            <xsl:when test="$node/@script = 'hy'">Unspecified Armenian script</xsl:when>
+            <xsl:when test="$node/@script = 'la'">Unspecified Latin script</xsl:when>
             <xsl:when test="$node/@script = 'syr'">Unspecified Syriac script</xsl:when>
             <xsl:when test="$node/@script = 'syr-Syre'">Estrangela script</xsl:when>
             <xsl:when test="$node/@script = 'syr-Syrj'">West Syriac script</xsl:when>
             <xsl:when test="$node/@script = 'syr-Syrn'">East Syriac script</xsl:when>
             <xsl:when test="$node/@script = 'syr-x-syrm'">Melkite Syriac script</xsl:when>
-            <xsl:when test="$node/@script = 'grc'">Greek</xsl:when>
-            <xsl:when test="$node/@script = 'ar-Syrc'">Arabic Garshuni script</xsl:when>
-            <xsl:when test="$node/@script = 'ar'">Unspecified Arabic script</xsl:when>
+            <xsl:when test="$node/@script = 'qhy-x-cpas'">Christian Palestinian Aramaic script</xsl:when>
+            <xsl:when test="$node/@script = 'mixed'">Mixed scripts</xsl:when>
         </xsl:choose>
     </xsl:template>
     <xsl:template match="t:title">
