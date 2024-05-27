@@ -99,17 +99,37 @@
                <xsl:if test="count(//t:msDesc/t:msPart) &gt; 1 and self::t:msPart">
                    <div>URI: <xsl:apply-templates select="t:msIdentifier/t:idno[@type='URI']"/></div>
                 </xsl:if>   
-            <xsl:if test="t:msIdentifier/t:altIdentifier/t:idno[@type='Wright-BL-Roman']">
+               <xsl:if test="t:msIdentifier/t:altIdentifier/t:idno[@type='Wright-BL-Roman']">
                 <div>
                     <xsl:choose>
                         <xsl:when test="t:additional/t:listBibl/t:bibl/t:ref[@target != '']">
-                            <a href="{string(t:additional/t:listBibl/t:bibl/t:ref/@target)}" target="_blank">
-                                Description based on Wright <xsl:apply-templates select="t:msIdentifier/t:altIdentifier/t:idno[@type='Wright-BL-Roman']"/> (<xsl:apply-templates select="t:additional/t:listBibl/t:bibl/t:citedRange[@unit='pp']"/>)
+                            Description based on Wright
+                            <xsl:choose>
+                                <xsl:when test="t:additional/t:listBibl/t:bibl/tei:citedRange/@unit='entry'">
+                                    <a href="#" data-toggle="tooltip" title="This entry number is from Wright's printed catalogue. Due to renumbering, Wright's entry numbers do not match the numbering used in this digital catalogue.">
+                                        <xsl:apply-templates select="t:msIdentifier/t:altIdentifier/t:idno[@type='Wright-BL-Roman']"/>
+                                    </a>
+                                </xsl:when>
+                                <xsl:otherwise>
+                                    <xsl:apply-templates select="t:msIdentifier/t:altIdentifier/t:idno[@type='Wright-BL-Roman']"/>
+                                </xsl:otherwise>
+                            </xsl:choose>
+                            (<xsl:apply-templates select="t:additional/t:listBibl/t:bibl/t:citedRange[@unit='pp']"/>)
+                            <a href="{string(t:additional/t:listBibl/t:bibl/t:ref/@target)}" target="_blank">   
                                 <img src="$nav-base/resources/images/ialogo.jpg" alt="Link to Archive.org Bibliographic record" height="18px"/>
                             </a>
                         </xsl:when>
                         <xsl:otherwise>
-                            Description based on Wright <xsl:apply-templates select="t:msIdentifier/t:altIdentifier/t:idno[@type='Wright-BL-Roman']"/> (<xsl:apply-templates select="t:additional/t:listBibl/t:bibl/t:citedRange[@unit='pp']"/>)
+                            Description based on Wright <xsl:choose>
+                                <xsl:when test="t:additional/t:listBibl/t:bibl/tei:citedRange/@unit='entry'">
+                                    <a href="#" data-toggle="tooltip" title="This entry number is from Wright's printed catalogue. Due to renumbering, Wright's entry numbers do not match the numbering used in this digital catalogue.">
+                                        <xsl:apply-templates select="t:msIdentifier/t:altIdentifier/t:idno[@type='Wright-BL-Roman']"/>
+                                    </a>
+                                </xsl:when>
+                                <xsl:otherwise>
+                                    <xsl:apply-templates select="t:msIdentifier/t:altIdentifier/t:idno[@type='Wright-BL-Roman']"/>
+                                </xsl:otherwise>
+                            </xsl:choose> (<xsl:apply-templates select="t:additional/t:listBibl/t:bibl/t:citedRange[@unit='pp']"/>)
                         </xsl:otherwise>
                     </xsl:choose>
                     </div>    
@@ -653,3 +673,4 @@
         </xsl:if>
     </xsl:template>
     -->
+</xsl:stylesheet>
