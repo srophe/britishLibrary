@@ -6949,6 +6949,21 @@ Comment @davidamichelson -->
                         </classes>
                         <!-- Syriaca: We could contstrain for what we have or we could leave note/p/quote/supplied, etc. open for lots of content. Discuss. -->
                         <!-- Syriaca: We would likely benefit from looking more closely at how we use quote. I see some slightly confusing stuff even in file 1.xml. -->
+                        <attList>
+                            <attDef ident="xml:lang" mode="change" usage="req">
+                                <constraintSpec ident="xmlLang-on-quote" scheme="schematron">
+                                    <constraint>
+                                        <sch:rule context="//tei:quote/@xml:lang">
+                                            <sch:let name="langIdents" value="//tei:profileDesc/tei:langUsage/tei:language/@ident"/>
+                                            <sch:assert test=". = $langIdents">
+                                                Attribute value must match one of the following language codes in the &lt;profileDesc&gt;:
+                                                <sch:value-of select="string-join($langIdents, ' | ')"/>.
+                                            </sch:assert>
+                                        </sch:rule>
+                                    </constraint>
+                                </constraintSpec>
+                            </attDef>
+                        </attList>
                     </elementSpec>
                     
                     
