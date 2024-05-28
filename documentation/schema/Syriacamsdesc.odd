@@ -164,38 +164,69 @@
                     <div xml:id="locus">
                         <head>References to Locations within a Manuscript</head>
                         <p>References to a specific location or range within a manuscripts should be
-                            given in a <gi>locus</gi> element. The <gi>locus</gi> element marks the
-                            location of the parent element’s material within the manuscript and thus
-                            should be nested within the element it modifies. Typically the <gi>locus</gi> will refers to a folio or a range folio
-                            numbers within the manuscript. When describing folio numbers, it is our
-                            policy to follow Wright's usage and use “a” to refer to the recto of a
-                            folio, and “b” to refer to the verso. Where Wright does not specify
-                            recto or verso, a folio number should be encoded without "a" or "b".</p>
-                        <p>The <gi>locus</gi> element when nested in an <gi>msItem</gi> should always carry both human-readable text and machine-readable attribute values in the format of this example: <egXML
-                            xmlns="http://www.tei-c.org/ns/Examples">
-                                <locus from="112a" to="112a"/>ܟܬܒܐ ܕܝܫܘܥ ܒܪܗ ܕܢܘܢ</rubric>
-                        </egXML>
+                            given in a <gi>locus</gi> element which can be inserted within a number
+                            of different elements. The <gi>locus</gi> element marks the location of
+                            the parent element’s material within the manuscript and thus should be
+                            nested within the element it modifies. Typically the <gi>locus</gi> will
+                            refer to a folio or a range of folio numbers within the manuscript. When
+                            describing folio numbers, it is our policy to follow Wright's usage and
+                            use “a” to refer to the recto of a folio, and “b” to refer to the verso.
+                            Where Wright does not specify recto or verso, a folio number should be
+                            encoded without "a" or "b". In prose, there should always be a
+                            whitespace between the folio number and the "a" or "b". But in attribute
+                            values, there should be no whitespace, e.g. "232b":<egXML
+                                xmlns="http://www.tei-c.org/ns/Examples"><locus from="232b">Fol. 232
+                                    b</locus></egXML>
                         </p>
-                        <p>The <att>from</att> attributed is required and the <att>to</att>
-                            attribute is optional but recommended (it is often not given in Wright's
-                            catalogue and thus not possible to encode). These attributed values
-                            maybe used in the future to enable links to folio images or calculation
-                            of lengths of manuscript items. Frequently in Wright’s catalogue the
-                            beginning location of a manuscript item is given, but not the ending
-                            location. In this situation, our policy is to record only the listed
-                            opening location in Wright’s catalogue as the beginning of the range in
-                            the attribute <att>from</att>. We do not supply a <att>to</att>
-                            attribute unless Wright has indicated on what folio the msItem ends, for
-                            example by citing an <gi>explicit</gi> or <gi>finalRubric</gi>. </p>
-                        <p>If Wright only gives a single folio for a location, our policy is to list
-                            that location in both <att>from</att> and <att>to</att> attributes. </p>
+                        <!-- did we elect to only use Foll.?-->
+                        <p>A text node is not required for many uses of <gi>locus</gi> (such as when
+                            it is used nested in an <gi>msItem</gi>, but least one attribute value
+                            must also be encoded with every <gi>locus</gi>, either <att>from</att>
+                            or <att>to</att> or both. (Since Wright's catalogue does not often give
+                            ending ranges, the <att>to</att> occurs less in the data). These
+                            attribute values may be used in the future to enable links to folio
+                            images or calculation of lengths of manuscript items. Frequently in
+                            Wright’s catalogue the beginning location of a manuscript item is given,
+                            but not the ending location. In this situation, our policy is to record
+                            only the listed opening location in Wright’s catalogue as the beginning
+                            of the range in the attribute <att>from</att>. We do not supply a
+                                <att>to</att> attribute unless Wright has indicated on what folio
+                            the msItem ends, for example by citing an <gi>explicit</gi> or
+                                <gi>finalRubric</gi>. </p>
+                        <p>The following examples illustrate common uses of <gi>locus</gi>. (Please
+                            be aware that Wright uses "Fol." for a single folio and "Foll." for a
+                            range of folia. We adapt Wright's capitalization of based on context. If
+                            "Fol." stands alone in a list it is capitalized. If "fol." occurs in the
+                            middle of other prose it is capitalized according to the rules of the
+                                sentence.):<egXML xmlns="http://www.tei-c.org/ns/Examples">
+                                <msItem>
+                                    <locus from="232b">Fol. 232 b</locus>
+                                    <title ref="http://syriaca.org/work/9687" xml:lang="en">The
+                                        Gospel of S. Matthew</title>
+                                </msItem> ... <additions>
+                                    <list>
+                                        <item>
+                                            <label>Colophon</label>
+                                            <locus from="184a"/>
+                                            <p>Of the note written by the scribe on <locus
+                                                  from="184a">fol. 184 a</locus> the greater part
+                                                has been erased, but from what remains it appears
+                                                that this book was copied for <persName>a priest
+                                                  named
+                                    Lazarus</persName>.</p></item></list></additions>
+                            </egXML>
+                        </p>
                         <p>Deprecated Practices and Legacy Data:</p>
                         <p>As a legacy of an earlier encoding model, the <title>SMBL</title> data
                             contains some folio ranges encoded as numerals in <att>to</att> without
                             "a" or "b". In this earlier data model, we attempted to deduce the end
-                            of ranges for manuscript items when not specified by Wright. We have
-                            left these estimates in the data, but after 2022 we ceased to encode in
-                            this way. Instead, encoders should follow the model above </p>
+                            of ranges for manuscript items when not specified by Wright. Similarly
+                            when Wright's prose indicated that his description applied only to a
+                            single folio (for example when describing a marginal note), our policy
+                            was previously to list that location in both <att>from</att> and
+                                <att>to</att> attributes. After 2022, we ceased to encode in this
+                            way. While ee have left these estimates in the data, encoders should no
+                            longer add estimated data in this way.</p>
                         <p>Divergences from Consolidated Schema:</p>
                         <p>In <title>SMBL</title> we have assumed that <gi>locus</gi> refers to a
                             folio or folio range unless otherwise indicated. Accordingly, it is not
@@ -238,7 +269,52 @@
                     <div xml:id="personalnames">
                         <!-- bl.syriac.uk uses persName slightly differently and also uses it for person groups, which is a departure from the TEI-->
                         <head>Personal Names</head>
-                        <p>Persons, if not in an <gi>author</gi> or <gi>editor</gi> element, should
+                        <p>Whenever a personal name occurs, such as inside the elements
+                                <gi>author</gi>, <gi>editor</gi> or in a any descriptive element
+                            such as the <gi>handNote</gi> or an <gi>item</gi> in <gi>additions</gi>,
+                            the name should be wrapped with the element <gi>persName</gi> and the
+                            language(s) of the name supplied with attribute <att>xml:lang</att>. </p>
+                        <p>All <gi>persName</gi> elements (or else the containing <gi>author</gi> or
+                                <gi>editor</gi> element) are required to have a <att>ref</att>
+                            attribute which points to a Syriaca.org person URI published in the <ref
+                                target="https://syriaca.org/persons/index.html"><title>Syriac
+                                    Biographical Dictionary</title></ref>. A URI is a Uniform
+                            Resource Identifier which is unique identifying number for each person.
+                            For example the URI <ref target="https://syriaca.org/person/13"
+                                >https://syriaca.org/person/13</ref> identifies Ephrem the Syrian in
+                            this first example: <egXML xmlns="http://www.tei-c.org/ns/Examples">
+                                <author ref="http://syriaca.org/person/13">
+                                    <persName xml:lang="en">Ephraim</persName>
+                                </author></egXML>
+                        </p>
+                        <p> The <gi>persName</gi> element can also be used inside prose descriptions.
+                            <egXML xmlns="http://www.tei-c.org/ns/Examples">
+                                <note>
+                                    <persName ref="http://syriaca.org/person/51">Severus</persName>
+                                    is cited on <locus from="224a">fol. 224 a</locus>. </note>
+                            </egXML>
+                        </p>
+                        <p>Deprecated Practices and Legacy Data:</p> 
+                        <p>Our policy is to report the names in the form used by Wright. In a future update of <title>SMBL</title>, we may also provide a uniform name where the spelling or name used by Wright is no longer commonly used in scholarship. A few examples of these are already present in our data in the form below (where the "supplied" <att>type</att> reflects Wright's Romanization of the name. Encoders should not enter these "uniform" names as they will be inserted later by a script.
+                            <egXML xmlns="http://www.tei-c.org/ns/Examples">
+                            <author ref="http://syriaca.org/person/10">
+                                <persName xml:lang="en" type="uniform">Aphrahaṭ</persName>
+                                <persName xml:lang="en" type="supplied">Aphraates</persName>
+                            </author>
+                            </egXML>
+                        </p>
+                        <!-- <p>Deprecated Practices and Legacy Data:</p> Whenever a personal name occurs such as in the elements <author>, <editor> or in the <handNote>, the name should be tagged as <persName> and the language(s) of the name supplied with attribute @xml:lang. If a name is given in both its original language and in translation, it is best practice to wrap each name in a unique <persName> element, and both <persName> elements in a single <person> tag so as to make their equivalent reference to a single person machine-readable. The <person> element can contain attributes to define the person’s @role, assign a unique @xml:id, and link to an Syriaca.org URI via @ref.This <person> tag must also be wrapped in a <listPerson> tag, even if for only one <person>:
+ -->
+                        <p>Divergences from Consolidated Schema:</p>
+                        <p>Because Syriaca.org already provides an integrated authority file for
+                            persons using Syriaca.org URIs, we do not use the <att>key</att>
+                            attribute required by the Consolidated Schema. We also do not use the
+                            element <gi>orgName</gi> since it is not a useful entity for our
+                            historical data, instead Syriaca.org uses the <gi>persName</gi> element
+                            in a slightly broader manner than the TEI guidelines. A
+                                <gi>persName</gi> element may be used to refer to a name for a
+                            single person or a group of persons.</p>
+                        <!-- <p>Persons, if not in an <gi>author</gi> or <gi>editor</gi> element, should
                             be tagged using the <gi>persName</gi> element. For indexing to function
                             correctly this MUST be linked to the persons authority file using the
                                 <att>key</att> attribute. The role of the person referred to should
@@ -271,7 +347,6 @@
                             manuscripts apparently bought or made with the intention of being
                             directly presented, or manuscripts may have been purchased with money
                             given by a donor rather than directly presented.</p>
-                        <!-- TODO: query whether this is actually a useful and maintainable distinction -->
                     </div>
                     <div xml:id="orgnames">
                         <head>Corporate / Organization Names</head>
@@ -287,7 +362,7 @@
                                     key="org_148998848">Würzburg, Domstift St Kilian</orgName>,
                                 12th-century ex libris, fol. 1r, and 15th-century shelfmark, fol.
                                 2r.</egXML>
-                        </p>
+                        </p> -->
                     </div>
                     <div xml:id="placenames">
                         <head>Placenames</head>
@@ -477,7 +552,6 @@
                                 <item><val>lacuna</val>: there is no gap in the text being
                                     transcribed, but the text is not complete (e.g. words or lines
                                     have been omitted from an exemplar).</item>
-
                             </list>
                             <egXML xmlns="http://www.tei-c.org/ns/Examples">
                                 <gap unit="char" quantity="5" reason="damage"/>
@@ -1966,7 +2040,6 @@ Comment @davidamichelson -->
                                     <item><val>other</val></item>
                                     <item><val>unknown</val></item>
                                 </list> The following may also be used: <list>
-
                                     <item><val>booklet</val>: a gathering of two or more bifolia,
                                         with a binding/covering, that appears to be complete in
                                         terms of its original textual content</item>
@@ -2940,19 +3013,35 @@ Comment @davidamichelson -->
                                 the hand's appearance in the manuscript. Its values can be one
                                 of:</p>
                             <list>
-                                <item><val>sole</val></item>
-                                <item><val>major</val></item>
-                                <item><val>minor</val></item>
+                                <item>
+                                    <val>sole</val>
+                                </item>
+                                <item>
+                                    <val>major</val>
+                                </item>
+                                <item>
+                                    <val>minor</val>
+                                </item>
                             </list>
                             <p>The <att>script</att> attribute may be used to provide a high-level
                                 classification of the script. Suggested values in Western
                                 manuscripts are:</p>
                             <list>
-                                <item><val>capitalsSquare</val></item>
-                                <item><val>capitalsRustic</val></item>
-                                <item><val>uncial</val></item>
-                                <item><val>halfUncial</val></item>
-                                <item><val>minusculeInsular</val></item>
+                                <item>
+                                    <val>capitalsSquare</val>
+                                </item>
+                                <item>
+                                    <val>capitalsRustic</val>
+                                </item>
+                                <item>
+                                    <val>uncial</val>
+                                </item>
+                                <item>
+                                    <val>halfUncial</val>
+                                </item>
+                                <item>
+                                    <val>minusculeInsular</val>
+                                </item>
                                 <item><val>minusculeVernacular</val> (use for English vernacular
                                     minuscule / Anglo-Saxon minuscule)</item>
                                 <item><val>minusculeCaroline</val> (use for both English and
@@ -2960,9 +3049,15 @@ Comment @davidamichelson -->
                                 <item><val>minuscule</val> (other forms of minuscule: Beneventan,
                                     Luxeuil, etc.)</item>
                                 <item><val>protogothic</val> (‘praegothica’)</item>
-                                <item><val>textualisNorthern</val></item>
-                                <item><val>textualisSouthern</val></item>
-                                <item><val>semitextualis</val></item>
+                                <item>
+                                    <val>textualisNorthern</val>
+                                </item>
+                                <item>
+                                    <val>textualisSouthern</val>
+                                </item>
+                                <item>
+                                    <val>semitextualis</val>
+                                </item>
                                 <item><val>cursivaAntiquior</val> (‘anglicana’, ‘anglicana formata‘,
                                     etc.)</item>
                                 <item><val>cursiva</val> (‘cancelleresca’, ‘bastarda’, ‘lettre
@@ -2971,9 +3066,15 @@ Comment @davidamichelson -->
                                     ‘fractura’, ‘mercantesca’)</item>
                                 <item><val>gothicoAntiqua</val> (‘fere-humanistica’,
                                     ‘gothico-humanistica’)</item>
-                                <item><val>humanisticaTextualis</val></item>
-                                <item><val>humanisticaSemitextualis</val></item>
-                                <item><val>humanisticaCursiva</val></item>
+                                <item>
+                                    <val>humanisticaTextualis</val>
+                                </item>
+                                <item>
+                                    <val>humanisticaSemitextualis</val>
+                                </item>
+                                <item>
+                                    <val>humanisticaCursiva</val>
+                                </item>
                             </list>
                             <p>The classification for early scripts is based on Brown (1990) with
                                 modifications, for Gothic scripts on Derolez (2003), for humanistic
@@ -2988,21 +3089,51 @@ Comment @davidamichelson -->
                                 </list></p>
                             <p>In Islamicate manuscripts suggested <att>script</att> values are:</p>
                             <list>
-                                <item><val>muhaqqaq</val></item>
-                                <item><val>rayhani</val></item>
-                                <item><val>naskh</val></item>
-                                <item><val>maghribi</val></item>
-                                <item><val>bihari</val></item>
-                                <item><val>nasta_liq</val></item>
-                                <item><val>thuluth</val></item>
-                                <item><val>tawqi_</val></item>
-                                <item><val>riqa_</val></item>
-                                <item><val>ghubar</val></item>
-                                <item><val>ta_liq</val></item>
-                                <item><val>diwani</val></item>
-                                <item><val>ruq_ah</val></item>
-                                <item><val>siyaqah</val></item>
-                                <item><val>unknown</val></item>
+                                <item>
+                                    <val>muhaqqaq</val>
+                                </item>
+                                <item>
+                                    <val>rayhani</val>
+                                </item>
+                                <item>
+                                    <val>naskh</val>
+                                </item>
+                                <item>
+                                    <val>maghribi</val>
+                                </item>
+                                <item>
+                                    <val>bihari</val>
+                                </item>
+                                <item>
+                                    <val>nasta_liq</val>
+                                </item>
+                                <item>
+                                    <val>thuluth</val>
+                                </item>
+                                <item>
+                                    <val>tawqi_</val>
+                                </item>
+                                <item>
+                                    <val>riqa_</val>
+                                </item>
+                                <item>
+                                    <val>ghubar</val>
+                                </item>
+                                <item>
+                                    <val>ta_liq</val>
+                                </item>
+                                <item>
+                                    <val>diwani</val>
+                                </item>
+                                <item>
+                                    <val>ruq_ah</val>
+                                </item>
+                                <item>
+                                    <val>siyaqah</val>
+                                </item>
+                                <item>
+                                    <val>unknown</val>
+                                </item>
                             </list>
 
                             <p>For further levels of classification the <gi>term</gi> element with
@@ -3856,12 +3987,10 @@ Comment: @davidamichelson-->
                             description (Andrist et al., 2013) is required, the <gi>msPart</gi>
                             element should be used. These guidelines recommend the use of
                                 <gi>msPart</gi> for: <list>
-
                                 <item>manuscripts originally separate, bound together at later dates
                                     <!-- todo: define --></item>
                                 <item>manuscripts with added codicological units</item>
                                 <!-- todo: example? -->
-
                                 <item>palimpsest manuscripts</item>
                                 <item>re-used papyrus</item>
                                 <item>manuscripts with replacement leaves</item>
