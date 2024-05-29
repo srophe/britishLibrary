@@ -41,7 +41,7 @@
                     from <ref
                         target="https://github.com/fihristorg/fihrist-mss/raw/master/archive/old_manual.pdf"
                         >Fihrist Cataloguing Manual</ref></note>
-                <note>This document incorporates and replaces the earlier in-progress document: <ref
+                <note>This document incorporates and replaces the earlier in-progress document which was revised by several editors including Justine Arnwine: <ref
                         target="https://docs.google.com/document/d/175Yx1uf_HaXRA6O36p83vf-ECFWLGFNbUXoDF7ffVDs"
                             ><title>Syriaca TEI for MSS Manual</title></ref>.</note>
                 <note><title>Syriaca TEI for MSS Manual</title> was based in part on the <ref
@@ -280,7 +280,7 @@
                             attribute which points to a Syriaca.org person URI published in the <ref
                                 target="https://syriaca.org/persons/index.html"><title>Syriac
                                     Biographical Dictionary</title></ref>. A URI is a Uniform
-                            Resource Identifier which is unique identifying number for each person.
+                            Resource Identifier which is a unique identifying number for each person.
                             For example the URI <ref target="https://syriaca.org/person/13"
                                 >https://syriaca.org/person/13</ref> identifies Ephrem the Syrian in
                             this first example: <egXML xmlns="http://www.tei-c.org/ns/Examples">
@@ -296,7 +296,7 @@
                             </egXML>
                         </p>
                         <p>Deprecated Practices and Legacy Data:</p>
-                        <p>Our policy is to report the names in the form used by Wright. In a future
+                        <p>Our policy is to report the names in the same prose given by Wright. In a future
                             update of <title>SMBL</title>, we may also provide a uniform name where
                             the spelling or name used by Wright is no longer commonly used in
                             scholarship. A few examples of these are already present in our data in
@@ -380,9 +380,9 @@
                             language(s) of the name supplied with attribute <att>xml:lang</att>.  Exceptions to this rule were made when a place name occurs as part of a title of a work (<title>Hom. liii. On the calamities reported to have
                                 befallen the city of Alexandria</title>) or as part of a personal name (e.g. Paul of Callinicus). In these cases the prose was marked as a title or personal name instead and the place names were not tagged.</p>
                         <p>All <gi>placeName</gi> elements (or else the containing <gi>origPlace</gi> element) are required to have a <att>ref</att>
-                            attribute which points to a Syriaca.org place URI published in the <ref
+                            attribute which points to a Syriaca.org place URI published in <ref
                                 target="https://syriaca.org/geo/index.html"><title>The Syriac Gazetteer</title></ref>. A URI is a Uniform
-                            Resource Identifier which is unique identifying number for each place.
+                            Resource Identifier which is a unique identifying number for each place.
                             For example the URI <ref target="http://syriaca.org/place/78"
                                 >http://syriaca.org/place/78</ref> identifies the city of Edessa in
                             these examples: <egXML xmlns="http://www.tei-c.org/ns/Examples">
@@ -394,6 +394,16 @@
                                 <p>On <locus from="258a">fol. 258 a</locus>, after the doxology, we read the following note, giving the date and stating that the volume was written at <placeName ref="http://syriaca.org/place/78">Edessa</placeName>, at the expense of the deacon <persName>Thomas of Zěmārtā Castra</persName>.</p>
                             </egXML>
                         </p>
+                        <p>Our policy is to report the place names in exactly the same prose given by Wright. In a future
+                            update of <title>SMBL</title>, we may also provide a uniform name where
+                            the spelling or name used by Wright is no longer commonly used in
+                            scholarship.
+                        </p>
+                        <p>Divergences from Consolidated Schema:</p>
+                        <p>Because Syriaca.org already provides an integrated authority file for
+                            places using Syriaca.org URIs, we do not use the <att>key</att>
+                            attribute required by the Consolidated Schema nor do we include the nested information in <gi>origPlace</gi> such as <gi>country</gi>, <gi>region</gi> and <gi>settlement</gi>. These relationships can be found separately in <ref
+                                target="https://syriaca.org/geo/index.html"><title>The Syriac Gazetteer</title></ref>.</p>
                         <!-- <p>In sections relating to manuscript contents, physical description and
                             provenance, placenames should be tagged using the <gi>placeName</gi>.
                             For indexing to function correctly this MUST be linked to the places
@@ -424,28 +434,97 @@
                             authority file.</p> -->
                     </div>
                     <div xml:id="worktitles">
-                        <head>Titles of Works</head>
-                        <p>As a general rule place names have been tagged, for example when they occur inside the element
-                            <gi>origPlace</gi> or in any descriptive element
-                            such as the <gi>handNote</gi> or an <gi>item</gi> in <gi>additions</gi>.
-                            In these cases, the place name is wrapped with the element <gi>placeName</gi> and the
-                            language(s) of the name supplied with attribute <att>xml:lang</att>.  Exceptions to this rule were made when a place name occurs as part of a title of a work (<title>Hom. liii. On the calamities reported to have
-                                befallen the city of Alexandria</title>) or as part of a personal name (e.g. Paul of Callinicus). In these cases the prose was marked as a title or personal name instead and the place names were not tagged.</p>
-                        <p>All <gi>placeName</gi> elements (or else the containing <gi>origPlace</gi> element) are required to have a <att>ref</att>
-                            attribute which points to a Syriaca.org place URI published in the <ref
-                                target="https://syriaca.org/geo/index.html"><title>The Syriac Gazetteer</title></ref>. A URI is a Uniform
-                            Resource Identifier which is unique identifying number for each place.
-                            For example the URI <ref target="http://syriaca.org/place/78"
-                                >http://syriaca.org/place/78</ref> identifies the city of Edessa in
-                            these examples: <egXML xmlns="http://www.tei-c.org/ns/Examples">
-                                <origPlace>
-                                    <placeName ref="http://syriaca.org/place/78">Edessa</placeName>
-                                </origPlace>
+                        <head>References to Literary Works</head>
+                        <p>As a general rule references to titles of literary works have been tagged in one of two methods. <list><item>When the title is identifying the intellectual contents of a manuscript item, it is encoded with <gi>title</gi> as a child of <gi>msItem</gi>. When encoding with the <gi>title</gi> element, the language of the prose in the <gi>title</gi> text node must also be indicated with attribute <att>xml:lang</att>. Rules for encoding titles as part of manuscript items are discussed in greater detail <ref target="#whatIsMsItem">below</ref>.</item><item>When a reference to a literary work is made elsewhere in the XML document it is encoded with <gi>ref</gi> as a child of <gi>note</gi>.</item></list></p>
+                        <p>At present the state of authority control for titles of Syriac works is incomplete, so we have not required references to URIs for works in <title>SMBL</title>. When possible we have included URIs published in <ref
+                            target="https://syriaca.org/nhsl/index.html"><title> The New Handbook of Syriac Literature </title></ref>. A URI is a Uniform
+                            Resource Identifier which is a unique identifying number for each literary work (as a conceptual entity). References to URIs for literary works, (using either <gi>title</gi> or <gi>ref</gi>) are marked up in an attribute value. For <gi>title</gi> the URI is placed in a <att>ref</att> attribute. For the element <gi>ref</gi> the URI is placed in a <att>target</att> attribute. 
+                            For example the URI <ref target="https://syriaca.org/work/1"
+                                >http://syriaca.org/work/1</ref> identifies the book of Genesis in the Peshitta Version in
+                            this <gi>title</gi>: <egXML xmlns="http://www.tei-c.org/ns/Examples">
+                                <msItem xml:id="a1" n="1" defective="true">
+                                    <locus from="1a"/>
+                                    <title xml:lang="en" ref="http://syriaca.org/work/1">The book of Genesis, according to the Peshitta version.</title>
+                                    <rubric xml:lang="syr"><locus from="2b" to="2b"/>ܒܪܝܬܐ ܣ̣ܦܪܐ ܩܕܡܝܐ ܕܐܘܪܝܬܐ</rubric>
+                                </msItem>
                             </egXML>
+                            In this example, a <gi>note</gi> refers to an unspecified version of the book of 2 Maccabees using the URI <ref target="http://syriaca.org/work/9578"
+                                >https://syriaca.org/work/9578</ref>:
                             <egXML xmlns="http://www.tei-c.org/ns/Examples">
-                                <p>On <locus from="258a">fol. 258 a</locus>, after the doxology, we read the following note, giving the date and stating that the volume was written at <placeName ref="http://syriaca.org/place/78">Edessa</placeName>, at the expense of the deacon <persName>Thomas of Zěmārtā Castra</persName>.</p>
+                                <note>See <ref target="http://syriaca.org/work/9578">2 Maccabees, ch. i. 18, seqq.</ref></note>
+                            </egXML>
+                            In this example, a <gi>note</gi> refers to a work, the Constitutiones Apostolorum, for which there is no Syriaca.org URI. In this case no <att>target</att> is used, but the instead a <att>type</att> attribute value of "work" must be applied (to distiguish from other uses of <gi>ref</gi> in the XML document.
+                            <egXML xmlns="http://www.tei-c.org/ns/Examples">
+                                <note>These are extracts from <ref type="work">the eighth book of the Constitutiones Apostolorum</ref>; see <bibl>Labbe, t. i., coll. 153, seqq.</bibl>.</note>
                             </egXML>
                         </p>
+                        <p>Our policy is to report the references to works in exactly the same prose given by Wright. In a future
+                            update of <title>SMBL</title>, we may also provide a uniform name where
+                            the form used by Wright is no longer commonly used in
+                            scholarship.
+                        </p>
+                        <p>Divergences from Consolidated Schema:</p>
+                        <p>Because Syriaca.org already provides an integrated URI authority file for
+                            works using Syriaca.org URIs, we do not use the <att>key</att>
+                            attribute recommended by the Consolidated Schema.</p>
+                    </div>
+                    <div xml:id="bibliographiccitations">
+                        <head>Bibliographic Citations</head>
+                        <p>Citations of printed biblographic items (books, articles, etc.) have been tagged with the <gi>bibl</gi> element. These citations can be found in two places:<list><item>They may be grouped in a bibliography located in the <gi>additional</gi> section of each entry. Guidelines for this bibliography are given <ref target="#bibliography">below</ref>.</item><item> Citations have also been marked up with <gi>bibl</gi> throughout the manuscript description occuring as child elements of <gi>msItem</gi>, <gi>note</gi>, or other descriptive elements.</item></list>.</p>
+                        <p>At present the state of authority control for Syriac bibliography is incomplete. Accordingly, we have only encoded URIs for bibliographic citations when available. Currently we rely on two sources of URIs. Some citations are linked with uris of the format <q>https://syriaca.org/bibl/8</q> from Syriaca.org. Others are marked with URIs from The Comprehensive Bibliography on Syriac Studies of the format <q>https://www.zotero.org/groups/4861694/a_comprehensive_bibliography_on_syriac_studies/items/WMADLJWW/library</q>. In a future development, all of these citation URIs will be merged to a format of </q>
+                            
+                            This example from manuscript Add. 14,533<ref target="https://bl.syriac.uk/ms/260"
+                            >https://bl.syriac.uk/ms/260</ref> shows how <title>SMBL</title> URIs are encoded to show a relationship between Add. 14,533 and two other manuscripts (Add. 12,155 and Add. 14,532):
+                            <egXML xmlns="http://www.tei-c.org/ns/Examples">
+                                <note>In part identical with the contents of <bibl>Add. 12,155<ptr target="https://bl.syriac.uk/ms/30"/>
+                                </bibl> and <bibl>Add. 14,532<ptr target="https://bl.syriac.uk/ms/259"/></bibl>.</note>
+                            </egXML>
+                        </p>
+                        <p>For references to manuscripts outside of <title>SMBL</title> we do not include a URI as seen in this modifed example from <ref target="https://bl.syriac.uk/ms/739">https://bl.syriac.uk/ms/739</ref>
+                            <egXML xmlns="http://www.tei-c.org/ns/Examples">
+                                <note type="footnote" xml:lang="en">See the similar heading in the <bibl type="MS">Bodleian manuscript, Hunt. 109</bibl>.</note>
+                            </egXML>
+                        </p>
+                        <p>Our policy is to report the references to manuscripts in exactly the same prose given by Wright. In a future
+                            update of <title>SMBL</title>, we may also provide a uniform shelfmark where
+                            the form used by Wright is no longer commonly used in
+                            scholarship.
+                        </p>
+                        <!-- The <att>subtype</att> may be used to indicate if the manuscript is held
+                        by the same institution that holds the manuscript being catalogued
+                        (value <val>interal</val>) or by another institution (value
+                        <val>external)</val>. In the former case, the shelfmark should not
+                        include the location or institution name; in the latter case, location
+                        and institution should be included. -->
+                    </div>
+                    <div xml:id="refsToMSS">
+                        <head>Cross-References to Other Manuscripts</head>
+                            <p>Cross-references in the description to other manuscripts should be enclosed in
+                                <gi>bibl</gi> tags with <att>type</att> of value <val>MS</val>. When possible the cross-reference may also be linked linked with a child <gi>ptr</gi> element with <att>target</att> attribute pointing to the URI for the other manuscript.</p>
+                        <p>At present the state of authority control for Syriac manuscripts is incomplete. Accordingly, we have only encoded URIs in the case of cross-reference to manuscripts within <title>SMBL</title>. This example from manuscript Add. 14,533<ref target="https://bl.syriac.uk/ms/260"
+                            >https://bl.syriac.uk/ms/260</ref> shows how <title>SMBL</title> URIs are encoded to show a relationship between Add. 14,533 and two other manuscripts (Add. 12,155 and Add. 14,532):
+                            <egXML xmlns="http://www.tei-c.org/ns/Examples">
+                                <note>In part identical with the contents of <bibl>Add. 12,155<ptr target="https://bl.syriac.uk/ms/30"/>
+                                </bibl> and <bibl>Add. 14,532<ptr target="https://bl.syriac.uk/ms/259"/></bibl>.</note>
+                            </egXML>
+                            </p>
+                        <p>For references to manuscripts outside of <title>SMBL</title> we do not include a URI as seen in this modifed example from <ref target="https://bl.syriac.uk/ms/739">https://bl.syriac.uk/ms/739</ref>
+                            <egXML xmlns="http://www.tei-c.org/ns/Examples">
+                                <note type="footnote" xml:lang="en">See the similar heading in the <bibl type="MS">Bodleian manuscript, Hunt. 109</bibl>.</note>
+                            </egXML>
+                        </p>
+                        <p>Our policy is to report the references to manuscripts in exactly the same prose given by Wright. In a future
+                            update of <title>SMBL</title>, we may also provide a uniform shelfmark where
+                            the form used by Wright is no longer commonly used in
+                            scholarship.
+                        </p>
+                        <!-- The <att>subtype</att> may be used to indicate if the manuscript is held
+                        by the same institution that holds the manuscript being catalogued
+                        (value <val>interal</val>) or by another institution (value
+                        <val>external)</val>. In the former case, the shelfmark should not
+                        include the location or institution name; in the latter case, location
+                        and institution should be included. -->
+                    </div>
                     <div xml:id="hyperlinks">
                         <head>Hyperlinks</head>
                         <p>Hyperlinks may be created using the <gi>ref</gi> element with the URL as
@@ -634,33 +713,6 @@
                                 <!-- todo: more? and check re quote element-->
                             </list></p>
                     </div>
-                    <div xml:id="refsToMSS">
-                        <head>References to other manuscripts</head>
-                        <p>References in the description to other manuscripts should be enclosed in
-                                <gi>bibl</gi> tags with <att>type</att> of value <val>MS</val>. The
-                                <att>subtype</att> may be used to indicate if the manuscript is held
-                            by the same institution that holds the manuscript being catalogued
-                            (value <val>interal</val>) or by another institution (value
-                                <val>external)</val>. In the former case, the shelfmark should not
-                            include the location or institution name; in the latter case, location
-                            and institution should be included.</p>
-                        <p> The <gi>ref</gi> element may be used to provide a link to an online
-                            catalogue or digital fascimile. <egXML
-                                xmlns="http://www.tei-c.org/ns/Examples"> Eberbach, Cistercian abbey
-                                (?): ‘modern’ chapter numbers added in boxes in the margin, as in
-                                    <bibl type="MS" subtype="internal">MS. Laud Lat. 107</bibl>. </egXML>
-                            <egXML xmlns="http://www.tei-c.org/ns/Examples"> This scribe was also
-                                responsible for most of the Simeon manuscript (<bibl type="MS"
-                                    subtype="external"><ref
-                                        target="http://www.bl.uk/manuscripts/FullDisplay.aspx?ref=Add_MS_22283"
-                                        >London, British Library, Add. MS. 22283</ref></bibl>) but
-                                has not yet been identified in any other manuscripts or documents.
-                            </egXML>
-                        </p>
-                    </div>
-
-
-
                 </div>
                 <div xml:id="header">
                     <head>The TEI Header</head>
@@ -4419,7 +4471,7 @@ Comment: @davidamichelson-->
  </teiHeader>
    <text>
       <body>
-         <p><!hyphenhyphen Body paragraph provided for validationhyphenhyphen></p>
+         <p><-!- Body paragraph provided for validation-!-></p>
       </body>
    </text>
 </TEI>
