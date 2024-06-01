@@ -534,7 +534,7 @@
                     </div>
                     <div xml:id="formatting">
                         <head>Formatting</head>
-                        <p>We have avoided marking up formatting using the <gi>hi</gi> element. The element <gi>lb</gi> has been used to indicate line breaks when Wright provides transcriptions of Syriac or Arabic text.</p>
+                        <p>We have avoided marking up formatting using the <gi>hi</gi> element. The empty element <gi>lb</gi> has been used to indicate line breaks (e.g. line beginnings) when Wright provides transcriptions of Syriac or Arabic text.</p>
                         <!--  <p>However, where use of the <gi>hi</gi> element is unavoidable, it should
                             be used with the following values on <att>rend</att>: <list>
                                 <item><val>superscript</val></item>
@@ -545,6 +545,8 @@
                         <p>Multiple values may be separated by whitespace.</p>
                         <p>If correct formatting is not possible using these values, raise an issue
                             on GitHub to add further values.</p> -->
+                        <!--<p>Line beginnings should be indicated with empty <gi>lb</gi> elements,
+                            column beginnings with empty <gi>cb</gi> elements</p>-->
                     </div>
                     <div xml:id="attributeValues">
                         <head>Attribute values</head>
@@ -566,14 +568,33 @@
                     </div>
                     <div xml:id="transcription">
                         <head>Transcription</head>
-                        <p>The <gi>rubric</gi>,
-                            <gi>incipit</gi>, and <gi>explicit</gi>, and <gi>quote</gi> elements are used to encode Syriac text transcribed from the manuscripts. The have been reproduced verbatim from William Wright's catalogue. <foreign xml:lang="la">Caveat lector!</foreign> Transcriptions have not been re-checked against the original manuscripts. In addition, the <gi>quote</gi> element has been used to encode prose (in any language) which Wright marked with quotatoin marks (e.g. inverted commas). In all cases these elements should be marked with the an <att>xml:lang</att> attribute to indicate the language of the transcribed text.</p></p>
-                        <p>For the sake of clarity, the <title>SMBL</title> editors have expanded abbreviations in Wright's prose using the nesting elements <gi>choice</gi> and children <gi>abbr</gi>, and <gi>expan</gi>. This is one of the few examples of places in which we have modified Wright's original publication.</p>
-                        <p>In rare cases, we have indicated damage using the <gi>damage</gi> element and <att>agent</att> attribute.</p>
-                        <p>
-                            ADD DISCUSSION OF SIC HERE
-                        </p>
-                        <!--<p>Errors in the manuscript may be indicated using the <gi>sic</gi> and
+                        <p>The <gi>rubric</gi>, <gi>incipit</gi>, and <gi>explicit</gi>, and <gi>quote</gi> elements are used to encode Syriac text transcribed from the manuscripts. The have been reproduced verbatim from William Wright's catalogue. <foreign xml:lang="la">Caveat lector!</foreign> Transcriptions have not been re-checked against the original manuscripts. In addition, the <gi>quote</gi> element has been used to encode prose (in any language) which Wright marked with quotatoin marks (e.g. inverted commas).</p>
+                            <p>In all cases these elements should be marked with the an <att>xml:lang</att> attribute to indicate the language of the transcribed text.</p>
+                        <div xml:id="expan">
+                            <head>Abbreviations and Expansions</head>
+                            <p>Sometimes Wright offers an expansion of abbreviations found in the manuscripts. In these cases we have provided Wright's expanded prose using the nesting elements <gi>choice</gi> and children <gi>abbr</gi>, and <gi>expan</gi>. In these cases, Wright is credited as the one responsible for the expansion through the use of <att>resp</att> with a value pointing to the xml:id for Wright: https://bl.syriac.uk/documentation/editors.xml#wwright. See this modified example from Add. 17,262 (<ref target="https://bl.syriac.uk/ms/1078">https://bl.syriac.uk/ms/1078</ref>) in which Wright expands a Syriac abbreviation:
+                                <egXML xmlns="http://www.tei-c.org/ns/Examples"><choice>
+                                    <abbr><foreign xml:lang="syr">ܘܡ܏ܣܪ</foreign></abbr>
+                                    <expan resp="https://bl.syriac.uk/documentation/editors.xml#wwright"><foreign xml:lang="syr">ܘܡܣܪܩܘܬܐ</foreign></expan>
+                                </choice></egXML>
+                            </p> 
+                            <p>For the sake of clarity, the <title>SMBL</title> editors have sometimes expanded abbreviations in Wright's own prose using the nesting elements <gi>choice</gi> and children <gi>abbr</gi>, and <gi>expan</gi>. This is one of the few ways in which we have modified Wright's original publication. See this example in which we have expanded <q>Ps.</q> to <q>Psalm</q> to facilitate search results:
+                                <egXML xmlns="http://www.tei-c.org/ns/Examples">
+                                    <title>Commentary on <choice>
+                                        <abbr>Ps.</abbr>
+                                        <expan>Psalm</expan>
+                                    </choice> xcii.</title>
+                                </egXML>
+                            </p>
+                            <p>Divergences from Consolidated Schema:</p>
+                            <p><title>SMBL</title> has prefered to use a <gi>abbr</gi>, and <gi>expan</gi> rather than <gi>ex</gi> as used in the Consolidated Schema.</p>
+                        </div>
+                        <div xml:id="sic">
+                            <head>Sic [UNDER REVISION]</head>
+                            <p>
+                                <title>SMBL</title> uses <gi>sic</gi> to both to mark errors reported by Wright using <q>sic</q> and to report mistakes made by Wright identified by the <title>SMBL</title> editors. At present we are still revising our guidelines on the use of <gi>sic</gi> and those will be added here once this revision is complete. We are also considering how to represent questions marks used by Wright in the text.
+                            </p>
+                            <!--<p>Errors in the manuscript may be indicated using the <gi>sic</gi> and
                                 <gi>corr</gi> and <gi>choice</gi> elements. <gi>sic</gi> by itself
                             simply signals the presence of an error, <gi>corr</gi> provides the
                             correction. <egXML xmlns="http://www.tei-c.org/ns/Examples">
@@ -583,11 +604,16 @@
                                 Explicit
                                         <choice><sic>loica</sic><corr>logica</corr></choice>
                                 magistri pauli de Venetijs </egXML> -->
-                        <p>The <gi>supplied</gi> element has been used both for Wright's own editorial additions and for editorial additions to Wright's catalogue made by the editors of <title>SMBL</title>,
-                        ADD DISCUSSION OF SUPPLIED HERE
+                        </div>
+                        <div xml:id="supplied">
+                            <head>Supplied [UNDER REVISION]</head>
+                            <p>The <gi>supplied</gi> element has been used both for Wright's own editorial additions and for editorial additions to Wright's catalogue made by the editors of <title>SMBL</title>, At present we are still revising our guidelines on the use of <gi>supplied</gi> and those will be added here once this revision is complete. These guidelines will include the use of <att>resp</att> with a value pointing to the xml:id for Wright or the modern SMBL editors and the use of the nesting elements <gi>choice</gi> and children <gi>orig</gi>, and <gi>reg</gi>. 
                         </p>
-                        <p>in rare cases, deletions by the scribe or later annotators which are reported by Wright have be recorded using the
-                            <gi>del</gi> element. <!-- The <att>rend</att> attribute may be used to
+                        </div>
+                        <div xml:id="del">
+                            <head>Deletions [UNDER REVISION]</head>
+                            <p>in rare cases, deletions by the scribe or later annotators which are reported by Wright have be recorded using the <gi>del</gi> element. At present we are still revising our guidelines on the use of <gi>supplied</gi> and those will be added here once this revision is complete.</p>
+                            <!-- The <att>rend</att> attribute may be used to
                             indicate the manner of erasure: suggested values include
                                 <val>strikethrough</val> (the text has a line through it),
                                 <val>erasure</val> (the text has been scraped off),
@@ -623,8 +649,11 @@
                                     positione</incipit>
                             </egXML>
                         </p> -->
-                        </p>
-                        <p>Gaps reported by Wright have be marked with <gi>gap</gi> element, using the
+                        </div>
+                        <div xml:id="gap">
+                            <head>Gaps [UNDER REVISION]</head>
+                            <p>In rare cases, gaps in the manuscriptwhich are reported by Wright have be recorded using the <gi>gap</gi> element. At present we are still revising our guidelines on the use of <gi>supplied</gi> and those will be added here once this revision is complete.</p>
+                        <!--<p>Gaps reported by Wright have be marked with <gi>gap</gi> element, using the
                                 <att>reason</att> attribute to described the nature of the gap, and
                             the <att>unit</att> attribute, in combination with <att>quantity</att>,
                             and if necessary <att>precision</att>, to specify its extent. This
@@ -656,15 +685,14 @@
                             <egXML xmlns="http://www.tei-c.org/ns/Examples">
                                 <gap reason="illegible" atLeast="4" atMost="6" unit="char"/>
                             </egXML>
-                            <!-- <specList>
+<specList>
                                 <specDesc key="gap" atts="extent reason unit"/>
                                 <specDesc key="unclear" atts="extent reason unit"/>
-                            </specList>-->
-                        </p>
+                            </specList>
                         <p>Questionable or partly legible readings should be marked with
                                 <gi>unclear</gi> (generates a ‘(?)’ after the text in html)</p>
-                        <p>Line beginnings should be indicated with empty <gi>lb</gi> elements,
-                            column beginnings with empty <gi>cb</gi> elements</p>
+                        -->
+                    </div>
                     </div>
                     <div xml:id="quotesFromMS">
                         <head>Quotations from the Manuscript</head>
@@ -699,19 +727,14 @@
                     <p>
                         The  <gi>TEI</gi> element itself takes an <att>xml:id</att> attribute whose value is constructed from the unique identifier for the XML file and the top level manuscript described in that file. In the example above, the file <q>1.xml</q> (which contains manuscript https://bl.syriac.uk/ms/1) has the following xml:id on the root TEI element: <q>manuscript_1</q>.</p>
                     <p>The TEI element must have a <gi>teiHeader</gi> element and a <gi>text</gi> element. The <gi>teiHeader</gi> element in turn must have a <gi>fileDesc</gi>
-                        and <gi>revisionDesc</gi> element. 
+                        and <gi>revisionDesc</gi> element and must be followed by a sibling <gi>text</gi> element. 
                         <egXML xmlns="http://www.tei-c.org/ns/Examples">
                             <TEI xmlns="http://www.tei-c.org/ns/1.0" xml:lang="en" xml:id="manuscript_1">
                                 <teiHeader>
                                     <fileDesc>
-                                        <titleStmt>
-                                            <!-- Title information -->
-                                        </titleStmt>
-                                        <publicationStmt>
-                                            <!-- Information about the publication -->
-                                        </publicationStmt>
-                                        <sourceDesc>
-                                            <!-- The MS description -->
+                                        <titleStmt><!-- Title information --></titleStmt>
+                                        <publicationStmt><!-- Information about the publication --></publicationStmt>
+                                        <sourceDesc><!-- The MS description -->
                                         </sourceDesc>
                                     </fileDesc>
                                     <revisionDesc>
@@ -720,8 +743,7 @@
                                 </teiHeader>
                                 <text>
                                     <body>
-                                        <p/>
-                                        <!--Body paragraph provided for document validation.-->
+                                        <p/><!--empty body paragraph provided for document validation.-->
                                     </body>
                                 </text>
                             </TEI>
