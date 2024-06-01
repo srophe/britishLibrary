@@ -671,22 +671,22 @@
                 </div>
                 <div xml:id="header">
                     <head>The TEI Header</head>
-                    <p>The TEI root element must always contain a declaration of the TEI namespace,
-                        <!--a <att>version</att> attribute with the value <val>5.0</val>,--> and an
-                            <att>xml:id</att> with the manuscripts unique identifier in the form
-                            <val>manuscript_1234</val>.</p>
-                    <!-- bl.syriac.uk we use the file number for this identifier, preferring the container id for multi-part MSS Comment:@davidamichelson -->
-                    <!-- bl.syriac.uk does not use the <gi>facsimile</gi> element, this seems to validate without it, even though the 
-TEI P5 Customization and Encoding Guidelines for Manuscript Description guidelines seem to require it, see below. Do we need notify them? Comment:@davidamichelson -->
-                    <p>The TEI element must have a <gi>teiHeader</gi> element and a
-                            <gi>facsimile</gi> element, and may have a <gi>text</gi> element. The
-                            <gi>teiHeader</gi> element in turn must have an <att>xml:lang</att>
-                        attribute defining the language of the description, and a <gi>fileDesc</gi>
-                        and <gi>revisionDesc</gi> element. The <gi>TEI</gi> element itself MUST have
-                        an <att>xml:id</att> attribute whose value is the unique identifier for the
-                        manuscript. <egXML xmlns="http://www.tei-c.org/ns/Examples">
-                            <TEI xml:id="manuscript_110">
-                                <teiHeader xml:lang="en">
+                    <p>The TEI root element contains a declaration of the TEI namespace, a language declaration, and a unique identifier for the manuscript.</p>
+                    <p>The namespace declaration (<att>xmlns</att>) is the same in every file:
+                        <egXML xmlns="http://www.tei-c.org/ns/Examples">
+                            <TEI xmlns="http://www.tei-c.org/ns/1.0" xml:lang="en" xml:id="manuscript_1">
+                                ...
+                            </TEI>
+                        </egXML></p>
+                    <p>
+                        The <att>xml:lang</att> value indicates the language of Wright's manuscript description (and thus the language of file as a whole) and should always be marked as English (<q>en</q>) in every file.</p>
+                    <p>
+                        The  <gi>TEI</gi> element itself takes an <att>xml:id</att> attribute whose value is constructed from the unique identifier for the XML file and the top level manuscript described in that file. In the example above, the file <q>1.xml</q> (which contains manuscript https://bl.syriac.uk/ms/1) has the following xml:id on the root TEI element: <q>manuscript_1</q>.</p>
+                    <p>The TEI element must have a <gi>teiHeader</gi> element and a <gi>text</gi> element. The <gi>teiHeader</gi> element in turn must have a <gi>fileDesc</gi>
+                        and <gi>revisionDesc</gi> element. 
+                        <egXML xmlns="http://www.tei-c.org/ns/Examples">
+                            <TEI xmlns="http://www.tei-c.org/ns/1.0" xml:lang="en" xml:id="manuscript_1">
+                                <teiHeader>
                                     <fileDesc>
                                         <titleStmt>
                                             <!-- Title information -->
@@ -703,11 +703,11 @@ TEI P5 Customization and Encoding Guidelines for Manuscript Description guidelin
                                     </revisionDesc>
                                 </teiHeader>
                                 <text>
-                                    <!-- Optional text -->
+                                    <body>
+                                        <p/>
+                                        <!--Body paragraph provided for document validation.-->
+                                    </body>
                                 </text>
-                                <facsimile>
-                                    <!-- Image information -->
-                                </facsimile>
                             </TEI>
                         </egXML>
                         <!-- <specList>
@@ -715,6 +715,13 @@ TEI P5 Customization and Encoding Guidelines for Manuscript Description guidelin
                             <specDesc key="fileDesc"/>
                             <specDesc key="facsimile"/>
                         </specList>-->
+                    </p>
+                    <p>Divergences from Consolidated Schema:</p>
+                    <p><title>SMBL</title> diverges from the consolidated schema in the following ways:<list>
+                        <item>The <att>xml:lang</att> declaration is attached to the <gi>TEI</gi> root element rather than to the <gi>teiHeader</gi>.</item>
+                        <item>The <gi>facsimile</gi> element is not required.</item>
+                        <item>The <gi>text</gi> and <gi>body</gi> elements are required (with a child <gi>p</gi>) but only for the purposes of validation and TEI conformance.</item>
+                    </list>
                     </p>
                     <div xml:id="filedescription">
                         <head>File Description</head>
