@@ -1431,15 +1431,14 @@ in the example above, we identify Syriaca.org as the sponsoring institution, the
                             </div>-->
                             <div xml:id="generalContentNotes">
                                 <head>Notes on the Content</head>
-                                <p>We have placed notes withing each <gi>msItem</gi>
-                                    element if Wright provides a comment related to that <gi>msItem</gi> 
+                                <p>When Wright provides a comment related to an <gi>msItem</gi> or another aspect of the contents, we have encoded his commentary as a <gi>note</gi> within each <gi>msItem</gi> or other element as applicable. When Wright's catalogue has a footnote, we have inserted the <gi>note</gi> element at the point in the prose where the footnote marker occurs and marked the <gi>note</gi> with <att>type</att> of <q>footnote</q>.
                                     <egXML xmlns="http://www.tei-c.org/ns/Examples">
-                                        <msItem>
-                                            <note>The term Bēth-Mautbē, found in the subscription, includes the Book of Joshua,
-                                                Judges, Samuel, Kings, Proverbs, Ecclesiasticus, Ecclesiastes, Ruth, the Song of
-                                                Songs, and Job. See <bibl type="MS">Add. 14,440<ref target="https://bl.syriac.uk/ms/104"/>
-                                                </bibl>.</note>
-                                        </msItem>
+                                            <msItem xml:id="p1_2a1" n="1" defective="true">
+                                                <locus from="2a"/>
+                                                <title xml:lang="en">The book of Genesis, translated from the Septuagint by Paul, bishop of Tellā or Constantina.</title>
+                                                <note type="footnote">See <bibl>Monumenta Sacra et Profana opera Collegii Doctorum Bibl. Ambros., tom. i. fasc. i. Prolegomena in editionem versionis Syriacae ex textu LXX., p. iii</bibl>.
+                                                </note>
+                                            </msItem>
                                     </egXML>
                                 </p>
                             </div>
@@ -1551,7 +1550,7 @@ in the example above, we identify Syriaca.org as the sponsoring institution, the
                             <div xml:id="msitemLocus">
                                 <head>Locus</head>
                                 <p>We have given the starting folio of each manuscript item according to the
-                                    guidelines specified in <ptr target="#locus"/>.</p>
+                                    guidelines specified above for <ref target="#locus"><gi>locus</gi></ref>.</p>
                                     <!-- 
                                     If there are
                                     several items on a single folio, you may specify on which line
@@ -1568,15 +1567,31 @@ in the example above, we identify Syriaca.org as the sponsoring institution, the
                                 </p>-->
                             </div>
                             <div xml:id="msitemAuthor">
-                                <head>Author</head>
+                                <head>Author [UNDER REVISION]</head>
                                 <p>The author of a manuscript item, if given by Wright, was recorded
-                                    inside the <gi>author</gi> element. This MUST have a reference,
+                                    inside the <gi>author</gi> element and wrapped with a <gi>persName</gi> child element (with <att>xml:lang</att> attribute). As described <ref target="#URIs">above</ref> in the discussion of URIs, all <gi>author</gi> elements are required to have a Syriaca.org person URI as the value of a <att>ref</att>, For anonymous works, no <gi>author</gi> was included in the <gi>msItem</gi>. The form of the name given by Wright was encoded as given without standardization. Where Wright records multiple name variants for the same person (e.g. translations or
+                                        transliterations) we added these as child <gi>persName</gi> elements
+                                    (with <att>xml:lang</att> attributes) within the <gi>author</gi> element.
+                                    <egXML
+                                        xmlns="http://www.tei-c.org/ns/Examples">
+                                        <msItem xml:id="b2" n="3" defective="true">
+                                            <locus from="7a" to="17b">Foll. 7a-17b</locus>
+                                            <author ref="http://syriaca.org/person/13">
+                                                <persName xml:lang="en">Ephrem</persName>
+                                            </author>
+                                            <title xml:lang="en">On the Lord's Supper</title>
+                                            <rubric xml:lang="syr">ܕܦܛܝܪ̈ܐ<locus from="7a"/>
+                                            </rubric>
+                                        </msItem>
+                                    </egXML>
+                                </p>
+                                <p>Further documentation will be added here discussing pseudonymous authors, translators, editors, and supplied author names.</p>
+                                    <p>Divergences from Consolidated Schema:</p>
+                                    <p><title>SMBL</title> has uses Syriaca.org URIs and thus does not use <att>key</att> as specified in the Consolidated Schema.</p>
+                                    <!--
                                     using the <att>key</att> attribute, to the persons authority
                                     file, see <ptr target="#personalnames"/>. The <gi>author</gi>
-                                    element should be omitted for anonymous works. <egXML
-                                        xmlns="http://www.tei-c.org/ns/Examples">
-                                        <author key="person_66806872">Augustine</author>
-                                    </egXML>
+                                    element should be omitted for anonymous works. 
                                 </p>
                                 <p>The author name should be given in a standardized form. For
                                     retroconversion, use the form of the name given in the source
