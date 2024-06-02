@@ -523,7 +523,7 @@
                             scholarship.
                         </p>
                         <p>Divergences from Consolidated Schema:</p>
-                        <p><title>SMBL</title> has used <gi>citedRange</gi> which is not mentioned in the Consolidated Schema guidelines but is permitted by the TEI.</p>
+                        <p><title>SMBL</title> has used <gi>citedRange</gi> which is not mentioned in the Consolidated Schema guidelines but is conformant with the TEI guidelines.</p>
                         <!-- The <att>subtype</att> may be used to indicate if the manuscript is held
                         by the same institution that holds the manuscript being catalogued
                         (value <val>interal</val>) or by another institution (value
@@ -775,41 +775,27 @@
                         <p><title>SMBL</title> requires an <gi>editionStmt</gi>.</p>
                         <div xml:id="titlestatement">
                             <head>Title Statement</head>
-
-                            <!-- TODO: add title type="collection" and explain -->
-
-                            <p>The <gi>titleStmt</gi> element summarizes the scope and authorship of
-                                the TEI file, and the cataloguing project of which it is a part,
+                            <p>The <gi>titleStmt</gi> element describes the TEI XML file, and the cataloguing project of which it is a part,
                                 rather than for the manuscript itself (which is described in the
-                                    <gi>sourceDesc</gi>). It must contain (1) a <gi>title</gi>
-                                element containing the manuscript shelfmark, (2) [for the medieval
-                                catalogue] a <gi>title</gi> element with <att>type</att> attribute
-                                of value <val>collection</val> describing the collection of which
-                                the manuscript is a part, and (3) one or more <gi>respStmt</gi>
-                                elements listing the person(s) responsible for the cataloguing and
-                                encoding. The <gi>respStmt</gi> element must have a
-                                    <att>xml:id</att> attribute containing an identifier for the
-                                person(s) responsible for the cataloguing and/or encoding. The name
-                                should be recorded in a persName element (see <ptr
-                                    target="#personalnames"/>) and the role of the person
-                                responsible in <gi>resp</gi> elements. If known, the date should be
-                                given in the <att>when</att> attribute of <gi>resp</gi>
+                                <gi>sourceDesc</gi>). Every <gi>titleStmt</gi> contains <list>
+                                    <item>a <gi>title</gi>
+                                        element containing the manuscript shelfmark</item>
+                                    <item>sponsor and funder information (using the <gi>sponsor</gi>, <gi>funder</gi>, and <gi>principal</gi> elements)</item>
+                                    <item>editor amd responsibility information giving credit to those responsible for the creation, encoding, and editing of the file (using the <gi>editor</gi> and <gi>respStmt</gi> elements)</item>
+                                </list>
                             </p>
-                            <!-- TODO: new example -->
-                            <!-- todo: fix values for resp? -->
-                            <egXML xmlns="http://www.tei-c.org/ns/Examples">
-                                <titleStmt>
-                                    <title>MS. Laud Misc. 108</title>
-                                    <title type="collection">MSS. Laud Misc. (Laud
-                                        miscellaneous)</title>
-                                    <respStmt xml:id="MLH">
-                                        <resp when="2018">Cataloguer</resp>
-                                        <resp when="2018">Encoding and markup</resp>
-                                        <persName>Matthew Holford</persName>
-                                    </respStmt>
+                            <p>The <gi>titleStmt</gi> for the file 1.xml (published as <ref target="https://bl.syriac.uk/ms/1/tei">https://bl.syriac.uk/ms/1/tei</ref>) is as follows:<egXML xmlns="http://www.tei-c.org/ns/Examples">
+                                 <titleStmt>
+                                     <title xml:lang="en">London, BL, Add. 12133</title>
+                                     <sponsor>Syriaca.org: The Syriac Reference Portal</sponsor>
+                                     <funder>National Endowment for the Humanities</funder>
+                                     <funder>Andrew W. Mellon Foundation</funder>
+                                     <principal>David A. Michelson</principal>
+                                     ...
                                 </titleStmt>
                             </egXML>
-                            <p>The <gi>titleStmt</gi> is also the place to record any funding bodies
+in the example above, we identify Syriaca.org as the sponsoring institution, the National Endowment for the Humanities and the Andrew W. Mellon Foundation as the funding bodies,  and the principal researcher undertaking the project as David A. Michelson. This encoding of the <gi>sponsor</gi>, <gi>funder</gi>, and <gi>principal</gi> elements should be identical across all records in <title>SMBL</title></p>
+                            <!-- <p>The <gi>titleStmt</gi> is also the place to record any funding bodies
                                 which contributed to the cost of cataloguing. The <gi>funder</gi>
                                 element can contain a plain text statement or <gi>orgName</gi>
                                 elements. The websites of sponsors, and their logos, can be
@@ -833,17 +819,83 @@
                             <p>Contributions to the cost of purchasing the manuscript should be
                                 recorded as part of the <ref target="#acquisition">Acquisition</ref>
                                 section of its history.</p>
-                            <!-- <specList>
+                            <-!- <specList>
                                 <specDesc key="titleStmt"/>
                                 <specDesc key="title"/>
                                 <specDesc key="funder"/>
                                 <specDesc key="respStmt" atts="xml:id"/>
                                 <specDesc key="persName" atts="ref"/>
                                 <specDesc key="resp" atts="key"/>
-                            </specList>-->
+                            </specList>-!->-->
+                        </div>
+                        <div xml:id="editor">
+                            <head>Editorial Credit</head>
+                            <p>Syriaca.org's digital projects are highly collaborative, and so the general editors of <title>SMBL</title> place a high value on giving editorial credit to everyone who contributed in any substantive way to each entry (e.g. each XML document). All editors on the <title>SMBL</title> project are assigned a unique xml:id which is recorded in this reference document <ref target="https://bl.syriac.uk/documentation/editors.xml">https://bl.syriac.uk/documentation/editors.xml</ref>. The <gi>titleStmt</gi> gives credit by name to both the general editors for <title>SMBL</title> and the specific editor with authorial or editorial responsibility for the individual XML file so that these can be included in citations of the document. These editor names are encoded in an <gi>editor</gi> element in the following way:
+                                <egXML xmlns="http://www.tei-c.org/ns/Examples">
+                                    <editor role="general-editor" ref="https://bl.syriac.uk/documentation/editors.xml#dmichelson">David A. Michelson</editor>
+                                    <editor role="general-editor" ref="https://bl.syriac.uk/documentation/editors.xml#wpotter">William L. Potter</editor>
+                                    <editor role="technical-editor" ref="https://bl.syriac.uk/documentation/editors.xml#dschwartz">Daniel L. Schwartz</editor>
+                                    <editor role="creator" ref="https://bl.syriac.uk/documentation/editors.xml#dmichelson">David A. Michelson</editor>
+                                    <editor role="creator" ref="https://bl.syriac.uk/documentation/editors.xml#dgreeson">Daniel J. Greeson</editor>
+                                    <editor role="creator" ref="https://bl.syriac.uk/documentation/editors.xml#thannah">Tucker D. Hannah</editor>
+                                    <editor role="creator" ref="https://bl.syriac.uk/documentation/editors.xml#raydin">Robert Aydin</editor>
+                                </egXML>
+                                In the example above (from the file 1.xml, <ref target="https://bl.syriac.uk/ms/1/tei">https://bl.syriac.uk/ms/1/tei</ref>), the following types of credit are given using the <att>role</att> attribute:
+                                <list>
+                                    <item><q>general-editor</q> identifies the general editors for the entire <title>SMBL</title> publication</item>
+                                    <item><q>technical-editor</q> identifies the technical editors for the entire <title>SMBL</title> publication</item>
+                                    <item><q>creator</q> identifies any editor who created, edited, proofread, or revised the specific XML document (e.g. 1.xml)</item>
+                                </list>
+                                As can been seen in the example above, it will be the case that the same person might receive credit for multiple editorial roles.
+                            </p>
+                            <p>Divergences from Consolidated Schema:</p>
+                            <p>This use of <gi>editor</gi> is not mentioned in the Consolidated Schema guidelines but is conformant with the TEI guidelines.</p>
                         </div>
                         <div xml:id="responsibility">
-                            <head>Responsibility</head>
+                            <head>Responsibility Statment</head>
+                            <p>In addition to using <gi>editor</gi> elements to name the editors with authorial responsibility, each XML file also includes a more detailed description which we have used to assign credit for particular efforts. The <gi>respStmt</gi> element is used to describe each stage in the development of the data or the document. The <gi>respStmt</gi> provides a mechanism for recognizing research assistants who made contributions to processing or cleaning the data, but who are not considered authors or editors of the XML file. (In many cases, the research assistants named here helped to compile the data before it was encoded in XML.</p>
+                                <p>The contents of the <gi>respStmt</gi> element are, in any order, the name of the responsible party contained in a <gi>name</gi> element and a phrase describing the nature of the responsibility (e.g. creator, proofreader, etc.) which is wrapped in a <gi>resp</gi> element.  The <gi>name</gi> element should take first a <att>type</att> attribute indicating whether the name refers to a person or a group (with the values <q>person</q> or <q>org</q>). The <gi>name</gi> element should also take a <att>ref</att> attribute which points to the @xml:id of the editor listed at <ref target="https://bl.syriac.uk/documentation/editors.xml">https://bl.syriac.uk/documentation/editors.xml</ref>.  The creator of the TEI file is identified with a <gi>respStmt</gi> giving the content of the <gi>resp</gi> element as <q>creator</q>.  Additional participants in the creation of the data or the file, for example by entering Syriac or Arabic text, are given additional <gi>respStmt</gi> entries. A modified example from file 1.xml, <ref target="https://bl.syriac.uk/ms/1/tei">https://bl.syriac.uk/ms/1/tei</ref> is as follows:
+                                <egXML xmlns="http://www.tei-c.org/ns/Examples">
+                                    <respStmt>
+                                        <resp>Created by</resp>
+                                        <name type="person" ref="https://bl.syriac.uk/documentation/editors.xml#dgreeson">Daniel J. Greeson</name>
+                                    </respStmt>
+                                    <respStmt>
+                                        <resp>Edited by</resp>
+                                        <name type="person" ref="https://bl.syriac.uk/documentation/editors.xml#thannah">Tucker D. Hannah</name>
+                                    </respStmt>
+                                    <respStmt>
+                                        <resp>Syriac text entered by</resp>
+                                        <name type="person" ref="https://bl.syriac.uk/documentation/editors.xml#raydin">Robert Aydin</name>
+                                    </respStmt>
+                                    <respStmt>
+                                        <resp>Greek and coptic text entry and proofreading by</resp>
+                                        <name type="person" ref="https://bl.syriac.uk/documentation/editors.xml#rstitt">Ryan Stitt</name>
+                                    </respStmt>
+                                    <respStmt>
+                                        <resp>Project management by</resp>
+                                        <name type="person" ref="https://bl.syriac.uk/documentation/editors.xml#ewalston">Elizabeth Walston</name>
+                                    </respStmt>
+                                    <respStmt>
+                                        <resp>English text entry and proofreading by</resp>
+                                        <name type="org" ref="https://bl.syriac.uk/documentation/editors.xml#uasyriacaresearchgroup">Syriac Research Group, University of Alabama</name>
+                                    </respStmt>
+                                    <respStmt>
+                                        <resp>Folio extent edited by</resp>
+                                        <name type="person" ref="https://bl.syriac.uk/documentation/editors.xml#kurban">Kurt Urban</name>
+                                    </respStmt>
+                                </egXML>
+                            </p>
+                            <p>Divergences from Consolidated Schema:</p>
+                            <p><title>SMBL</title> identifies its editors using a different xml:id method than the Consolidated Schema guidelines but in a way that is still conformant with the TEI guidelines. <title>SMBL</title> uses <gi>name</gi> rather than <gi>persName</gi>.</p>
+                            <!--<p>The <gi>respStmt</gi> element must have a
+                                <att>xml:id</att> attribute containing an identifier for the
+                                person(s) responsible for the cataloguing and/or encoding. The name
+                                should be recorded in a persName element (see <ptr
+                                    target="#personalnames"/>) and the role of the person
+                                responsible in <gi>resp</gi> elements. If known, the date should be
+                                given in the <att>when</att> attribute of <gi>resp</gi>
+                            </p>
                             <p>Where a description has been compiled from multiple sources, each
                                 source should be listed in the <gi>respStmt</gi>, and the elements
                                 of the description for which they are responsible should be
@@ -882,7 +934,7 @@
                                             key="person_69848690" role="fmo">Douce</persName>, Feb.
                                         1833.</provenance>
                                 </egXML>
-                            </p>
+                            </p>-->
                         </div>
                         <div xml:id="editionStmt">
                             <head>Edition Statement</head>
@@ -892,42 +944,29 @@
                                         <edition n="1.0"/>
                                     </editionStmt>
                                 </egXML>
+                                The <gi>edition</gi> element contains no human-readable text.
                             </p>
                         </div>
                         <div xml:id="publicationstatement">
                             <head>Publication Statement</head>
                             <p>The <gi>publicationStmt</gi> summarizes the publication of the TEI
                                 document, rather than the manuscript itself (which is described in
-                                the <gi>sourceDesc</gi>). For union catalogues such as Fihrist, it
-                                should contain an <gi>email</gi> containing the address to which
-                                enquiries should be sent, and an <gi>idno</gi> of <att>type</att>
-                                <val>marcOrg</val> containing the MARC Organization Code of the
-                                institution (e.g. "UkCu" for University of Cambridge).</p>
+                                the <gi>sourceDesc</gi>). Our <gi>publicationStmt</gi> contains information about the publishing body (Syriaca.org), a URI for the TEI XML file, the open access  license information (Creative Commons Attribution 3.0 Unported License), and the date of publication.</p>
                             <p>
                                 <egXML xmlns="http://www.tei-c.org/ns/Examples">
                                     <publicationStmt>
-                                        <publisher>Special Collections, Bodleian
-                                            Libraries</publisher>
-                                        <address>
-                                            <orgName type="department">Special Collections</orgName>
-                                            <orgName type="unit">Bodleian Libraries</orgName>
-                                            <orgName type="institution">University of
-                                                Oxford</orgName>
-                                            <street>Weston Library, Broad Street</street>
-                                            <settlement key="place_7011931">Oxford</settlement>
-                                            <postCode>OX1 3BG</postCode>
-                                            <country>United Kingdom</country>
-                                        </address>
-                                        <distributor>
-                                            <email>specialcollections.enquiries@bodleian.ox.ac.uk</email>
-                                        </distributor>
-                                        <!--Availability statement will be added here-->
-                                        <idno type="msID">MS_Laud_Misc_108</idno>
-                                        <idno type="collection">Laud Misc</idno>
-                                        <idno type="catalogue">Western</idno>
+                                        <authority>Syriaca.org: The Syriac Reference Portal</authority>
+                                        <idno type="URI">https://bl.syriac.uk/ms/1/tei</idno>
+                                        <availability>
+                                            <licence target="http://creativecommons.org/licenses/by/3.0/">
+                                                <p>Distributed under a
+                                                    Creative Commons Attribution 3.0 Unported License</p>
+                                            </licence>
+                                        </availability>
+                                        <date calendar="Gregorian">2023-04-21-05:00</date>
                                     </publicationStmt>
-                                    <!-- TODO: availability statement -->
                                 </egXML>
+                                While the URI and the date will vary, the rest of the encoding above should be identical for each file.
                                 <!--  <specList>
                                     <specDesc key="publicationStmt"/>
                                     <specDesc key="publisher"/>
@@ -940,7 +979,28 @@
                     </div>
                     <div xml:id="revisiondescription">
                         <head>Revision Description</head>
-                        <p>The <gi>revisionDesc</gi> element records ONLY major changes to the
+                        <p>The <gi>revisionDesc</gi> element occurs after the manuscript description in the <gi>sourceDesc</gi> (see <ref target="#msdescription">below</ref>). The revision description is a detailed log of which changes have been made to this file, when, and by whom.</p>
+                        <p>At present a <att>status</att> attribute on each record has the value <q>draft</q>. This will be updated by the peer-review editors to <q>reviewed</q> after they have completed their review and revisions of the file.</p>
+                           <p>Each revision is encapsulated in a <gi>change</gi> element, ordered in a reverse chronological order from newest to oldest.  The <gi>change</gi> element must have the <att>who</att> attribute and may have the <att>when</att> which indicates the person who made the change and he date of the change.  The value of <att>when</att> is a date in yyyy-mm-dd format for year-month-day, whereas <att>who</att> will have the value of an <att>xml:id</att> attribute published in <ref target="https://bl.syriac.uk/documentation/editors.xml">https://bl.syriac.uk/documentation/editors.xml</ref>. The text node of the <gi>change</gi> element describes the revision that was made.
+                            <egXML xmlns="http://www.tei-c.org/ns/Examples">
+                                <revisionDesc status="draft">
+                                    <change who="https://bl.syriac.uk/documentation/editors.xml#kurban" when="2023-04-21-05:00">CHANGED: added or corrected folio extent values</change>
+                                    <change who="https://bl.syriac.uk/documentation/editors.xml#dgreeson" when="2013-07-01">Created file</change>
+                                    <change who="https://bl.syriac.uk/documentation/editors.xml#thannah" when="2013-08-14">Edited file</change>
+                                    <change who="https://bl.syriac.uk/documentation/editors.xml#jarnwine" when="2014-04-07">Edited file to reflect our definition of colophons. Multiple a-levels changed to one and only one in part 2.</change>
+                                    <change who="https://bl.syriac.uk/documentation/editors.xml#jarnwine" when="2014-04-10">Added @syriacatags to colophon in p1addition1, p1addition2, and p2addition1.</change>
+                                    <change type="planned" subtype="arabic" who="https://bl.syriac.uk/documentation/editors.xml#smbl-general-editors">Add missing Arabic text.</change>
+                                    <change type="planned" subtype="missing" who="https://bl.syriac.uk/documentation/editors.xml#smbl-general-editors">Add missing Syriac vowels.</change>
+                                    <change type="planned" subtype="arithmetical" who="https://bl.syriac.uk/documentation/editors.xml#smbl-general-editors">Enter arithmetical figures.</change>
+                                    <change who="https://bl.syriac.uk/documentation/editors.xml#pgmiller" when="2016-07-06">Changed: Files moved to srophe-app-data/data/manuscripts/tei repository.</change>
+                                </revisionDesc>
+                            </egXML>
+                           </p>
+                        <p>The editors of <title>SMBL</title> also use the <gi>change</gi> element to track items that need revision in the future. These are marked with <att>type</att> of <q>planned</q> and a <att>subtype</att> from a controlled list of types of changes. All <q>planned</q> changes are assigned to an xml:id for the general editors: <q>https://bl.syriac.uk/documentation/editors.xml#smbl-general-editors</q>.
+                        </p>
+                            <p>Divergences from Consolidated Schema:</p>
+                        <p><title>SMBL</title> requires the <gi>change</gi> element have the <att>who</att> attribute but note <att>when</att>. <title>SMBL</title> uses <att>status</att> on <gi>revisionDesc</gi> and <att>type</att> and <att>subtype</att> on <gi>change</gi> which are not mentioned in the Consolidated Schema guidelines but are conformant with the TEI guidelines..
+                                <!--  <p>The <gi>revisionDesc</gi> element records ONLY major changes to the
                             catalogue entry, such as re-dating or re-location, addition of
                             provenance information, new identification of contents, etc. It must
                             contain at least one change element, which must have the <att>when</att>
@@ -948,28 +1008,14 @@
                             to the xml:id of the person in the <gi>respStmt</gi> element in <ptr
                                 target="#header"/>). The changes should be recorded in a reverse
                             chronological order with the most recent change first.</p>
-                        <p><!-- TODO: change example -->
-                            <egXML xmlns="http://www.tei-c.org/ns/Examples">
-                                <revisionDesc>
-                                    <change when="2018-06-15" xml:id="MMM"><persName>Mitch
-                                            Fraas/Mapping Manuscript Migrations</persName>
-                                        Provenance and acquisition information added using <ref
-                                            target="https://github.com/littlegustv/oxfordupdates/blob/master/test_case_for_oxford_prov.rb"
-                                            >https://github.com/littlegustv/oxfordupdates/blob/master/test_case_for_oxford_prov.rb</ref>
-                                        in collaboration with the <ref
-                                            target="http://mappingmanuscriptmigrations.org/">Mapping
-                                            Manuscript Migrations</ref> project.'</change>
-                                    <change when="2017-07-01">First online publication.</change>
-                                </revisionDesc>
-                            </egXML>
-                            <!-- <specList>
+                        <p>
+                                <specList>
                                 <specDesc key="revisionDesc"/>
                                 <specDesc key="change" atts="when who"/>
                             </specList>-->
                         </p>
                     </div>
                 </div>
-
                 <div xml:id="subjectclass">
                     <head>Subject Classifications</head>
                     <p>In some catalogues, the fourth button in the header is "Subjects" rather than
