@@ -568,7 +568,7 @@
                     </div>
                     <div xml:id="transcription">
                         <head>Transcription</head>
-                        <p>The <gi>rubric</gi>, <gi>incipit</gi>, and <gi>explicit</gi>, and <gi>quote</gi> elements are used to encode Syriac text transcribed from the manuscripts. The have been reproduced verbatim from William Wright's catalogue. <foreign xml:lang="la">Caveat lector!</foreign> Transcriptions have not been re-checked against the original manuscripts. In addition, the <gi>quote</gi> element has been used to encode prose (in any language) which Wright marked with quotatoin marks (e.g. inverted commas).</p>
+                        <p>The <gi>rubric</gi>, <gi>incipit</gi>, and <gi>explicit</gi>, <gi>quote</gi>, and <gi>finalRubric</gi> elements are used to encode Syriac text transcribed from the manuscripts. The have been reproduced verbatim from William Wright's catalogue. <foreign xml:lang="la">Caveat lector!</foreign> Transcriptions have not been re-checked against the original manuscripts. In addition, the <gi>quote</gi> element has been used to encode prose (in any language) which Wright marked with quotatoin marks (e.g. inverted commas).</p>
                             <p>In all cases these elements should be marked with the an <att>xml:lang</att> attribute to indicate the language of the transcribed text.</p>
                         <div xml:id="expan">
                             <head>Abbreviations and Expansions</head>
@@ -1440,7 +1440,7 @@ in the example above, we identify Syriaca.org as the sponsoring institution, the
                                             <note>The lessons are rubricated in the text.</note>
                                         </msItem>
                                     </egXML>
-When a note contains a bibliographic citation, that citation is wrapped in a <gi>bibl</gi> element and linked to a Syriaca.org URI:
+As described <ref target="#bibliographiccitations">above</ref>, when a note contains a bibliographic citation, that citation is wrapped in a <gi>bibl</gi> element and linked to a Syriaca.org URI using <gi>ref</gi> and <att>target</att>:
                                     <egXML xmlns="http://www.tei-c.org/ns/Examples">
                                         <msItem xml:id="a1" n="1" defective="true">
                                             <locus from="1b"/>
@@ -1871,22 +1871,120 @@ When a note contains a bibliographic citation, that citation is wrapped in a <gi
                                 -->
                             </div>
                             <div xml:id="rubrics-etc">
-                                <head>Rubrics, incipits, explicits, final rubrics, and
-                                    colophons.</head>
-                                <p>Retroconversion: include these items if they are given. New
-                                    cataloguing: include these items for all texts. The absence of a
-                                    rubric need not be noted, although it can be included in a
-                                        <gi>note</gi> if it is significant (e.g. all other texts do
-                                    have rubrics). </p>
-                                <p>As noted <ref
-                                    target="#transcription">above</ref> we have followed principles of transcription outlined to transcribe the MS. or to encode
-                                    the text given in an existing catalogue.</p>
-                                <p>It is assumed that the language of incipits, etc., is the same as
+                                <head>Paratextual Materials: Rubrics, Incipits, Explicits, Quotes, Final Rubrics, and
+                                    Colophons.</head>
+                                <p>We have used a number of differen elements to encode the paratextual phrases which Wright transcribes in his catalogue. These include <gi>rubric</gi>, <gi>incipit</gi>, and <gi>explicit</gi>, <gi>quote</gi>, and <gi>finalRubric</gi>. In a related way, the <gi>colophon</gi> and <gi>item</gi> elements are also used to encode data related to paratextual materials. As noted <ref
+                                    target="#transcription">above</ref>, the same principles have been used to encode
+                                    the transcriptions given Wright's catalogue across all of these elements. A <gi>locus</gi> element has been required within each of these elements to specify the location of the component within the manuscript. Because these elements imply verbatim quotation we have not added any additional markup (e.g. quotation marks) to convey that fact. In addition all elements containing transcription of text are required to have an <att>xml:lang</att> to specify the language.</p>
+                                <p>Divergences from Consolidated Schema:</p>
+                                <p>Because of the variety of languages found in the paratextual materials of Syriac manuscripts, <title>SMBL</title> requires an <att>xml:lang</att> where the Consolidated Schema does not.</p>
+                                <div xml:id="rubric">
+                                    <head>Rubic</head>
+                                    <p>We have used the TEI element <gi>rubric</gi> to encode the original language titles given in the manuscripts and reported by Wright. While Wright may sometimes denote this Syriac title with the phrase <q>entitled...</q> or <q>Title:...</q>, most commonly he simply records it without any designation immediately after he provides an English language title. Sometimes Wright only provides a Syriac language title and no English translation. In both cases, we have encoded the Syriac titles reported by Wright within <gi>rubric</gi> with an <att>xml:lang</att> to specify the language.</p>
+                                    <p>In some cases, a manuscript item will have multiple Syriac titles. For instance, a liturgical manuscript may include both a traditional title of the work and a title which indicates the liturgical occasion on which the work should be read. In such cases, we have encoded both the literary title and the liturgical calendar title with multiple <gi>rubric</gi> elements.</p>
+                                    <p>Because every <gi>msItem</gi> element already has a <gi>title</gi> element where a Syriaca.org work URI could be linked, we have not linked Syriaca.org URIs to Syriac titles.</p>
+                                    <p>When Wright indicates that a title is a running title, we have encoded this by wrapping the title in both a <gi>fw</gi> (forme work) element with <att>type</att> of <q>header</q>and a containing <gi>rubric</gi> element.</p>
+                                    <egXML
+                                        xmlns="http://www.tei-c.org/ns/Examples">
+                                        <msItem xml:id="d1" n="8" defective="unknown">
+                                            <locus from="91" to="161">Foll. 91-161</locus>
+                                            <title ref="http://syriaca.org/work/154" xml:lang="en">The second book of Samuel, according to the recension of Jacob of Edessa</title>
+                                            <rubric xml:lang="syr">ܟܬܒܐ ܕܬܪ̈ܝܢ ܕܡ̈ܠܟܘܬܐ<locus from="91b" to="91b"/>
+                                            </rubric>
+                                            <rubric xml:lang="syr">
+                                                <fw type="header">ܫܡܘܐܝܠ</fw>
+                                            </rubric>
+                                        </msItem>
+                                    </egXML>
+                                </div>
+                                <div xml:id="incipit">
+                                    <head>Incipit</head>
+                                    <p>
+                                        If Wright records the the opening lines of the text proper of the <gi>msItem</gi> we record this transcription in an <gi>incipit</gi> element. Wright sometimes denotes the incipit with the phrase <q>it begins...</q> or <q>beginning...</q>. The incipit should not be confused with the rubic. The TEI defines the incipit as <q>the opening words of the text proper, exclusive of any rubric which might precede it, of sufficient length to identify the work uniquely.</q> In most cases, if Wright provides an incipit he also provides a rubric (though the reverse is not the case). See this example:
+                                        <egXML
+                                            xmlns="http://www.tei-c.org/ns/Examples">
+                                            <msItem xml:id="d1" n="8" defective="unknown">
+                                                <locus from="91" to="161">Foll. 91-161</locus>
+                                                <title ref="http://syriaca.org/work/154" xml:lang="en">The second book of Samuel, according to the recension of Jacob of Edessa</title>
+                                                <rubric xml:lang="syr">ܟܬܒܐ ܕܬܪ̈ܝܢ ܕܡ̈ܠܟܘܬܐ<locus from="91b" to="91b"/>
+                                                </rubric>
+                                                <rubric xml:lang="syr">
+                                                    <fw type="header">ܫܡܘܐܝܠ</fw>
+                                                </rubric>
+                                            </msItem>
+                                        </egXML>
+                                    </p>
+                                </div>
+                                <p>Note that TEI distinguishes between the <gi>finalRubric</gi>,
+                                    which contains a statement relating to the end of a particular
+                                    work (e.g. ‘explicit liber’), and the <gi>colophon</gi>, which
+                                    contains a statement about the scribe and/or date and/or place
+                                    of writing (‘scriptum apud Oxon.’). If the final rubric and
+                                    colophon form a single sentence, put both inside
+                                    <gi>finalRubric</gi> with <att>type</att> attribute of value
+                                    <val>colophon</val>. (The <gi>colophon</gi> element cannot
+                                    have the <att>type</att> attribute.) <egXML
+                                        xmlns="http://www.tei-c.org/ns/Examples">
+                                        <finalRubric type="colophon">Expliciunt omelie Iohannis
+                                            Crisostomi patriarche Constantinopolitanis super Matheum
+                                            operis imperfecti scripte anno Domini 1382</finalRubric>
+                                    </egXML>
+                                </p>
+                                <p>Multiple incipits, rubrics, etc., e.g. for prologues,
+                                    dedications, text, should be distinguished using <att>type</att>
+                                    (and if necessary by location, by including a child
+                                    <gi>locus</gi> element at the start of each one). Suggested
+                                    values of the <att>type</att> attribute are <val>prologue</val>
+                                    (use for preface, prohemium, etc), <val>dedication</val>,
+                                    <val>text</val>
+                                    <egXML xmlns="http://www.tei-c.org/ns/Examples">
+                                        <msItem>
+                                            <locus from="12v" to="12v">(fol. 12v)</locus>
+                                            <author key="person_11566602">Garland</author>
+                                            <title type="desc" key="work_1724">Compotus</title>
+                                            <incipit type="prologue">Sepe uolumina domni
+                                                Bede</incipit>
+                                            <incipit type="text">Superioris igitur pagine</incipit>
+                                        </msItem>
+                                    </egXML>
+                                </p>
+                                
+                                <p>Use of the <att>type</att> attribute will not always be possible
+                                    in retroversion if the catalogue does not provide the
+                                    information. In this case a series of the relevant elements
+                                    without <att>type</att> should be used. <egXML
+                                        xmlns="http://www.tei-c.org/ns/Examples">
+                                        <!-- Merton College MS. 20 -->
+                                        <msItem n="1">
+                                            <locus from="1r" to="14v">(fols. 1-14v)</locus>
+                                            <author key="person_100187025">Anselm</author>
+                                            <title key="work_537">Monologion</title>
+                                            <rubric>Incipit epistola Anselmi archiepiscopi ad
+                                                Lanfrancum primatem Anglie</rubric>
+                                            <incipit>Reuerendo et amando suo domino</incipit>
+                                            <rubric>Incipit prohemium beati Anselmi archiepiscopi in
+                                                monologion R.</rubric>
+                                            <incipit>Quidam fratres sepe me studioseque</incipit>
+                                            <note>(<foreign rend="italic">capitula</foreign>)</note>
+                                            <incipit>Si quis unam naturam summam omnique que
+                                                sunt</incipit>
+                                            <explicit>Deus ineffabilis trinus et unus</explicit>
+                                            <finalRubric>Finitur monologion Anselmi.
+                                                Explicit.</finalRubric>
+                                            <bibl><title>SAO</title> 1. 13-87.</bibl>
+                                        </msItem></egXML>
+                                </p>
+                                
+                                <p>The <gi>rubric</gi>, <gi>incipit</gi>, etc. elements should not
+                                    have final punctuation, unless they contain more than one
+                                    sentence, in which case there should be a closing period.</p>
+                                <!--
+                                    <p>It is assumed that the language of incipits, etc., is the same as
                                     the language specified in <gi>textLang</gi>. It is not necessary
                                     to use <att>xml:lang</att> to specify the language of the
                                     incipit (etc.), unless multiple languages are involved (e.g.
-                                        <gi>msItem</gi> with <gi>rubric</gi> in French but
-                                        <gi>incipit</gi> in Latin). <egXML
+                                    <gi>msItem</gi> with <gi>rubric</gi> in French but
+                                    <gi>incipit</gi> in Latin). <egXML
                                         xmlns="http://www.tei-c.org/ns/Examples">
                                         <msItem xml:id="MS_Buchanan_e_13-item1-item5-item1">
                                             <locus>(fols.18r-21v)</locus>
@@ -1896,10 +1994,7 @@ When a note contains a bibliographic citation, that citation is wrapped in a <gi
                                             <note>[masculine forms] (cf. MS. Buchanan e. 2)</note>
                                         </msItem>
                                     </egXML>
-                                </p>
-                                <p>For mutilated items the attribute <att>defective</att> should be
-                                    used with value <val>true</val>.</p>
-                                <p>The formatting of the rubric can be recorded in the
+                                </p><p>The formatting of the rubric can be recorded in the
                                         <att>rend</att> attribute (see <ptr target="#formatting"/>).
                                     Comments on the rubric (e.g. if it is a later addition) can be
                                     recorded using a <gi>note</gi> tag inside the <gi>rubric</gi>
@@ -1929,70 +2024,7 @@ When a note contains a bibliographic citation, that citation is wrapped in a <gi
                                                 fortunam</incipit>
                                         </msItem>
                                     </egXML>
-                                </p>
-                                <p>Note that TEI distinguishes between the <gi>finalRubric</gi>,
-                                    which contains a statement relating to the end of a particular
-                                    work (e.g. ‘explicit liber’), and the <gi>colophon</gi>, which
-                                    contains a statement about the scribe and/or date and/or place
-                                    of writing (‘scriptum apud Oxon.’). If the final rubric and
-                                    colophon form a single sentence, put both inside
-                                        <gi>finalRubric</gi> with <att>type</att> attribute of value
-                                        <val>colophon</val>. (The <gi>colophon</gi> element cannot
-                                    have the <att>type</att> attribute.) <egXML
-                                        xmlns="http://www.tei-c.org/ns/Examples">
-                                        <finalRubric type="colophon">Expliciunt omelie Iohannis
-                                            Crisostomi patriarche Constantinopolitanis super Matheum
-                                            operis imperfecti scripte anno Domini 1382</finalRubric>
-                                    </egXML>
-                                </p>
-                                <p>Multiple incipits, rubrics, etc., e.g. for prologues,
-                                    dedications, text, should be distinguished using <att>type</att>
-                                    (and if necessary by location, by including a child
-                                        <gi>locus</gi> element at the start of each one). Suggested
-                                    values of the <att>type</att> attribute are <val>prologue</val>
-                                    (use for preface, prohemium, etc), <val>dedication</val>,
-                                        <val>text</val>
-                                    <egXML xmlns="http://www.tei-c.org/ns/Examples">
-                                        <msItem>
-                                            <locus from="12v" to="12v">(fol. 12v)</locus>
-                                            <author key="person_11566602">Garland</author>
-                                            <title type="desc" key="work_1724">Compotus</title>
-                                            <incipit type="prologue">Sepe uolumina domni
-                                                Bede</incipit>
-                                            <incipit type="text">Superioris igitur pagine</incipit>
-                                        </msItem>
-                                    </egXML>
-                                </p>
-
-                                <p>Use of the <att>type</att> attribute will not always be possible
-                                    in retroversion if the catalogue does not provide the
-                                    information. In this case a series of the relevant elements
-                                    without <att>type</att> should be used. <egXML
-                                        xmlns="http://www.tei-c.org/ns/Examples">
-                                        <!-- Merton College MS. 20 -->
-                                        <msItem n="1">
-                                            <locus from="1r" to="14v">(fols. 1-14v)</locus>
-                                            <author key="person_100187025">Anselm</author>
-                                            <title key="work_537">Monologion</title>
-                                            <rubric>Incipit epistola Anselmi archiepiscopi ad
-                                                Lanfrancum primatem Anglie</rubric>
-                                            <incipit>Reuerendo et amando suo domino</incipit>
-                                            <rubric>Incipit prohemium beati Anselmi archiepiscopi in
-                                                monologion R.</rubric>
-                                            <incipit>Quidam fratres sepe me studioseque</incipit>
-                                            <note>(<foreign rend="italic">capitula</foreign>)</note>
-                                            <incipit>Si quis unam naturam summam omnique que
-                                                sunt</incipit>
-                                            <explicit>Deus ineffabilis trinus et unus</explicit>
-                                            <finalRubric>Finitur monologion Anselmi.
-                                                Explicit.</finalRubric>
-                                            <bibl><title>SAO</title> 1. 13-87.</bibl>
-                                        </msItem></egXML>
-                                </p>
-
-                                <p>The <gi>rubric</gi>, <gi>incipit</gi>, etc. elements should not
-                                    have final punctuation, unless they contain more than one
-                                    sentence, in which case there should be a closing period.</p>
+                                </p>-->
                                 <!-- <div xml:id="complexIncipits">
                                     <head>Complex incipits</head>
                                     <p>The <gi>incipit</gi> elements in a catalogue may be processed
@@ -2061,7 +2093,7 @@ When a note contains a bibliographic citation, that citation is wrapped in a <gi
                                             </bibl>.</filiation>
                                         </msItem>
                                     </egXML>
-                                </p>
+                                    In the future, we may chose to convert other references to this usage of <gi>filiation</gi>.</p>
                             </div>
 
 
