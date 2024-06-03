@@ -59,11 +59,14 @@ declare function sf:build-index(){
                 group by $facet-grp := $f/@name
                 return 
                     if($f[1]/facet:group-by/@function != '') then 
-                       <facet dimension="{functx:words-to-camel-case($facet-grp)}" expression="sf:facet(descendant-or-self::tei:body, {concat("'",$path[1],"'")}, {concat("'",$facet-grp,"'")})"/>
+                       (<facet dimension="{functx:words-to-camel-case($facet-grp)}" expression="sf:facet(descendant-or-self::tei:body, {concat("'",$path[1],"'")}, {concat("'",$facet-grp,"'")})"/>,
+                        <field name="facet-{functx:words-to-camel-case($facet-grp)}" expression="sf:facet(descendant-or-self::tei:body, {concat("'",$path[1],"'")}, {concat("'",$facet-grp,"'")})"/>)
                     else if($f[1]/facet:range) then
-                       <facet dimension="{functx:words-to-camel-case($facet-grp)}" expression="sf:facet(descendant-or-self::tei:body, {concat("'",$path[1],"'")}, {concat("'",$facet-grp,"'")})"/>                
+                       (<facet dimension="{functx:words-to-camel-case($facet-grp)}" expression="sf:facet(descendant-or-self::tei:body, {concat("'",$path[1],"'")}, {concat("'",$facet-grp,"'")})"/>,
+                       <field name="facet-{functx:words-to-camel-case($facet-grp)}" expression="sf:facet(descendant-or-self::tei:body, {concat("'",$path[1],"'")}, {concat("'",$facet-grp,"'")})"/>)
                     else 
-                        <facet dimension="{functx:words-to-camel-case($facet-grp)}" expression="{replace($f[1]/facet:group-by/facet:sub-path/text(),"&#34;","'")}"/>
+                        (<facet dimension="{functx:words-to-camel-case($facet-grp)}" expression="{replace($f[1]/facet:group-by/facet:sub-path/text(),"&#34;","'")}"/>,
+                        <field name="facet-{functx:words-to-camel-case($facet-grp)}" expression="{replace($f[1]/facet:group-by/facet:sub-path/text(),"&#34;","'")}"/>)
             return 
                 $facets
             }
@@ -88,9 +91,14 @@ declare function sf:build-index(){
                 <ignore qname="tei:encodingDesc"/>
                 <ignore qname="tei:profileDesc"/>
             </text>
+            <!--- Review for search may not need all of these -->
             <!--<text qname="tei:body"/>-->
+            <!--
             <text qname="tei:author" boost="2.0"/>
             <text qname="tei:editor" boost="2.0"/>
+            -->
+            <!-- Keyword search -->
+            <text qname="tei:msDesc" boost="2.0"/>
             <text qname="tei:persName" boost="2.0"/>
             <text qname="tei:placeName" boost="1.0"/>
             <text qname="tei:origPlace" boost="1.0"/>
@@ -108,8 +116,6 @@ declare function sf:build-index(){
             <text qname="tei:rubric"/>
         </lucene> 
         <range>
-            <create qname="@syriaca-computed-start" type="xs:date"/>
-            <create qname="@syriaca-computed-end" type="xs:date"/>
             <create qname="@type" type="xs:string"/>
             <create qname="@ana" type="xs:string"/>
             <create qname="@syriaca-tags" type="xs:string"/>
@@ -129,7 +135,6 @@ declare function sf:build-index(){
             <create qname="@status" type="xs:string"/>
             <create qname="tei:idno" type="xs:string"/>
             <create qname="tei:title" type="xs:string"/>
-            <create qname="tei:geo" type="xs:string"/>
             <create qname="tei:relation" type="xs:string"/>
             <create qname="tei:persName" type="xs:string"/>
             <create qname="tei:placeName" type="xs:string"/>
@@ -218,38 +223,69 @@ declare function sf:field($element as item()*, $path as xs:string, $name as xs:s
  : Use facet-definition files for labels and sort options
 :)
 declare function sf:display($result as item()*, $facet-definition as item()*) {
-    for $facet in $facet-definition/descendant-or-self::facet:facet-definition
+    let $facet-definitions := 
+        if($facet-definition/self::facet:facet-definition) then 'definition' 
+        else $facet-definition/facet:facets/facet:facet-definition
+    for $facet in $facet-definitions
     let $name := string($facet/@name)
     let $count := if(request:get-parameter(concat('all-',$name), '') = 'on' ) then () else string($facet/facet:max-values/@show)
-    let $f := ft:facets($result, $name, $count)
+    let $f := ft:facets($result, $name, ())
+    let $sortedFacets :=  
+                        for $key at $p in map:keys($f)
+                        let $value := map:get($f, $key)
+                        order by $key ascending
+                        return 
+                            <facet label="{$key}" value="{$value}"/>
+    let $total := count($sortedFacets)                            
     return 
-        if($facet[@display = 'none']) then () 
-        else if($facet[@display = 'slider']) then 
-            slider:browse-date-slider($result,$facet/facet:group-by/facet:sub-path)
-        else if (map:size($f) > 0) then
+        if (map:size($f) > 0) then
             <span class="facet-grp">
                 <span class="facet-title">{string($facet/@label)}</span>
                 <span class="facet-list">
-                {array:for-each(sf:sort($f,$facet), function($entry) {
-                    map:for-each($entry, function($label, $freq) {
+                {(
+                    for $facet at $n in subsequence($sortedFacets,1,5)
+                    let $label := string($facet/@label)
+                    let $count := string($facet/@value)
+                    let $param-name := concat('facet-',$name)
+                    let $facet-param := concat($param-name,'=',encode-for-uri($label))
+                    let $active := if(request:get-parameter($param-name, '') = $label) then 'active' else ()
+                    let $url-params := 
+                                    if($active) then replace(replace(replace(request:get-query-string(),encode-for-uri($label),''),concat($param-name,'='),''),'&amp;&amp;','&amp;')
+                                    else if(request:get-parameter('start', '')) then '&amp;start=1'
+                                    else if(request:get-query-string() != '') then concat($facet-param,'&amp;',request:get-query-string())
+                                    else $facet-param
+                    return 
+                        <a href="?{$url-params}" class="facet-label btn btn-default {$active}" num="{$n}">
+                                    {if($active) then (<span class="glyphicon glyphicon-remove facet-remove"></span>)else ()}
+                                    {$label} <span class="count"> ({$count})</span> </a>,
+                                    
+                    <div id="view{$name}" class="collapse">
+                        {
+                        for $facet at $n in subsequence($sortedFacets,6,$total)
+                        let $label := string($facet/@label)
+                        let $count := string($facet/@value)
                         let $param-name := concat('facet-',$name)
-                        let $facet-param := concat($param-name,'=',$label)
+                        let $facet-param := concat($param-name,'=',encode-for-uri($label))
                         let $active := if(request:get-parameter($param-name, '') = $label) then 'active' else ()
                         let $url-params := 
-                            if($active) then replace(replace(replace(request:get-query-string(),encode-for-uri($label),''),concat($param-name,'='),''),'&amp;&amp;','&amp;') 
-                            else concat($facet-param,'&amp;',request:get-query-string())
-                        return
-                            <a href="?{$url-params}" class="facet-label btn btn-default {$active}">
-                            {if($active) then (<span class="glyphicon glyphicon-remove facet-remove"></span>)else ()}
-                            {$label} <span class="count"> ({$freq}) </span> </a>
-                    })
-                })}
-                {if(map:size($f) = xs:integer($count)) then 
-                    <a href="?{request:get-query-string()}&amp;all-{$name}=on" class="facet-label btn btn-info"> View All </a>
-                 else ()}
+                                        if($active) then replace(replace(replace(request:get-query-string(),encode-for-uri($label),''),concat($param-name,'='),''),'&amp;&amp;','&amp;')
+                                        else if(request:get-parameter('start', '')) then '&amp;start=1'
+                                        else if(request:get-query-string() != '') then concat($facet-param,'&amp;',request:get-query-string())
+                                        else $facet-param
+                        return 
+                            <a href="?{$url-params}" class="facet-label btn btn-default {$active}" num="{$n}">
+                                        {if($active) then (<span class="glyphicon glyphicon-remove facet-remove"></span>)else ()}
+                                        {$label} <span class="count"> ({$count})</span> </a>
+                        }
+                    </div>,
+                    if($total gt 5) then 
+                    <a href="#" data-toggle="collapse" data-target="#view{$name}" class="facet-label btn btn-info viewMore">View All</a>
+                    else (),
+                    <br/>
+                    )}
                 </span>
             </span>
-        else ()  
+        else () 
 };
 
 (:~ 
@@ -378,6 +414,21 @@ declare function sf:facet-query() {
         }
     ))
 };
+
+declare function sf:facets() {
+        map {
+            "facets":
+                map:merge((
+                    for $param in request:get-parameter-names()[starts-with(., 'facet-')]
+                    let $dimension := substring-after($param, 'facet-')
+                    return
+                        map {
+                            $dimension: request:get-parameter($param, ())
+                        }
+                ))
+        }
+};
+
 
 (:~
  : Adds type casting when type is specified facet:facet:group-by/@type
