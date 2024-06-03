@@ -1429,16 +1429,25 @@ in the example above, we identify Syriaca.org as the sponsoring institution, the
                                     </egXML>
                                 </p>
                             </div>-->
-                            <div xml:id="generalContentNotes">
-                                <head>Notes on the Content</head>
-                                <p>When Wright provides a comment related to an <gi>msItem</gi> or another aspect of the contents, we have encoded his commentary as a <gi>note</gi> within each <gi>msItem</gi> or other element as applicable. When Wright's catalogue has a footnote, we have inserted the <gi>note</gi> element at the point in the prose where the footnote marker occurs and marked the <gi>note</gi> with <att>type</att> of <q>footnote</q>.
+                            <div xml:id="msitemNote">
+                                <head>Notes on the Manuscript Item</head>
+                                <p>When Wright provides a comment related to an <gi>msItem</gi> or another aspect of the contents, we have encoded his commentary as a <gi>note</gi> within each <gi>msItem</gi> or other element as applicable. When Wright's catalogue has a footnote, we have inserted the <gi>note</gi> element at the point in the prose where the footnote marker occurs and marked the <gi>note</gi> with <att>type</att> of <q>footnote</q>. Some examples are:
                                     <egXML xmlns="http://www.tei-c.org/ns/Examples">
-                                            <msItem xml:id="p1_2a1" n="1" defective="true">
-                                                <locus from="2a"/>
-                                                <title xml:lang="en">The book of Genesis, translated from the Septuagint by Paul, bishop of Tellā or Constantina.</title>
-                                                <note type="footnote">See <bibl>Monumenta Sacra et Profana opera Collegii Doctorum Bibl. Ambros., tom. i. fasc. i. Prolegomena in editionem versionis Syriacae ex textu LXX., p. iii</bibl>.
-                                                </note>
-                                            </msItem>
+                                        <msItem xml:id="a2" n="2" defective="true">
+                                            <locus from="1" to="100">Foll. 1-100</locus>
+                                            <title ref="http://syriaca.org/work/26" xml:lang="en">Ezekiel, according to the Peshitta version</title>
+                                            <note>The following portions of the text are missing: Ch. 14:14-16:17, 16:32-53, 17:3-22:2, and 24:18-25:3.</note>
+                                            <note>The lessons are rubricated in the text.</note>
+                                        </msItem>
+                                    </egXML>
+When a note contains a bibliographic citation, that citation is wrapped in a <gi>bibl</gi> element and linked to a Syriaca.org URI:
+                                    <egXML xmlns="http://www.tei-c.org/ns/Examples">
+                                        <msItem xml:id="a1" n="1" defective="true">
+                                            <locus from="1b"/>
+                                            <title xml:lang="en">The Acts of the Second Council of Ephesus</title>
+                                            <note type="footnote">A small part of this volume has been edited by the <persName>Rev. S. G. F. Perry</persName>, under the title of <bibl><ref target="https://www.zotero.org/groups/4861694/a_comprehensive_bibliography_on_syriac_studies/items/P4VVZ7P6/library"/>"An Ancient Syriac Document, purporting to be the record, in its chief features, of the second Synod of Ephesus," etc., Oxford, 1867.</bibl>
+                                            </note>
+                                        </msItem>
                                     </egXML>
                                 </p>
                             </div>
@@ -1776,9 +1785,41 @@ in the example above, we identify Syriaca.org as the sponsoring institution, the
                                         </msItem>
                                     </egXML>
                                     We have made every effort to encode these titles exactly as written by Wright, though in some cases we have made silent emmendations for grammar or when Wright's prose was not clear or if Wright's title was abbreviated due to context (in which case we have supplied additional words to make the context clear). The one change we have made is to capitalize the first word of each title.</p>
-                                <p>In some cases, Wright will only give a Roman or Greek numeral/character in lieu of an English title. This is particularly the case for lower-level nested <gi>msItem</gi> elements for which he has already given a longer descriptive title for the containing <gi>msItem</gi>. In such cases, we have pre-pended the word <q>Part</q> to the Roman or Greek character according to the following patter <q>Part c</q>. According to rules of XML, the enclosing <gi>msItem</gi> element's title is assumed to be inherited by the nested <gi>msItem</gi>. Thus the part designation is unambiguously associated with the work of which it is a part, and the <gi>title</gi> element of the child <gi>msItem</gi> needs only indicate the part.</p>
-                                <p>In rare cases excerpts of a single work will be broken up among non-contiguous manuscript items. That is, the work may begin, be interrupted by another msItem, and then resume. In such cases, simply append "Continuation of " to the title of any subsequent non-contiguous instances of a work and use the same work URI as each title's @ref attribute value.
-</p>                                
+                                <p>As can be seen in the example just given (<q>Fragments of the second volume of the Commentary of Daniel of Salach on the Psalms, viz. part of the homilies on Pss. li., lviii., and lxii</q>), many manuscript items are themselves composed of sub-items. In these cases, we have taken advantage ofthe tree structure of the XML encoding since it is possible to infinitely nest <gi>msItem</gi> elements inside of parent <gi>msItem</gi> elements. Thus in many cases a manuscript may contain one parent <gi>msItem</gi> to which Wright has given a general title, such as <q>The metrical works of Ephraim, containing 160 discourses on the Church, the Mysteries of our Lord, Virginity, and against Heresies</q>. Whenever Wright gives such a title, we have tried to encode such a parent <gi>msItem</gi>, even when Wright's own numbering system did not account for it. Within this parent item, multiple levels of sub-items (each encoded with <gi>msItem</gi>) have been encoded. In this modified example there are three levels of nested <gi>msItem</gi> which are a tree model of <q>The metrical works of Ephraim</q> which contains <q>Discourses on the Church</q> which itself contains individual hymns numbered <q>11</q>, <q>12</q>, etc.:
+                                    <egXML xmlns="http://www.tei-c.org/ns/Examples">
+                                        <msItem xml:id="p2a1" n="1" defective="true">
+                                            <locus from="20" to="33">Foll. 20-33</locus>
+                                            <author ref="http://syriaca.org/person/13">
+                                                <persName xml:lang="en">Ephrem</persName>
+                                            </author>
+                                            <title xml:lang="en">The metrical works of Ephraim, containing 160 discourses on the Church, the Mysteries of our Lord, Virginity, and against Heresies</title>
+                                            <msItem xml:id="p2b1" n="2" defective="true">
+                                                <locus from="20a" to="29b">Foll. 20a-29b</locus>
+                                                <author ref="http://syriaca.org/person/13">
+                                                    <persName xml:lang="en">Ephrem</persName>
+                                                </author>
+                                                <title xml:lang="en">Discourses on the Church</title>
+                                                <msItem xml:id="p2c1" n="3" defective="true">
+                                                    <locus from="20a" to="20b">Foll. 20a-20b</locus>
+                                                    <author ref="http://syriaca.org/person/13">
+                                                        <persName xml:lang="en">Ephrem</persName>
+                                                    </author>
+                                                    <title xml:lang="en">Number 11</title>
+                                                </msItem>
+                                                <msItem xml:id="p2c2" n="4">
+                                                    <locus from="20b" to="21">Foll. 20b-21</locus>
+                                                    <author ref="http://syriaca.org/person/13">
+                                                        <persName xml:lang="en">Ephrem</persName>
+                                                    </author>
+                                                    <title xml:lang="en">Number 12</title>
+                                                </msItem>
+                                            </msItem>
+                                        </msItem>
+                                    </egXML>          
+</p>
+                                <p>In some cases of such nested sub-items, Wright will only give a Roman or Greek numeral/character in lieu of an English title. This is particularly the case for lower-level nested <gi>msItem</gi> elements for which he has already given a longer descriptive title for the containing <gi>msItem</gi>. In such cases, we have pre-pended the word <q>Part</q> to the Roman or Greek character according to the following patter <q>Part c</q>. According to rules of XML, the enclosing <gi>msItem</gi> element's title is assumed to be inherited by the nested <gi>msItem</gi>. Thus the part designation is unambiguously associated with the work of which it is a part, and the <gi>title</gi> element of the child <gi>msItem</gi> needs only indicate the part.</p>
+                                <p>In rare cases, Wright describes excerpts of a single work which are broken up among non-contiguous manuscript items. That is, the work may begin, be interrupted by another <gi>msItem</gi>, and then resume. In such cases, whe have pre-pended "Continuation of " to the title of any subsequent non-contiguous instances of a work.</p>
+                                <p>As noted <ref target="#URIs">above</ref> in the guidelines for encoding URI entities, when the prose given by Wright for a <gi>title</gi> also contains a person name or a place name, we have NOT tagged those names with <gi>persName</gi> or <gi>placeName</gi>. See the example above from the <q>Fragments of the second volume of the Commentary of Daniel of Salach</q>.</p>
                                 <p>Divergences from Consolidated Schema:</p>
                                 <p><title>SMBL</title> does not use the same <att>type</att> values on <gi>title</gi> as used in the Consolidated Schema. We may choose to do so in a future revision.</p>
                                 <!-- 
@@ -1837,8 +1878,8 @@ in the example above, we identify Syriaca.org as the sponsoring institution, the
                                     rubric need not be noted, although it can be included in a
                                         <gi>note</gi> if it is significant (e.g. all other texts do
                                     have rubrics). </p>
-                                <p>Follow the principles of transcription outlined above <ptr
-                                        target="#transcription"/> to transcribe the MS. or to encode
+                                <p>As noted <ref
+                                    target="#transcription">above</ref> we have followed principles of transcription outlined to transcribe the MS. or to encode
                                     the text given in an existing catalogue.</p>
                                 <p>It is assumed that the language of incipits, etc., is the same as
                                     the language specified in <gi>textLang</gi>. It is not necessary
@@ -1952,7 +1993,7 @@ in the example above, we identify Syriaca.org as the sponsoring institution, the
                                 <p>The <gi>rubric</gi>, <gi>incipit</gi>, etc. elements should not
                                     have final punctuation, unless they contain more than one
                                     sentence, in which case there should be a closing period.</p>
-                                <div xml:id="complexIncipits">
+                                <!-- <div xml:id="complexIncipits">
                                     <head>Complex incipits</head>
                                     <p>The <gi>incipit</gi> elements in a catalogue may be processed
                                         to generate an alphabetical list of incipits similar to
@@ -2002,80 +2043,25 @@ in the example above, we identify Syriaca.org as the sponsoring institution, the
                                                 Syrum nomen est</incipit>
                                         </egXML>
                                     </p>
-                                </div>
-
-
+                                </div>-->
                             </div>
-
-                            <div xml:id="msitemNote">
-                                <head>Note, bibliography and additional information</head>
-                                <p>Additional information about the text - for example whether or
-                                    not the text is complete; whether or not the text is glossed or
-                                    annotated; other copies of the text; references to repertories
-                                    and editions - can be presented in various ways. It may be
-                                    convenient in retroconversion to include this information in a
-                                    single <gi>note</gi> element. Equally some of this information
-                                    may be encoded more appropriately using other elements, such as
-                                        <gi>bibl</gi> or <gi>filiation</gi>. Compare: <egXML
-                                        xmlns="http://www.tei-c.org/ns/Examples">
-                                        <msItem n="3">
-                                            <locus>(fols 54r-73r)</locus>
-                                            <author key="person_196789494"><supplied>Ps.</supplied>
-                                                Athanasios</author>
-                                            <title key="work_5884">Disputatio contra Arium</title>
-                                            <note>CPG 2250, PG 28.440-501.</note>
-                                        </msItem>
-                                    </egXML>
-                                    <egXML xmlns="http://www.tei-c.org/ns/Examples">
-                                        <msItem n="3">
-                                            <locus>(fols 54r-73r)</locus>
-                                            <author key="person_196789494"><supplied>Ps.</supplied>
-                                                Athanasios</author>
-                                            <title key="work_5884">Disputatio contra Arium</title>
-                                            <listBibl>
-                                                <bibl>CPG 2250</bibl>
-                                                <bibl>PG 28, 440-501</bibl>
-                                            </listBibl>
-                                        </msItem>
-                                    </egXML>
-                                </p>
-
-                                <p>The <gi>filiation</gi> element provides information about the
-                                    relationship of the manuscript with other surviving manuscripts
+                            <div xml:id="filiation">
+                                <head>Filiation [UNDER REVISION]</head>
+                                <p>In one test case we have used the <gi>filiation</gi> element to encode information that Wright provides about the
+                                    relationship of one manuscript to other surviving manuscripts
                                     in terms of their content. For example: <egXML
                                         xmlns="http://www.tei-c.org/ns/Examples">
-                                        <msItem n="2">
-                                            <title xml:lang="ara-Latn-x-lc">Khulāṣat al-ikhtiṣāṣ fī
-                                                maʻrifat al-quwá wa-al-khawāṣṣ</title>
-                                            <filiation>There is another manuscript of this work at
-                                                the Birmingham University, Mingana Collection,
-                                                Islamic Arabic Ms. no. 933 (1485)</filiation>
+                                        <msItem xml:id="a1" n="1" defective="true">
+                                            <locus from="1" to="148">Foll. 1-148</locus>
+                                            <author ref="http://syriaca.org/person/51">
+                                                <persName xml:lang="en">Severus of Antioch</persName>
+                                            </author>
+                                            <title xml:lang="en">The sixth book of the select epistles of Severus of Antioch</title>
+                                            <filiation>The sixth book of the select epistles of Severus of Antioch, in the same translation as <bibl type="MS">Add. 12,181<ptr target="https://bl.syriac.uk/ms/80"/>
+                                            </bibl>.</filiation>
                                         </msItem>
                                     </egXML>
                                 </p>
-                                <p>A <gi>bibl</gi> containing a <gi>ref</gi> element can be used to
-                                    link to external resources related to a work, such as printed
-                                    catalogue pages. <egXML xmlns="http://www.tei-c.org/ns/Examples">
-                                        <listBibl>
-                                            <bibl>
-                                                <ref
-                                                  target="http://www.lib.cam.ac.uk/arabic_catalogues/browne/view.php?
-                                                    id=76"
-                                                  >no. 673</ref>
-                                            </bibl>
-                                        </listBibl>
-                                    </egXML> Do not use this method to link to digitized copies, use
-                                        <ref target="#surrogates"><gi>surrogates</gi></ref>
-                                    instead.</p>
-                                <!-- bl.syriac.uk is using the following for reference to other manuscripts: <msItem>
-<note>The sixth book of the select epistles of Severus of Antioch, in the same translation as <bibl>Add MS 12159<ptr target=”http://syriaca.org/manuscript/34”/>, <citedRange unit=”locus”>34a</citedRange></bibl>.</note>
-</msItem>
-
-When a URI is not available for a manuscript cited by Wright, the TEI:ptr is not included, instead the TEI:bibl is marked as @type=”MS” 
-
-<bibl type="MS">Add. 7150</bibl>
-
-Comment @davidamichelson -->
                             </div>
 
 
