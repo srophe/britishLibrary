@@ -6240,6 +6240,16 @@ Comment @davidamichelson -->
                                 <classRef key="model.hiLike"/>
                             </alternate>
                         </content>
+                        <!-- Syriaca: Commenting out this schematron rule temporarily.
+                          <constraintSpec ident="from-to-on-locus" scheme="schematron">
+                            <constraint>
+                                <sch:rule context="//tei:locus">
+                                    <sch:assert test="@from | @to">
+                                        The &lt;locus&gt; element must have @from, @to, or both @from and @to attributes.
+                                    </sch:assert>
+                                </sch:rule>
+                            </constraint>
+                        </constraintSpec>-->
                         <attList>
                             <attDef ident="scheme" mode="delete"/>
                         </attList>
@@ -6363,6 +6373,16 @@ Comment @davidamichelson -->
                             <attDef ident="xml:id" mode="change" usage="req"/>
                             <attDef ident="n" mode="change" usage="req"/>
                             <attDef ident="defective" mode="change">
+                                <constraintSpec ident="defective-on-msItem" scheme="schematron">
+                                    <constraint>
+                                        <sch:rule context="tei:msItem[descendant::tei:msItem[@defective='true']]">
+                                            <sch:assert test="@defective='true'">
+                                                This &lt;msItem&gt; element must have a @defective attribute with the value "true" because
+                                                its contains a descendant &lt;msItem&gt; element indicating that it is defective.
+                                            </sch:assert>
+                                        </sch:rule>
+                                    </constraint>
+                                </constraintSpec>
                                 <valList type="closed">
                                     <valItem ident="false"/>
                                     <valItem ident="true"/>
@@ -6681,6 +6701,7 @@ Comment @davidamichelson -->
                         </classes>
                         <content>
                             <sequence preserveOrder="false">
+                                <elementRef key="foreign" minOccurs="0" maxOccurs="unbounded"/>
                                 <elementRef key="placeName" minOccurs="0" maxOccurs="unbounded"/>
                                 <elementRef key="sic" minOccurs="0" maxOccurs="unbounded"/>
                                 <textNode/>
@@ -6739,12 +6760,28 @@ Comment @davidamichelson -->
                         </classes>
                         <content>
                             <sequence preserveOrder="false">
+                                <elementRef key="choice" minOccurs="0" maxOccurs="unbounded"/>
                                 <elementRef key="foreign" minOccurs="0" maxOccurs="unbounded"/>
+                                <elementRef key="persName" minOccurs="0" maxOccurs="1"/>
+                                <elementRef key="placeName" minOccurs="0" maxOccurs="unbounded"/>
                                 <elementRef key="sic" minOccurs="0" maxOccurs="unbounded"/>
                                 <elementRef key="supplied" minOccurs="0" maxOccurs="unbounded"/>
                                 <textNode/>
                             </sequence>
                         </content>
+                        <constraintSpec ident="choice-in-persName" scheme="schematron">
+                            <constraint>
+                                <sch:rule context="//tei:persName/tei:choice">
+                                    <sch:assert test="((tei:sic and tei:corr) or (tei:abbr and tei:expan))">
+                                        As child of &lt;persName&gt;, &lt;choice&gt; can either be used to 
+                                        correct a mistake in the original print volume (using &lt;sic&gt; and &lt;corr&gt;)
+                                        or to indicate an abbreviation and an expansion of that abbreviation 
+                                        (using &lt;abbr&gt; and &lt;expan&gt;). The &lt;choice&gt; element should not be 
+                                        used to mark up a name in different languages.
+                                    </sch:assert>
+                                </sch:rule>
+                            </constraint>
+                        </constraintSpec>
                         <attList>
                             <attDef ident="type" mode="change">
                                 <valList type="closed">
@@ -6807,11 +6844,27 @@ Comment @davidamichelson -->
                         </classes>
                         <content>
                             <sequence preserveOrder="false">
+                                <elementRef key="choice" minOccurs="0" maxOccurs="unbounded"/>
                                 <elementRef key="foreign" minOccurs="0" maxOccurs="unbounded"/>
+                                <elementRef key="placeName" minOccurs="0" maxOccurs="unbounded"/>
                                 <elementRef key="sic" minOccurs="0" maxOccurs="unbounded"/>
+                                <elementRef key="supplied" minOccurs="0" maxOccurs="unbounded"/>
                                 <textNode/>
                             </sequence>
                         </content>
+                        <constraintSpec ident="choice-in-placeName" scheme="schematron">
+                            <constraint>
+                                <sch:rule context="//tei:placeName/tei:choice">
+                                    <sch:assert test="((tei:sic and tei:corr) or (tei:abbr and tei:expan))">
+                                        As child of &lt;persName&gt;, &lt;choice&gt; can either be used to 
+                                        correct a mistake in the original print volume (using &lt;sic&gt; and &lt;corr&gt;)
+                                        or to indicate an abbreviation and an expansion of that abbreviation 
+                                        (using &lt;abbr&gt; and &lt;expan&gt;). The &lt;choice&gt; element should not be 
+                                        used to mark up a name in different languages.
+                                    </sch:assert>
+                                </sch:rule>
+                            </constraint>
+                        </constraintSpec>
                         <attList>
                             <attDef ident="ref" mode="change">
                                 <constraintSpec ident="ref-on-placeName" scheme="schematron">
@@ -6949,6 +7002,21 @@ Comment @davidamichelson -->
                         </classes>
                         <!-- Syriaca: We could contstrain for what we have or we could leave note/p/quote/supplied, etc. open for lots of content. Discuss. -->
                         <!-- Syriaca: We would likely benefit from looking more closely at how we use quote. I see some slightly confusing stuff even in file 1.xml. -->
+                        <attList>
+                            <attDef ident="xml:lang" mode="change" usage="req">
+                                <constraintSpec ident="xmlLang-on-quote" scheme="schematron">
+                                    <constraint>
+                                        <sch:rule context="//tei:quote/@xml:lang">
+                                            <sch:let name="langIdents" value="//tei:profileDesc/tei:langUsage/tei:language/@ident"/>
+                                            <sch:assert test=". = $langIdents">
+                                                Attribute value must match one of the following language codes in the &lt;profileDesc&gt;:
+                                                <sch:value-of select="string-join($langIdents, ' | ')"/>.
+                                            </sch:assert>
+                                        </sch:rule>
+                                    </constraint>
+                                </constraintSpec>
+                            </attDef>
+                        </attList>
                     </elementSpec>
                     
                     
@@ -6974,8 +7042,10 @@ Comment @davidamichelson -->
                         </classes>
                         <content>
                             <sequence preserveOrder="false">
+                                <elementRef key="choice" minOccurs="0" maxOccurs="unbounded"/>
                                 <elementRef key="foreign" minOccurs="0" maxOccurs="unbounded"/>
                                 <elementRef key="locus" minOccurs="0" maxOccurs="unbounded"/>
+                                <elementRef key="persName" minOccurs="0" maxOccurs="unbounded"/>
                                 <elementRef key="sic" minOccurs="0" maxOccurs="unbounded"/>
                                 <textNode/>
                             </sequence>
@@ -7558,11 +7628,22 @@ Comment @davidamichelson -->
                             <sequence preserveOrder="false">
                                 <elementRef key="choice" minOccurs="0" maxOccurs="unbounded"/>
                                 <elementRef key="foreign" minOccurs="0" maxOccurs="unbounded"/>
+                                <elementRef key="locus" minOccurs="0" maxOccurs="unbounded"/>
+                                <elementRef key="quote" minOccurs="0" maxOccurs="unbounded"/>
                                 <elementRef key="sic" minOccurs="0" maxOccurs="unbounded"/>
                                 <elementRef key="supplied" minOccurs="0" maxOccurs="unbounded"/>
                                 <textNode/>
                             </sequence>
                         </content>
+                        <constraintSpec ident="xmlLang-on-msItem-title" scheme="schematron">
+                            <constraint>
+                                <sch:rule context="tei:msItem/tei:title">
+                                    <sch:assert test="@xml:lang">
+                                        This &lt;title&gt; element must have an @xml:lang attribute.
+                                    </sch:assert>
+                                </sch:rule>
+                            </constraint>
+                        </constraintSpec>
                         <attList>
                             <attDef ident="type" mode="change">
                                 <valList type="closed">
