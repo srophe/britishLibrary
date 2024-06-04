@@ -1,4 +1,4 @@
-<xsl:stylesheet xmlns="http://www.w3.org/1999/xhtml" xmlns:saxon="http://saxon.sf.net/" xmlns:local="http://syriaca.org/ns" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:s="http://syriaca.org" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:x="http://www.w3.org/1999/xhtml" xmlns:xs="http://www.w3.org/2001/XMLSchema" exclude-result-prefixes="xs t s saxon" version="2.0">
+<xsl:stylesheet xmlns="http://www.w3.org/1999/xhtml" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:s="http://syriaca.org" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:x="http://www.w3.org/1999/xhtml" xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:saxon="http://saxon.sf.net/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:local="http://syriaca.org/ns" exclude-result-prefixes="xs t s saxon" version="2.0">
     
     <!-- ================================================================== 
        Copyright 2013 New York University
@@ -613,10 +613,7 @@
     </xsl:template>
     <xsl:template name="msItemTitleAuthor">
         <xsl:for-each select="t:author">
-            <xsl:apply-templates select="." mode="mss"/><xsl:choose>
-                <xsl:when test="position() != last()">, </xsl:when>
-                <xsl:otherwise>. </xsl:otherwise>
-            </xsl:choose>
+            <xsl:apply-templates select="." mode="mss"/><xsl:choose><xsl:when test="position() != last()">, </xsl:when><xsl:otherwise>. </xsl:otherwise></xsl:choose>
         </xsl:for-each>
         <xsl:apply-templates select="t:title" mode="mss"/>
     </xsl:template>
@@ -633,10 +630,10 @@
         -->
         <xsl:choose>
             <xsl:when test="@ref">
-                <a href="{$nav-base}/search.html?author={@ref}"><xsl:value-of select="."/></a>
+                <a href="{$nav-base}/search.html?author={@ref}"><xsl:value-of select="normalize-space(.)"/></a>
             </xsl:when>
             <xsl:otherwise>
-                <xsl:value-of select="."/>
+                <xsl:value-of select="normalize-space(.)"/>
             </xsl:otherwise>
         </xsl:choose>
     </xsl:template>
