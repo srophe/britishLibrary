@@ -69,6 +69,17 @@ else if(contains($exist:path,'/d3xquery/')) then
     <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
         <cache-control cache="yes"/>
     </dispatch>
+
+else if(($exist:path eq '/documentation/guidelines')) then
+    (: Pass though XML,pdf and txt records everything else is passed through :)
+    <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
+        <forward url="{concat($exist:controller,'/documentation/schema/guidelines.html')}"/>
+     </dispatch>
+else if(($exist:path eq '/documentation/editors')) then
+    (: Pass though XML,pdf and txt records everything else is passed through :)
+    <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
+        <forward url="{concat($exist:controller,'/documentation/editors.xml')}"/>
+     </dispatch>     
     
 else if(contains($exist:path,'/documentation/') and ends-with($exist:path,('.tei','.xml','.txt','.pdf'))) then
     (: Pass though XML,pdf and txt records everything else is passed through :)
