@@ -455,7 +455,6 @@
             </xsl:choose>
             -->
             <xsl:call-template name="msItemTitleAuthor"/>
-            <xsl:if test="@defective='true'"><xsl:text> [defective]</xsl:text></xsl:if>
             <div class="msItemChild">
                 <xsl:apply-templates select="*[not(self::t:locus) and not(self::t:title) and not(self::t:author) and not(self::t:msItem)]" mode="mssNotes"/>
                 <xsl:if test="descendant-or-self::t:note">
@@ -644,9 +643,19 @@
     </xsl:template>
     <xsl:template name="msItemTitleAuthor">
         <xsl:for-each select="t:author">
-            <xsl:apply-templates select="." mode="mss"/><xsl:choose><xsl:when test="position() != last()">, </xsl:when><xsl:otherwise>. </xsl:otherwise></xsl:choose>
+            <xsl:apply-templates select="t:persName[1]" mode="mss"/><xsl:choose><xsl:when test="position() != last()">, </xsl:when><xsl:otherwise>. </xsl:otherwise></xsl:choose>
         </xsl:for-each>
-        <xsl:apply-templates select="t:title" mode="mss"/>
+        <xsl:apply-templates select="t:title" mode="mss"/><xsl:if test="@defective='true'"><xsl:text> [defective]</xsl:text></xsl:if>
+        <xsl:if test="count(t:author/t:persName) &gt; 1">
+            <xsl:for-each select="t:author">
+                <xsl:for-each select="t:persName[position() &gt; 1]">
+                   <div>
+                       <span class="inline-h4">Author Name Variants<xsl:if test="@xml:lang != ''"> [<xsl:value-of select="@xml:lang"/>]</xsl:if>: </span>
+                       <xsl:apply-templates select="." mode="mss"/>
+                   </div>
+                </xsl:for-each>                
+            </xsl:for-each>
+        </xsl:if>
     </xsl:template>
     <xsl:template match="t:title" mode="mss">
         <xsl:apply-templates mode="plain"/>
