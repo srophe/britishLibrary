@@ -150,7 +150,7 @@ declare function app:h1($node as node(), $model as map(*)){
  github-mark
  :)
 declare %templates:wrap function app:other-data-formats($node as node(), $model as map(*), $formats as xs:string?){
-let $id := (:replace($model("hits")/descendant::tei:idno[contains(., $config:base-uri)][1],'/tei',''):)request:get-parameter('id', '')
+let $id := replace($model("hits")/descendant::tei:idno[contains(., $config:base-uri)][1],'/tei','') (:request:get-parameter('id', ''):)
 return 
     if($formats) then
         <div class="container" style="width:100%;clear:both;margin-bottom:1em; text-align:right;">
