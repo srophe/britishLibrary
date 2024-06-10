@@ -114,7 +114,7 @@
                                     <xsl:apply-templates select="t:msIdentifier/t:altIdentifier/t:idno[@type='Wright-BL-Roman']"/>
                                 </xsl:otherwise>
                             </xsl:choose>
-                            (<xsl:apply-templates select="t:additional/t:listBibl/t:bibl/t:citedRange[@unit='pp']"/>)
+                            (<xsl:apply-templates select="t:additional/t:listBibl/t:bibl/t:citedRange[@unit='pp' or @unit='p']"/>)
                             <a href="{string(t:additional/t:listBibl/t:bibl/t:ref/@target)}" target="_blank">   
                                 <img src="$nav-base/resources/images/ialogo.jpg" alt="Link to Archive.org Bibliographic record" height="18px"/>
                             </a>
@@ -129,7 +129,7 @@
                                 <xsl:otherwise>
                                     <xsl:apply-templates select="t:msIdentifier/t:altIdentifier/t:idno[@type='Wright-BL-Roman']"/>
                                 </xsl:otherwise>
-                            </xsl:choose> (<xsl:apply-templates select="t:additional/t:listBibl/t:bibl/t:citedRange[@unit='pp']"/>)
+                            </xsl:choose> (<xsl:apply-templates select="t:additional/t:listBibl/t:bibl/t:citedRange[@unit='pp' or @unit='p']"/>)
                         </xsl:otherwise>
                     </xsl:choose>
                     </div>    
