@@ -1026,6 +1026,21 @@
                             right-to-left formatting will be applied. For a list of allowed language
                             attribute values <ref target="#textlanguage">see below</ref>.</p>
                     </div>
+                    <div xml:id="unicode">
+                        <head>Transcription of Characters, Symbols, and Diacritics in Unicode</head>
+                        <p>All text and symbols have been encoded using the <ref target="https://home.unicode.org/">Unicode Standard</ref>. When Wright has Romanized Syriac characters, we have followed his Romanization system and used unicode diacritics for macrons, dots above, below, etc. For representation of alaph (ܐ) and ʿayin (ʿē, ܥ) we have changed Wright's use of apostrophe (') for the unicode half-ring characters, U+02BE ʾ MODIFIER LETTER RIGHT HALF RING and U+02BF ʿ MODIFIER LETTER LEFT HALF RING, respectively.</p>
+                            <p>Wright's printed catalogue includes characters and symbols for which there is not yet a unicode character or code point. Examples include the use ofomega as a Syriac vowel or the use of crosses, circles, and dots as end of paragraph markers. In the cases where unicode characters are not available or where Wright provides a diagram or image which cannot be reproduced using XML (for example characters arranged as a cross or circle), we have included a note in the <gi>decoDesc</gi> referring users to a .pdf version of Wright's catalogue.</p>
+                        <p>This is a modified example from <ref target="https://bl.syriac.uk/ms/3"
+                            >https://bl.syriac.uk/ms/3</ref>:<egXML
+                                xmlns="http://www.tei-c.org/ns/Examples">
+                                <decoDesc>
+                                    <decoNote type="missingContent">The printed edition of Wright's catalogue contains characters or images which cannot be encoded for display as electronic text. Please refer to the printed catalogue to view these characters or images.
+                                    </decoNote>
+                                </decoDesc>
+                            </egXML></p>
+                        <p>Notes for Review Editors (2024)</p>
+                        <p>If you need to enter transliterated or Romanized Syriac using Latin characters, please use Unicode characters for dots under s, t, etc. For representation of alaph (ܐ) and ʿayin (ʿē, ܥ), please change Wright's use of apostrophe to the unicode half-ring characters, U+02BE ʾ MODIFIER LETTER RIGHT HALF RING (for aleph) and U+02BF ʿ MODIFIER LETTER LEFT HALF RING (for ʿayin, respectively). You can cut and paste most of these characters from the list <ref target="https://github.com/srophe/syriaca-data/wiki/Transliteration-and-Vocalization-Standards">here</ref>. In some cases you may find the characters $ or % in the text. These were used in an early stage to mark where to enter non-Roman text. $ indicates Syriac text should be entered. In most cases you should check to see if the Syriac is complete, most likely it was entered but this character was not deleted, if so you may delete it. If needed, add the missing Syriac and then delete. The % character was used to indicate that text in Arabic, Greek, Armenian or other non-Roman script should be entered. If you are able, enter that text as described above. Lastly, when you find that the PDF of Wright's catalogue contains either images or special characters which cannot be displayed using Syriac or Greek unicode fonts, please open a GitHub issue, apply the label "cannot display", and include this message in the title of your issue: “PDF contains characters or images which cannot be displayed in XML.” Note: This section is provided for the convenience of the editors undertaking a revision of the data in 2024 and will be deleted from the final documentation.</p>
+                    </div>
                 </div>
                 <div xml:id="header">
                     <head>The TEI Header</head>
@@ -1469,6 +1484,8 @@
                             controlled list of types of changes. All <q>planned</q> changes are
                             assigned to an xml:id for the general editors:
                                 <q>https://bl.syriac.uk/documentation/editors.xml#smbl-general-editors</q>. </p>
+                        <p>Notes for Review Editors (2024)</p>
+                        <p>Please begin by checking the <gi>revisionDesc</gi> to see if there are any change/<att>type</att>=<q>planned</q> that you are able to complete (such as adding in Arabic). Please do not edit the revisionDesc/change after you complete the revision. Instead, leave the change description there even after you complete the requested change as we will use it to find the changes you made and proofread them. If you are not able to make the change, please create an issue noting such on GitHub online so we can make the change later. (For example, if you do not work in Arabic, do not add Arabic text. Or for example, if the Syriac characters needed in the document do not exist in unicode fonts and cannot be added create an issue noting this). Note: This section is provided for the convenience of the editors undertaking a revision of the data in 2024 and will be deleted from the final documentation.</p>
                         <p>Divergences from Consolidated Schema:</p>
                         <p><title>SMBL</title> requires the <gi>change</gi> element have the
                                 <att>who</att> attribute but <att>when</att> is optional (this is
@@ -1879,7 +1896,7 @@
                                 <p><att>defective</att> can be used to indicate if any text or folia
                                     originally present are now missing (as determined by Wright
                                     based on missing intellectual content or physical state of the
-                                    manuscript). The following values are permitted: <list>
+                                    manuscript). Defective here refers only to the physical state of the manuscript. In a case where the manuscript, contains only a portion of a literary work by design (such as an abbreviated text or an extract), the manuscript item is not considered defective. The following values are permitted: <list>
                                         <item><q>true</q> means that the item is defective either
                                             because Wright states as much (<q>leaves are wanting</q>
                                             or <q>fragments of</q>) or because clear deduction by
@@ -1890,9 +1907,9 @@
                                             not discussed by Wright.</item>
                                         <item><q>false</q> is the default value and it is not
                                             necessary to enter it. If the item is not defective our
-                                            practice is merely to delete the attribute
                                             altogether.</item>
                                     </list>
+                                    In the case of nested <gi>msItem</gi> elements, the defective value was also marked for any higher-level items if one of their child items was defective.
                                 </p>
                             </div>
                             <!--  <p>The <gi>msItem</gi> element may be used: <list>
@@ -2185,7 +2202,7 @@
                                 </p>-->
                             </div>
                             <div xml:id="msitemAuthor">
-                                <head>Author [UNDER REVISION]</head>
+                                <head>Author</head>
                                 <p>The author of a manuscript item, if given by Wright, was recorded
                                     inside the <gi>author</gi> element and wrapped with a
                                         <gi>persName</gi> child element (with <att>xml:lang</att>
@@ -2198,12 +2215,12 @@
                                     multiple name variants for the same person (e.g. translations or
                                     transliterations) we added these as child <gi>persName</gi>
                                     elements (with <att>xml:lang</att> attributes) within the
-                                        <gi>author</gi> element. <egXML
+                                        <gi>author</gi> element (see further below for an example of multiple names for George, bishop of the Arabs).<egXML
                                         xmlns="http://www.tei-c.org/ns/Examples">
                                         <msItem xml:id="b2" n="3" defective="true">
                                             <locus from="7a" to="17b">Foll. 7a-17b</locus>
                                             <author ref="http://syriaca.org/person/13">
-                                                <persName xml:lang="en">Ephrem</persName>
+                                                <persName xml:lang="en">Ephraim</persName>
                                             </author>
                                             <title xml:lang="en">On the Lord's Supper</title>
                                             <rubric xml:lang="syr">ܕܦܛܝܪ̈ܐ<locus from="7a"/>
@@ -2211,7 +2228,13 @@
                                         </msItem>
                                     </egXML>
                                 </p>
-                                <p>Multiple authors have been indicated using repeated
+                                <p>When a <gi>msItem</gi> contains nested <gi>msItem</gi> elements, the author element should be repeated if applicable to the sub-items.</p>
+                                <p>Divergences from Consolidated Schema:</p>
+                                <p><title>SMBL</title> uses Syriaca.org URIs and thus does not use
+                                    <att>key</att> as specified in the Consolidated Schema.</p>
+                                <div xml:id="multipleAuthors">
+                                    <head>Multiple Authors</head>
+                                    <p>Multiple authors have been indicated using repeated
                                         <gi>author</gi> elements. <egXML
                                         xmlns="http://www.tei-c.org/ns/Examples">
                                         <msItem xml:id="p2a1" n="1">
@@ -2227,10 +2250,53 @@
                                                 Gregory (Nazianzen) </title>
                                         </msItem>
                                     </egXML></p>
-                                <p>Divergences from Consolidated Schema:</p>
-                                <p><title>SMBL</title> uses Syriaca.org URIs and thus does not use
-                                        <att>key</att> as specified in the Consolidated Schema.</p>
-                                <!--
+                                <p>When a <gi>msItem</gi> contains nested <gi>msItem</gi> elements, the author element should be repeated if applicable to the sub-items. When a top-level <gi>msItem</gi> contains sub-items with different authors, all authors should be encoded in the top level <gi>msItem</gi> as seen in this example from <ref target="https://bl.syriac.uk/ms/427">https://bl.syriac.uk/ms/427</ref>. Note: When Wright gives multiple name variants, those varients were recorded only in the first/highest-level instance.
+                                <egXML
+                                    xmlns="http://www.tei-c.org/ns/Examples">
+                                <msItem xml:id="a1" n="1" defective="true">
+                                    <locus from="1a" to="263b">foll. 1 a-263 b</locus>
+                                    <author ref="http://syriaca.org/person/122">
+                                        <persName xml:lang="en">George, bishop of the Arabs</persName>
+                                        <persName xml:lang="en">George the Jacobite</persName>
+                                        <persName xml:lang="syr">ܓܘܪܓܝ (ܓܝܘܪܓܝ) ܕܥܡ̈ܡܐ</persName>
+                                        <persName xml:lang="syr">ܓܝܘܪܓܝ ܝܥܩܘܒܝܐܐ</persName>
+                                    </author>
+                                    <!-- ... -->
+                                    <author ref="http://syriaca.org/person/342">
+                                        <persName xml:lang="en">Aristotle</persName>
+                                    </author>
+                                    <title xml:lang="en">Part of the Organon of Aristotle, with introductions, notes and commentaries by George, bishop of the Arabs
+                                    </title>
+                                    <!-- ... -->
+                                    <msItem xml:id="b1" n="2" defective="true">
+                                        <locus from="1a" to="59">foll. 1a-59</locus>
+                                        <title xml:lang="en">The Ten Categories</title>
+                                        <author ref="http://syriaca.org/person/122">
+                                            <persName xml:lang="en">George, bishop of the Arabs</persName>
+                                        </author>
+                                        <author ref="http://syriaca.org/person/342">
+                                            <persName xml:lang="en">Aristotle</persName>
+                                        </author>
+                                        <msItem xml:id="c1" n="3" defective="true">
+                                            <locus from="1a" to="2b">foll. 1a-2b</locus>
+                                            <author ref="http://syriaca.org/person/122">
+                                                <persName xml:lang="en">George, bishop of the Arabs</persName>
+                                            </author>
+                                            <title xml:lang="en">Introduction</title>
+                                            <!-- ... -->
+                                        </msItem>
+                                        <msItem xml:id="c2" n="4">
+                                            <locus from="3a" to="28">foll. 3a-28</locus>
+                                            <author ref="http://syriaca.org/person/342">
+                                                <persName xml:lang="en">Aristotle</persName>
+                                            </author>
+                                            <title xml:lang="en">Text</title>
+                                            <!-- ... -->
+                                        </msItem>
+                                    </msItem>
+                                </msItem>
+                                </egXML></p></div>
+<!--
                                     using the <att>key</att> attribute, to the persons authority
                                     file, see <ptr target="#personalnames"/>. The <gi>author</gi>
                                     element should be omitted for anonymous works. 
@@ -2423,10 +2489,9 @@
                                     </egXML> We have made every effort to encode these titles
                                     exactly as written by Wright, though in some cases we have made
                                     silent emmendations for grammar or when Wright's prose was not
-                                    clear or if Wright's title was abbreviated due to context (in
-                                    which case we have supplied additional words to make the context
-                                    clear). The one change we have made is to capitalize the first
-                                    word of each title.</p>
+                                    clear. One change we have made throughout is to capitalize the first
+                                    word of each title. More notably, if Wright's title was abbreviated due to context, we have supplied additional words to make the context
+                                    clear. In addition, in the cases where Wright did not supply an English title we have constructed one so that every <gi>msItem</gi> has a non-Syriac title (usually in English) to appear in search and browse results (see discussion <ref target="#noEnglishTitle">below</ref>).</p>
                                 <p>As can be seen in the example just given (<q>Fragments of the
                                         second volume of the Commentary of Daniel of Salach on the
                                         Psalms, viz. part of the homilies on Pss. li., lviii., and
@@ -2483,13 +2548,26 @@
                                         </msItem>
                                     </egXML>
                                 </p>
-                                <p>In some cases of such nested sub-items, Wright will only give a
+                                <p>As noted <ref target="#URIs">above</ref> in the guidelines for
+                                    encoding URI entities, when the prose given by Wright for a
+                                    <gi>title</gi> also contains a person name or a place name,
+                                    we have NOT tagged those names with <gi>persName</gi> or
+                                    <gi>placeName</gi>. See the example above from the
+                                    <q>Fragments of the second volume of the Commentary of
+                                        Daniel of Salach</q>.</p>
+                                <p>Divergences from Consolidated Schema:</p>
+                                <p><title>SMBL</title> does not use the same <att>type</att> values
+                                    on <gi>title</gi> as used in the Consolidated Schema. We may
+                                    choose to do so in a future revision.</p>
+                                <div xml:id="noEnglishTitle">
+                                    <head>Untitled Parts</head>
+                                    <p>In some cases of such nested sub-items, Wright will only give a
                                     Roman or Greek numeral/character in lieu of an English title.
                                     This is particularly the case for lower-level nested
                                         <gi>msItem</gi> elements for which he has already given a
                                     longer descriptive title for the containing <gi>msItem</gi>. In
                                     such cases, we have pre-pended the word <q>Part</q> to the Roman
-                                    or Greek character according to the following patter <q>Part
+                                    or Greek character according to the following pattern <q>Part
                                         c</q>. According to rules of XML, the enclosing
                                         <gi>msItem</gi> element's title is assumed to be inherited
                                     by the nested <gi>msItem</gi>. Thus the part designation is
@@ -2501,18 +2579,7 @@
                                     the work may begin, be interrupted by another <gi>msItem</gi>,
                                     and then resume. In such cases, whe have pre-pended
                                     "Continuation of " to the title of any subsequent non-contiguous
-                                    instances of a work.</p>
-                                <p>As noted <ref target="#URIs">above</ref> in the guidelines for
-                                    encoding URI entities, when the prose given by Wright for a
-                                        <gi>title</gi> also contains a person name or a place name,
-                                    we have NOT tagged those names with <gi>persName</gi> or
-                                        <gi>placeName</gi>. See the example above from the
-                                        <q>Fragments of the second volume of the Commentary of
-                                        Daniel of Salach</q>.</p>
-                                <p>Divergences from Consolidated Schema:</p>
-                                <p><title>SMBL</title> does not use the same <att>type</att> values
-                                    on <gi>title</gi> as used in the Consolidated Schema. We may
-                                    choose to do so in a future revision.</p>
+                                    instances of a work.</p></div>
                                 <!-- 
                                 <p>For retroconversion, use the form of the title given in the
                                     source catalogue (if one is given); for new cataloguing (or if
