@@ -2076,9 +2076,19 @@
                                         <att>xml:id</att>. You do not need to renumber if you delete
                                     an <gi>msItem</gi> or add a new <gi>msItem</gi> or find errors
                                     in the numbering. These will be renumbered by a script at a
-                                    later stage. Note: This section is provided for the convenience
-                                    of the editors undertaking a revision of the data in 2024 and
-                                    will be deleted from the final documentation.</p>
+                                    later stage. Similarly, if you delete an item, there is no
+                                    change needed to the <att>xml:id</att> or the <att>n</att>
+                                    values of the other items, leave them numbered as. If you add a
+                                    new <gi>msItem</gi>, you should just use the letter <q>x</q> as
+                                    place holders: <att>xml:id</att>=<q>x1</q>
+                                    <att>n</att>=<q>x</q> (if you insert multiple items, the XML
+                                    validation rules require that every <att>xml:id</att> have a
+                                    unique value, so please increment use
+                                        <att>xml:id</att>=<q>x2</q>, etc.). These will be renumbered
+                                    by a script at a later stage. Note: This section is provided for
+                                    the convenience of the editors undertaking a revision of the
+                                    data in 2024 and will be deleted from the final
+                                    documentation.</p>
                             </div>
                             <div xml:id="defective">
                                 <head>Defective Manuscript Items</head>
@@ -2135,29 +2145,189 @@
                                 <p>We have followed the definition proposed by the Consolidated
                                     Guidelines where a manuscript item is defined as <q>a complete
                                         work or item, or a self-contained part of a larger work with
-                                        (potentially) independent circulation</q>. A ‘self-contained
-                                    part of a larger work’ could be a letter in a letter-collection,
-                                    or a sermon in a homiliary; it could also represent the biblical
-                                    text or the commentary in a glossed biblical manuscript.</p>
+                                        (potentially) independent circulation</q>. A
+                                        <q>self-contained part of a larger work</q> could be a
+                                    letter in a letter-collection, or a sermon in a homiliary; it
+                                    could also represent the biblical text or the commentary in a
+                                    glossed biblical manuscript.</p>
                                 <p>As a guiding principle, where possible and practicable we have
-                                    used <gi>msItem</gi> element to markup up both the work as a whole,
-                                    and its self-contained parts, and the nesting of the different
-                                    <gi>msItem</gi> elements. In a few cases (primarily
-                                    with <foreign>florilegia</foreign> or <foreign>catenae</foreign>) is has not been possible to encode
-                                    individual manuscript items based on Wright's descriptions. In those
-                                    cases, we have placed his descriptions into <gi>note</gi>
-                                    elements.</p>
+                                    used the <gi>msItem</gi> element to markup up both the work as a
+                                    whole its self-contained parts through the nesting of
+                                        <gi>msItem</gi> elements. In a few cases (primarily with
+                                        <foreign>florilegia</foreign> or <foreign>catenae</foreign>)
+                                    is has not been possible to encode individual manuscript items
+                                    based on Wright's descriptions. In those cases, we have placed
+                                    his descriptions into <gi>note</gi> elements.</p>
                                 <div xml:id="outline">
                                     <head>Encoding the Outline of Nested Manuscript Items</head>
-                                    <p>For the most part, Wright's catalogue describes manuscript
-                                        items and their sub-items in a way compatible with similar
-                                        the TEI Guidlines. In a few cases, however, we have created
-                                        top-level manuscript items which contain all of the other
-                                        items in a manuscript. Moreover, in a few cases (primarily
-                                        with florilegia) is has not been possible to encode
-                                        manuscript items based on Wright's descriptions. In those
-                                        cases, we have placed his descriptions into <gi>note</gi>
-                                        elements.</p>
+                                    <p>For the most part, Wright's catalogue employs an sequential
+                                        outline pattern that describes manuscript items and their
+                                        sub-items in a way compatible with the TEI Guidlines. In a
+                                        few cases, however, we have had to modify Wright's outlines
+                                        to better model the manuscript in the tree structure of the
+                                        .xml file. Specifically, in some instances we have had to
+                                        create a new top-level manuscript item which contains all of
+                                        the items in a manuscript. Often in such cases, Wright
+                                        provided a title and description of this top-level item, but
+                                        he did not include this item in his numbered outline. At
+                                        other times, we have found Wright's outline to be partial or
+                                        incomplete. For example, Wright might only list some but not
+                                        all of the sub-items in a manuscript. In these cases, our
+                                        policy has been to encode only the sub-items that Wright
+                                        mentions. In these cases, our .xml document matches Wright's
+                                        description but not the actual contents of the manuscript
+                                        (of course, we hope the a future recataloguing will capture
+                                        the contents which Wright did not describe in detail). The
+                                        examples below illustrate what this might look like.</p>
+                                    <p>In this modified example from <ref
+                                            target="https://bl.syriac.uk/ms/763"
+                                            >https://bl.syriac.uk/ms/763</ref> Wright notes that
+                                        there are 18 hymns in the collection but he only provides
+                                        information about two of them, thus only two <gi>msItem</gi>
+                                        elements are encoded as child elements: <egXML
+                                            xmlns="http://www.tei-c.org/ns/Examples">
+                                            <msItem xml:id="c153" n="329" defective="false">
+                                                <locus from="62a" to="65">62a-65</locus>
+                                                <title xml:lang="en">Paraenetic hymns, 18 in
+                                                  number</title>
+                                                <rubric xml:lang="syr">ܕܡܪܬܝܢܘܬܐ<locus from="62a"
+                                                  to="62a"/>
+                                                </rubric>
+                                                <!-- ... -->
+                                                <msItem xml:id="d1" n="330">
+                                                  <locus from="62a" to="65">62a-65</locus>
+                                                  <title xml:lang="en">Fourth hymn</title>
+                                                  <rubric xml:lang="syr">ܥܠ ܗ̇ܢܘܢ ܕܡܬܐܡܪܝܢ ܣܟ̈ܘܠܝܛܐ
+                                                  ܐܘܟܝܬ ܪ̈ܚܡܝ ܥܡ̣ܠܐ. ܐܝܟܢܐ ܕܠܐ ܢܚܙܘܢ ܬܐܛܪ̈ܐ<locus
+                                                  from="62a" to="65"/></rubric>
+                                                </msItem>
+                                                <msItem xml:id="d2" n="331">
+                                                  <locus from="62a" to="65">62a-65</locus>
+                                                  <title xml:lang="en">Ninth hymn</title>
+                                                  <rubric xml:lang="syr">ܡܥܢܝܬܐ ܕܡܪܬܝܢܘܬܐ ܘܕܬܘ̣ܬ
+                                                  ܢܦܫܐ ܕܡܬܩܪܝܐ ܐܝܬܝܩܝ<locus from="62a" to="65"
+                                                  /></rubric>
+                                                </msItem>
+                                            </msItem>
+                                        </egXML></p>
+                                    <p>In this modified example from <ref
+                                            target="https://bl.syriac.uk/ms/265"
+                                            >https://bl.syriac.uk/ms/265</ref> Wright describes a
+                                        large collection but he only provides information about the
+                                        first two parts of the collection, thus only two
+                                            <gi>msItem</gi> elements are encoded as child elements.
+                                        In this case we did not create a third <gi>msItem</gi> which
+                                        might contain <q>everything else after the definitions and
+                                            introduction</q> even though it is clear by context that
+                                        the manuscript containts more thanjust these two sections.
+                                        In this case, the top-level <gi>msItem</gi> is assumed to
+                                        contain the other sections not specifically identified by
+                                        Wright. <egXML xmlns="http://www.tei-c.org/ns/Examples">
+                                            <msItem xml:id="a1" n="1" defective="true">
+                                                <locus from="1b"/>
+                                                <title xml:lang="en">A large collection of chapters
+                                                  on the Body and its Members, the Soul, the
+                                                  Resurrection, the Incarnation, the holy Eucharist,
+                                                  Baptism, etc.</title>
+                                                <msItem xml:id="b1" n="2">
+                                                  <locus from="1b"/>
+                                                  <title xml:lang="en">A section containing
+                                                  definitions of various scientific terms</title>
+                                                </msItem>
+                                                <msItem xml:id="b2" n="3" defective="true">
+                                                  <locus from="1b"/>
+                                                  <title xml:lang="en">The introductory
+                                                  section</title>
+                                                </msItem>
+                                            </msItem>
+                                        </egXML></p>
+                                    <p>Notes for Review Editors (2024)</p>
+                                    <p>As described above, it is not necessary to create extra
+                                            <gi>msItem</gi> elements for itemns not described
+                                        directly by Wright. Alternately, in some cases these may
+                                        have already been added to the file, in which case it is not
+                                        necessary to delete these extra <gi>msItem</gi> elements if
+                                        they exist. Note: This section is provided for the
+                                        convenience of the editors undertaking a revision of the
+                                        data in 2024 and will be deleted from the final
+                                        documentation.</p>
+                                    <p>Deprecated Practices and Legacy Data:</p>
+                                    <p>In an earlier stage of the project, we did attempt to create
+                                        placeholder <gi>msItem</gi> elements for content not
+                                        described by Wright so some files do contain sub-items with
+                                        minimal description which were not found in Wright's
+                                        description. We discontinued this practice after 2022 but
+                                        have left the legacy data in place, since it may be of use
+                                        to future cataloguing.</p>
+                                </div>
+                                <div xml:id="florilegia">
+                                    <head>Alternate Encoding with <gi>note</gi> in
+                                        <gi>msItem</gi></head>
+                                    <p>While Wright usually describes the manuscript contents in a
+                                        methodical manner creating an outline sequentially in order
+                                        from the first folio to the last, there are places where he
+                                        abandons this approach and offers a prose description of the
+                                        contents that does not follow the order of the document. In
+                                        the most frequent example, Wright may choose to describe a
+                                            <foreign>florilegium</foreign> in a manner organized by
+                                        alphabetically by author cited rather than by folio order.
+                                        In this modified example from <ref
+                                            target="https://bl.syriac.uk/ms/265"
+                                            >https://bl.syriac.uk/ms/265</ref>, Wright offers the
+                                        an alphabetical list: <quote>The authorities cited are--Didymus of
+                                            Alexandria. Fol. 24 b. Dionysius the Areopagite: epistle
+                                            to Timothy, fol. 19 b; to Titus, fol. 27 b. Epiphanius:
+                                            the Ancoratus. Fol. 26 a. Ephraim: foll. 21 a, 25 a, 30
+                                            a, 31 b;</quote>. Wright's description does not offer
+                                        enough information to encode individual manuscript items. In
+                                        those cases, we have placed these descriptions into one or
+                                        more <gi>note</gi> elements with the following XPath: msItem/note/p.
+                                        Inside this <gi>note</gi>, we have encoded as much of the
+                                        relevant information about authors, titles, and loci as
+                                        possible. As illustrated in this modified example from <ref
+                                            target="https://bl.syriac.uk/ms/265"
+                                            >https://bl.syriac.uk/ms/265</ref>: <egXML
+                                            xmlns="http://www.tei-c.org/ns/Examples">
+                                            <msItem xml:id="a1" n="1" defective="true">
+                                                <locus from="1b"/>
+                                                <title xml:lang="en">A large collection of chapters
+                                                  on the Body and its Members, the Soul, the
+                                                  Resurrection, the Incarnation, the holy Eucharist,
+                                                  Baptism, etc.</title>
+                                                <!-- ... -->
+                                                <note>
+                                                  <p>The authorities cited are--</p>
+                                                  <!-- ... -->
+                                                  <p>
+                                                  <persName>Didymus of Alexandria</persName>. Fol.
+                                                  <locus from="24b">24 b</locus>.</p>
+                                                  <p>
+                                                  <persName ref="http://syriaca.org/person/452"
+                                                  >Dionysius the Areopagite</persName>: <title
+                                                  xml:lang="en">epistle to Timothy </title>, fol.
+                                                  <locus from="19b">19 b</locus>; <title
+                                                  xml:lang="en">to Titus </title>, fol. <locus
+                                                  from="27b">27 b</locus>.</p>
+                                                  <p>
+                                                  <persName ref="http://syriaca.org/person/477"
+                                                  >Epiphanius</persName>: <title xml:lang="en">the
+                                                  Ancoratus</title>. Fol. <locus from="26a">26
+                                                  a</locus>.</p>
+                                                  <p>
+                                                  <persName ref="http://syriaca.org/person/13"
+                                                  >Ephraim</persName>: foll. <locus from="21a">21
+                                                  a</locus>, <locus from="25a">25 a</locus>, <locus
+                                                  from="30a">30 a</locus>, <locus from="31b">31
+                                                  b</locus>; <rubric xml:lang="syr">ܥܠ ܣܒܐ
+                                                  ܝܘܠܝܢܐ</rubric>, fol. <locus from="25a">25
+                                                  a</locus>; <rubric xml:lang="syr">ܡܢ ܩܠܐ ܕܚܡܫܐ
+                                                  ܕܦܪܕܝܣܐ</rubric>, fol. <locus from="30a">30
+                                                  a</locus>.</p>
+                                                  <!-- ... -->
+                                                </note>
+                                            </msItem>
+                                        </egXML>
+                                    </p>
                                 </div>
                             </div>
                             <!--  <div xml:id="glossedTexts">
