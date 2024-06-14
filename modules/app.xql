@@ -147,61 +147,73 @@ declare function app:h1($node as node(), $model as map(*)){
 (:~ 
  : Data formats and sharing
  : to replace app-link
- github-mark
+  Corrections [mail icon] [GitHub Issue Icon] [Github Code Icon] [TEI] [RDF] [Text] [Print]
+  mail,issue,code,tei,rdf,print
  :)
 declare %templates:wrap function app:other-data-formats($node as node(), $model as map(*), $formats as xs:string?){
-let $id := replace($model("hits")/descendant::tei:idno[contains(., $config:base-uri)][1],'/tei','') (:request:get-parameter('id', ''):)
+let $record := $model("hits")
+let $id := replace($record/descendant::tei:idno[contains(., $config:base-uri)][1],'/tei','') (:request:get-parameter('id', ''):)
+let $shelfMark := $record/descendant::tei:fileDesc/tei:sourceDesc/tei:msDesc/tei:msIdentifier/tei:altIdentifier/tei:idno[@type="BL-Shelfmark"]
+let $url := $record/descendant::tei:fileDesc/tei:sourceDesc/tei:msDesc/tei:msIdentifier/tei:idno[@type="URI"]
 return 
     if($formats) then
-        <div class="container" style="width:100%;clear:both;margin-bottom:1em; text-align:right;">
+        <div class="container altFormats" style="width:100%;clear:both;margin-bottom:1em; text-align:right;">
             {
                 for $f in tokenize($formats,',')
                 return 
-                    if($f = 'geojson') then
+                     if($f = 'geojson') then
                         if($model("hits")/descendant::tei:location/tei:geo) then 
-                            (<a href="{concat(replace($id,$config:base-uri,$config:nav-base),'.geojson')}" class="btn btn-default btn-xs" id="teiBtn" data-toggle="tooltip" title="Click to view the GeoJSON data for this record." >
+                            (<a href="{concat(replace($id,$config:base-uri,$config:nav-base),'.geojson')}" class="btn btn-default btn-sm" data-toggle="tooltip" title="Click to view the GeoJSON data for this record." >
                                  <span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span> GeoJSON
                             </a>, '&#160;')
                         else()
                     else if($f = 'json') then 
-                        (<a href="{concat(replace($id,$config:base-uri,$config:nav-base),'.json')}" class="btn btn-default btn-xs" id="teiBtn" data-toggle="tooltip" title="Click to view the GeoJSON data for this record." >
+                        (<a href="{concat(replace($id,$config:base-uri,$config:nav-base),'.json')}" class="btn btn-default btn-sm" data-toggle="tooltip" title="Click to view the GeoJSON data for this record." >
                              <span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span> JSON-LD
                         </a>, '&#160;') 
                     else if($f = 'kml') then
                         if($model("hits")/descendant::tei:location/tei:geo) then
-                            (<a href="{concat(replace($id,$config:base-uri,$config:nav-base),'.kml')}" class="btn btn-default btn-xs" id="teiBtn" data-toggle="tooltip" title="Click to view the KML data for this record." >
+                            (<a href="{concat(replace($id,$config:base-uri,$config:nav-base),'.kml')}" class="btn btn-default btn-sm" data-toggle="tooltip" title="Click to view the KML data for this record." >
                              <span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span> KML
                             </a>, '&#160;')
                          else()   
                     else if($f = 'print') then                        
-                        (<a href="javascript:window.print();" type="button" class="btn btn-default btn-xs" id="teiBtn" data-toggle="tooltip" title="Click to send this page to the printer." >
+                        (<a href="javascript:window.print();" type="button" class="btn btn-default btn-sm" data-toggle="tooltip" title="Click to send this page to the printer." >
                              <span class="glyphicon glyphicon-print" aria-hidden="true"></span>
-                        </a>, '&#160;')   
+                        </a>, '&#160;')
+                    else if($f = 'email') then                        
+                        (<a href="mailto:wsalesky@gmail?subject=Shelf mark:{$shelfMark} Record URI: {$url}" type="button" class="btn btn-default btn-sm" data-toggle="tooltip" title="Click to report a correction via e-mail." >
+                             <span class="glyphicon glyphicon-envelope" aria-hidden="true"></span> Corrections
+                        </a>, '&#160;')                          
+                    else if($f = 'ghIssue') then
+                        (<a href="{concat('https://github.com/srophe/britishLibrary-data/issues/new?assignees=&amp;labels=community-submitted&amp;title=',$shelfMark,':',$url)}" data-toggle="tooltip" class="btn btn-default btn-sm" title="Click to file a data issue on GitHub (requires login)." >
+                            <span class="glyphicon glyphicon-record" aria-hidden="true"></span> Open
+                        </a>, '&#160;')
                     else if($f = 'rdf') then
-                        (<a href="{concat(replace($id,$config:base-uri,$config:nav-base),'.rdf')}" class="btn btn-default btn-xs" id="teiBtn" data-toggle="tooltip" title="Click to view the RDF-XML data for this record." >
-                             <span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span> RDF/XML
+                        (<a href="{concat(replace($id,$config:base-uri,$config:nav-base),'.rdf')}" data-toggle="tooltip" title="Click to view the RDF-XML data for this record." >
+                            <img src="{$config:nav-base}/resources/images/sw-rdf-blue.png" height="26px"/>
                         </a>, '&#160;')
                     else if($f = 'tei') then
-                        (<a href="{concat(replace($id,$config:base-uri,$config:nav-base),'.tei')}" class="btn btn-default btn-xs" id="teiBtn" data-toggle="tooltip" title="Click to view the TEI XML data for this record." >
-                             <span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span> TEI/XML
+                        (<a href="{concat(replace($id,$config:base-uri,$config:nav-base),'.tei')}" data-toggle="tooltip" title="Click to view the TEI XML data for this record." >
+                             <img src="{$config:nav-base}/resources/images/TEI_Logo.png" height="28px"/>
                         </a>, '&#160;')
-                    else if($f = 'github') then
-                        (<a href="{concat('https://github.com/srophe/britishLibrary-data/blob/main/data/tei/',tokenize($id,'/')[last()],'.xml')}" class="btn btn-default btn-xs" id="teiBtn" data-toggle="tooltip" title="Click to view the TEI XML data for this record." >
-                             <img src="{$config:nav-base}/resources/images/github-mark.png" height="18px"/>
+                    else if($f = 'ghCode') then
+                        (<a href="{concat('https://github.com/srophe/britishLibrary-data/blob/main/data/tei/',tokenize($id,'/')[last()],'.xml')}" data-toggle="tooltip" title="Click to view the TEI XML data for this record." >
+                             <img src="{$config:nav-base}/resources/images/github-mark.png" height="28px"/>
                         </a>, '&#160;')                        
                     else if($f = 'text') then
-                        (<a href="{concat(replace($id,$config:base-uri,$config:nav-base),'.txt')}" class="btn btn-default btn-xs" id="teiBtn" data-toggle="tooltip" title="Click to view the plain text data for this record." >
+                        (<a href="{concat(replace($id,$config:base-uri,$config:nav-base),'.txt')}" class="btn btn-default btn-sm" data-toggle="tooltip" title="Click to view the plain text data for this record." >
                              <span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span> Text
                         </a>, '&#160;')                        
                     else if($f = 'ttl') then
-                        (<a href="{concat(replace($id,$config:base-uri,$config:nav-base),'.ttl')}" class="btn btn-default btn-xs" id="teiBtn" data-toggle="tooltip" title="Click to view the RDF-Turtle data for this record." >
+                        (<a href="{concat(replace($id,$config:base-uri,$config:nav-base),'.ttl')}" class="btn btn-default btn-sm" data-toggle="tooltip" title="Click to view the RDF-Turtle data for this record." >
                              <span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span> RDF/TTL
                         </a>, '&#160;')
                    else if($f = 'citations') then
                         let $zotero-group := $config:get-config//*:zotero/@group
                         return 
                             if($zotero-group != '') then 
-                                (<a href="{concat('https://api.zotero.org/groups/',$zotero-group,'/items/',tokenize($id,'/')[last()])}" class="btn btn-default btn-xs" id="citationsBtn" data-toggle="tooltip" title="Click for additional Citation Styles." >
+                                (<a href="{concat('https://api.zotero.org/groups/',$zotero-group,'/items/',tokenize($id,'/')[last()])}" class="btn btn-default btn-sm" data-toggle="tooltip" title="Click for additional Citation Styles." >
                                     <span class="glyphicon glyphicon-th-list" aria-hidden="true"></span> Cite
                                 </a>, '&#160;')
                             else ()
