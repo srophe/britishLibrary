@@ -1,4 +1,4 @@
-<xsl:stylesheet xmlns="http://www.w3.org/1999/xhtml" xmlns:saxon="http://saxon.sf.net/" xmlns:local="http://syriaca.org/ns" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:s="http://syriaca.org" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:x="http://www.w3.org/1999/xhtml" xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" exclude-result-prefixes="xs t s saxon" version="2.0">
+<xsl:stylesheet xmlns="http://www.w3.org/1999/xhtml" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:s="http://syriaca.org" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:x="http://www.w3.org/1999/xhtml" xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:saxon="http://saxon.sf.net/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:local="http://syriaca.org/ns" exclude-result-prefixes="xs t s saxon" version="2.0">
     
     <!-- ================================================================== 
        Copyright 2013 New York University
@@ -456,19 +456,47 @@
             -->
             <xsl:call-template name="msItemTitleAuthor"/>
             <div class="msItemChild">
-                <xsl:apply-templates select="*[not(self::t:locus) and not(self::t:title) and not(self::t:author) and not(self::t:msItem)]" mode="mssNotes"/>
-                <xsl:if test="descendant-or-self::t:note">
+                <xsl:apply-templates select="*[not(self::t:note) and not(self::t:locus) and not(self::t:title) and not(self::t:author) and not(self::t:msItem)]"/>
+                <!-- t:note|descendant::t:note[not(parent::t:msItem)] -->
+                <xsl:if test="t:note or descendant::t:note[not(parent::t:msItem)]">
                     <xsl:choose>
-                        <xsl:when test="count(descendant-or-self::t:note) = 1">
+                        <xsl:when test="count(t:note|descendant::t:note[not(parent::t:msItem)]) = 1">
                             <div class="msItem-notes">
-                                <span class="inline-h4">Note: </span><xsl:for-each select="descendant-or-self::t:note"><xsl:apply-templates/></xsl:for-each>    
+                                <span class="inline-h4">Note: </span><xsl:for-each select="t:note"><xsl:apply-templates/></xsl:for-each>    
+                            </div> 
+                        </xsl:when>
+                        <xsl:otherwise>
+                            <div class="msItem-notes">
+                                <span class="inline-h4">Notes2:</span>
+                                <ul>
+                                    <xsl:for-each select="t:note|descendant::t:note[not(parent::t:msItem)]">
+                                        <li>
+                                            <xsl:if test="@type='footnote'"><xsl:text>*</xsl:text></xsl:if>
+                                            <xsl:apply-templates/>
+                                        </li>
+                                    </xsl:for-each>    
+                                </ul>
+                            </div> 
+                        </xsl:otherwise>
+                    </xsl:choose>
+                </xsl:if>
+                <xsl:apply-templates select="t:msItem"/>
+            </div>
+            <!--
+            <div class="msItemChild">
+                <xsl:apply-templates select="*[not(self::t:locus) and not(self::t:title) and not(self::t:author) and not(self::t:msItem)]" mode="mssNotes"/>
+                <xsl:if test="t:note or t:rubric/t:note">
+                    <xsl:choose>
+                        <xsl:when test="count(t:note) = 1">
+                            <div class="msItem-notes">
+                                <span class="inline-h4">Note: </span><xsl:for-each select="t:note|t:rubric/t:note"><xsl:apply-templates/></xsl:for-each>    
                             </div> 
                         </xsl:when>
                         <xsl:otherwise>
                             <div class="msItem-notes">
                                 <span class="inline-h4">Notes:</span>
                                 <ul>
-                                    <xsl:for-each select="descendant-or-self::t:note">
+                                    <xsl:for-each select="t:note">
                                         <li><xsl:if test="@type='footnote'">* </xsl:if><xsl:apply-templates/></li>
                                     </xsl:for-each>    
                                 </ul>
@@ -478,6 +506,7 @@
                 </xsl:if>
                 <xsl:apply-templates select="t:msItem"/>
             </div>
+            -->
         </div>
     </xsl:template>
     <xsl:template match="t:bibl" mode="mssBibl">
