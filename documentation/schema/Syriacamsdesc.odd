@@ -1953,24 +1953,144 @@
                     </div>
                     <div xml:id="heading">
                         <head>The Heading [UNDER REVISION]</head>
+                        <!--
+                            - optional for composite mss the linking between parent and child
+                            - taxonomy relationship
+                        -->
+                        <p><title>SMBL</title> has used the <gi>head</gi> element to provide summary
+                          information about the manuscript or manuscript part.</p>
                         <p>An auto-generated paragraph describing the masnucript contents has been
-                            inserted into the <gi>head</gi> section of each file. <egXML
-                                xmlns="http://www.tei-c.org/ns/Examples">
+                            inserted into the <gi>head</gi> element as a <gi>note</gi> with a 
+                            <att>type</att> attribute whose value is <val>contents-note</val>.
+                            This note provides the title(s) of the first five top-level <gi>msItem</gi> elements.
+                            Their values are copied from the <gi>title</gi> element of each item; final elipsis
+                            indicates that there are more than five top-level manuscript items. Finally, the
+                            total number of <gi>msItem</gi> elements, including descendant manuscript items,
+                            is included in the note.
+                        </p>
+                        <p>See the following example, from <ref target="https://bl.syriac.uk/ms/1023">https://bl.syriac.uk/ms/1023</ref>:
+                            <egXML xmlns="http://www.tei-c.org/ns/Examples">
+                                <note type="contents-note">This manuscript contains: Severus. The Hymns of Severus, etc., here only 159 (ܩܢܛ) in number.; 
+                                Supplicatory hymns of every kind, arranged according to the eight tones.; Cantus ad Magnificat, arranged according to the eight tones.; 
+                                Additional hymns, arranged according to the eight tones.; Additional.; ... 
+                                In total, including sub-sections, this manuscript contains 26 items.</note>
+                            </egXML>
+                        </p>
+                        <p>For composite manuscripts, the contents note will instead direct the reader to
+                           the individual parts for a summary of the contents.</p>
+                        <p>Following the contents note, the <gi>head</gi> element may have a number of
+                           <gi>listRelation</gi> elements.</p>
+                        <p><title>SMBL</title> has recorded the genre classification provided in Wright's <title>Catalogue</title>
+                            in a <gi>listRelation</gi> element with <att>type</att> whose value is <val>Wright-BL-Taxonomy</val>.
+                            The taxonomy is recorded in a child <gi>relation</gi> element given a <att>name</att> attribute of <val>dcterms:type</val>
+                            and a <att>ref</att> attribute of <val>http://purl.org/dc/terms/type</val>. The manuscript or part URI
+                            is given as the value of the <att>active</att> attribute. A corresponding <att>xml:id</att> attribute value from the
+                            <gi>category</gi> in the <gi>taxonomy</gi> element is referenced as the value of the <att>passive</att> attribute.
+                            Finally, the human-readable label from the same <gi>category</gi> element is used as a text node of the relation's child
+                            <gi>desc</gi> element.
+                        </p>
+                        <p>An example of Wright's taxonomy encoded in the <gi>head</gi> element:</p>
+                        <p>
+                            <egXML xmlns="http://www.tei-c.org/ns/Examples">
+                                <listRelation type="Wright-BL-Taxonomy">
+                                    <relation name="dcterms:type" ref="http://purl.org/dc/terms/type" active="https://bl.syriac.uk/ms/1020" passive="#choral">
+                                        <desc>Choral Books</desc>
+                                    </relation>
+                                </listRelation>
+                            </egXML>
+                        </p>
+                        <p>For composite manuscripts, which contain one or more <gi>msPart</gi> elements,
+                           the manuscript record as well as each individual part will have a <gi>listRelation</gi>
+                           element defining the part-to-whole relationships between the composite manuscript and its parts.</p>
+                        <p>The <gi>listRelation</gi> element has been given a <att>type</att> attribute with the values
+                           <val>composite-to-parts</val> or <val>part-to-composite</val>. A child <gi>desc</gi> element
+                           provides a human-readable explanation of the list of relations. It is followed by a series of
+                           <gi>relation</gi> elements that define the part-to-whole or whole-to-part relationships.</p>
+                        <p>The <gi>relation</gi> element includes <att>active</att> and <att>passive</att>
+                            attributes whose values are the SMBL URIs for the composite manuscript and the specific manuscript part.
+                            Each element also includes a <att>name</att> attribute and <att>ref</att> attribute
+                            that define the relationship. The <att>active</att>, <att>passive</att>, and <att>ref</att> attributes can be
+                            understood as a triple, so in the example below one migh read:
+                            https://bl.syriac.uk/ms/100 has-unspecified-codicological-part https://bl.syriac.uk/ms/101.
+                            Finally, a child <gi>desc</gi> element provides a human-readable label consisting of
+                            the shelfmark, and folios if applicable, of the composite or part referenced in the <att>passive</att> attribute.
+                        </p>
+                        <p><title>SMBL</title> has used the following values for the <att>name</att> and <att>ref</att> attributes for 
+                           <val>composite-to-parts</val> type <gi>listRelation</gi> elements:</p>
+                        <p>
+                            <table>
+                                <row role="label">
+                                    <cell>Name attribute</cell>
+                                    <cell>Ref attribute</cell>
+                                </row>
+                                <row role="data">
+                                    <cell>syriaca:has-unspecified-codicological-part</cell>
+                                    <cell>#syriaca:has-unspecified-codicological-part</cell>
+                                </row>
+                                <row role="data">
+                                    <cell>syriaca:has-palimpsest-upper</cell>
+                                    <cell>#syriaca:has-palimpsest-upper</cell>
+                                </row>
+                                <row role="data">
+                                    <cell>syriaca:has-palimpsest-lower</cell>
+                                    <cell>#syriaca:has-palimpsest-lower</cell>
+                                </row>
+                            </table>
+                        </p>
+                        <p>The following example from <ref target="https://bl.syriac.uk/ms/100">https://bl.syriac.uk/ms/100</ref>
+                            shows the use of a <gi>listRelation</gi> element for relating composites and their parts:
+                            <egXML xmlns="http://www.tei-c.org/ns/Examples">
+                                <listRelation type="composite-to-parts">
+                                    <desc>This composite manuscript consists of 3 distinct parts:</desc>
+                                    <relation name="syriaca:has-unspecified-codicological-part" ref="#syriaca:has-unspecified-codicological-part" active="https://bl.syriac.uk/ms/100" passive="https://bl.syriac.uk/ms/101">
+                                        <desc>Add. 14,438, foll. 1–49</desc>
+                                    </relation>
+                                    <relation name="syriaca:has-unspecified-codicological-part" ref="#syriaca:has-unspecified-codicological-part" active="https://bl.syriac.uk/ms/100" passive="https://bl.syriac.uk/ms/1183">
+                                        <desc>Add. 14,438, foll. 50–52</desc>
+                                    </relation>
+                                    <relation name="syriaca:has-unspecified-codicological-part" ref="#syriaca:has-unspecified-codicological-part" active="https://bl.syriac.uk/ms/100" passive="https://bl.syriac.uk/ms/102">
+                                        <desc>Add. 14,438, foll. 53–101</desc>
+                                    </relation>
+                                </listRelation>
+                            </egXML>
+                        </p>
+                        <p><title>SMBL</title> has used the following values for the <att>name</att> and <att>ref</att> attributes for 
+                            <val>part-to-composite</val> type <gi>listRelation</gi> elements:</p>
+                        <p>
+                            <table>
+                                <row role="label">
+                                    <cell>Name attribute</cell>
+                                    <cell>Ref attribute</cell>
+                                </row>
+                                <row role="data">
+                                    <cell>syriaca:is-unspecified-codicological-part-of</cell>
+                                    <cell>#syriaca:is-unspecified-codicological-part-of</cell>
+                                </row>
+                                <!-- Note: might be an error in our data that we are missing is-palimpsest-upper and is-palimpsest-lower? -->
+                            </table>
+                        </p>
+                        <p>The following example from <ref target="https://bl.syriac.uk/ms/101">https://bl.syriac.uk/ms/101</ref>
+                           shows a full <gi>head</gi> element for a manuscript part.</p>
+                            <p>
+                            <egXML
+                            xmlns="http://www.tei-c.org/ns/Examples">
                                 <head>
-                                    <note type="contents-note">This manuscript contains: Philoxenus
-                                        of Mabūg. The discourses of Philoxenus of Mabūg on Christian
-                                        life and character. In total, including sub-sections, this
-                                        manuscript contains 9 items.</note>
+                                    <note type="contents-note">This manuscript contains: 
+                                        The book of Deuteronomy, according to the Peshitta version. In total, including sub-sections, 
+                                        this manuscript contains 1 item.</note>
                                     <listRelation type="Wright-BL-Taxonomy">
-                                        <relation name="dcterms:type"
-                                            ref="http://purl.org/dc/terms/type"
-                                            active="https://bl.syriac.uk/ms/332"
-                                            passive="#theo-single">
-                                            <desc>Individual Authors</desc>
+                                        <relation name="dcterms:type" ref="http://purl.org/dc/terms/type" active="https://bl.syriac.uk/ms/101" passive="#bible-ot">
+                                            <desc>Old Testament</desc>
+                                        </relation>
+                                    </listRelation>
+                                    <listRelation type="part-to-composite">
+                                        <desc>This unit is a part of a composite manuscript:</desc>
+                                        <relation name="syriaca:is-unspecified-codicological-part-of" ref="#syriaca:is-unspecified-codicological-part-of" active="https://bl.syriac.uk/ms/101" passive="https://bl.syriac.uk/ms/100">
+                                            <desc>Add. 14,438</desc>
                                         </relation>
                                     </listRelation>
                                 </head>
-                            </egXML>
+                         </egXML>
                         </p>
                         <p>Notes for Review Editors (2024)</p>
                         <p>Please ignore any errors in the <gi>head</gi> element and its summary.
@@ -1978,6 +2098,11 @@
                             section is provided for the convenience of the editors undertaking a
                             revision of the data in 2024 and will be deleted from the final
                             documentation.</p>
+                        <p>Divergences from Consolidated Schema:</p>
+                        <p><title>SMBL</title> has used the <gi>head</gi> element differently than the Consolidated schema
+                           and has not provided a summary title or origin place and date information. Instead, we have used
+                           dedicated <gi>note</gi> and <gi>listRelation</gi> elements to record summary information about the
+                           manuscript and part records.</p>
                         <!--<p>For manuscripts described in detail, and/or containing more than one
                             item, the <gi>head</gi> element should provide (1) a brief descriptive
                             title (2) place of origin if known (3) date of origin. If the latter two
