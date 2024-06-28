@@ -21,6 +21,6 @@ return
     githubxq:execute-webhook($data, 
         '/db/apps/britishlibrary',
         'https://github.com/srophe/britishlibrary',
-        'main',
+        'development',
         '${SECRET_KEY}',
         '')
