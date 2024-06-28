@@ -467,7 +467,7 @@
                         </xsl:when>
                         <xsl:otherwise>
                             <div class="msItem-notes">
-                                <span class="inline-h4">Notes2:</span>
+                                <span class="inline-h4">Notes:</span>
                                 <ul>
                                     <xsl:for-each select="t:note|descendant::t:note[not(parent::t:msItem)]">
                                         <li>
