@@ -58,7 +58,8 @@
         <div class="title">
             <h1>
                 <!-- Format title, calls template in place-title-std.xsl -->
-                <xsl:call-template name="title"/>
+                <!--<xsl:call-template name="title"/>-->
+                <xsl:value-of select="//t:msDesc/t:msIdentifier/t:altIdentifier/t:idno[@type='BL-Shelfmark']"/>
             </h1>
         </div>
         <div class="tei-note">
