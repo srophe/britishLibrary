@@ -381,6 +381,17 @@ declare function search:bl-search-form($node as node(), $model as map(*)) {
                         </div>
                         <!-- origPlaceLimit -->
                     </div>
+                    <div class="form-group">
+                        <label for="shelfmark" class="col-sm-2 col-md-3  control-label">Shelfmark: </label>
+                        <div class="col-sm-10 col-md-9 ">
+                            <div class="input-group">
+                                <input type="text" id="shelfmark" name="shelfmark" class="form-control keyboard"/>
+                                {if(request:get-parameter('shelfmark', '') != '') then
+                                    attribute value {request:get-parameter('shelfmark', '')}
+                                else()}
+                            </div>   
+                        </div>
+                    </div>
                     <!--
                         <hr/>
                         <div class="form-group">
