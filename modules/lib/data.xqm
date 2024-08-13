@@ -291,6 +291,7 @@ declare function data:create-query($collection as xs:string?) as xs:string?{
             data:element-search('idno',request:get-parameter('idno', '')),
             data:relation-search(),
             data:orginPlaceSearch(),
+            data:bl-shelfmark(),
             data:ref()
             ) 
         (:
@@ -679,26 +680,35 @@ let $limits :=
     string-join(
             (
             if(request:get-parameter('syrOtherLimit', '') = 'true') then 
-                concat("ft:query(descendant::tei:quote[@xml:lang='syr'],'",($cleanString),"',data:search-options()) or ft:query(descendant::tei:foreign[@xml:lang='syr'],'",($cleanString),"',data:search-options())")
+                concat("[ft:query(descendant::tei:quote[@xml:lang='syr'],'",($cleanString),"',data:search-options()) or ft:query(descendant::tei:foreign[@xml:lang='syr'],'",($cleanString),"',data:search-options())]")
             else(), 
             if(request:get-parameter('syrColophonsLimit', '') = 'true') then 
-                concat("ft:query(descendant::tei:additions/descendant::tei:item[tei:label = 'Colophon'],'",($cleanString),"',data:search-options())")
+                concat("[ft:query(descendant::tei:additions/descendant::tei:item[tei:label = 'Colophon'],'",($cleanString),"',data:search-options())]")
             else(), 
             if(request:get-parameter('syrExplicitsLimit', '') = 'true') then 
-                concat("ft:query(descendant::tei:explicit,'",($cleanString),"',data:search-options())")
+                concat("[ft:query(descendant::tei:explicit,'",($cleanString),"',data:search-options())]")
             else(), 
             if(request:get-parameter('syrIncipitsLimit', '') = 'true') then 
-                concat("ft:query(descendant::tei:incipit,'",($cleanString),"',data:search-options())")
+                concat("[ft:query(descendant::tei:incipit,'",($cleanString),"',data:search-options())]")
             else(), 
             if(request:get-parameter('syrFinalRubricsLimit', '') = 'true') then 
-                concat("ft:query(descendant::tei:finalRubric,'",($cleanString),"',data:search-options())")
+                concat("[ft:query(descendant::tei:finalRubric,'",($cleanString),"',data:search-options())]")
             else(), 
             if(request:get-parameter('syrRubricsLimit', '') = 'true') then                
-               concat("ft:query(descendant::tei:title[@xml:lang='syr'],'",($cleanString),"',data:search-options()) or ft:query(descendant::tei:rubric,'",($cleanString),"',data:search-options())")
+               concat("[ft:query(descendant::tei:title[@xml:lang='syr'],'",($cleanString),"',data:search-options()) or ft:query(descendant::tei:rubric,'",($cleanString),"',data:search-options())]")
             else()
             ),' or ')
 return         
     if($query != '' and $limits != '') then
          concat("[",$limits,"]")
+    else ()
+};
+
+declare function data:bl-shelfmark(){
+let $shelfmark := request:get-parameter('shelfmark', '')
+let $cleanString := data:clean-string($shelfmark[1])
+return         
+    if($cleanString != '') then
+        concat("[descendant::tei:idno[@type='BL-Shelfmark' or @type='BL-Shelfmark-simplified'][ft:query(.,'",($cleanString),"',data:search-options())]]")
     else ()
 };
