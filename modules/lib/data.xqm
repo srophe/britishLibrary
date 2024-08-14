@@ -287,6 +287,7 @@ declare function data:create-query($collection as xs:string?) as xs:string?{
             data:bl-place(),
             data:bl-person(),
             data:bl-syrText(),
+            data:bl-decorations(),
             data:field-search('syrTitle',data:clean-string(request:get-parameter('syrTitle', ''))),
             data:element-search('idno',request:get-parameter('idno', '')),
             data:relation-search(),
@@ -710,5 +711,13 @@ let $cleanString := data:clean-string($shelfmark[1])
 return         
     if($cleanString != '') then
         concat("[descendant::tei:idno[@type='BL-Shelfmark' or @type='BL-Shelfmark-simplified'][ft:query(.,'",($cleanString),"',data:search-options())]]")
+    else ()
+};
+declare function data:bl-decorations(){
+let $decorations := request:get-parameter('decorations', '')
+let $cleanString := data:clean-string($decorations[1])
+return         
+    if($cleanString != '') then
+        concat("[descendant::tei:decoNote[ft:query(.,'",($cleanString),"',data:search-options())]]")
     else ()
 };

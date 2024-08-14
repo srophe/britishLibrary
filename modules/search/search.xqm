@@ -382,6 +382,21 @@ declare function search:bl-search-form($node as node(), $model as map(*)) {
                         <!-- origPlaceLimit -->
                     </div>
                     <div class="form-group">
+                        <label for="decorations" class="col-sm-2 col-md-3  control-label">Decorations: </label>
+                        <div class="col-sm-10 col-md-9 ">
+                            <div class="input-group">
+                                <input type="text" id="decorations" name="decorations" class="form-control keyboard"/>
+                                {if(request:get-parameter('decorations', '') != '') then
+                                    attribute value {request:get-parameter('decorations', '')}
+                                else()}
+                                <div class="input-group-btn">
+                                {global:keyboard-select-menu('decorations')}
+                                </div>
+                            </div>  
+                            
+                        </div>
+                    </div>
+                    <div class="form-group">
                         <label for="shelfmark" class="col-sm-2 col-md-3  control-label">Shelfmark: </label>
                         <div class="col-sm-10 col-md-9 ">
                             <div class="input-group">
