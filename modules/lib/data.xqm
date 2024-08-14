@@ -713,11 +713,15 @@ return
         concat("[descendant::tei:idno[@type='BL-Shelfmark' or @type='BL-Shelfmark-simplified'][ft:query(.,'",($cleanString),"',data:search-options())]]")
     else ()
 };
+
 declare function data:bl-decorations(){
 let $decorations := request:get-parameter('decorations', '')
+let $decorationsType := request:get-parameter('decorationsType', '')
 let $cleanString := data:clean-string($decorations[1])
 return         
     if($cleanString != '') then
-        concat("[descendant::tei:decoNote[ft:query(.,'",($cleanString),"',data:search-options())]]")
+        if($decorationsType != '') then
+            concat("[descendant::tei:decoNote[@type='",$decorationsType,"'][ft:query(.,'",($cleanString),"',data:search-options())]]")
+        else concat("[descendant::tei:decoNote[ft:query(.,'",($cleanString),"',data:search-options())]]")
     else ()
 };
