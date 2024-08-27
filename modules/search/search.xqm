@@ -381,6 +381,48 @@ declare function search:bl-search-form($node as node(), $model as map(*)) {
                         </div>
                         <!-- origPlaceLimit -->
                     </div>
+                    <div class="form-group">
+                        <label for="decorations" class="col-sm-2 col-md-3  control-label">Decorations: </label>
+                        <div class="col-sm-6 col-md-5 ">
+                            <div class="input-group">
+                                <input type="text" id="decorations" name="decorations" class="form-control keyboard"/>
+                                {if(request:get-parameter('decorations', '') != '') then
+                                    attribute value {request:get-parameter('decorations', '')}
+                                else()}
+                                <div class="input-group-btn">
+                                {global:keyboard-select-menu('decorations')}
+                                </div>
+                                
+                            </div>  
+                            
+                        </div>
+                        <label for="decorationsType" class="col-sm-1 col-md-1  control-label">Type: </label>
+                         <div class="col-sm-3 col-md-2 ">
+                                    <select name="decorationsType" id="decorationsType" class="form-control">
+                                        <option value="" selected="selected">All</option>
+                                        <option value="border">border</option>
+                                        <option value="diagram">diagram</option>
+                                        <option value="illustration">illustration</option>
+                                        <option value="initial">initial</option>
+                                        <option value="marginal">marginal</option>
+                                        <option value="ornamentation">ornamentation</option>
+                                        <option value="paratext">paratext</option>
+                                        <option value="rubrication">rubrication</option>
+                                        <option value="other">other</option>
+                                    </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="shelfmark" class="col-sm-2 col-md-3  control-label">Shelfmark: </label>
+                        <div class="col-sm-10 col-md-9 ">
+                            <div class="input-group">
+                                <input type="text" id="shelfmark" name="shelfmark" class="form-control keyboard"/>
+                                {if(request:get-parameter('shelfmark', '') != '') then
+                                    attribute value {request:get-parameter('shelfmark', '')}
+                                else()}
+                            </div>   
+                        </div>
+                    </div>
                     <!--
                         <hr/>
                         <div class="form-group">
