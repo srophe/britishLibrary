@@ -182,7 +182,7 @@ return
                              <span class="glyphicon glyphicon-print" aria-hidden="true"></span>
                         </a>, '&#160;')
                     else if($f = 'email') then                        
-                        (<a href="mailto:david.a.michelson@vanderbilt.edu?subject=Shelf mark:{$shelfMark} Record URI: {$url}" type="button" class="btn btn-default btn-sm" data-toggle="tooltip" title="Click to report a correction via e-mail." >
+                        (<a href="mailto:bl.syriac.uk@gmail.com?subject=Shelf mark:{$shelfMark} Record URI: {$url}" type="button" class="btn btn-default btn-sm" data-toggle="tooltip" title="Click to report a correction via e-mail." >
                              <span class="glyphicon glyphicon-envelope" aria-hidden="true"></span> Corrections
                         </a>, '&#160;')                          
                     else if($f = 'ghIssue') then
