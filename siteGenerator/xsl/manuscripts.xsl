@@ -636,7 +636,7 @@
     <xsl:template match="t:title">
         <xsl:choose>
             <xsl:when test="ancestor::t:msItem and contains(@ref,'syriaca.org')">
-                <xsl:text> </xsl:text><a href="{$nav-base}/search.html?ref={@ref}"><xsl:value-of select="."/></a>
+                <xsl:text> </xsl:text><a href="/search.html?ref={@ref}"><xsl:value-of select="."/></a>
             </xsl:when>
             <xsl:when test="ancestor::t:msItem">
                 <xsl:choose>
@@ -700,7 +700,7 @@
         -->
         <xsl:choose>
             <xsl:when test="@ref">
-                <a href="{$nav-base}/search.html?author={@ref}"><xsl:value-of select="normalize-space(.)"/></a>
+                <a href="/search.html?author={@ref}"><xsl:value-of select="normalize-space(.)"/></a>
             </xsl:when>
             <xsl:otherwise>
                 <xsl:value-of select="normalize-space(.)"/>
@@ -710,7 +710,7 @@
     <xsl:template match="t:persName">
         <xsl:choose>
             <xsl:when test="@ref">
-                <a href="{$nav-base}/search.html?person={@ref}"><xsl:value-of select="."/></a>
+                <a href="/search.html?person={@ref}"><xsl:value-of select="."/></a>
             </xsl:when>
             <xsl:otherwise>
                 <xsl:value-of select="."/>
@@ -720,7 +720,7 @@
     <xsl:template match="t:origPlace" mode="mss">
         <xsl:choose>
             <xsl:when test="@ref">
-                <a href="{$nav-base}/search.html?ref={@ref}"><xsl:value-of select="."/></a>
+                <a href="/search.html?ref={@ref}"><xsl:value-of select="."/></a>
             </xsl:when>
             <xsl:otherwise>
                 <xsl:value-of select="."/>
