@@ -97,8 +97,8 @@
     <!-- Find repo-config to find collection style values and page stubs -->
     <xsl:variable name="configPath">
         <xsl:choose>
-            <xsl:when test="$staticSitePath != ''">
-                <xsl:value-of select="concat($staticSitePath, '/siteGenerator/components/repo-config.xml')"/>
+            <xsl:when test="$applicationPath != ''">
+                <xsl:value-of select="concat($applicationPath, '/siteGenerator/components/repo-config.xml')"/>
             </xsl:when>
             <xsl:otherwise>
                 <xsl:value-of select="'../components/repo-config.xml'"/>
@@ -108,9 +108,14 @@
     
     <!-- Get configuration file.  -->
     <xsl:variable name="config">
-        <xsl:if test="doc-available(xs:anyURI($configPath))">
-            <xsl:sequence select="document(xs:anyURI($configPath))"/>
-        </xsl:if>
+        <xsl:choose>
+            <xsl:when test="doc-available(xs:anyURI($configPath))">
+                <xsl:sequence select="document(xs:anyURI($configPath))"/>
+            </xsl:when>
+            <xsl:otherwise>
+                <xsl:message>No config file: <xsl:value-of select="$configPath"/></xsl:message>
+            </xsl:otherwise>
+        </xsl:choose>
     </xsl:variable>
       
     <!-- Root of app for building dynamic links. Default is eXist app root -->
@@ -124,6 +129,7 @@
                 <xsl:value-of select="$config/descendant::*:base_uri"/>
             </xsl:when>
             <xsl:otherwise>
+                <xsl:message>No config file base uri</xsl:message>
                 <xsl:value-of select="'http://syriaca.org'"/>
             </xsl:otherwise>
         </xsl:choose>
@@ -226,8 +232,8 @@
                     <path><xsl:value-of select="concat($staticSitePath,replace($resource-path,$applicationPath,''))"/></path>
                 </xsl:when>
                 <xsl:when test="$fileType = 'TEI'">
-                    <xsl:variable name="idno" select="replace(descendant::t:publicationStmt/t:idno[@type='URI'],'/tei','')"/>
-                    <path idno="{$idno}"><xsl:value-of select="concat(replace($idno,$base-uri,concat($staticSitePath,'/data')),'.html')"/></path>
+                    <xsl:variable name="idno" select="replace(/descendant-or-self::t:publicationStmt/t:idno[@type='URI'],'/tei','')"/>
+                    <path idno="{$idno}"><xsl:value-of select="concat(replace($idno,$base-uri,concat($staticSitePath,'/data/')),'.html')"/></path>
                 </xsl:when>
                 <xsl:when test="$fileType = 'RDF'">
                     <!-- Output a page for each rdf:Description (with http://syriaca.org/taxonomy/) -->

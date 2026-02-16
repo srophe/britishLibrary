@@ -74,26 +74,33 @@
         <div id="msTOC" class="mstoc">
             <ul>
                 <xsl:for-each select="//t:msDesc/t:msPart">
-                    <li><a href="#msPart{@n}">
-                        <xsl:value-of select="@n"/>. <xsl:value-of select="t:msIdentifier/t:altIdentifier/t:idno[@type='BL-Shelfmark']"/>
-                        <xsl:choose>
-                            <xsl:when test="t:history/t:origin/t:origDate/@when[. != '']">
-                                (<xsl:value-of select="local:trim-date(t:history/t:origin/t:origDate/@when)"/> CE)
-                            </xsl:when>
-                            <xsl:when test="t:history/t:origin/t:origDate/@notBefore[. != '']">
-                                (<xsl:value-of select="local:trim-date(t:history/t:origin/t:origDate/@notBefore)"/> - <xsl:value-of select="local:trim-date(t:history/t:origin/t:origDate/@notAfter)"/> CE) 
-                            </xsl:when>
-                        </xsl:choose>
-                        <xsl:if test="t:msIdentifier/t:idno[@type='URI']">
-                            [<xsl:value-of select="t:msIdentifier/t:idno[@type='URI']"/>]
-                        </xsl:if>
-                    </a>
-                    </li>
+                    <xsl:apply-templates select="." mode="toc"/>
                 </xsl:for-each>  
             </ul>
         </div>
     </xsl:template>
-
+    <xsl:template match="t:msPart" mode="toc">
+        <li><a href="#msPart{@n}">
+            <xsl:value-of select="@n"/>. <xsl:value-of select="t:msIdentifier/t:altIdentifier/t:idno[@type='BL-Shelfmark']"/>
+            <xsl:choose>
+                <xsl:when test="t:history/t:origin/t:origDate/@when[. != '']">
+                    (<xsl:value-of select="local:trim-date(t:history/t:origin/t:origDate/@when)"/> CE)
+                </xsl:when>
+                <xsl:when test="t:history/t:origin/t:origDate/@notBefore[. != '']">
+                    (<xsl:value-of select="local:trim-date(t:history/t:origin/t:origDate/@notBefore)"/> - <xsl:value-of select="local:trim-date(t:history/t:origin/t:origDate/@notAfter)"/> CE) 
+                </xsl:when>
+            </xsl:choose>
+            <xsl:if test="t:msIdentifier/t:idno[@type='URI']">
+                [<xsl:value-of select="t:msIdentifier/t:idno[@type='URI']"/>]
+           </xsl:if>
+          </a>
+            <xsl:if test="t:msPart">
+                <ul>
+                <xsl:apply-templates select="t:msPart" mode="toc"/>
+                </ul>
+            </xsl:if>
+        </li>
+    </xsl:template>
     <xsl:template name="mssSectionHeader">
         <div class="header section">
            <div class="tei-note"> 
@@ -228,11 +235,7 @@
         <xsl:choose>
             <xsl:when test="count(t:msPart) &gt; 1">
                 <xsl:apply-templates select="t:msContents"/>
-                <xsl:for-each select="t:msPart"> 
-                    <div id="msPart{@n}">
-                        <xsl:apply-templates select="."/>
-                    </div>
-                </xsl:for-each>
+                <xsl:apply-templates select="t:msPart"/>
             </xsl:when>
             <xsl:otherwise>
                 <div class="panel panel-default">
@@ -266,76 +269,81 @@
         </xsl:if>
     </xsl:template>
     <xsl:template match="t:msPart">
-        
-        <div class="panel-group">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h2 class="panel-title" data-toggle="collapse" data-target="#panelmsPart{@xml:id}">
-                        <span class="anchor" id="msPart{@xml:id}"/>
-                        <xsl:choose>
-                            <xsl:when test="count(//t:msPart) &gt; 1">
-                                <span class="shelfmark"><xsl:apply-templates select="t:msIdentifier/t:altIdentifier/t:idno[@type='BL-Shelfmark']"/></span>
-                            </xsl:when>
-                            <xsl:otherwise>
-                                Ms Part <xsl:value-of select="@n"/>
-                            </xsl:otherwise>
-                        </xsl:choose>
-                    </h2>
-                </div>
-                <div id="panelmsPart{@xml:id}" class="panel-collapse collapse in">
-                    <div class="panel-body">
-                        <div class="msDesc">
-                            <xsl:call-template name="mssSectionHeader"/>
-                        </div>
-                            <xsl:if test="t:physDesc or t:msIdentifier">
-                                <div class="panel panel-default">
-                                    <div class="panel-heading">
-                                        <h2 class="panel-title" data-toggle="collapse" data-target="#msPart{@xml:id}PhysDesc">Physical Description </h2>
-                                    </div>
-                                    <div id="msPart{@xml:id}PhysDesc" class="panel-collapse collapse in">
-                                        <div class="panel-body">
-                                            <div class="msDesc">
-                                                <xsl:apply-templates select="t:msIdentifier | t:physDesc"/>    
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>  
-                            </xsl:if>
-                        <xsl:if test="t:msContents">
-                            <div class="panel panel-default">
-                                <div class="panel-heading">
-                                    <h2 class="panel-title" data-toggle="collapse" data-target="#msPart{@xml:id}Contents">Contents</h2>
-                                </div>
-                                <div id="msPart{@xml:id}Contents" class="panel-collapse collapse in">
-                                    <div class="panel-body">
-                                        <div class="msContent">
-                                            <!--<h3>Manuscript Contents</h3>-->
-                                            <p class="summary indent">This manuscript contains <xsl:value-of select="count(descendant::t:msItem)"/> item(s)<xsl:if test="descendant::t:msItem/t:msItem"> <xsl:text> including nested subsections</xsl:text></xsl:if>. N.B. Items were re-numbered for this online catalog and may not reflect William Wright's previous numeration.</p>
-                                            <div class="indent">
-                                                <xsl:apply-templates select="t:msContents | t:msPart"/>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div> 
-                        </xsl:if>
-                        <xsl:if test="t:physDesc/t:additions and t:physDesc/t:additions/child::*">
-                            <div class="panel panel-default">
-                                <div class="panel-heading">
-                                    <h2 class="panel-title" data-toggle="collapse" data-target="#msPart{@xml:id}Additions">Additions </h2>
-                                </div>
-                                <div id="msPart{@xml:id}Additions" class="panel-collapse collapse in">
-                                    <div class="panel-body">
-                                        <div class="msDesc">
-                                            <xsl:apply-templates select="t:physDesc/t:additions"/>    
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>    
-                        </xsl:if>
-                    </div>
-                </div>
-            </div>   
+        <div id="msPart{@n}" class="msContent">
+         <div class="panel-group">
+             <div class="panel panel-default">
+                 <div class="panel-heading">
+                     <h2 class="panel-title" data-toggle="collapse" data-target="#panelmsPart{@xml:id}">
+                         <span class="anchor" id="msPart{@xml:id}"/>
+                         <xsl:choose>
+                             <xsl:when test="count(//t:msPart) &gt; 1">
+                                 <span class="shelfmark"><xsl:apply-templates select="t:msIdentifier/t:altIdentifier/t:idno[@type='BL-Shelfmark']"/></span>
+                             </xsl:when>
+                             <xsl:otherwise>
+                                 Ms Part <xsl:value-of select="@n"/>
+                             </xsl:otherwise>
+                         </xsl:choose>
+                     </h2>
+                 </div>
+                 <div id="panelmsPart{@xml:id}" class="panel-collapse collapse in">
+                     <div class="panel-body">
+                         <div class="msDesc">
+                             <xsl:call-template name="mssSectionHeader"/>
+                         </div>
+                             <xsl:if test="t:physDesc or t:msIdentifier">
+                                 <div class="panel panel-default">
+                                     <div class="panel-heading">
+                                         <h2 class="panel-title" data-toggle="collapse" data-target="#msPart{@xml:id}PhysDesc">Physical Description </h2>
+                                     </div>
+                                     <div id="msPart{@xml:id}PhysDesc" class="panel-collapse collapse in">
+                                         <div class="panel-body">
+                                             <div class="msDesc">
+                                                 <xsl:apply-templates select="t:msIdentifier | t:physDesc"/>    
+                                             </div>
+                                         </div>
+                                     </div>
+                                 </div>  
+                             </xsl:if>
+                         <xsl:if test="t:msContents">
+                             <div class="panel panel-default">
+                                 <div class="panel-heading">
+                                     <h2 class="panel-title" data-toggle="collapse" data-target="#msPart{@xml:id}Contents">Contents</h2>
+                                 </div>
+                                 <div id="msPart{@xml:id}Contents" class="panel-collapse collapse in">
+                                     <div class="panel-body">
+                                         <div class="msContent">
+                                             <!--<h3>Manuscript Contents</h3>-->
+                                             <p class="summary indent">This manuscript contains <xsl:value-of select="count(descendant::t:msItem)"/> item(s)<xsl:if test="descendant::t:msItem/t:msItem"> <xsl:text> including nested subsections</xsl:text></xsl:if>. N.B. Items were re-numbered for this online catalog and may not reflect William Wright's previous numeration.</p>
+                                             <div class="indent">
+                                                 <xsl:apply-templates select="t:msContents | t:msPart"/>
+                                             </div>
+                                         </div>
+                                     </div>
+                                 </div>
+                             </div> 
+                         </xsl:if>
+                         <xsl:if test="t:physDesc/t:additions and t:physDesc/t:additions/child::*">
+                             <div class="panel panel-default">
+                                 <div class="panel-heading">
+                                     <h2 class="panel-title" data-toggle="collapse" data-target="#msPart{@xml:id}Additions">Additions </h2>
+                                 </div>
+                                 <div id="msPart{@xml:id}Additions" class="panel-collapse collapse in">
+                                     <div class="panel-body">
+                                         <div class="msDesc">
+                                             <xsl:apply-templates select="t:physDesc/t:additions"/>    
+                                         </div>
+                                     </div>
+                                 </div>
+                             </div>    
+                         </xsl:if>
+                         <!-- Child msParts -->
+                         <div class="msPart">
+                         <xsl:apply-templates select="t:msPart"/>
+                         </div>
+                     </div>
+                 </div>
+             </div>   
+         </div>
         </div>
     </xsl:template>
     <xsl:template match="t:msIdentifier">
