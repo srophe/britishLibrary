@@ -1,0 +1,874 @@
+<?xml version="1.0" encoding="UTF-8"?><html xmlns="http://www.w3.org/1999/xhtml" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:srophe="https://srophe.app">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <title>London, BL, Add. 14549</title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <meta name="DC.type" property="dc.type" content="Text" />
+      <meta name="DC.isPartOf" property="dc.ispartof" content="Syriaca.org: The Syriac Reference Portal" />
+      <link data-template="app:metadata" />
+      <link rel="shortcut icon" href="/resources/images/fav-icons/mss-favicon.ico" />
+      <link rel="stylesheet" type="text/css" href="/resources/bootstrap/css/bootstrap.min.css" />
+      <link rel="stylesheet" type="text/css" href="/resources/css/sm-core-css.css" />
+      <link rel="stylesheet" type="text/css" href="/resources/css/syr-icon-fonts.css" />
+      <link rel="stylesheet" type="text/css" href="/resources/css/style.css" />
+      <link rel="stylesheet" type="text/css" href="/resources/css/syriaca.css" />
+      <link rel="stylesheet" type="text/css" media="print" href="/resources/css/print.css" />
+      <link rel="stylesheet" href="/resources/leaflet/leaflet.css" />
+      <link rel="stylesheet" href="/resources/leaflet/leaflet.awesome-markers.css" />
+      <link href="/resources/jquery-ui/jquery-ui.min.css" rel="stylesheet" /><script type="text/javascript" src="/resources/js/jquery.min.js"></script><script type="text/javascript" src="/resources/jquery-ui/jquery-ui.min.js"></script><script type="text/javascript" src="/resources/js/jquery.smartmenus.min.js"></script><script type="text/javascript" src="/resources/js/clipboard.min.js"></script><script type="text/javascript" src="/resources/bootstrap/js/bootstrap.min.js"></script><script defer="defer" data-domain="bl.syriac.uk" src="https://plausible.io/js/script.js"></script><link href="/resources/keyboard/css/keyboard.min.css" rel="stylesheet" />
+      <link href="/resources/keyboard/css/keyboard-previewkeyset.min.css" rel="stylesheet" />
+      <link href="/resources/keyboard/syr/syr.css" rel="stylesheet" /><script type="text/javascript" src="/resources/keyboard/syr/jquery.keyboard.js"></script><script type="text/javascript" src="/resources/keyboard/js/jquery.keyboard.extension-mobile.min.js"></script><script type="text/javascript" src="/resources/keyboard/js/jquery.keyboard.extension-navigation.min.js"></script><script type="text/javascript" src="/resources/keyboard/syr/jquery.keyboard.extension-autocomplete.js"></script><script type="text/javascript" src="/resources/keyboard/syr/keyboardSupport.js"></script><script type="text/javascript" src="/resources/keyboard/syr/syr.js"></script><script type="text/javascript" src="/resources/keyboard/layouts/ms-Greek.min.js"></script><script type="text/javascript" src="/resources/keyboard/layouts/ms-Russian.min.js"></script><script type="text/javascript" src="/resources/keyboard/layouts/ms-Arabic.min.js"></script><script type="text/javascript">
+            $(document).ready(function () {
+                $('[data-toggle="tooltip"]').tooltip({ container: 'body' })
+
+                $('.keyboard').keyboard({
+                    openOn: null,
+                    stayOpen: false,
+                    alwaysOpen: false,
+                    autoAccept: true,
+                    usePreview: false,
+                    initialFocus: true,
+                    rtl : true,
+                    layout: 'syriac-phonetic',
+                    hidden: function(event, keyboard, el){
+                       //  keyboard.destroy();
+                     }
+                });
+
+                $('.keyboard-select').click(function () {
+                    var keyboardID = '#' + $(this).data("keyboard-id")
+                    var kb = $(keyboardID).getkeyboard();
+                    //var kb = $('#searchField').getkeyboard();
+                    // change layout based on link ID
+                    kb.options.layout = this.id
+                    // open keyboard if layout is different, or time from it last closing is &gt; 200 ms
+                    if (kb.last.layout !== kb.options.layout || (new Date().getTime() - kb.last.eventTime) &gt; 200) {
+                        kb.reveal();
+                    }
+                });
+                //Change fonts
+                $('.swap-font').on('click', function(){
+                    var selectedFont = $(this).data("font-id")
+                    $('.selectableFont').not('.syr').css('font-family', selectedFont);
+                    $("*:lang(syr)").css('font-family', selectedFont)
+                });
+
+            })
+        </script></head>
+   <body id="body">
+      <nav class="navbar navbar-default navbar-fixed-top" role="navigation" data-template="app:fix-links">
+         
+         <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse-1">
+               <span class="sr-only">Toggle navigation</span>
+               <span class="icon-bar"></span>
+               <span class="icon-bar"></span>
+               <span class="icon-bar"></span>
+               </button>
+            <a class="navbar-brand banner-container" href="/index.html">
+               <span class="syriaca-icon syriaca-mss banner-icon"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span>
+                  </span>
+               <span class="banner-text">Syriac Manuscripts in the British Library</span>
+               </a>
+            
+         </div>
+         
+         <div class="navbar-collapse collapse pull-right" id="navbar-collapse-1">
+            
+            <ul class="nav navbar-nav">
+               
+               <li>
+                  <a href="/browse.html" class="nav-text">Browse</a>
+                  
+               </li>
+               
+               <li data-template="app:shared-content" data-template-path="/templates/shared-links.html"></li>
+               
+               <li>
+                  <a href="/search.html" class="nav-text">Advanced Search</a>
+                  
+               </li>
+               
+               <li>
+                  
+                  <div id="search-wrapper">
+                     
+                     <form class="navbar-form navbar-right search-box" role="search" action="/search.html" method="get">
+                        
+                        <div class="form-group">
+                           <input type="text" class="form-control keyboard" placeholder="search" name="keyword" id="keywordNav" />
+                           <span data-template="app:keyboard-select-menu" data-template-input-id="keywordNav"></span>
+                           <button class="btn btn-default search-btn" id="searchbtn" type="submit" title="Search">
+                              <span class="glyphicon glyphicon-search"></span>
+                              </button>
+                           
+                        </div>
+                        
+                     </form>
+                     
+                  </div>
+                  
+               </li>
+               
+               <li data-template="app:shared-content" data-template-path="/templates/fontMenu.html"></li>
+               
+            </ul>
+            
+         </div>
+         
+      </nav>
+      <div class="main-content-block">
+         <div class="interior-content">
+            <div class="container otherFormats"><a href="mailto:bl.syriac.uk@gmail.com?subject=Shelf mark: Record URI: " type="button" class="btn btn-default btn-xs" data-toggle="tooltip" title="Click to report a correction via e-mail."><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span> Corrections
+                  </a> <a href="https://github.com/srophe/britishLibrary-data/issues/new?assignees=&amp;labels=community-submitted&amp;title=:" target="_blank" id="issueBtn" data-toggle="tooltip" class="btn btn-default btn-xs" title="Click to file a data issue on GitHub (requires login)."><span class="glyphicon glyphicon-record" aria-hidden="true"></span> Open
+                  </a> <a href="https://github.com/srophe/britishLibrary-data/blob/main/data/tei/280.xml" target="_blank" class="btn btn-default btn-xs" id="openBtn" data-toggle="tooltip" title="Click to view the TEI XML data for this record."><img src="/resources/images/github-mark.png" height="18px" /></a> <a href="javascript:window.print();" type="button" class="btn btn-default btn-xs" id="printBtn" data-toggle="tooltip" title="Click to send this page to the printer."><span class="glyphicon glyphicon-print" aria-hidden="true"></span> 
+                  </a> 
+            </div>
+            <div class="row">
+               <div class="col-md-12">
+                  <div xmlns:x="http://www.w3.org/1999/xhtml" xmlns:local="http://syriaca.org/ns" class="title">
+                     <h1>Add. 14,549</h1>
+                  </div>
+                  <div xmlns:x="http://www.w3.org/1999/xhtml" xmlns:local="http://syriaca.org/ns" class="tei-note">
+                     <div>URI: <span class="tei-idno">https://bl.syriac.uk/ms/280</span></div>
+                  </div>
+                  <div xmlns:x="http://www.w3.org/1999/xhtml" xmlns:local="http://syriaca.org/ns" class="header section">
+                     <div class="tei-note">
+                        <div>
+                           Description based on Wright
+                           <a href="#" data-toggle="tooltip" title="This entry number is from Wright's printed catalogue. Due to renumbering, Wright's entry numbers do not match the numbering used in this digital catalogue."><span class="tei-idno">DLVI</span></a>
+                           (<span class="tei-citedRange">2:428-431</span>)
+                           <a href="https://archive.org/details/catalogueofsyria02brituoft/page/428" target="_blank"><img src="/resources/images/ialogo.jpg" alt="Link to Archive.org Bibliographic record" height="18px" /></a></div>
+                        <div>
+                           Date: 
+                           8th or 9th century
+                        </div>
+                        <div>Estrangela script (multiple hands) ܀  Parchment Codex, 226 leaves.
+                           
+                        </div>
+                        <div></div>
+                        <div>
+                           Wright's Subject Classification:
+                           
+                        </div>
+                     </div>
+                     <div class="tei-note"><span>This manuscript contains: The second part of the works of Gregory Nazianzen, translated
+                           by the abbat Paul, with select epistles of Basil and Gregory Nazianzen and the Confession
+                           of Faith of John, Bishop of Tellā or Constantina. In total, including sub-sections,
+                           this manuscript contains 63 items.</span></div>
+                  </div>
+                  <div xmlns:x="http://www.w3.org/1999/xhtml" xmlns:local="http://syriaca.org/ns" class="panel panel-default">
+                     <div class="panel-heading">
+                        <h2 class="panel-title" data-toggle="collapse" data-target="#Overview">Physical Description </h2>
+                     </div>
+                     <div id="Overview" class="panel-collapse collapse in">
+                        <div class="panel-body">
+                           <div class="msDesc">
+                              <div class="tei-physDesc">
+                                 <div class="indent">
+                                    <p>Vellum, about 10 7/8  in. by 7 ¼ , consisting of 226 leaves, some of which are much
+                                       stained and torn, especially foll. 8, 87—90 and 226. Foll. 88 and 89 have been unskilfully
+                                       repaired. The quires, signed with letters, are 23 in number. Single leaves are missing
+                                       after foll. 11 and 128. Each page is divided into two columns, of from 34 to 49 lines.
+                                       
+                                    </p><span class="tei-handDesc">
+                                       
+                                       <div name="handNote1"><span class="inline-h4">Hand 1 (major, Estrangela script): </span>
+                                          This volume is written in a good, regular Estrangela of the <span class="tei-date">viiith or ixth cent.</span>
+                                          <span class="tei-ref">See additions.</span>
+                                          
+                                       </div>
+                                       
+                                       <div name="handNote2"><span class="inline-h4">Hand 2 (minor, Unspecified Syriac script): </span>
+                                          <span class="tei-ref">See additions.</span>
+                                          
+                                       </div>
+                                       
+                                       <div name="handNote3"><span class="inline-h4">Hand 3 (minor, Unspecified Arabic script): </span>
+                                          <span class="tei-ref">See additions.</span>
+                                          
+                                       </div>
+                                       
+                                       <div name="handNote4"><span class="inline-h4">Hand 4 (minor, Unspecified Greek script): </span>
+                                          <span class="tei-ref">See additions.</span>
+                                          
+                                       </div>
+                                       </span></div>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+                  <div xmlns:x="http://www.w3.org/1999/xhtml" xmlns:local="http://syriaca.org/ns" class="panel panel-default">
+                     <div class="panel-heading">
+                        <h2 class="panel-title" data-toggle="collapse" data-target="#Contents">Manuscript Contents</h2>
+                     </div>
+                     <div id="Contents" class="panel-collapse collapse in">
+                        <div class="panel-body">
+                           <div class="msContent"><span class="summary ident">Note: Item numbering updated in digital edition.</span><span class="tei-msContents">
+                                 
+                                 
+                                 <div class="tei-msItem"><span class="inline-h4">Item 1 (Fol. 1): </span>The second part of the works of Gregory Nazianzen, translated by the abbat Paul, 
+                                    with select epistles of Basil and Gregory Nazianzen and the Confession of Faith of
+                                    John, Bishop of Tellā or Constantina
+                                    <div class="msItemChild"><span class="tei-colophon"><span class="inline-h4"> 
+                                             Colophon: </span><span>
+                                             <a href="#addition1">See additions.</a>
+                                             </span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>This seems to be the third codex mentioned by Assemani in the Bibl. Orient., t. iii., pars, i., p. 23; though, if such be the case, his description of it is rather inaccurate.
+                                       </div>
+                                       <div class="tei-msItem"><span class="inline-h4">Item 2 (Fol. 1): </span>Gregory of Nazianzus. The second part of the works of Gregory Nazianzen, translated by the abbat Paul, comprising
+                                          17 discourses (from <span class="tei-foreign" lang="syr">ܠܐ</span> to <span class="tei-foreign" lang="syr">ܡܙ</span>)
+                                          <div class="msItemChild"><span class="tei-editor"><span class="inline-h4"> 
+                                                   Editor: </span><span>
+                                                   the abbat Paul
+                                                   </span></span><span class="tei-finalRubric"><span class="inline-h4"> 
+                                                   Subscription  (Fol. 206a): </span><span xml:lang="syr" lang="syr" dir="rtl">ܫܠܡ ܠܡܟܬܒ ܦܠܓܘܐ ܐܚܪܝܬܐ ܕܟܬܒܐ ܕܩܕܝܫܐ ܓܪܝܓܪܝܘܣ ܐܦܝܣܩܦܐ ܕܐܢܙܝܢܙܘ܀
+                                                   </span></span><div class="tei-msItem"><span class="inline-h4">Item 3 (Fol. 1b): </span>An Index to the discourses
+                                                <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                         <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܩ̈ܦܠܐܐ ܕܦܠܓܘܬܐ ܐܚܪܝܬܐ ܕܩܕܝܫܐ ܓܪܝܓܪܝܘܣ ܬܐܘܠܘܓܘܣ ܐܦܝܣܩܘܦܐ ܕܐܢܙܝܢܙܘ
+                                                         </span></span></div>
+                                             </div>
+                                             <div class="tei-msItem"><span class="inline-h4">Item 4 (Fol. 2b): </span>Gregory Nazianzen. De moderatione in disputationibus servanda, etc.
+                                                <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                         <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܡܛܠ ܫܦܝܪܘܬ ܛܟܣܐ ܕܒܡ̇ܡܠܠܐ̣. ܘܕܠܘ ܕܟܠ ܒܪܢܫܐ̣. ܘܠܐ ܕܟܠ ܙܒܢܐ ܗܝ ܕܢ̇ܡܠܠ ܡܛܠ ܐܠܗܘܬܐ
+                                                         </span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>Cf. Opera, ed. 1778, t. i., p. 579; Migne, t. xxxvi., col. 174
+                                                      
+                                                   </div>
+                                                </div>
+                                             </div>
+                                             <div class="tei-msItem"><span class="inline-h4">Item 5 (Fol. 12b): </span>Gregory Nazianzen. De dogmate et constitutione episcoporum
+                                                <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                         <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܡܛܘܠ ܡܡܠܠܘܬ ܐܠܗܘܬܐ ܘܩܛܣܛܣܝܣ ܕܐܦܝ̈ܣܩܘܦܐ
+                                                         </span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>Cf. Opera, t. i., p. 376; Migne, t. xxxv., col. 1066
+                                                      
+                                                   </div>
+                                                </div>
+                                             </div>
+                                             <div class="tei-msItem"><span class="inline-h4">Item 6 (Fol. 16a): </span>Gregory Nazianzen. 
+                                                De Theologia (Theologica secunda)
+                                                
+                                                <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                         <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܕܬܪ̈ܝ̣ܢ ܕܡܛܠ ܡܡܠܠܘܬ ܐܠܗܘܬܐ
+                                                         </span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>Cf. Opera, t. i., p. 495; Migne, t. xxxvi., col. 26
+                                                      
+                                                   </div>
+                                                </div>
+                                             </div>
+                                             <div class="tei-msItem"><span class="inline-h4">Item 7 (Fol. 27b): </span>Gregory Nazianzen. De seipso, et ad eos, qui ipsum cathedram Constantinopolitanam affectare dicebant
+                                                <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                         <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܥܠ ܢܦܫܗ ܘܠܘܬ ܗ̇ܢܘܢ ܕܐܡ̇ܪܝܢ ܗܘܘ ܥܠܘܗܝ̇. ܕܪܐ̇ܓ ܠܟܘܪܣܝܐ ܕܩܘܣܛܢܛܝܢܦܘܠܝܣ
+                                                         </span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>Cf. Opera, t. i., p. 634; Migne, t. xxxvi., col. 266
+                                                      
+                                                   </div>
+                                                </div>
+                                             </div>
+                                             <div class="tei-msItem"><span class="inline-h4">Item 8 (Fol. 32a): </span>Gregory Nazianzen. In seipsum, cum rure rediisset, post ea quae a Maximo perpetrata fuerant
+                                                <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                         <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܕܬܪ̈ܝܢ ܕܥܠ ܢܦܫܗ ܟܕ ܡܢ ܐܓܘܪܣܐ ܐܬ݂ܐ̣ ܒܬܪ ܗܠܝܢ ܕܡܟܣܝܡܘܣ
+                                                         </span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>Cf. Opera, t. i., p. 471; Migne, t. xxxv., col. 1227
+                                                      
+                                                   </div>
+                                                </div>
+                                             </div>
+                                             <div class="tei-msItem"><span class="inline-h4">Item 9 (Fol. 38b): </span>Gregory Nazianzen. Supremum vale coram centum quinquaginta episcopis
+                                                <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                         <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܥܠ ܡܐܬܝܬܐ ܕܐܦܝ̈ܣܩܦܐ̣ ܣܘܢܛܩܛܪܝܘܢ <span class="tei-foreign" xml:lang="en" lang="en" dir="ltr">(marg. <span class="tei-foreign" xml:lang="grc" lang="grc">ⲤΥΝΤΑΚΤΗΡΙΟΝ</span>)</span>
+                                                         </span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>Cf. Opera, t. i.,p. 748; Migne, t. xxxvi., col. 458
+                                                      
+                                                   </div>
+                                                </div>
+                                             </div>
+                                             <div class="tei-msItem"><span class="inline-h4">Item 10 (Fol. 47a): </span>Gregory Nazianzen. De pauperum amore
+                                                <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                         <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܡܛܠ ܪܚ̣ܡܬ݁ ܡܣܟܢܘܬܐ
+                                                         </span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>Cf. Opera,, t. i., p. 257; Migne, t. xxxv., col. 858
+                                                      
+                                                   </div>
+                                                </div>
+                                             </div>
+                                             <div class="tei-msItem"><span class="inline-h4">Item 11 (Fol. 60b): </span>Gregory Nazianzen. In sanctum Baptisma
+                                                <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                         <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܕܥܠ ܡܥܡܘܕܝܬܐ
+                                                         </span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>Cf. Opera, t. i., p. 691; Migne, t. xxxvi., Fol. 359
+                                                      
+                                                   </div>
+                                                </div>
+                                             </div>
+                                             <div class="tei-msItem"><span class="inline-h4">Item 12 (Fol. 78a): </span>Gregory Nazianzen. In sanctum Pascha
+                                                <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                         <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܕܥܠ ܦܨܚܐ
+                                                         </span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>Cf. Opera, t. i., p. 845; Migne, t. xxxvi., col. 623
+                                                      
+                                                   </div>
+                                                </div>
+                                             </div>
+                                             <div class="tei-msItem"><span class="inline-h4">Item 13 (Fol. 88b): </span>Gregory Nazianzen. Funebris oratio in laudem Basilii magni
+                                                <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                         <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܕܥܠ ܩܕܝܫܐ ܒܣܝܠܝܘܣ ܐܦܝܣܩܘܦܐ ܕܩܣܪܝܐ ܩܦܕܘܩܝܐ
+                                                         </span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>Cf. Opera, t.i., p. 770; Migne, t. xxxvi., col. 494
+                                                      
+                                                   </div>
+                                                   <div class="tei-msItem"><span class="inline-h4">Item 14 (Fol. 118b): </span>Commentary on this discourse
+                                                      <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                               <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܟܘ݁ܢܫܐ ܘܦܘܫ̇ܩܐ ܕܬܫ̈ܥܝܬܐ̇. ܗܠܝܢ ܕܐܬ݁ܕܟܪ ܗ̇ܘ ܕܒܝܬ ܩ̈ܕܝܫܐ ܓܪܝܓܪܝܘܣ ܒܗܢܐ ܡܐܡܪܐ ܕܥܠ ܥܘܦܝܐ
+                                                               ܕܪܒܐ ܒܣܝܠܝܘܣ.
+                                                               </span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>Compare <a href="https://bl.syriac.uk/ms/28">Add. 12,153</a>, no. 20, note ; the Greek manuscript Add. 18,231, fol. 319 b;Migne, t. xxxvi., col. 1058; and the Spicilegium Romanum, t. ii., p. 374.
+                                                         </div>
+                                                      </div>
+                                                   </div>
+                                                </div>
+                                             </div>
+                                             <div class="tei-msItem"><span class="inline-h4">Item 15 (Fol. 122b): </span>Gregory Nazianzen. Part of the second part of the works of Gregory Nazianzen, translated by the abbat
+                                                Paul, comprising 17 discourses (from <span class="tei-foreign" lang="syr">ܠܐ</span> to <span class="tei-foreign" lang="syr">ܡܙ</span>)Part of the second part of the works of Gregory Nazianzen, translated by the abbat
+                                                Paul, comprising 17 discourses (from <span class="tei-foreign" lang="syr">ܠܐ</span> to <span class="tei-foreign" lang="syr">ܡܙ</span>)
+                                                <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                         <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܕܡܪܬ̣ܝܢܘܬܐ ܠܘܬ ܒܬܘܠܬܐ
+                                                         </span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>This discourse comprises the <span class="tei-quote"><span xml:lang="la" lang="la">
+                                                             <span>exhortatio ad Virginem</span>
+                                                            </span></span>, Opera, t. ii. (Paris, 1840), p. 378, Migne, t. xxxvii., col. 632, and the <span class="tei-quote"><span xml:lang="la" lang="la">
+                                                             <span>hymnus Vespertinus</span>
+                                                            </span></span>, Opera, t. ii., p. 290, Migne, t. xxxvii., col. 511
+                                                      
+                                                   </div>
+                                                </div>
+                                             </div>
+                                             <div class="tei-msItem"><span class="inline-h4">Item 16 (Fol. 124a): </span>Gregory Nazianzen. Ad Cledonium contra Apollinarium epistola secunda
+                                                <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                         <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܠܘܩܒܠ ܐܦܘܠܝܢܪܝܘܣ̣ ܠܘܬ ܩܫܝܫܐ ܩܠܝܕܘܢܝܘܣ
+                                                         </span></span><span class="tei-finalRubric"><span class="inline-h4"> 
+                                                         Subscription  (Fol. 126a): </span><span xml:lang="syr" lang="syr" dir="rtl">ܫܠ̣ܡܬ݁ ܐܓܪܬܐ ܕܠܘܬ ܩܠܝܕܘܢܝܘܣ ܩܫܝܫܐ. ܕܒܣܘܓܐܐ ܕܨ̈ܚܚܐ ܝܘ̈ܢܝܐ̣. ܠܘ ܩܕܡܝܬܐ̇ ܐܠܐ̣ ܕܬܪ̈ܬܝܢ
+                                                         ܪܫܝܡ ܥܠܝܗ̇. ܩܕܝܫܐ ܕܝܢ ܦܛܪܝܪܟܐ ܣܐܘܪܐ̣. ܐܝܟ ܕܡܢ ܐܓܪܬܐ ܕܬܠܬ ܕܠܘܬ ܩܠܝܕܘܢܝܘܣ̇ ܡ̇ܝܬܐ ܡܢܗ̇
+                                                         ܣܗ̈ܕܘܬܐ.
+                                                         </span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>Cf. Opera, t. ii., p. 93; Migne, t. xxxvii., col. 193
+                                                      
+                                                   </div>
+                                                </div>
+                                             </div>
+                                             <div class="tei-msItem"><span class="inline-h4">Item 17 (Fol. 126a): </span>Gregory Nazianzen. Ad Cledonium contra Apollinarium epistola prima
+                                                <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                         <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܠܘܩܒܠ ܗܪܣܝܣ܆ ܠܘܬܗ ܕܝܠܗ ܕܩܠܝܕܘܢܝܘܣ. ܕܠܗ̇ ܩܕܝܫܐ ܦܛܪܝܪܟܐ ܣܐܘܪܐ ܡܫ̇ܡܗ̣ ܐܓܪܬܐ ܩܕܡܝܬܐ
+                                                         </span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>Cf. Opera, t. ii., p. 83; Migne, t. xxxvii., col. 175
+                                                      
+                                                   </div>
+                                                </div>
+                                             </div>
+                                             <div class="tei-msItem"><span class="inline-h4">Item 18 (Fol. 129b): </span>Gregory Nazianzen. Adversus Julianum imperatorem prior invectiva
+                                                <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                         <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܕܠܘܩܒܠ ܝܘܠܝܢܘܣ. ܡܐܡܪܐ ܡܒܙܚܢܐ ܩܕܡܝܐ
+                                                         </span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>Cf. Opera, t. i., p. 78; Migne, t. xxxv., col. 531
+                                                      
+                                                   </div>
+                                                   <div class="tei-msItem"><span class="inline-h4">Item 19 (Fol. 161b): </span>Commentary on this discourse
+                                                      <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                               <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܦܘܫ̈ܩܐ ܕܬܫ̈ܥܝܬܐ
+                                                               </span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>See Add. 18,231, fol. 321a;S. Gregorii Naz. in Julianum Invectivae duae, ed. R. Montagu (Eton, 1610), p. 127;Migne, t. xxxvi., col. 985.
+                                                         </div>
+                                                      </div>
+                                                   </div>
+                                                </div>
+                                             </div>
+                                             <div class="tei-msItem"><span class="inline-h4">Item 20 (Fol. 177b): </span>Gregory Nazianzen. Secunda in Julianum imperatorem invectiva
+                                                <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                         <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܥܠܘܗܝ ܟܕ ܥܠܘܗܝ ܕܝܘܠܝܢܘܣ ܡܪܘܕܐ. ܡܐܡܪܐ ܕܬܪ̈ܝܢ ܡܒܙܚܢܐ
+                                                         </span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>Cf. Opera, t.i., p. 147; Migne, t. xxxv., col. 663
+                                                      
+                                                   </div>
+                                                   <div class="tei-msItem"><span class="inline-h4">Item 21 (Fol. 190a): </span>Commentary on this discourse
+                                                      <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                               <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܦܘܫ̈ܩܐ ܕܬܫ̈ܥܝܬܐ
+                                                               </span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>See Add. 18,231, fol. 327b;Montagu's edition, p. 159;Migne, t. xxxvi., col. 1035.
+                                                         </div>
+                                                      </div>
+                                                   </div>
+                                                </div>
+                                             </div>
+                                             <div class="tei-msItem"><span class="inline-h4">Item 22 (Fol. 198a): </span>Gregory Nazianzen. The names and sayings of the Seven Sages of Greece
+                                                <div class="msItemChild"><span class="tei-quote"><span class="inline-h4"> 
+                                                         Excerpt: </span><span xml:lang="syr" lang="syr" dir="rtl">ܫܡ̈ܗܐ ܘܡ̈ܠܐ ܕܫܒܥܐ ܦܝܠܣ̈ܦܐ܀ ܣܠܘܢ ܐܬܢܝܐ. ܠܐ ܡܕܡ ܣ̇ܓܝ. ܒܝܐܣ ܦܐܪܝܢܝܐ. ܣܘܓܐܐ ܒܝ̈ܫ̣ܐ. ܦܐܪܝܐܢܕܪܘܣ
+                                                         ܩܘܪܢܬܝܐ. ܒܗܘܓܝܐ ܟܠ ܡܕܡ ܐܡ̣ܪ ܬܐܠܘܣ ܡܝܠܝܣܝܐ. ܕܥ ܢܦܫܟ. ܟܝܠܘܢ ܠܩܕܡܘܢܝܐ ܡܢ ܥܪ̈ܒܘܬܐ ܐܫܬܐܠ.
+                                                         ܦܝܛܩܘܣ ܠܙܒܢܐ.  (sic) ܕܥ ܙܒܢܐ. ܩܐܠܘܒܘܠܘܣ ܠܝܢܕܝܐ .. ܡܡܫܚܘܬܐ ܛܪܩܐ. ܫܠܡܘ ܫܒܥܐ ܦܝܠܣܘ̈ܦܐ܀</span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>To fill up the second column of fol. 198a, the scribe has inserted the names and sayings
+                                                      of the Seven Sages of Greece.
+                                                   </div>
+                                                </div>
+                                             </div>
+                                             <div class="tei-msItem"><span class="inline-h4">Item 23 (Fol. 198b): </span>Gregory Nazianzen. Oratio habita in consecratione Eulalii Doarensium episcopi
+                                                <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                         <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܒܟܪܛܘܢܝܐ ܕܕܐܘܪܘܢ ܬܘܪܓܡܐ ܕܐܬܝܗܒ ܠܘܠܐܠܝܘܣ
+                                                         </span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>Cf. Opera, t. i., p. 253; Migne, t. xxxv., col. 852
+                                                      
+                                                   </div>
+                                                </div>
+                                             </div>
+                                             <div class="tei-msItem"><span class="inline-h4">Item 24 (Fol. 199b): </span>Gregory Nazianzen. In dictum Evangelii: Cum consummasset Jesus hos sermones, etc.<span class="tei-supplied">
+                                                   Matth. xix. 1
+                                                   </span>.
+                                                <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                         <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܥܠ ܡܠܬܐ ܕܐܘܢܓܠܝܘܢ. ܟܕ ܫܡ̇ܠܝ ܝܫܘܥ ܡ̈ܠܐ ܗܠܝܢ: ܐܫܩܠ ܡܢ ܓܠܝܠܐ ܘܐܬ݂ܐ ܠܬܚ̈ܘܡܐ ܕܝܗܘܕ ܠܥܒܪ̈ܐ
+                                                         ܕܝܘܪܕܢܢ ܘܢܩ̣ܦܘ ܒܬܪܗ ܟܢܫ̈ܐ ܣ̈ܓܝܐܐ̣ ܘܕܫܪܟܐ
+                                                         </span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>Cf. Opera, t. i., p. 645; Migne, t. xxxvi., col. 282
+                                                      
+                                                   </div>
+                                                </div>
+                                             </div>
+                                          </div>
+                                       </div>
+                                       <div class="tei-msItem"><span class="inline-h4">Item 25 (Fol. 206b): </span>Basil of Caesarea, Gregory of Nazianzus. Select epistles of Basil and Gregory Nazianzen
+                                          <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                   <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܐܓܪ̈ܬܐ ܕܩܕܝܫܐ ܒܣܝܠܝܘܣ ܘܓܪܝܓܪܝܘܣ ܬܐܘܠܘܓܘܣ
+                                                   </span></span><span class="tei-finalRubric"><span class="inline-h4"> 
+                                                   Subscription  (Fol. 219a): </span><span xml:lang="syr" lang="syr" dir="rtl">ܫܠܡ ܐܓܪ̈ܬܐ ܕܩܕܝܫܐ ܒܣܝܠܝܣ ܘܓܪܝܓܪܝܣ
+                                                   </span></span><div class="tei-msItem"><span class="inline-h4">Item 26 (Fol. 206b): </span>Basil of Caesarea. Basil to The people of Sozopolis, against the Phantasiasts
+                                                <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                         <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܕܒܣܝܠܝܘܣ ܠܘܬ ܗ̇ܢܘܢ ܕܒܣܘܙܘܦܘܠܝܣ ܠܘܩܒܠ ܦܢܛܣܝ̈ܣܛܐ
+                                                         </span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>Cf. Opera (Paris, 1839), t. iii., p. 581, epist. cclxi
+                                                      
+                                                   </div>
+                                                </div>
+                                             </div>
+                                             <div class="tei-msItem"><span class="inline-h4">Item 27 (Fol. 207b): </span>Basil of Caesarea. Basil to the priests who were expelled by the heretics
+                                                <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                         <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܕܝܠܗ. ܐܚܪܬܐ̣ ܕܠܘܬ ܩܫ̈ܝܫܐ ܕܛܪܝܕܝܢ ܗܘܘ ܡܢ ܗܪ̈ܛܝܩܘ
+                                                         </span></span><span class="tei-incipit"><span class="inline-h4"> 
+                                                         Incipit: </span><span xml:lang="syr" lang="syr" dir="rtl">ܡܢ ܢܡܘܣܐ ܕܚܘܒܐ ܕܐܠܗܐ̣. ܫܦܝܪ ܫ̇ܪܝܬܘܢ ܒܟܬܒܐ ܕܚܘܒܐ ܕܠܘܬܢ̇
+                                                         </span></span></div>
+                                             </div>
+                                             <div class="tei-msItem"><span class="inline-h4">Item 28 (Fol. 207b): </span>Gregory Nazianzen. Gregory to Basil
+                                                <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                         <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܕܩܕܝܫܐ ܓܪܝܓܪܝܘܣ ܬܐܘܠܘܓܘܣ ܠܘܬ ܒܣܝܠܝܘܣ
+                                                         </span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>Cf. Opera, t. ii., p. 50, epist. lviii
+                                                      
+                                                   </div>
+                                                </div>
+                                             </div>
+                                             <div class="tei-msItem"><span class="inline-h4">Item 29 (Fol. 209a): </span>Basil of Caesarea. Basil to Gregory
+                                                <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                         <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܕܒܣܝܠܝܘܣ ܠܘܬ ܓܪܝܓܪܝܘܣ ܬܐܘܠܘܓܘܣ
+                                                         </span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>Cf. Opera, t. iii., p. 235, epist. lxxi
+                                                      
+                                                   </div>
+                                                </div>
+                                             </div>
+                                             <div class="tei-msItem"><span class="inline-h4">Item 30 (Fol. 210a): </span>
+                                                Julian the Apostate to Basil
+                                                <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                         <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܐܓܪܬܐ ܕܝܘܠܝܢܘܣ ܚܢܦܐ ܠܘܬ ܩܕܝܫܐ ܒܣܝܠܝܘܣ
+                                                         </span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>Cf. Opera, t. iii., p. 175, epist. xl
+                                                      
+                                                   </div>
+                                                </div>
+                                             </div>
+                                             <div class="tei-msItem"><span class="inline-h4">Item 31 (Fol. 210b): </span>Basil of Caesarea. Reply of Basil to Julian
+                                                
+                                                <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                         <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܦܘܢܝ ܦܬܓܡܐ ܕܝܠܗ ܕܩܕܝܫܐ ܒܣܝܠܝܘܣ ܠܘܬܗ
+                                                         </span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>Cf. Opera, t. iii., p. 176, epist. xli
+                                                      
+                                                   </div>
+                                                </div>
+                                             </div>
+                                             <div class="tei-msItem"><span class="inline-h4">Item 32 (Fol. 211a): </span>Gregory Nazianzen. Gregory to Eusebius of Samosata
+                                                
+                                                <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                         <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܕܓܪܝܓܘܪܝܘܣ ܬܐܘܠܘܓܘܣ ܠܘܬ ܐܘܣܒܝܣ ܐܦܝܣܩܦܐ ܕܫܡܝܫܛ
+                                                         </span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>Cf. Opera, t. ii., p. 58, epist. lxiv
+                                                      
+                                                   </div>
+                                                </div>
+                                             </div>
+                                             <div class="tei-msItem"><span class="inline-h4">Item 33 (Fol. 211a): </span>Basil of Caesarea. Basil to Athanasius
+                                                
+                                                <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                         <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܕܒܣܝܠܝܘܣ ܠܘܬ ܐܬܢܣܝܘܣ
+                                                         </span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>Cf. Opera, t. iii., p. 247, epist. lxxx
+                                                      
+                                                   </div>
+                                                </div>
+                                             </div>
+                                             <div class="tei-msItem"><span class="inline-h4">Item 34 (Fol. 211b): </span>Basil of Caesarea. Basil to the monks who were persecuted by the Arians
+                                                <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                         <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܕܝܠܗ ܠܘܬ ܕܝܪ̈ܝܐ ܕܐܬܪ̈ܕܦܘ ܡܢ ܕܒܝܬ ܐܪܝܘܣ
+                                                         </span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>Cf. Opera, t. iii., p. 567, epist. cclvii
+                                                      
+                                                   </div>
+                                                </div>
+                                             </div>
+                                             <div class="tei-msItem"><span class="inline-h4">Item 35 (Fol. 211b): </span>Gregory Nazianzen. Gregory to Sophronius
+                                                
+                                                <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                         <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܕܬܐܘܠܘܓܘܣ ܦܝܣܬܐ ܠܘܬ ܣܘܦܪܢܝܘܣ
+                                                         </span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>Cf. Opera, t. ii., p. 21, epist. xxii
+                                                      
+                                                   </div>
+                                                </div>
+                                             </div>
+                                             <div class="tei-msItem"><span class="inline-h4">Item 36 (Fol. 212a): </span>Gregory Nazianzen. Gregory to Eusebius
+                                                
+                                                <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                         <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܐܚܪܬܐ ܠܘܬ ܐܘܣܒܝܘܣ ܐܦܝܣܩܘܦܐ ܘܡܘܕܝܢܐ
+                                                         </span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>Cf. Opera, t. ii., p. 39, epist. xliv
+                                                      
+                                                   </div>
+                                                </div>
+                                             </div>
+                                             <div class="tei-msItem"><span class="inline-h4">Item 37 (Fol. 212b): </span>Gregory Nazianzen. Gregory to Eudoxius
+                                                
+                                                <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                         <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܪܐܛܘܪ ܕܝܠܗ ܠܘܬ<span class="tei-sic">ܐܘܕܘܟܝܣ</span>
+                                                         
+                                                         </span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>Cf. Opera, t. ii., p. 145, epist. clxxviii
+                                                      
+                                                   </div>
+                                                </div>
+                                             </div>
+                                             <div class="tei-msItem"><span class="inline-h4">Item 38 (Fol. 213b): </span>Gregory Nazianzen. Gregory to Nectarius
+                                                
+                                                <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                         <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܐܚܪܬܐ ܠܘܬ ܢܩܛܘܪܝܘܣ ܐܦܝܣܩܦܐ
+                                                         </span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>Cf. Opera, t. ii., p. 166, epist. ccii
+                                                      
+                                                   </div>
+                                                </div>
+                                             </div>
+                                             <div class="tei-msItem"><span class="inline-h4">Item 39 (Fol. 214b): </span>Gregory Nazianzen. Gregory to Philagrius
+                                                <span class="tei-supplied">
+                                                   Eudoxius
+                                                   </span>
+                                                
+                                                <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                         <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܕܝܠܗ ܠܘܬ ܦܝܠܐܓܪܝܘܣ
+                                                         </span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>Cf. Opera, t. ii., p. 72, epist. lxxx
+                                                      
+                                                   </div>
+                                                </div>
+                                             </div>
+                                             <div class="tei-msItem"><span class="inline-h4">Item 40 (Fol. 214b): </span>Gregory Nazianzen. Gregory to Eustochius
+                                                
+                                                <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                         <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܐܚܪܬܐ ܕܠܘܬ<span class="tei-sic">ܐܘܛܘܟܝܣ</span>
+                                                         
+                                                         </span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>Cf. Opera, t. ii., p. 158, epist. cxci
+                                                      
+                                                   </div>
+                                                </div>
+                                             </div>
+                                             <div class="tei-msItem"><span class="inline-h4">Item 41 (Fol. 214b): </span>Gregory Nazianzen. Gregory to Gregory Nyssen
+                                                
+                                                <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                         <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܕܝܠܗ ܠܘܬ ܓܪܝܓܪܝܘܣ ܕܢܘܣܐ
+                                                         </span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>Cf. Opera, t. ii., p. 64, epist. lxxii
+                                                      
+                                                   </div>
+                                                </div>
+                                             </div>
+                                             <div class="tei-msItem"><span class="inline-h4">Item 42 (Fol. 214b): </span>Gregory Nazianzen. To the same
+                                                
+                                                <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                         <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܐܚܪܬܐ ܠܘܬܗ
+                                                         </span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>Cf. Opera, t. ii., p. 73, epist. lxxxi
+                                                      
+                                                   </div>
+                                                </div>
+                                             </div>
+                                             <div class="tei-msItem"><span class="inline-h4">Item 43 (Fol. 215a): </span>Gregory Nazianzen. To the same
+                                                <span class="tei-supplied">to Cledonius
+                                                   </span>
+                                                
+                                                <div class="msItemChild">
+                                                   <div class="msItem-notes"><span class="inline-h4">Note: </span>Cf. Opera, t. ii., p. 100, epist. cviii
+                                                      
+                                                   </div>
+                                                </div>
+                                             </div>
+                                             <div class="tei-msItem"><span class="inline-h4">Item 44 (Fol. 215a): </span>Gregory Nazianzen. Gregory to Leontius
+                                                
+                                                <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                         <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܐܚܪܬܐ ܠܘܬ ܠܐܘܢܛܝܘܣ
+                                                         </span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>Cf. Opera, t. ii., p. 80, epist. xcv
+                                                      
+                                                   </div>
+                                                </div>
+                                             </div>
+                                             <div class="tei-msItem"><span class="inline-h4">Item 45 (Fol. 215a): </span>Gregory Nazianzen. Gregory to Olympianus or Olympius (Asterius)
+                                                <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                         <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܐܚܪܬܐ ܠܘܬ ܐܠܘܡܦܝܢܘܣ
+                                                         </span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>Cf. Opera, t. ii., p. 131, epist. clvi
+                                                      
+                                                   </div>
+                                                </div>
+                                             </div>
+                                             <div class="tei-msItem"><span class="inline-h4">Item 46 (Fol. 215b): </span>Gregory Nazianzen. Gregory to Nicobulus
+                                                
+                                                <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                         <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܐܚܪܬܐ ܠܘܬ ܢܝܩܒܠܝܘܣ
+                                                         </span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>Cf. Opera, t. ii., p. 48, epist. liii
+                                                      
+                                                   </div>
+                                                </div>
+                                             </div>
+                                             <div class="tei-msItem"><span class="inline-h4">Item 47 (Fol. 215b): </span>Gregory Nazianzen. Gregory to Sacerdos
+                                                
+                                                <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                         <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܐܚܪܬܐ ܠܘܬ<span class="tei-sic">ܣܘܪܕܛܘܣ</span>
+                                                         
+                                                         </span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>Cf. Opera, t. ii., p. 177, epist. ccxiii
+                                                      
+                                                   </div>
+                                                </div>
+                                             </div>
+                                             <div class="tei-msItem"><span class="inline-h4">Item 48 (Fol. 215b): </span>Gregory Nazianzen. Gregory to Palladius
+                                                
+                                                <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                         <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܐܚܪܬܐ ܠܘܬ ܦܠܕ
+                                                         </span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>Cf. Opera, t. ii., p. 104, part of epist. cxviii., and epist. cxix
+                                                      
+                                                   </div>
+                                                </div>
+                                             </div>
+                                             <div class="tei-msItem"><span class="inline-h4">Item 49 (Fol. 215b): </span>Gregory Nazianzen. Gregory to Eugenius
+                                                <span class="tei-supplied">
+                                                   Eulalius
+                                                   </span>
+                                                
+                                                <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                         <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܐܚܪܬܐ ܠܘܬ ܐܘܓܢ
+                                                         </span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>Cf. <a href="#c42">Opera, t. ii., p. 104., epist. cxviii.,<span class="tei-ref">omitting one sentence</span>
+                                                         </a>
+                                                      
+                                                   </div>
+                                                </div>
+                                             </div>
+                                             <div class="tei-msItem"><span class="inline-h4">Item 50 (Fol. 215b): </span>Gregory Nazianzen. To the same
+                                                
+                                                <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                         <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܐܚܪܬܐ ܠܘܬܗ ܕܐܘܓܢ
+                                                         </span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>Cf. Opera, t. ii., p. 101, epist. cxi
+                                                      
+                                                   </div>
+                                                </div>
+                                             </div>
+                                             <div class="tei-msItem"><span class="inline-h4">Item 51 (Fol. 215b): </span>Gregory Nazianzen. Gregory to Celeusius
+                                                
+                                                <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                         <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܐܚܪܬܐ ܠܘܬ ܩܠܘܣܝܘܣ
+                                                         </span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>Cf. Opera, t. ii., p. 102, epist. cxiii
+                                                      
+                                                   </div>
+                                                </div>
+                                             </div>
+                                             <div class="tei-msItem"><span class="inline-h4">Item 52 (Fol. 215b): </span>Gregory Nazianzen. Gregory to Cledonius
+                                                
+                                                <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                         <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܐܚܪܬܐ ܠܘܬ ܩܠܝܕܘܢܝܘܣ
+                                                         </span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>Cf. Opera, t. ii., p. 100, epist. cvii
+                                                      
+                                                   </div>
+                                                </div>
+                                             </div>
+                                             <div class="tei-msItem"><span class="inline-h4">Item 53 (Fol. 216a): </span>Gregory Nazianzen. To the same
+                                                
+                                                <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                         <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܐܚܪܬܐ ܠܘܬܗ ܕܩܠܝܕܘܢܝܘܣ
+                                                         </span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>Cf. Opera, t. ii., p. 101, epist. cix
+                                                      
+                                                   </div>
+                                                </div>
+                                             </div>
+                                             <div class="tei-msItem"><span class="inline-h4">Item 54 (Fol. 216a): </span>Gregory Nazianzen. Gregory to Eulalius
+                                                
+                                                <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                         <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">
+                                                         
+                                                         </span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>Cf. Opera, t. ii., p. 103, epist. cxvi
+                                                      
+                                                   </div>
+                                                </div>
+                                             </div>
+                                             <div class="tei-msItem"><span class="inline-h4">Item 55 (Fol. 216a): </span>Gregory Nazianzen. Gregory to Basil
+                                                <span class="tei-supplied">
+                                                   Celeusius
+                                                   </span>
+                                                
+                                                <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                         <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܐܚܪܬܐ ܠܘܬ ܒܣܝܠܝܘܣ
+                                                         </span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>Cf. Opera, t. ii., p. 102, epist. cxiv
+                                                      
+                                                   </div>
+                                                </div>
+                                             </div>
+                                             <div class="tei-msItem"><span class="inline-h4">Item 56 (Fol. 216b): </span>Gregory Nazianzen. Gregory to Basil
+                                                
+                                                <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                         <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܐܚܪܬܐ ܠܘܬܗ ܕܒܣܝܠܝܘܣ
+                                                         </span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>Cf. Opera, t. ii., p. 1, epist. i
+                                                      
+                                                   </div>
+                                                </div>
+                                             </div>
+                                             <div class="tei-msItem"><span class="inline-h4">Item 57 (Fol. 216b): </span>Gregory Nazianzen. Gregory to Anysius
+                                                <span class="tei-supplied">
+                                                   Procopius
+                                                   </span>
+                                                
+                                                <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                         <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܐܚܪܬܐ ܠܘܬ ܐܘܢܘܣܝܣ
+                                                         </span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>Cf. Opera, t. ii., p. 78, epist. xc
+                                                      
+                                                   </div>
+                                                </div>
+                                             </div>
+                                             <div class="tei-msItem"><span class="inline-h4">Item 58 (Fol. 216b): </span>Gregory Nazianzen. Gregory to Quaestor
+                                                <span class="tei-supplied">
+                                                   Philagrius
+                                                   </span>
+                                                
+                                                <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                         <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܐܚܪܬܐ ܠܘܬ ܩܘܐܣܛܘܪ
+                                                         </span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>Cf. Opera, t.ii., p. 32, epist. xxxvi
+                                                      
+                                                   </div>
+                                                </div>
+                                             </div>
+                                             <div class="tei-msItem"><span class="inline-h4">Item 59 (Fol. 217a): </span>Basil of Caesarea. Basil to Gregory
+                                                
+                                                <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                         <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܕܒܣܝܠܝܘܣ ܠܘܬ ܓܪܝܓܪܝܘܣ ܬܐܘܠܘܓܘܣ
+                                                         </span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>Cf. Opera, t. iii., p. 132, epist. xiv
+                                                      
+                                                   </div>
+                                                </div>
+                                             </div>
+                                             <div class="tei-msItem"><span class="inline-h4">Item 60 (Fol. 217b): </span>Gregory Nazianzen. Reply of Gregory to Basil
+                                                
+                                                <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                         <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܥܢܝܢܐ ܕܓܪܝܓܘܪܝܘܣ ܠܘܬ ܒܣܝܠܝܘܣ
+                                                         </span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>Cf. Opera, t. ii., p. 3, epist. iv
+                                                      
+                                                   </div>
+                                                </div>
+                                             </div>
+                                             <div class="tei-msItem"><span class="inline-h4">Item 61 (Fol. 218b): </span>Gregory Nazianzen. Gregory to Basil
+                                                
+                                                <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                         <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܐܚܪܬܐ ܠܘܬܗ ܗ̣ܘ ܟܕ ܗ̣ܘ ܢܝܫܐ
+                                                         </span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>Cf. Opera, t. ii., p. 5, epist. v
+                                                      
+                                                   </div>
+                                                </div>
+                                             </div>
+                                             <div class="tei-msItem"><span class="inline-h4">Item 62 (Fol. 219a): </span>Gregory Nazianzen. Gregory to Theodore of Tyana, his metropolitan
+                                                <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                         <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܕܓܪܝܓܪܝܘܣ ܬܐܘܠܘܓܘܣ ܠܘܬ ܬܐܕܘܪܣ ܐܦܝܣܩܦܐ ܕܛܘܐܢܐ ܕܐܝܬܘܗܝ ܗܘܐ ܡܝܛܪܦܘܠܝܣ ܕܝܠܗ
+                                                         </span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>Cf. Opera, t. ii., p. 128, epist. clii
+                                                      
+                                                   </div>
+                                                </div>
+                                             </div>
+                                          </div>
+                                       </div>
+                                       <div class="tei-msItem"><span class="inline-h4">Item 63 (Fol. 219b): </span>John, Bishop of Tellā or Constantina. The Confession of Faith of John, Bishop of Tellā or Constantina, in the form of a
+                                          letter to the convents around that city.
+                                          <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                   <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܗܝܡܢܘܬܐ ܕܚܣܝܐ<span class="tei-sic">ܘܩܕܝܫܐ</span>ܐܦܝܣܩܦܐ ܕܬܠܐ
+                                                   </span></span><span class="tei-incipit"><span class="inline-h4"> 
+                                                   Incipit: </span><span xml:lang="syr" lang="syr" dir="rtl">ܠܥܘܡܪ̈ܐ ܢܟ̈ܦܐ ܘܩܕܝ̈ܫܐ ܕܕܝܪ̈ܬܐ ܕܚܕܪ̈ܝ ܩܘܣܛܢܛܝܢܐ ܡܕܝܢܬܐ: ܘܐܝܠܝܢ ܕܐܝܬ ܒܟܘܪܐ  ܕܝܠܗ̇: ܡܗܝ̈ܡܢܐ
+                                                   ܫܪ̈ܝܪܐ ܗܕ̈ܡܐ ܩ̈ܕܝܫܐ: ܣܪ̈ܝܓܝ ܒܓܘܫܡܗ ܫܪܝܪܐ ܕܡܫܝܚܐ ܐܠܗܢ: ܏ܘܫ.
+                                                   </span></span><span class="tei-finalRubric"><span class="inline-h4"> 
+                                                   Subscription  (Fol. 226b): </span><span xml:lang="syr" lang="syr" dir="rtl">ܫܠܡܬ ܐܓܪܬܐ ܕܚܣܝܐ ܘܩܕܝܫܐ ܝܘܚܢܢ ܐܦܝܣܩܦܐ ܕܬܠܐ.
+                                                   </span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>Cf. Assemani, Bibl. Or., t. ii., p. 53
+                                                
+                                             </div>
+                                          </div>
+                                       </div>
+                                    </div>
+                                 </div>
+                                 </span></div>
+                        </div>
+                     </div>
+                  </div>
+                  <div xmlns:x="http://www.w3.org/1999/xhtml" xmlns:local="http://syriaca.org/ns" class="panel panel-default">
+                     <div class="panel-heading">
+                        <h2 class="panel-title" data-toggle="collapse" data-target="#Additions">Additions </h2>
+                     </div>
+                     <div id="Additions" class="panel-collapse collapse in">
+                        <div class="panel-body">
+                           <div class="msDesc">
+                              <div class="indent">
+                                 
+                                 <div class="tei-note"><span>N.B., folio location may not be available for some items below.</span></div>
+                                 
+                                 <div class="tei-note"><span>N.B., items below may have been listed out of folio order in Wright's catalogue.</span></div>
+                                 
+                                 
+                                 <div class="tei-item"><span class="inline-h4">Addition 1</span><strong> (Fol. 226b)</strong>:
+                                    <span class="tei-p">After the usual doxology, fol. 226b, we find the name of the scribe,<span class="tei-persName">Abraham of Beth-Sūrāyā</span>:</span><span class="tei-p">
+                                       <span class="tei-quote" lang="syr">ܟܠ ܕܩ̇ܪܐ ܢܨ̇ܠܐ ܥܠ ܐܒܪܗܡ ܡܫܡܫܢܐ ܕܒܝܬ ܨܘܪܝܐ ܕܟܬܒ̣.</span>
+                                       </span></div>
+                                 
+                                 <div class="tei-item"><span class="inline-h4">Addition 2</span><strong> (Fol. 226b)</strong>:
+                                    <span class="tei-p">A note, subsequent to the <span class="tei-ref">colophon</span>, of later date, has been erased, with the exception of the words:</span><span class="tei-p">
+                                       <span class="tei-quote" lang="syr">ܐܝܬܘܗܝ ܟܬܒܐ ܗܢܐ</span>
+                                       </span></div>
+                                 
+                                 <div class="tei-item"><span class="inline-h4">Addition 3</span><strong> (Fol. 1a)</strong>:
+                                    <span class="tei-p">An Arabic note on fol. 1a has been erased.</span></div>
+                                 
+                                 <div class="tei-item"><span class="inline-h4">Addition 4</span>:
+                                    <span class="tei-p">On the margins of this manuscript, as on those of the <span class="tei-ref">preceding</span>, there are written a considerable number of notes, and words in Greek characters.</span></div>
+                                 
+                                 
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+                  <div class="citationinfo">
+                     <h3>How to Cite This Entry</h3>
+                     <div id="citation-note" class="content-block indent"><span> William Wright</span> et al., “<span class="title">London, BL, Add. 14549</span>” in ,  last modified April 21, 2023, <a href="https://bl.syriac.uk/ms/280">https://bl.syriac.uk/ms/280</a>.
+                        <div class="collapse" id="showcit">
+                           <div id="citation-bibliography">
+                              <h4>Bibliography:</h4><span class="editor">William Wright</span> et al., “<span class="title">London, BL, Add. 14549</span>.” In , edited by . Syriaca.org: The Syriac Reference Portal,
+                              2023.
+                               Entry published April 21, 2023. <a href="https://bl.syriac.uk/ms/280">https://bl.syriac.uk/ms/280</a>.
+                           </div>
+                           <div id="about">
+                              <h3>About this Entry</h3>
+                              <p><span class="heading-inline">Entry Title:</span> <span class="title">London, BL, Add. 14549</span></p>
+                              <div>
+                                 <h4>Authorial and Editorial Responsibility:</h4>
+                                 <ul>
+                                    <li><span> David A. Michelson</span>, general editor, Syriaca.org: The Syriac Reference Portal
+                                    </li>
+                                    <li>, editor, </li>
+                                    <li>William Wright, David A. Michelson, Daniel J. Greeson, Tucker D. Hannah, Robert Aydin, and Justin Arnwine, entry contributors, “”</li>
+                                 </ul>
+                              </div>
+                              <div>
+                                 <h4>Additional Credit:</h4>
+                                 <ul>
+                                    <li>Created by <span> Justin A. Arnwine</span></li>
+                                    <li>Based on the work of <span> William Wright</span></li>
+                                    <li>Syriac text entered by <span> Robert Aydin</span></li>
+                                    <li>Greek and coptic text entry and proofreading by <span> Ryan Stitt</span></li>
+                                    <li>Project management by <span> Elizabeth Walston</span></li>
+                                    <li>English text entry and proofreading by <span> Syriac Research Group, University of Alabama</span></li>
+                                    <li>Syriaca.org URIs for authors edited by <span> Justin Arnwine</span></li>
+                                    <li>Syriaca.org URIs for authors checked by <span> Alexys Ahn</span><span> Joseph DAlfonso</span></li>
+                                    <li>Folio extent edited by <span> Kurt Urban</span></li>
+                                 </ul>
+                              </div>
+                           </div>
+                           <div id="license">
+                              <h3>Copyright and License for Reuse</h3>
+                              <div>Except otherwise noted, this page is © 2023.
+                                 
+                              </div><span class="tei-licence">
+                                 
+                                 <p>Distributed under a Creative Commons Attribution 3.0 Unported License</p>
+                                 </span></div>
+                        </div><a class="btn-sm btn-info togglelink pull-right" data-toggle="collapse" data-target="#showcit" data-text-swap="Hide citation">Show full citation information...</a></div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </body><script type="text/javascript" src="/resources/js/jquery.validate.min.js"></script><script type="text/javascript" src="/resources/js/require.min.js"></script><script type="text/javascript" src="/resources/js/srophe.js"></script><script data-template="app:google-analytics"></script></html>

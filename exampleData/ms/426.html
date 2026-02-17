@@ -1,0 +1,796 @@
+<?xml version="1.0" encoding="UTF-8"?><html xmlns="http://www.w3.org/1999/xhtml" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:srophe="https://srophe.app">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <title>London, BL, Add. 14658</title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <meta name="DC.type" property="dc.type" content="Text" />
+      <meta name="DC.isPartOf" property="dc.ispartof" content="Syriaca.org: The Syriac Reference Portal" />
+      <link data-template="app:metadata" />
+      <link rel="shortcut icon" href="/resources/images/fav-icons/mss-favicon.ico" />
+      <link rel="stylesheet" type="text/css" href="/resources/bootstrap/css/bootstrap.min.css" />
+      <link rel="stylesheet" type="text/css" href="/resources/css/sm-core-css.css" />
+      <link rel="stylesheet" type="text/css" href="/resources/css/syr-icon-fonts.css" />
+      <link rel="stylesheet" type="text/css" href="/resources/css/style.css" />
+      <link rel="stylesheet" type="text/css" href="/resources/css/syriaca.css" />
+      <link rel="stylesheet" type="text/css" media="print" href="/resources/css/print.css" />
+      <link rel="stylesheet" href="/resources/leaflet/leaflet.css" />
+      <link rel="stylesheet" href="/resources/leaflet/leaflet.awesome-markers.css" />
+      <link href="/resources/jquery-ui/jquery-ui.min.css" rel="stylesheet" /><script type="text/javascript" src="/resources/js/jquery.min.js"></script><script type="text/javascript" src="/resources/jquery-ui/jquery-ui.min.js"></script><script type="text/javascript" src="/resources/js/jquery.smartmenus.min.js"></script><script type="text/javascript" src="/resources/js/clipboard.min.js"></script><script type="text/javascript" src="/resources/bootstrap/js/bootstrap.min.js"></script><script defer="defer" data-domain="bl.syriac.uk" src="https://plausible.io/js/script.js"></script><link href="/resources/keyboard/css/keyboard.min.css" rel="stylesheet" />
+      <link href="/resources/keyboard/css/keyboard-previewkeyset.min.css" rel="stylesheet" />
+      <link href="/resources/keyboard/syr/syr.css" rel="stylesheet" /><script type="text/javascript" src="/resources/keyboard/syr/jquery.keyboard.js"></script><script type="text/javascript" src="/resources/keyboard/js/jquery.keyboard.extension-mobile.min.js"></script><script type="text/javascript" src="/resources/keyboard/js/jquery.keyboard.extension-navigation.min.js"></script><script type="text/javascript" src="/resources/keyboard/syr/jquery.keyboard.extension-autocomplete.js"></script><script type="text/javascript" src="/resources/keyboard/syr/keyboardSupport.js"></script><script type="text/javascript" src="/resources/keyboard/syr/syr.js"></script><script type="text/javascript" src="/resources/keyboard/layouts/ms-Greek.min.js"></script><script type="text/javascript" src="/resources/keyboard/layouts/ms-Russian.min.js"></script><script type="text/javascript" src="/resources/keyboard/layouts/ms-Arabic.min.js"></script><script type="text/javascript">
+            $(document).ready(function () {
+                $('[data-toggle="tooltip"]').tooltip({ container: 'body' })
+
+                $('.keyboard').keyboard({
+                    openOn: null,
+                    stayOpen: false,
+                    alwaysOpen: false,
+                    autoAccept: true,
+                    usePreview: false,
+                    initialFocus: true,
+                    rtl : true,
+                    layout: 'syriac-phonetic',
+                    hidden: function(event, keyboard, el){
+                       //  keyboard.destroy();
+                     }
+                });
+
+                $('.keyboard-select').click(function () {
+                    var keyboardID = '#' + $(this).data("keyboard-id")
+                    var kb = $(keyboardID).getkeyboard();
+                    //var kb = $('#searchField').getkeyboard();
+                    // change layout based on link ID
+                    kb.options.layout = this.id
+                    // open keyboard if layout is different, or time from it last closing is &gt; 200 ms
+                    if (kb.last.layout !== kb.options.layout || (new Date().getTime() - kb.last.eventTime) &gt; 200) {
+                        kb.reveal();
+                    }
+                });
+                //Change fonts
+                $('.swap-font').on('click', function(){
+                    var selectedFont = $(this).data("font-id")
+                    $('.selectableFont').not('.syr').css('font-family', selectedFont);
+                    $("*:lang(syr)").css('font-family', selectedFont)
+                });
+
+            })
+        </script></head>
+   <body id="body">
+      <nav class="navbar navbar-default navbar-fixed-top" role="navigation" data-template="app:fix-links">
+         
+         <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse-1">
+               <span class="sr-only">Toggle navigation</span>
+               <span class="icon-bar"></span>
+               <span class="icon-bar"></span>
+               <span class="icon-bar"></span>
+               </button>
+            <a class="navbar-brand banner-container" href="/index.html">
+               <span class="syriaca-icon syriaca-mss banner-icon"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span>
+                  </span>
+               <span class="banner-text">Syriac Manuscripts in the British Library</span>
+               </a>
+            
+         </div>
+         
+         <div class="navbar-collapse collapse pull-right" id="navbar-collapse-1">
+            
+            <ul class="nav navbar-nav">
+               
+               <li>
+                  <a href="/browse.html" class="nav-text">Browse</a>
+                  
+               </li>
+               
+               <li data-template="app:shared-content" data-template-path="/templates/shared-links.html"></li>
+               
+               <li>
+                  <a href="/search.html" class="nav-text">Advanced Search</a>
+                  
+               </li>
+               
+               <li>
+                  
+                  <div id="search-wrapper">
+                     
+                     <form class="navbar-form navbar-right search-box" role="search" action="/search.html" method="get">
+                        
+                        <div class="form-group">
+                           <input type="text" class="form-control keyboard" placeholder="search" name="keyword" id="keywordNav" />
+                           <span data-template="app:keyboard-select-menu" data-template-input-id="keywordNav"></span>
+                           <button class="btn btn-default search-btn" id="searchbtn" type="submit" title="Search">
+                              <span class="glyphicon glyphicon-search"></span>
+                              </button>
+                           
+                        </div>
+                        
+                     </form>
+                     
+                  </div>
+                  
+               </li>
+               
+               <li data-template="app:shared-content" data-template-path="/templates/fontMenu.html"></li>
+               
+            </ul>
+            
+         </div>
+         
+      </nav>
+      <div class="main-content-block">
+         <div class="interior-content">
+            <div class="container otherFormats"><a href="mailto:bl.syriac.uk@gmail.com?subject=Shelf mark: Record URI: " type="button" class="btn btn-default btn-xs" data-toggle="tooltip" title="Click to report a correction via e-mail."><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span> Corrections
+                  </a> <a href="https://github.com/srophe/britishLibrary-data/issues/new?assignees=&amp;labels=community-submitted&amp;title=:" target="_blank" id="issueBtn" data-toggle="tooltip" class="btn btn-default btn-xs" title="Click to file a data issue on GitHub (requires login)."><span class="glyphicon glyphicon-record" aria-hidden="true"></span> Open
+                  </a> <a href="https://github.com/srophe/britishLibrary-data/blob/main/data/tei/426.xml" target="_blank" class="btn btn-default btn-xs" id="openBtn" data-toggle="tooltip" title="Click to view the TEI XML data for this record."><img src="/resources/images/github-mark.png" height="18px" /></a> <a href="javascript:window.print();" type="button" class="btn btn-default btn-xs" id="printBtn" data-toggle="tooltip" title="Click to send this page to the printer."><span class="glyphicon glyphicon-print" aria-hidden="true"></span> 
+                  </a> 
+            </div>
+            <div class="row">
+               <div class="col-md-12">
+                  <div xmlns:x="http://www.w3.org/1999/xhtml" xmlns:local="http://syriaca.org/ns" class="title">
+                     <h1>Add. 14,658</h1>
+                  </div>
+                  <div xmlns:x="http://www.w3.org/1999/xhtml" xmlns:local="http://syriaca.org/ns" class="tei-note">
+                     <div>URI: <span class="tei-idno">https://bl.syriac.uk/ms/426</span></div>
+                  </div>
+                  <div xmlns:x="http://www.w3.org/1999/xhtml" xmlns:local="http://syriaca.org/ns" class="header section">
+                     <div class="tei-note">
+                        <div>
+                           Description based on Wright
+                           <a href="#" data-toggle="tooltip" title="This entry number is from Wright's printed catalogue. Due to renumbering, Wright's entry numbers do not match the numbering used in this digital catalogue."><span class="tei-idno">DCCCCLXXXVII</span></a>
+                           (<span class="tei-citedRange">3:1154-1160</span>)
+                           <a href="https://archive.org/details/catalogueofsyria03brituoft/page/1154" target="_blank"><img src="/resources/images/ialogo.jpg" alt="Link to Archive.org Bibliographic record" height="18px" /></a></div>
+                        <div>
+                           Date: 
+                           7th century
+                        </div>
+                        <div>Estrangela script (multiple hands) ܀  Parchment Codex, 188 leaves.
+                           
+                        </div>
+                        <div></div>
+                        <div>
+                           Wright's Subject Classification:
+                           Logic and Rhetoric
+                        </div>
+                     </div>
+                     <div class="tei-note"><span>This manuscript contains: Sergius of Ras-'ain. ; Porphyry. The Isagoge, or Introduction,
+                           of Porphyry, probably translated bySergius of Ras'ain; Porphyry. The so-called Table
+                           of Porphyry; Aristotle. The Categories of Aristotle; Sergius of Ras'ain. Philosophic
+                           Discourse; .... In total, including sub-sections, this manuscript contains 38 items.</span></div>
+                  </div>
+                  <div xmlns:x="http://www.w3.org/1999/xhtml" xmlns:local="http://syriaca.org/ns" class="panel panel-default">
+                     <div class="panel-heading">
+                        <h2 class="panel-title" data-toggle="collapse" data-target="#Overview">Physical Description </h2>
+                     </div>
+                     <div id="Overview" class="panel-collapse collapse in">
+                        <div class="panel-body">
+                           <div class="msDesc">
+                              <div class="tei-physDesc">
+                                 <div class="indent">
+                                    <p>Vellum, about 11 1/8 in. by 7 1/2, consisting of 188 leaves,
+                                       many of which are much stained and some more or less torn, especially
+                                       foll. 1, 22, 31, 46, 49, 52, 53, 56, and 188. The quires, signed with
+                                       letters, were originally at least 22 in number; but the first has been
+                                       lost, and the next three are very imperfect. Leaves are now wanting at
+                                       the beginning and end, as well as after foll. 1, 7, 16, 17, 18, 19, 42,
+                                       46, 52, and 149. Each page is divided into two columns, of from 36 to 40
+                                       lines.
+                                    </p><span class="tei-handDesc">
+                                       
+                                       <div name="handNote1"><span class="inline-h4">Hand 1 (major, Estrangela script): </span>
+                                          This volume is written in a good, regular Estrangela of the <span class="tei-date">viith cent.</span>
+                                          
+                                       </div>
+                                       
+                                       <div name="handNote2"><span class="inline-h4">Hand 2 (minor, Unspecified Syriac script): </span>
+                                          Greek vowels have been occasionally added by a later hand (� � � � �).<span class="tei-note" lang="en">The original description of this manuscript by William Wright includes characters,
+                                             symbols, or illustrations which cannot be represented. Please consult the attached
+                                             image, <span class="tei-ref">vol. 3, p. 1154</span>.</span>
+                                          
+                                       </div>
+                                       </span></div>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+                  <div xmlns:x="http://www.w3.org/1999/xhtml" xmlns:local="http://syriaca.org/ns" class="panel panel-default">
+                     <div class="panel-heading">
+                        <h2 class="panel-title" data-toggle="collapse" data-target="#Contents">Manuscript Contents</h2>
+                     </div>
+                     <div id="Contents" class="panel-collapse collapse in">
+                        <div class="panel-body">
+                           <div class="msContent"><span class="summary ident">Note: Item numbering updated in digital edition.</span><span class="tei-msContents">
+                                 
+                                 
+                                 <div class="tei-msItem"><span class="inline-h4">Item 1 (Fol. 1a): </span>Sergius of Ras-'ain.  [defective]
+                                    <div class="msItemChild">
+                                       <div class="msItem-notes"><span class="inline-h4">Notes:</span><ul>
+                                             <li>Probably identical with the ܦܘ̈ܫܩܐ ܕܡܠܝܠܘܬܐ, mentioned by 'Ebed-Yeshua' in Assemani's
+                                                Bibl. Or., t. iii., pars 1, p. 87. It is dedicated to the author's friend Theodore, bishop, of Maru or Merv(see Assemani, Bibl. Or., t. iii., pars 1, p. 147), and is divided into seven books
+                                                or discourses, to each of which, except the last, a synoptical table of contents is
+                                                appended.
+                                             </li>
+                                             <li>Cf. Assemani's Bibl. Or., t. iii., pars 1, p. 87; Assemani, Bibl. Or., t. iii., pars 1, p. 147; Renan in the Journal Asiatique for 1852, 4eme Serie, t. xix., p. 320; "de Philosophia Peripatetica apud Syros" (Paris, 1852), pp. 22, seqq.
+                                                
+                                             </li>
+                                          </ul>
+                                       </div>
+                                       <div class="tei-msItem"><span class="inline-h4">Item 2 (Fol. 1a): </span>Book i [defective]
+                                          <div class="msItemChild">
+                                             <div class="msItem-notes"><span class="inline-h4">Note: </span>Book i. is wanting.
+                                             </div>
+                                          </div>
+                                       </div>
+                                       <div class="tei-msItem"><span class="inline-h4">Item 3 (Fol. 1a): </span>Book ii [defective]
+                                          <div class="msItemChild">
+                                             <div class="msItem-notes"><span class="inline-h4">Note: </span>Book ii. is imperfect.
+                                             </div>
+                                          </div>
+                                       </div>
+                                       <div class="tei-msItem"><span class="inline-h4">Item 4 (Fol. 11b): </span>Book iii. [defective]
+                                          <div class="msItemChild"><span class="tei-incipit"><span class="inline-h4"> 
+                                                   Incipit: </span><span xml:lang="syr" lang="syr" dir="rtl">ܒܡܐܡܪܐ ܕܩܕܡ ܗܢܐ ܕܐܝܬܘܗܝ ܕܬܪ̈ܝܢ: ܕܡܟܬܒܢܘܬܐ ܗܕܐ ܐܘ ܐܚܘܢ ܬܐܕܘܪܐ̣. ܢܣ̣ܒܬ ܡܠܬܐ ܫܘܪܝܐ̣.
+                                                   ܡܢ ܥܘܩܒܐ ܕܥܠ ܢܝܫܗ̇ ܕܟܠܗ̇ ܐܘܡܢܘܬܐ ܡܠܝܠܬܐ̣. ܘܫܪܟܬ ܠܘܬ ܗ̇ܢܝܢ ܒ̈ܢܬ ܩ̈ܠܐ ܕܐܡܝܪ̈ܢ ܠܗ ܠܐܪܝܣܛܘܛܠܝܣ̇.
+                                                   ܩܕܡ ܡܠܦܢܘܬܐ ܕܥܠ ܥܣܪ̈ܐ ܓܢܣ̈ܐ ܩ̈ܕܡܝܐ̇. ܗ̇ܢܘܢ ܕܫܡܗܘ ܐܢܘܢ ܩܛܝܓܘܪ̈ܝܘܣ. ܒܗܢܐ ܕܝܢ ܡܐܡܪܐ ܕܐܝܬܘܗܝ
+                                                   ܕܬܠܬܐ: ܕܝܠܗ̇ ܬܘܒ ܟܕ ܕܝܠܗ̇ ܕܡܟܬܒܢܘܬܐ ܐܡܪܝܢܢ ܗܫܐ̣. ܥܠ ܗ̇ܢܝܢ ܕܒܬܪܟܢ ܡܟܬܒܢ ܠܗ ܠܦܝܠܣܘܦܐ
+                                                   ܒܗ ܒܟܬܒܐ ܗ̇ܘ ܕܥܠ ܥܣܪ̈ܐ ܓܢ̈ܣܐ ܗܠܝܢ ܕܓܘܐ. ܏ܘܫ.
+                                                   </span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>Book iii. is imperfect.
+                                             </div>
+                                          </div>
+                                       </div>
+                                       <div class="tei-msItem"><span class="inline-h4">Item 5 (Fol. 18a): </span>Book iv [defective]
+                                          <div class="msItemChild">
+                                             <div class="msItem-notes"><span class="inline-h4">Note: </span>Book iv. is imperfect.
+                                             </div>
+                                          </div>
+                                       </div>
+                                       <div class="tei-msItem"><span class="inline-h4">Item 6 (Fol. 40a): </span>Book v [defective]
+                                          <div class="msItemChild"><span class="tei-incipit"><span class="inline-h4"> 
+                                                   Incipit: </span><span xml:lang="syr" lang="syr" dir="rtl">ܒܡܐܡܪܐ ܕܩܕܡ ܗܢܐ ܕܐܝܬܘܗܝ ܕܐܪ̈ܒܥܐ ܕܡܟܬܒܢܘܬܐ ܗܕܐ ܐܘ ܐܚܘܢ ܬܐܕܘܪܐ̣. ܢܦ̇ܩܢܢ ܟܠܗ ܫܪܒܐ ܕܥܠ
+                                                   ܟܡܝܘܬܐ̣. ܒ̈ܬܚܘܝܬܐ̣ ܘܒ̈ܦܘܠܓܐ ܕܙܕܩ̈ܝܢ ܠܗ. ܘܐܕܢܚܢܢ ܒܗ ܐܝܟ ܕܡܣܬܒܪܐ ܠܝ ܓܠܝܐܝܬ݂. ܟܠܗ ܪܥܝܢܗ
+                                                   ܕܥܠ ܟܡܝܘܬܐ ܕܐܪܣܛܛܠܝܣ. ܒܗܢܐ ܕܝܢ ܡܐܡܪܐ ܕܗܫܐ ܣܝܡ ܠܢ ܠܡܐܡܪ ܕܐܝܬܘܗܝ ܕܚܡܫܐ̣. ܒܗ̇ ܒܢܩܝܦܘܬܐ
+                                                   ܪܕܝܐ ܡܠܬܐ ܘܡܚܘܝܐ. ܥܠ ܗ̇ܘ ܡܐ ܕܐܝܬܘܗܝ ܕܫܪܟܐ. ܡܢ ܡܠܦܢܘܬܐ ܗܕܐ̣ ܐܝܟ ܚܝܠܐ ܕܣܝܡܐ ܕܡܠܬܗ ܕܦܝܠܣܘܦܐ.
+                                                   ܏ܘܫ.
+                                                   </span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>Book v. is slightly imperfect.
+                                             </div>
+                                          </div>
+                                       </div>
+                                       <div class="tei-msItem"><span class="inline-h4">Item 7 (Fol. 46b): </span>Book vi [defective]
+                                          <div class="msItemChild"><span class="tei-incipit"><span class="inline-h4"> 
+                                                   Incipit: </span><span xml:lang="syr" lang="syr" dir="rtl">ܒܡܐܡܪܐ ܕܩܕܡ ܗܢܐ ܕܐܝܬܘܗܝ ܕܚܡ̈ܫܐ ܕܡܟܬܒܢܘܬܐ ܗܕܐ ܐܘ ܐܚܘܢ ܬܐܕܘܪܐ̣. ܥܠ ܡܠܦܢܘܬܐ ܕܓܢܣܐ ܗ̇ܘ
+                                                   ܕܠܘܬ [ܡܕܡ]ܡ ܥܒܕܢܢ ܥܘܩܒܐ [ܘܣ]ܡܢܢ ܠܗ ܫܘܠܡܐ ܠܫܪܒܐ ܥܡ ܬܚܘܡܐ ܕܒܥܬܐ ܕܙܕܩܐ ܗܘܬ ܠܗ ܠܓܢܣܐ ܗ̇ܘ.
+                                                   ܗܢܐ ܕܝܢ ܡܐܡܪܐ ܕܗܫܐ ܕܐܝܬܘܗܝ ܕܫܬܐ̣. ܡܢܗ ܟܕ ܡܢܗ ܕܕܘܪ[ܫܐ̣]. ܥܠ ܓܢܣܐ ܗ̇ܘ ܕܙܢܐ ܫܩܝܠ ܠܗ ܢܝܫܐ
+                                                   ܠܡܐܡـ[ـܪ.] ܏ܘܫ.
+                                                   </span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>Book vi. is imperfect.
+                                             </div>
+                                          </div>
+                                       </div>
+                                       <div class="tei-msItem"><span class="inline-h4">Item 8 (Fol. 53b): </span>Book vii [defective]
+                                          <div class="msItemChild"><span class="tei-incipit"><span class="inline-h4"> 
+                                                   Incipit: </span><span xml:lang="syr" lang="syr" dir="rtl">ܒܡܐܡܪܐ ܕܫܬܐ ܗ̇ܘ ܕܢܣ̣ܒ ܫܘܠܡܐ ܩܕܡ ܗܢܐ ܐܘ ܐܚܘܢ ܬܐܕܘܪܐ̣. ܗ̣ܘܐ ܣܟܐ ܕܡܠܦܢܘܬܐ ܗ̇ܝ ܕܥܠ ܙܢܐ
+                                                   ܘܥܠ ܗ̇ܢܘܢ ܫܬܐ ܓܢܣ̈ܐ ܐܚܪ̈ܢܐ. ܘܚ̇ܬܡܬ ܒܗ ܡܠܬܐ ܪܗܛܗ̇ ܕܒܟܘܠܗܝܢ ܬܪ̈ܥܝܬܐ̇. ܕܝ̈ܠܝܦܢ ܠܢ ܡܢ
+                                                   ܐܪܝܣܛܘܛܠܝܣ ܘܡܢ ܟܠܗܘܢ ܦܝ̈ܠܣܘܦܐ ܐܚܪ̈ܢܐ̇. ܥܠ ܝܘ̈ܠܦܢܐ ܕܥܣܪ̈ܐ ܓܢܣ̈ܐ ܗ̇ܢܘܢ ܩ̈ܕܡܝܐ̇. ܕܐܝܬܝܗܘܢ
+                                                   ܪܫܐ ܘܫܘܪܝܐ ܕܡܕܪܫܘܬܐ ܘܕܢܘܦܩܐ ܕܒܡܠܝܠܘܬܐ. ܐܠܐ ܡܛܠ ܕܐܝܟܢܐ ܕܐܡܝܪ ܠܢ ܒܫܪ̈ܒܐ ܗ̇ܢܘܢ ܩܕܡ̈ܝܐ:
+                                                   ܠܬܠܬ ܡ̈ܢܘܢ ܡܦܠܓ ܠܗ ܠܦܝܠܣܘܦܐ ܡܐܡܪܐ ܗ̇ܘ ܕܥܠ ܩܛܝܓܘܪ̈ܝܘܣ. ܗܢܘ ܕܝܢ ܠܚܕܐ ܩܕܡܝܬܐ: ܠܗ̇ܝ ܕܥܠ
+                                                   ܒ̈ܢܬ ܩ̈ܠܐ ܡܕܡ ܕܚܫ̈ܚܢ ܠܝܘ̈ܠܦܢܐ ܕܥܠܝܗܘܢ ܕܓܢܣ̈ܐ: ܘܠܐܚܪܬܐ ܕܬܪ̈ܬܝܢ: ܠܗ̇ܝ ܕܚ̇ܒܫܐ ܡܠܦܢܘܬܐ
+                                                   ܝܚܝܕܐܝܬ ܕܝܠܗܘܢ ܕܥܣܪ̈ܐ ܓܢܣ̈ܐ: ܘܠܗ̇ܝ ܬܘܒ ܕܬܠܬܐ: ܕܥܠ ܒ̈ܢܬ ܩ̈ܠܐ ܐܝܠܝܢ ܕܐܬܥܗܕ ܐ̈ܢܝܢ ܒܝܘܠܦܢܐ
+                                                   ܕܝܠܗܘܢ ܕܓܢ̈ܣܐ ܗܠܝܢ: ܘܫܒ̣ܩ ܐ̈ܢܝܢ ܕܠܐ ܬܘܚܡ̣. ܙܕܩ̇ ܠܟ ܕܬܕܥ ܕܥܠ ܡܢܬܗ ܕܡܐܡܪܐ ܗ̇ܝ ܩܕܡܝܬܐ.
+                                                   ܒܡܐܡܪܐ ܗ̇ܘ ܕܬܪ̈ܝܢ ܐܠܦܢܢ܇ ܐܢ ܗ̣ܘ ܕܥܗܝܕ ܐܢܬ ܐܝܠܝܢ ܕܐܬܐܡܪ ܡܢ ܠܥܠ. ܒܡܐܡܪܐ ܕܝܢ ܗ̇ܘ ܕܬܠܬܐ
+                                                   ܘܒܗ̇ܘ ܕܐܪ̈ܒܥܐ ܘܒܗ̇ܘ ܕܚ̈ܡܫܐ ܘܒܗ̇ܘ ܕܫܬܐ. ܥܠ ܡܢܬܗ ܗ̇ܝ ܕܬܪ̈ܬܝܢ ܕܡܐܡܪܐ ܕܐܪܝܣܛܛܠܝܣ ܥܒܕܢܢ
+                                                   ܡܠܬܐ. ܒܡܐܡܪܐ ܕܝܢ ܗܢܐ ܕܫܒܥܐ ܕܗܫܐ ܣܝܡ ܠܢ. ܥܠ ܡ̇ܢܬܐ ܗ̇ܝ ܬܠܝܬܝܬܐ ܕܡܐܡܪܐ ܕܥܠ ܩܛܝܓܘܪ̈ܝܘܣ̣.
+                                                   ܐܡܪܝܢ̣ܢ. ܐܝܟ ܡܐ ܕܙܕܩ̇. ܗܕܐ ܕܝܢ ܐܝܬܝܗ̇ ܐܝܟ ܕܐܦ ܡܢ ܠܥܠ ܐܡܝܪ ܠ̣ܢ ܥܠ ܒ̈ܢܬ ܩ̈ܠܐ ܡܕܡ ܐܝܠܝܢ
+                                                   ܕܐܬܥܗܕܢ ܐ̈ܢܝܢ ܒܡܠܦܢܘܬܐ ܗ̇ܝ ܕܥܠܝܗܘܢ ܕܓܢ̈ܣܐ: ܐܝܬܝܗܝܢ ܕܝـ̣ܢ. ܐܟܙܢܐ ܕܫܘܓܢܝܐ ܘܕܠܩܘܒܠܝܘܬܐ
+                                                   ܘܡܬܬܙܝܥܢܘܬܐ ܘܐܚܪ̈ܢܝܬܐ ܕܐܝܟ ܗܠܝܢ. ܣܝܡ ܠܢ ܗܟܝܠ ܗܫܐ ܠܡܐܡܪ ܥܠ ܗܠܝܢ. ܗܢܘ ܕܝܢ ܥܠ ܕܠܩܘܒܠܝܘܬܐ
+                                                   ܘܥܠ ܫܘܓܢܝܐ ܘܥܠ ܡܬܬܙܝܥܢܘܬܐ. ܘܥܠ ܗܠܝܢ ܕܕܡ̈ܝܢ ܠܗܝܢ. ܕܡܢܐ ܡܫܘܕܥܐ ܟܘܠ ܚܕܐ̣ ܡܢܗܝ̣ܢ. ܘܠܟܡܐ
+                                                   ܙܢ̈ܝܐ ܡܬܦܠܓܐ. ܐܡܪܝܢܢ ܡܕܝܢ ܥܠܝܗܝܢ ܒܦܣ̈ܝܩܬܐ̣. ܗ̇ܘ ܡܐ ܕܡܢ ܕܘ̈ܟܝܬܐ ܣܓ̈ܝܐܬܐ ܝܠܝܦ ܠܢ. ܘܥܗܕܝܢܢ
+                                                   ܠܗ. ܐܢ ܕܝܢ ܐܢܫ ܡ̣ܨܐ ܠܡܫܟܚܘ ܡܕܡ ܐܚܪܢܐ ܕܝܬܝܪ ܐܘ ܚܫܚ ܛܒ ܡܢ ܗ̇ܘ ܕܐܡܪܝܢ̣ܢ. ܠܗ̇ܘ ܙܕܩ̇ ܠܟ
+                                                   ܠܡܩܦ ܐܘ ܐܚܘܢ. ܝܬܝܪ ܡܢ ܕܠܢ. ܏ܘܫ.
+                                                   </span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>Book vii. is slightly imperfect.
+                                             </div>
+                                          </div>
+                                       </div>
+                                    </div>
+                                 </div>
+                                 
+                                 <div class="tei-msItem"><span class="inline-h4">Item 9 (Fol. 61a): </span>Porphyry. The Isagoge, or Introduction, of Porphyry, probably translated by Sergius of Ras'ain
+                                    
+                                    <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                             <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܡܡܠܠܐ ܕܥܒܝܕ ܠܚܕ ܡܢ ܦܝ̈ܠܣܘܦܐ ܕܡܬܐܡܪ ܝܘܢܐܝܬ ܐܝܣܓܘܓܐ. ܕܡܬܦܫܩ ܣܘܪܝܐܝܬ݂ ܡܥܠܬܐ ܕܝܘܠܦܢܐ
+                                             </span></span><span class="tei-incipit"><span class="inline-h4"> 
+                                             Incipit: </span><span xml:lang="syr" lang="syr" dir="rtl">ܛܒ ܐܠܨܐ ܐܘ ܟܪܘܣܘܪܝܐ̇. ܠܦܘܬ ܡܠܦܢܘܬܐ ܕܟܬܒܐ ܗ̇ܘ ܕܥܠ ܩܛܝܓܘܪ̈ܝܘܣ ܕܐܪܣܛܛܠܝܣ̇. ܥܠ ܗ̇ܝ ܕܢܕܥ
+                                             ܡܢܐ ܐܝܬܘܗܝ ܓܢܣܐ̇. ܘܡܢܐ ܦܘܪܫܢܐ̇. ܘܡܢܐ ܬܘܒ ܐܕܫܐ̇. ܘܡܢܐ ܕܝܠܝܘܬܐ̇. ܘܡܢܐ ܓܕܫܐ. ܏ܘܫ.
+                                             </span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>Cf. Renan, in the Journ. Asiat., p. 330
+                                          
+                                       </div>
+                                    </div>
+                                 </div>
+                                 
+                                 <div class="tei-msItem"><span class="inline-h4">Item 10 (Fol. 73a): </span>Porphyry. The so-called Table of Porphyry
+                                    <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                             <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܦܘܠܓ ܐܘܣܝܐ ܕܓܘܐ
+                                             </span></span><span class="tei-incipit"><span class="inline-h4"> 
+                                             Incipit: </span><span xml:lang="syr" lang="syr" dir="rtl">ܐܘܣܝܐ ܡܬܦܠܓܐ̣. ܠܓܘܫܡܐ̣ ܘܠܠܐ ܓܘܡܫܐ. ܓܘܫܡܐ ܡܬܦܠܓ̣. ܠܡܢܦܫܐ ܘܠܠܐ ܡܢܦܫܐ. ܓܘܫܡܐ ܡܢܦܫܐ ܡܬܦܠܓ̣.
+                                             ܠܚܝܘܬܐ ܘܠܚܝܘܬ ܢܨܒܬܐ̣ ܘܠܢܨܒܬܐ.
+                                             </span></span><div class="msItem-notes"><span class="inline-h4">Notes:</span><ul>
+                                             <li>A short section</li>
+                                             <li>Cf. Renan, loc. cit., p. 330
+                                                
+                                             </li>
+                                          </ul>
+                                       </div>
+                                    </div>
+                                 </div>
+                                 
+                                 <div class="tei-msItem"><span class="inline-h4">Item 11 (Fol. 73a): </span>Aristotle. The Categories of Aristotle
+                                    <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                             <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܟܬܒܐ ܕܩܛܓܘܪ̈ܝܘܣ: ܕܐܪܝܣܛܘܛܠܝܣ ܦܝܠܣܘܦܐ
+                                             </span></span><span class="tei-incipit"><span class="inline-h4"> 
+                                             Incipit: </span><span xml:lang="syr" lang="syr" dir="rtl">ܐܷܘܡܴ̈ܘܢܴܡܘ ܆ ܗܢܘ ܕܝ̣ܢ ܫܘ̈ܝܝ ܫܡܐ ܡܬܐܡܪܝܢ ܗ̇ܢܘܢ ܕܫܡܐ ܕܓܘܐ ܗܘ. ܡܠܬܐ ܕܝܢ ܕܐܘܣܝܐ̣ ܐܚܪܬܐ
+                                             ܗܝ. ܐܟܙܢܐ ܕܚܝܘܬܐ ܒܪܢܫܐ. ܐܦ ܗ̇ܘ ܕܨܝܪ. ܕܗܠܝܢ ܓܝܪ ܫܡܐ ܒܠܚܘܕ ܕܓܘܐ ܗܘ. ܡܠܬܐ ܕܝܢ ܕܐܘܣܝܐ
+                                             ܐܚܪܬܐ ܗܝ. ܐܢ ܓܝܪ ܬܫ̇ܠܡ ܕܡ̣ܢܘ ܡܢ ܬܪ̈ܝܢ ܡܢ ܗܠ̣ܢ. (sic)  ܡܫ̇ܠܡ ܐܢܬ ܚܝܘܬܐ ܐܝܬܘܗܝ܇ ܕܝܠܢܝܐ
+                                             ܡܢ ܬܪ̈ܝܢ ܡܢ ܗܠܝܢ. ܏ܘܫ.
+                                             </span></span><div class="msItem-notes"><span class="inline-h4">Notes:</span><ul>
+                                             <li>probably translated by <a href="/search.html?person=http://syriaca.org/person/49">Sergius of Ras'ain</a>
+                                                
+                                             </li>
+                                             <li>See Renan, loc. cit., p. 330
+                                                
+                                             </li>
+                                          </ul>
+                                       </div>
+                                    </div>
+                                 </div>
+                                 
+                                 <div class="tei-msItem"><span class="inline-h4">Item 12 (Fol. 92a): </span>Sergius of Ras'ain. Philosophic Discourse
+                                    <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                             <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܡܡܠܠܐ ܦܝܠܣܘܦܝܐ
+                                             </span></span><span class="tei-incipit"><span class="inline-h4"> 
+                                             Incipit: </span><span xml:lang="syr" lang="syr" dir="rtl">ܐܡܪܝܢ ܗܟܝܠ ܚ̈ܟܝܡܝܗܘܢ ܕܝ̈ܘܢܝܐ̣. ܕܡܠܬܐ ܕܡܬܐܡܪܢܘܬܐ ܐܝܬܝܗ̣̇. ܡ̇ܢܬܐ ܙܥܘܪܬܐ ܕܪܘܟܒܗ̇ ܕܡܠܬܐ.
+                                             ܡܠܬܐ ܕܝܢ ܐܝܬܝܗ̣̇. ܪܗܛܐ ܕܪܘܟܒܗ̇ ܕܡܠܬܐ ܕܡܬܐܡܪܢܘܬܐ. ܕܡܘܕܥܐ ܪܥܝܢܐ ܡܫܠܡܢܐ.܀ ܡ̈ܢܘܬܗ̇ ܕܝܢ
+                                             ܕܡܠܬܐ ܐܝܬܝܗܝ̣ܢ ܬܡܢܐ. ܗܢܘ ܕܝ̣ܢ. ܫܡܐ. ܡܐܡܪܐ ܕܫܘܬܦܘܬܐ. ܫܪܝܬܐ. ܚܠܦ ܫܡܐ. ܡܩܕܡܐ. ܣܝܡ̇ܐ.
+                                             ܥܠ ܡܐܡܪܐ. ܐܣܪܐ. ܏ܘܫ.
+                                             </span></span><div class="msItem-notes"><span class="inline-h4">Notes:</span><ul>
+                                             <li>The treatise treats of the parts of speech, of gender, etc.</li>
+                                             <li>Cf. Renan, loc. cit., p. 330
+                                                
+                                             </li>
+                                          </ul>
+                                       </div>
+                                    </div>
+                                 </div>
+                                 
+                                 <div class="tei-msItem"><span class="inline-h4">Item 13 (Fol. 94a): </span>Probably also written by Sergius. A tract on negation and affirmation
+                                    <div class="msItemChild"><span class="tei-incipit"><span class="inline-h4"> 
+                                             Incipit: </span><span xml:lang="syr" lang="syr" dir="rtl">ܬܘܒ ܏ܫܪܒܐ ܏ܐܚܪܢܐ. ܬܠܬ ܐܢܝܢ ܕܗܦܟܢ܀ ܐܦܦܣܝܣ ܟܘܠܢܝܬܐ.܀ ܩܛܦܣܝܣ ܟܘܠܢܝܬܐ.܀ ܩܛܦܣܝܣ ܡܢܬܝܬܐ.܀
+                                             ܐܦܘܦܣܝܣ ܓܝܪ ܡܢܬܝܬܐ̣ ܠܐ ܗ̇ܦܟܐ. ܘܐܦܘܦܣܝܣ ܡ̇ܢ ܟܘܠܢܝܬܐ̣. ܨܝܕ ܢܦܫܗ̇ ܗ̇ܦܟܐ. ܕܐܝܟ ܐܝܟܢ. ܏ܘܫ.
+                                             </span></span><div class="msItem-notes"><span class="inline-h4">Notes:</span><ul>
+                                             <li>This and the previous treatise, no. 5, go over substantially the same ground as the
+                                                Περὶ ἑρμηνείας of Aristotle.
+                                             </li>
+                                             <li>Cf. Renan, loc. cit., p. 330
+                                                
+                                             </li>
+                                          </ul>
+                                       </div>
+                                    </div>
+                                 </div>
+                                 
+                                 <div class="tei-msItem"><span class="inline-h4">Item 14 (Fol. 99b): </span>Sergius of Ras'ain. On the Causes of the Universe, according to the views of Aristotle, showing how it
+                                    is a sphere
+                                    <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                             <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܬܘܒ ܡܐܡܪܐ ܕܥܠ ܥ̈ܠܠܬܗ ܕܗܢܐ ܟܠ. ܕܐܡܝܪ ܠܡܪܝ ܣܪܓܝܣ ܩܫܝܫܐ ܕܪܝܫ ܥܝܢܐ̣. ܐܝܟ ܬܪܥܝܬܗ ܕܐܪܝܣܛܘܛܠܝܣ
+                                             ܦܝܠܣܘܦܐ. ܕܐܝܟܢܐ ܐܝܬܘܗܝ ܚܘܕܪܐ
+                                             </span></span><span class="tei-incipit"><span class="inline-h4"> 
+                                             Incipit: </span><span xml:lang="syr" lang="syr" dir="rtl">ܡܛܠ ܕܡܦܣ ܐܢܐ ܕܒܡܟܣܢܘܬܐ ܕܡܢ ܐܘܝܘܬܐ ܗܘ̇ܝܐ ܒܥܬܟ. ܕܥܠ ܐܝܠܝܢ ܕܫܐܠܬ݂. ܠܡܫܒܩ ܠܟ ܒܟ̈ܬܝܒܬܐ.
+                                             ܟܕ ܛܒ ܝ̇ܕܥ ܐܢܐ ܐܦ ܥܣܩܘܬܐ ܕܫ̈ܘܐܠܝܟ̣. ܠܐ ܐ̇ܡܐܢܬ ܕܐܝܟ ܕܡܨܐ ܐܢܐ ܐܪܫܘܡ ܠܟ܇ ܕܙܒ̈ܢܝܢ ܣ̈ܓܝܐܢ
+                                             ܐܦܝܣܬܢܝ܇ ܥܠ ܥ̈ܠܠܬܗ ܩܕܡ̈ܝܬܐ ܕܗܢܐ ܟܠ܇ ܐܝܟ ܬܪܥܝܬܗ ܕܐܪܝܣܛܘܛܠܝܣ.. ܐܝܬܘܗܝ ܕܝܢ ܫܘܪܝܐ ܕܦܐܐ
+                                             ܠܕܐܝܟ ܗܠܝ̣ܢ. ܐܝܟ ܕܡܣܬܒܪܐ ܠܝ̣ ܕܐܢܫ ܢܣܝܡ ܟܠܗܝܢ ܬܚ̈ܘܝܬܐ ܡ̈ܬܚܙܝܢܝܬܐ ܘܕܫܠܡܢ ܠܪܓܫܬܢ̇. ܘܠܐܝܠܝܢ
+                                             ܕܢܦܠܢ ܬܚܝܬ ܚܙܬܢ. ܠܐ ܓܝܪ ܡܨܝܐ ܕܐܢܫ ܢܬܚܫܚ ܥܠܝܗܝܢ܇ ܒ̈ܬܚܘܝܬܐ ܕܡܡܠܠܐ. ܡܛܠ ܕܟܠܗܝܢ ܬܚ̈ܘܝܬܐ
+                                             ܡ̈ܠܝܠܬܐ̣. ܡܢ ܥܠ̣ܬܐ ܘܫܘܪܝܐ ܕܩܕܡܝܗܝܢ ܡܬܪ̈ܟܒܢ. ܠܥܠ̣ܬܐ ܕܝܢ ܩܕܡܝܬܐ̣. ܠܐ ܐܝܬ ܡܕܡ ܕܩܕܝܡ.܀܀
+                                             ܐܝܬܝܗܘܢ ܗܟܝܠ ܫܘ̈ܐܠܝܟ̣. ܕܡܢܐ ܐܝܬܘܗܝ ܥܠ̣ܬܐ ܩܕܡܝܬܐ ܕܟܠ. ܘܡܢܐ ܗܝ ܡܥܒܕܢܘܬܗ. ܘܡܢܐ ܗܘ ܙܢܐ
+                                             ܕܙܘܥܗ ܕܗܢܐ ܓܘܫܡܐ ܕܒܚܘܕܪܐ ܡܢܗ ܡܬܟܪܟ. ܘܥܠ ܡܢܐ ܟܪ̈ܘܟܝܐ ܣܓ̈ܝܐܐ ܐܝܬ ܒܙܘܥܗ ܕܗܢܐ ܓܘܫܡܐ ܕܒܚܘܕܪܐ
+                                             ܡܬܬܙܝܥ. ܘܐܢ ܩ̣ܢܝܢ ܗܠܝܢ ܕܒܚܘܕܪܐ ܡܬܟܪܟܝܢ ܝܕܥܬܐ ܘܣܘܟܠܐ̇. ܕܟܠܗܝܢ ܐܝܠܝܢ ܕܒܐܬܪ̈ܘܬܐ ܕܠܬܚܬ
+                                             ܡܢ ܣܗܪܐ ܗ̈ܘܝܢ. ܀ ܏ܘܫ.
+                                             </span></span><div class="msItem-notes"><span class="inline-h4">Notes:</span><ul>
+                                             <li>Addressed to Theodore</li>
+                                             <li>Cf. Renan, loc. cit., p. 320
+                                                
+                                             </li>
+                                          </ul>
+                                       </div>
+                                    </div>
+                                 </div>
+                                 
+                                 <div class="tei-msItem"><span class="inline-h4">Item 15 (Fol. 107b): </span>Aristotle. The treatise of Aristotle, Περὶ κόσμου πρὸς Ἀλέξανδρον
+                                    <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                             <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܐܓܪܬܐ ܕܐܪܝܣܛܘܛܠܝܣ ܦܝܠܣܘܦܐ: ܕܡܦܫܩܐ ܡܢ ܝܘܢܝܐ ܠܣܘܪܝܝܐ. ܠܡܝܬܪܐ ܡܪܝ ܣܪܓܝܣ ܩܫܝܫܐ ܕܪܝܫܥܝܢܐ
+                                             ܡܕܝܢܬܐ
+                                             </span></span><div class="msItem-notes"><span class="inline-h4">Notes:</span><ul>
+                                             <li>Translated for Theodore by <a href="/search.html?person=http://syriaca.org/person/49">Sergius of Ras'ain</a>
+                                                
+                                             </li>
+                                             <li>Cf. De Lagarde, Analecta Syr., p. 134; Renan, loc. cit., p. 321
+                                                
+                                             </li>
+                                          </ul>
+                                       </div>
+                                    </div>
+                                 </div>
+                                 
+                                 <div class="tei-msItem"><span class="inline-h4">Item 16 (Fol. 122a): </span>A tract on the Soul, ascribed to Aristotle
+                                    
+                                    <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                             <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܡܐܡܪܐ ܕܐܪܝܣܛܛܠܝܣ ܕܥܠ ܢܦܫܐ
+                                             </span></span><span class="tei-incipit"><span class="inline-h4"> 
+                                             Incipit: </span><span xml:lang="syr" lang="syr" dir="rtl">ܟܠ ܡܐ ܕܐܝܬܘܗܝ ܐܘ ܒܪ̈ܓܫܐ ܡܬܝܕܥ. ܐܘ ܒܗܘܢܐ ܡܬܕܪܟ. ܗ̇ܘ ܕܝܢ ܡܐ ܕܠܪ̈ܓܫܐ ܢ̇ܦܠ̣. ܓܡܝܪܐܝܬ ܝ̇ܗܒ
+                                             ܬܚܘܝܬܐ ܕܫܘܘܕܥܗ. ܟܠ ܨܒܘ ܓܝܪ ܕܡܚܝܢܐ ܠܪ̈ܓܫܝܢ: ܡܚܕܐ ܕܢ̇ܦܠܐ ܒܚܕ ܡܢ ܪ̈ܓܫܝܢ܆ ܡܘܕܥܐ ܚܙܬܐ ܕܫܟܝܚܘܬܗ̇.
+                                             ܗ̇ܘ ܕܝܢ ܡܐ ܕܒܡܕܥܐ ܡܬܕܪܟ̣. ܠܘ ܒܝܬܗ ܝ̇ܗܒ ܐܝܕܐ ܕܢܕܥܗ. ܐܠܐ ܒܡܥܒܕܢܘܬܗ.܀ ܢܦܫܐ ܗܟܝܠ ܗܝ̇ ܕܟܣܝܐ
+                                             ܒܟܝܢܗ̣̇. ܡܢ ܣܘܥܪܢܗ̇ ܗܘ ܡܬܝܕܥܐ. ܏ܐ.܀ ܏ܕܐܢ ܏ܐܝܬܝܗ̇ ܏ܢܦܫܐ. ܡܬܚܙܝܢܘܬܗ ܕܦܓܪܐ̣. ܐܘ ܡܢ ܠܒܪ
+                                             ܗܘܝܐ̣ ܐܘ ܡܢ ܠܓܘ. ܏ܘܫ
+                                             </span></span><div class="msItem-notes"><span class="inline-h4">Notes:</span><ul>
+                                             <li>It is not the well-known treatise Περὶ ψυχῆς, but a wholly different work, consisting
+                                                of five short sections.
+                                             </li>
+                                             <li>The remaining sections are as follow: ܥܠ ܕܐܘܣܝܐ ܐܝܬܝܗ̇ ܢܦܫܐ. ܏ܒ.܀
+                                                ܕܐܢ ܗ̣ܘ ܕܠܐ ܓܫܘܡ ܐܝܬܝܗ̇ ܢܦܫܐ.܀܏ܓ܀
+                                                ܏ܕ ܀ ܐܢ ܦܫܝܛܬܐ ܐܝܬܝܗ̇ ܢܦܫܐ.
+                                                ܏ܗ ܀ ܕܐܢ ܡܬܚܫܒܢܝܬܐ ܐܝܬܝܗ̇ ܢܦܫܐ.܀
+                                             </li>
+                                             <li>Cf. Renan, loc. cit., p. 330
+                                                
+                                             </li>
+                                          </ul>
+                                       </div>
+                                    </div>
+                                 </div>
+                                 
+                                 <div class="tei-msItem"><span class="inline-h4">Item 17 (Fol. 124b): </span>Sergius of Ras'ain. On genus, species and individuality
+                                    <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                             <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܡܐܡܪܐ ܕܥܒܝܕ ܠܡܪܝ ܣܪܓܝܣ ܩܫܝܫܐ ܘܐܪܟܝܛܪܐ: ܕܥܠ ܓܢܣܐ ܘܐܕ̈ܫܐ ܘܐܝܚܝܕܝܘܬܐ
+                                             </span></span><span class="tei-incipit"><span class="inline-h4"> 
+                                             Incipit: </span><span xml:lang="syr" lang="syr" dir="rtl">ܠܘܩܕܡ ܡܘܕܥܝܢ ܚܢܢ ܕܚܟ̈ܝܡܐ ܓܢܣܐ ܩܪܝܢ ܠܡܕܡ ܕܒܪܥܝܢܐ ܡܬܝܕܥ. ܕܠܘ ܩܢܘܡܐܝܬ ܐܝܬܘܗܝ. ܘܦܪܝܣ ܥܠ
+                                             ܣܓ̈ܝܐܐ ܕܦܪ̈ܝܫܝܢ ܡܢ ܚܕ̈ܕܐ. ܒܐܕܫܐ ܘܠܘ ܒܡܢܝܢܐ
+                                             </span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>Cf. Renan, loc. cit., p. 321
+                                          
+                                       </div>
+                                    </div>
+                                 </div>
+                                 
+                                 <div class="tei-msItem"><span class="inline-h4">Item 18 (Fol. 129a): </span>Bardaisan or Bardesanes, Philip. The Book of the Laws of the Countries
+                                    <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                             <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܟܬܒܐ ܕܢܡ̈ܘܣܐ ܕܐܬܪ̈ܘܬܐ
+                                             </span></span><div class="msItem-notes"><span class="inline-h4">Notes:</span><ul>
+                                             <li>It is an extract from the celebrated dialogue de Fato, ascribed to Bar-daisan or Bardesanes,
+                                                but written in reality by his disciple Philip
+                                             </li>
+                                             <li>The Syriac text has been edited, with an English translation, by Cureton, in his Spicilegium
+                                                Syriacum; and Merx has given a German translation in the work just mentioned.
+                                             </li>
+                                             <li>Cf. Land, Anecdota Syr., t. i., p. 51, Excursus i; Merx, Bardesanes von Edessa, p. 10; Cureton, in Spicilegium Syriacum; Renan, loc. cit., p. 295
+                                                
+                                             </li>
+                                          </ul>
+                                       </div>
+                                    </div>
+                                 </div>
+                                 
+                                 <div class="tei-msItem"><span class="inline-h4">Item 19 (Fol. 141a): </span>Sergius of Ras'ain. A treatise by Sergius of Ras'ain, addressed to Theodore, showing how we may know the
+                                    action (or influence) of the moon, according to the views of the astronomers
+                                    <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                             <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܡܐܡܪܐ ܕܥܒܝܕ ܠܣܪܓܝܣ ܐܪܟܐܛܪܘܣ.ܠܘܬ ܬܐܘܕܪܐ. ܥܠ ܗ̇ܝ ܕܐܝܟܢܐ ܐܢܫ ܝܕܥ (sic)  ܥܒܕܗ ܕܣܗܪܐ ܐܝܟ ܬܪܥܝܬܐ ܕܐܣܛܪܢܡܘ
+                                             </span></span><span class="tei-incipit"><span class="inline-h4"> 
+                                             Incipit: </span><span xml:lang="syr" lang="syr" dir="rtl">ܡܢ ܒܬܪ ܕܦܫܩܢܢ ܡܐܡܪܐ ܗ̇ܘ ܕܬܠܬܐ: ܕܐܝܬܘܗܝ ܐܚܪܝܐ ܕܡܟܬܒܢܘܬܐ ܗ̇ܝ ܕܥܠ ܝܘܡ̈ܬܐ ܒܚܘܪ̈ܐ ܐܘ ܐܚܘܢ
+                                             ܬܐܘܕܪܐ̣. ܡܛܠ ܕܚܙܝܬ݁ ܥܣܩܘܬܐ ܕܪܥܝܢܐ ܕܣܡ ܒܗ ܒܡܐܡܪܐ ܗ̣ܘ ܡܟܬܒܢܐ. ܐܦܝܣܬ ܠܢ ܠܡܪܫܡ ܠܟ ܥܠܝܗ̣̇.
+                                             ܬܐܘܪܝܐ ܗ̇ܝ ܕܐܬܚܫܚ ܒܗ̇ ܓܠܢܘܣ ܐܝܟ ܕܡܨܝܢܢ  ܒ̈ܦܣܝܩܬܐ. ܏ܘܫ.
+                                             </span></span><span class="tei-finalRubric"><span class="inline-h4"> 
+                                             Subscription  (Fol. 149a): </span><span xml:lang="syr" lang="syr" dir="rtl">ܫܠܡ ܡܐܡܪܐ ܕܥܒܝܕ ܠܣܪܓܝܣ ܩܫܝܫܐ ܘܐܪܟܝܛܪܘܣ. ܥܠ ܗ̇ܝ ܕܐܝܟܢܐ ܢܕܥ ܐܢܫ ܡܢܐ ܡܬܪܥܝܢ ܐܣܛܪ̈ܘܠܓܘ
+                                             ܒܝܕ ܙܘ̈ܥܐ ܕܟܘ̈ܟܒܐ.
+                                             </span></span><div class="msItem-notes"><span class="inline-h4">Notes:</span><ul>
+                                             <li>This tract is explanatory and illustrative of the treatise of Galen Περὶ κρισίμων
+                                                ἡμερῶν, "on critical days."
+                                             </li>
+                                             <li>Cf. Sachau, Inedita Syr., p. 101; Renan, loc. cit., p. 321
+                                                
+                                             </li>
+                                          </ul>
+                                       </div>
+                                    </div>
+                                 </div>
+                                 
+                                 <div class="tei-msItem"><span class="inline-h4">Item 20 (Fol. 149b): </span>On the motion of the Sun
+                                    <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                             <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܥܠܬܐ ܕܐܡܝܪܐ ܥܠ ܡܪܕܝܬܗ ܕܫܡܫܐ
+                                             </span></span><span class="tei-incipit"><span class="inline-h4"> 
+                                             Incipit: </span><span xml:lang="syr" lang="syr" dir="rtl">ܬܚܘܝܬܐ ܡܛܠ ܡܬܬܙܝܥܢܘܬܗ ܕܫܡܫܐ. ܘܕܐܝܟܢܐ ܡܫܟܚ ܐܢܫ ܠܡܕܥ ܟܠ ܐܡܬܝ ܕܡܬܒܥܐ ܕܒܐܝܢܐ ܒܝܬܐ ܘܒܐܝܕܐ
+                                             ܡܢ ܡ̈ܢܘܬܗ ܪܕܐ ܝܬܝܪ ܚܣܝܪ. ܏ܘܫ
+                                             </span></span><div class="msItem-notes"><span class="inline-h4">Notes:</span><ul>
+                                             <li>A short appendix to the previous treatise, no. 12</li>
+                                             <li>Cf. Sachau, Ined. Syr., p. 125; Renan, loc. cit., p. 322
+                                                
+                                             </li>
+                                          </ul>
+                                       </div>
+                                    </div>
+                                 </div>
+                                 
+                                 <div class="tei-msItem"><span class="inline-h4">Item 21 (Fol. 149b): </span>The names of the Signs of the Zodiac, according to the school of Bardaisan
+                                     [defective]
+                                    <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                             <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܫܡ̈ܗܐ ܕܡ̈ܠܘܫܐ ܐܝܟ ܕܒܝܬ ܒܪ ܕܝܨܢ
+                                             </span></span><span class="tei-quote"><span class="inline-h4"> 
+                                             Excerpt: </span><span xml:lang="syr" lang="syr" dir="rtl">ܐܡܪܐ̣ ܢܝܣܢ: ܬܘܪܐ. ܬܪ̈ܝܢ ܨ̈ܠܡ̇ܐ . ܣܪܛܢܐ. ܐܪܝܐ. ܫܒܠܬܐ. ܩܢܫܠܡܐ. ܥܩܪܒܐ. ܨܠܡܐ ܪܒܐ. ܓܕܝܐ.
+                                             ܕܘܠܐ. ܢܘ̈ܢܐ
+                                             </span></span><div class="msItem-notes"><span class="inline-h4">Notes:</span><ul>
+                                             <li>The original writing has been erased, with the exception of the first two words, but
+                                                this was apparently done by the scribe himself. The list now reads as quoted above.
+                                             </li>
+                                             <li>Cf. Cowper's Syriac Miscellanies, p. 55; Land, Anecd. Syr., t. i., prolegom., p. 32; Sachau, Ined. Syr., p. 126
+                                                
+                                             </li>
+                                          </ul>
+                                       </div>
+                                    </div>
+                                 </div>
+                                 
+                                 <div class="tei-msItem"><span class="inline-h4">Item 22 (Fol. 150a): </span>Socrates. Socrates
+                                    <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                             <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܣܘܩܛܘܣ
+                                             </span></span><span class="tei-incipit"><span class="inline-h4"> 
+                                             Incipit: </span><span xml:lang="syr" lang="syr" dir="rtl">ܣܘܩܪܛܘܣ ܐܡ̇ܪ. ܐܘܢ ܐܪܘܣܛܪܦܐ. ܡܢܐ ܐܬܚܙܝܬ ܠܟ ܨܒܘܬܐ ܠܘܬܝ ܠܡܐܬܐ. ܏ܘܫ.
+                                             </span></span><div class="msItem-notes"><span class="inline-h4">Notes:</span><ul>
+                                             <li>From the name of the other interlocutor, it may be called " the Erostrophus," ܐܪܣܛܪܦܘܣ,
+                                                Ἐρόστοφος
+                                             </li>
+                                             <li>Cf. De Lagarde, Anal. Syr., p. 158; Renan, loc. cit., p. 299
+                                                
+                                             </li>
+                                          </ul>
+                                       </div>
+                                    </div>
+                                 </div>
+                                 
+                                 <div class="tei-msItem"><span class="inline-h4">Item 23 (Fol. 155a): </span>Isocrates, the discourse addressed to Demonicus
+                                    
+                                    <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                             <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܐܝܣܘܩܪܛܘܣ
+                                             </span></span><div class="msItem-notes"><span class="inline-h4">Notes:</span><ul>
+                                             <li>See Add. 14,620, no. 3</li>
+                                             <li>Cf. De Lagarde, Anal., Syr., p. 167; Renan, loc. cit., p. 300
+                                                
+                                             </li>
+                                          </ul>
+                                       </div>
+                                    </div>
+                                 </div>
+                                 
+                                 <div class="tei-msItem"><span class="inline-h4">Item 24 (Fol. 161a): </span>The Hypomnemata of Ambrose, an apology for the Christian religion
+                                    <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                             <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܗܘܦܡܢܡܛܐ ܕܟܬܒ ܐܡܒܪܘܣ ܪܝܫܐ ܕܝܘܢ. ܕܗܘ̣ܐ ܟܪܣܛܝܢܐ̣. ܘܒܓܢܘ ܥܠܘܗܝ ܟܠܗܘܢ ܒܘ̈ܠܘܛܐ ܚܒܪ̈ܘܗܝ̣
+                                             ܘܥ̣ܪܩ ܡܢܗܘܢ. ܘܟܬ̣ܒ ܚܘܝ ܐܢܘܢ ܟܠܗ̇ ܫܢܝܘܬܗܘܢ̇ ܘܒܪܝܫ ܡ̈ܠܘܗܝ ܥܢ̣ܐ ܘܐܡ̣ܪ.
+                                             </span></span><div class="msItem-notes"><span class="inline-h4">Notes:</span><ul>
+                                             <li>It is nearly identical with the Λόγος πρὸς Ἕλληνας, usually attributed to Justin Martyr. This discourse has been edited by Cureton in his Spicilegium Syr., pp. ܠܚ</li>
+                                             <li>Cf. Spicilegium Syr., pp. ܠܚ; Renan, loc. cit., p. 300.
+                                                
+                                             </li>
+                                          </ul>
+                                       </div>
+                                    </div>
+                                 </div>
+                                 
+                                 <div class="tei-msItem"><span class="inline-h4">Item 25 (Fol. 163b): </span>Menander. A collection of Sayings, ascribed to Menander
+                                    
+                                    <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                             <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܡܢܢܕܪܘܣ ܚܟܝܡܐ
+                                             </span></span><div class="msItem-notes"><span class="inline-h4">Notes:</span><ul>
+                                             <li>These have been edited by Land in his Anecdota Syr.</li>
+                                             <li>Cf. Land, Anecdota Syr., t. i., pp. 64, seqq.; Renan, loc. cit., p. 302
+                                                
+                                             </li>
+                                          </ul>
+                                       </div>
+                                    </div>
+                                 </div>
+                                 
+                                 <div class="tei-msItem"><span class="inline-h4">Item 26 (Fol. 168a): </span>Several short articles treating of substance,
+                                    <div class="msItemChild">
+                                       <div class="msItem-notes"><span class="inline-h4">Note: </span>Cf. Renan, loc. cit., p. 332
+                                          
+                                       </div>
+                                       <div class="tei-msItem"><span class="inline-h4">Item 27 (Fol. 168a): </span>Part of Several short articles treating of substance,
+                                          <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                   <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܡܛܠ ܦܘܠܓ ܐܘܣܝܐ
+                                                   </span></span><span class="tei-incipit"><span class="inline-h4"> 
+                                                   Incipit: </span><span xml:lang="syr" lang="syr" dir="rtl">ܐܘܣܝܐ ܡܬܦܠܓܐ̣. ܓܢܣܐ̇ ܐܕܫܐ̣ ܫܘܚܠܦܐ. ܓܕܫܐ̣ ܕܝܠܝܘܬܐ. ܐܘܣܝܐ ܕܓܘܐ ܗ̇ܝ ܐܚܘܕܬܐ ܕܟܠ܆ ܡܬܦܠܓܐ
+                                                   ܠܓܘܫܡܐ̣ ܘܠܠܐ ܓܘܫܡܐ. ܏ܘܫ.
+                                                   </span></span></div>
+                                       </div>
+                                       <div class="tei-msItem"><span class="inline-h4">Item 28 (Fol. 169a): </span>Part of Several short articles treating of substance,
+                                          <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                   <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܐܚܪܬܐ ܡܛܠ ܐܘܣܝܐ
+                                                   </span></span><span class="tei-incipit"><span class="inline-h4"> 
+                                                   Incipit: </span><span xml:lang="syr" lang="syr" dir="rtl">ܐܘܣܝܐ ܐܝܬܝܗ̣̇ ܓܢܣ ܓܢ̈ܣܝܢ. ܘܣ̈ܓܝܐܬܐ ܚܒܫܐ ܠܓܘ ܡܢܗ̇. ܘܡܬܦܠܓܐ̣ ܠܬܪ̈ܝܢ ܦܘܪ̈ܫܢܝܢ. ܠܒ̣ܪܝܐ̣
+                                                   ܘܠܠܐ ܒ̣ܪܝܐ. ܏ܘܫ.
+                                                   </span></span></div>
+                                       </div>
+                                       <div class="tei-msItem"><span class="inline-h4">Item 29 (Fol. 169b): </span>Part of Several short articles treating of substance,
+                                          <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                   <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܦܘܠܓܐ ܐܚܪܢܐ
+                                                   </span></span><span class="tei-incipit"><span class="inline-h4"> 
+                                                   Incipit: </span><span xml:lang="syr" lang="syr" dir="rtl">ܐܝܬ ܝܚܝܕܝܘܬ ܫܡܐ ܓܢܣܢܝܐ̣. ܕܥܠ ܝܚܝܕܝܘܬ ܟܝܢܐ ܕܒܫܘܚܠܦ ܩ̈ܢܘܡܐ ܡܫܘܕܥܐ̣. ܐܝܟ ܫܡܐ ܕܐܠܗܐ ܘܕܒܪ
+                                                   ܐܢܫܐ ܘܕܒܥܝܪܐ. ܘܕܫܪܟܐ. ܘܐܝܬ ܝܚܝܕܝܘܬ ܫܡܐ ܐܕܫܢܝܐ ܕܥܠ ܝܚܝܕܝܘܬ ܩ̈ܢܘܡܐ ܕܒܫܘܚܠܦ ܟܝ̈ܢܐ ܡܫܘܕܥܐ.
+                                                   ܐܝܟ ܒܪܢܫܐ ܕܒܢܦܫܐ ܘܦܓܪܐ̇. ܘܡܫܝܚܐ ܒܐܠܗܘܬܐ ܘܐܢܫܘܬܐ܀ ܏ܘܫ.
+                                                   </span></span></div>
+                                       </div>
+                                       <div class="tei-msItem"><span class="inline-h4">Item 30 (Fol. 170b): </span>Part of Several short articles treating of substance,
+                                          <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                   <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܬܘܒ ܡܛܠ ܐܘܣܝܐ
+                                                   </span></span><span class="tei-incipit"><span class="inline-h4"> 
+                                                   Incipit: </span><span xml:lang="syr" lang="syr" dir="rtl">ܐܘܣܝܐ ܕܒܪ̈ܝܐ̣ ܓܢܣ ܓܢ̈ܣܝܢ. ܏ܘܫ.
+                                                   </span></span></div>
+                                       </div>
+                                       <div class="tei-msItem"><span class="inline-h4">Item 31 (Fol. 170b): </span>Part of Several short articles treating of substance,
+                                          <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                   <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܬܘܒ ܡܛܘܠ ܐܘܣܝܐ
+                                                   </span></span><span class="tei-incipit"><span class="inline-h4"> 
+                                                   Incipit: </span><span xml:lang="syr" lang="syr" dir="rtl">ܐܘܣܝܐ ܓܢܣ ܓܢܣ̈ܝܢ. ܓܘܫܡܐ ܐܕܫܐ̣ ܘܓܢܣܐ. ܓܘܫܡܐ ܢܦܫܢܐ̇ ܐܕܫܐ̣ ܘܓܢܣܐ. ܏ܘܫ.
+                                                   </span></span></div>
+                                       </div>
+                                    </div>
+                                 </div>
+                                 
+                                 <div class="tei-msItem"><span class="inline-h4">Item 32 (Fol. 172a): </span>A collection of ethical and moral sentences, ascribed to Pythagoras
+                                    
+                                    <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                             <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܡܡܠܠܐ ܕܦܘܬܓܪܘܣ
+                                             </span></span><span class="tei-incipit"><span class="inline-h4"> 
+                                             Incipit: </span><span xml:lang="syr" lang="syr" dir="rtl">ܡ̈ܠܐ ܕܦܘܬܓܪܘܣ ܦܝܠܘܣܦܐ ܕܐܡܝܪ̈ܢ ܥܠ ܬܩܢܘܬܐ ܘܫܘܦܪܐ ܕܕܗܒܐ ܩܢ̈ܝܢ ܒܛܥܡܗܝܢ
+                                             </span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>Cf. De Lagarde, Anal. Syr., p. 195; Renan, loc. cit., p. 303; Gildemeister in the Hermes, 1869, Bd. iv., p. 81
+                                          
+                                       </div>
+                                    </div>
+                                 </div>
+                                 
+                                 <div class="tei-msItem"><span class="inline-h4">Item 33 (Fol. 176a): </span>A discourse of Melito the philosopher, spoken before the emperor Antoninus
+                                    
+                                    <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                             <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܡܐܡܪܐ ܕܡܝܠܝܛܘܢ ܦܝܠܣܘܦܐ. ܕܗ̣ܘܐ ܩܕܡ ܐܢܛܘܢܝܢܘܣ ܩܣܪ. ܘܐ̇ܡܪ. ܗܘܐ ܠܗ ܠܩܣܪ ܕܢܕܥ ܠܐܠܗܐ. ܘܚܘܝܗ
+                                             ܐܘܪܚܐ ܕܫܪܪܐ. ܘܫܪܝ ܠܡܐܡܪ ܗܟܢܐ
+                                             </span></span><div class="msItem-notes"><span class="inline-h4">Notes:</span><ul>
+                                             <li>This seems to be the treatise Περὶ ἀληθείας "concerning Truth"; though Cureton, who
+                                                has edited it in his Spicileg. Syr., pp. ܟܒ, seqq., supposes it to be the Apology
+                                             </li>
+                                             <li>Cf. Land, Anecdota Syr., t. i., p. 53, Excurs. ii.; Spicileg. Syr., pp. ܟܒ, seqq.; Renan, loc. cit., p. 305
+                                                
+                                             </li>
+                                          </ul>
+                                       </div>
+                                    </div>
+                                 </div>
+                                 
+                                 <div class="tei-msItem"><span class="inline-h4">Item 34 (Fol. 181b): </span>Mara bar Serapion. A letter of Mara bar Serapion, ܡܪܐ ܒܪ ܣܪܦܝܘܢ, to his son Serapion
+                                    
+                                    <div class="msItemChild">
+                                       <div class="msItem-notes"><span class="inline-h4">Notes:</span><ul>
+                                             <li>This document has also been edited by Cureton in his Spicileg. Syr., pp. ܡܓ, seqq.</li>
+                                             <li>Cf. Spicileg. Syr., pp. ܡܓ, seqq.; Renan, loc. cit., p. 328
+                                                
+                                             </li>
+                                          </ul>
+                                       </div>
+                                    </div>
+                                 </div>
+                                 
+                                 <div class="tei-msItem"><span class="inline-h4">Item 35 (Fol. 185b): </span>Sayings of Plato
+                                    <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                             <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܦܠܛܘܢ
+                                             </span></span><span class="tei-incipit"><span class="inline-h4"> 
+                                             Incipit: </span><span xml:lang="syr" lang="syr" dir="rtl">ܦܠܛܘܢ̣ ܐܡ̇ܪ. ܡܢ̣ܘ ܐܠܗܐ. ܚܝܐ. ܠܐ ܡܝܘܬܐ. ܕܣܦ̇ܩ ܠܟܠ ܛܘ̈ܒܝܢ. ܘܐܝܬܘܗܝ ܟܝܢܗ ܡܢ ܥܠܡ̣. ܠܥܠܬܐ
+                                             ܕܟܠ ܛܒ̈ܢ܀
+                                             </span></span><div class="msItem-notes"><span class="inline-h4">Notes:</span><ul>
+                                             <li>See Add. 17,193, no. 32. These are derived from the Ὅροι or Definitions</li>
+                                             <li>Cf. Platonis Opera, ed. Bipont., 1787, vol. xi., p. 287; Sachau, Ined. Syr., p. 66; Renan, loc. cit., p. 307
+                                                
+                                             </li>
+                                          </ul>
+                                       </div>
+                                    </div>
+                                 </div>
+                                 
+                                 <div class="tei-msItem"><span class="inline-h4">Item 36 (Fol. 185b): </span>Advice of Plato to his disciple
+                                    <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                             <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܦܘܩܕܢܗ ܕܦܠܛܘܢ ܠܘܬ ܬܠܡܝܕܗ
+                                             </span></span><div class="msItem-notes"><span class="inline-h4">Notes:</span><ul>
+                                             <li>See Add. 14,614, fol. 118 a</li>
+                                             <li>Cf. Sachau, Ined. Syr., p. 67; Renan, loc. cit., p. 307
+                                                
+                                             </li>
+                                          </ul>
+                                       </div>
+                                    </div>
+                                 </div>
+                                 
+                                 <div class="tei-msItem"><span class="inline-h4">Item 37 (Fol. 186b): </span>A section entitled ܫܪܒܐ ܐܚܪܢܐ, containing Platonic definitions of faith, ܗܝܡܢܘܬܐ;
+                                    God, ܐܠܗܐ; love, ܚܘܒܐ; justice, ܙܕܝܩܘܬܐ; and righteousness, ܟܐܢܘܬܐ
+                                    <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                             <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܫܪܒܐ ܐܚܪܢܐ
+                                             </span></span><span class="tei-incipit"><span class="inline-h4"> 
+                                             Incipit: </span><span xml:lang="syr" lang="syr" dir="rtl">ܗܝܡܢܘܬܐ ܗܕܐ ܗܝ ܕܬܫܪ ܠܡܕܡ ܕܐܝܬܘܗܝ ܟܕ ܫܡ̇ܥ ܐܢܬ ܥܠܘܗܝ. ܩܕܡ ܕܠܐ ܬܚܙܝܘܗܝ
+                                             </span></span><span class="tei-finalRubric"><span class="inline-h4"> 
+                                             Subscription  (Fol. 186b): </span><span xml:lang="syr" lang="syr" dir="rtl">ܫܠܡ ܫܪܒܐ ܕܥܠ ܗܝܡܢܘܬܐ
+                                             </span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>Cf. Sachau, Ined. Syr., p. 69; Renan, loc. cit., p. 332
+                                          
+                                       </div>
+                                    </div>
+                                 </div>
+                                 
+                                 <div class="tei-msItem"><span class="inline-h4">Item 38 (Fol. 186b): </span>A collection of maxims, entitled "the Counsel of Theano(<span class="tei-foreign" lang="grc">Θεανώ</span>), the female philosopher of the school of Pythagoras" [defective]
+                                    <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                             <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܡܘܠܟܢܐ ܕܐܬܢܐܘ (sic) ܦܝܠܘܣܦܬܐ ܕܒܝܬ ܦܬܘܓܪܘܣ
+                                             </span></span><span class="tei-incipit"><span class="inline-h4"> 
+                                             Incipit: </span><span xml:lang="syr" lang="syr" dir="rtl">ܣ̇ܓܝ ܠܡ ܘ̇ܠܐ ܠܗ ܠܗ̇ܘ ܕܡܨܠܐ ܠܐܠܗܐ ܕܢܗܘܐ ܚܟܝܡ. ܕܠܐ ܕܠܩܘܒܠܐ ܕܒܥܘܬܗ ܬܗܘܐ ܨܠܘܬܗ. ܏ܘܫ.
+                                             </span></span><div class="msItem-notes"><span class="inline-h4">Notes:</span><ul>
+                                             <li>Imperfect at the end</li>
+                                             <li>Cf. Sachau, Ined. Syr., p. 70; Renan, loc. cit., p. 308
+                                                
+                                             </li>
+                                          </ul>
+                                       </div>
+                                    </div>
+                                 </div>
+                                 </span></div>
+                        </div>
+                     </div>
+                  </div>
+                  <div class="citationinfo">
+                     <h3>How to Cite This Entry</h3>
+                     <div id="citation-note" class="content-block indent"><span> William Wright</span> et al., “<span class="title">London, BL, Add. 14658</span>” in ,  last modified April 21, 2023, <a href="https://bl.syriac.uk/ms/426">https://bl.syriac.uk/ms/426</a>.
+                        <div class="collapse" id="showcit">
+                           <div id="citation-bibliography">
+                              <h4>Bibliography:</h4><span class="editor">William Wright</span> et al., “<span class="title">London, BL, Add. 14658</span>.” In , edited by . Syriaca.org: The Syriac Reference Portal,
+                              2023.
+                               Entry published April 21, 2023. <a href="https://bl.syriac.uk/ms/426">https://bl.syriac.uk/ms/426</a>.
+                           </div>
+                           <div id="about">
+                              <h3>About this Entry</h3>
+                              <p><span class="heading-inline">Entry Title:</span> <span class="title">London, BL, Add. 14658</span></p>
+                              <div>
+                                 <h4>Authorial and Editorial Responsibility:</h4>
+                                 <ul>
+                                    <li><span> David A. Michelson</span>, general editor, Syriaca.org: The Syriac Reference Portal
+                                    </li>
+                                    <li>, editor, </li>
+                                    <li>William Wright, David A. Michelson, Peter G. Miller, Robert Aydin, and Justin Arnwine, entry contributors, “”</li>
+                                 </ul>
+                              </div>
+                              <div>
+                                 <h4>Additional Credit:</h4>
+                                 <ul>
+                                    <li>Created by <span> Peter G. Miller</span></li>
+                                    <li>Based on the work of <span> William Wright</span></li>
+                                    <li>Edited by <span> Peter G. Miller</span></li>
+                                    <li>Syriac text entered by <span> Robert Aydin</span></li>
+                                    <li>Greek and coptic text entry and proofreading by <span> Ryan Stitt</span></li>
+                                    <li>Project management by <span> Elizabeth Walston</span></li>
+                                    <li>English text entry and proofreading by <span> Syriac Research Group, University of Alabama</span></li>
+                                    <li>Locus information for manuscript items added by <span> Ziyan Zhang</span></li>
+                                    <li>Syriaca.org URIs for authors edited by <span> Justin Arnwine</span></li>
+                                    <li>Syriaca.org URIs for authors checked by <span> Alexys Ahn</span><span> Joseph DAlfonso</span></li>
+                                    <li>Folio extent edited by <span> Kurt Urban</span></li>
+                                 </ul>
+                              </div>
+                           </div>
+                           <div id="license">
+                              <h3>Copyright and License for Reuse</h3>
+                              <div>Except otherwise noted, this page is © 2023.
+                                 
+                              </div><span class="tei-licence">
+                                 
+                                 <p>Distributed under a Creative Commons Attribution 3.0 Unported License</p>
+                                 </span></div>
+                        </div><a class="btn-sm btn-info togglelink pull-right" data-toggle="collapse" data-target="#showcit" data-text-swap="Hide citation">Show full citation information...</a></div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </body><script type="text/javascript" src="/resources/js/jquery.validate.min.js"></script><script type="text/javascript" src="/resources/js/require.min.js"></script><script type="text/javascript" src="/resources/js/srophe.js"></script><script data-template="app:google-analytics"></script></html>

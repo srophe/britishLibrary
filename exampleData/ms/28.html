@@ -1,0 +1,687 @@
+<?xml version="1.0" encoding="UTF-8"?><html xmlns="http://www.w3.org/1999/xhtml" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:srophe="https://srophe.app">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <title>London, BL, Add. 12153</title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <meta name="DC.type" property="dc.type" content="Text" />
+      <meta name="DC.isPartOf" property="dc.ispartof" content="Syriaca.org: The Syriac Reference Portal" />
+      <link data-template="app:metadata" />
+      <link rel="shortcut icon" href="/resources/images/fav-icons/mss-favicon.ico" />
+      <link rel="stylesheet" type="text/css" href="/resources/bootstrap/css/bootstrap.min.css" />
+      <link rel="stylesheet" type="text/css" href="/resources/css/sm-core-css.css" />
+      <link rel="stylesheet" type="text/css" href="/resources/css/syr-icon-fonts.css" />
+      <link rel="stylesheet" type="text/css" href="/resources/css/style.css" />
+      <link rel="stylesheet" type="text/css" href="/resources/css/syriaca.css" />
+      <link rel="stylesheet" type="text/css" media="print" href="/resources/css/print.css" />
+      <link rel="stylesheet" href="/resources/leaflet/leaflet.css" />
+      <link rel="stylesheet" href="/resources/leaflet/leaflet.awesome-markers.css" />
+      <link href="/resources/jquery-ui/jquery-ui.min.css" rel="stylesheet" /><script type="text/javascript" src="/resources/js/jquery.min.js"></script><script type="text/javascript" src="/resources/jquery-ui/jquery-ui.min.js"></script><script type="text/javascript" src="/resources/js/jquery.smartmenus.min.js"></script><script type="text/javascript" src="/resources/js/clipboard.min.js"></script><script type="text/javascript" src="/resources/bootstrap/js/bootstrap.min.js"></script><script defer="defer" data-domain="bl.syriac.uk" src="https://plausible.io/js/script.js"></script><link href="/resources/keyboard/css/keyboard.min.css" rel="stylesheet" />
+      <link href="/resources/keyboard/css/keyboard-previewkeyset.min.css" rel="stylesheet" />
+      <link href="/resources/keyboard/syr/syr.css" rel="stylesheet" /><script type="text/javascript" src="/resources/keyboard/syr/jquery.keyboard.js"></script><script type="text/javascript" src="/resources/keyboard/js/jquery.keyboard.extension-mobile.min.js"></script><script type="text/javascript" src="/resources/keyboard/js/jquery.keyboard.extension-navigation.min.js"></script><script type="text/javascript" src="/resources/keyboard/syr/jquery.keyboard.extension-autocomplete.js"></script><script type="text/javascript" src="/resources/keyboard/syr/keyboardSupport.js"></script><script type="text/javascript" src="/resources/keyboard/syr/syr.js"></script><script type="text/javascript" src="/resources/keyboard/layouts/ms-Greek.min.js"></script><script type="text/javascript" src="/resources/keyboard/layouts/ms-Russian.min.js"></script><script type="text/javascript" src="/resources/keyboard/layouts/ms-Arabic.min.js"></script><script type="text/javascript">
+            $(document).ready(function () {
+                $('[data-toggle="tooltip"]').tooltip({ container: 'body' })
+
+                $('.keyboard').keyboard({
+                    openOn: null,
+                    stayOpen: false,
+                    alwaysOpen: false,
+                    autoAccept: true,
+                    usePreview: false,
+                    initialFocus: true,
+                    rtl : true,
+                    layout: 'syriac-phonetic',
+                    hidden: function(event, keyboard, el){
+                       //  keyboard.destroy();
+                     }
+                });
+
+                $('.keyboard-select').click(function () {
+                    var keyboardID = '#' + $(this).data("keyboard-id")
+                    var kb = $(keyboardID).getkeyboard();
+                    //var kb = $('#searchField').getkeyboard();
+                    // change layout based on link ID
+                    kb.options.layout = this.id
+                    // open keyboard if layout is different, or time from it last closing is &gt; 200 ms
+                    if (kb.last.layout !== kb.options.layout || (new Date().getTime() - kb.last.eventTime) &gt; 200) {
+                        kb.reveal();
+                    }
+                });
+                //Change fonts
+                $('.swap-font').on('click', function(){
+                    var selectedFont = $(this).data("font-id")
+                    $('.selectableFont').not('.syr').css('font-family', selectedFont);
+                    $("*:lang(syr)").css('font-family', selectedFont)
+                });
+
+            })
+        </script></head>
+   <body id="body">
+      <nav class="navbar navbar-default navbar-fixed-top" role="navigation" data-template="app:fix-links">
+         
+         <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse-1">
+               <span class="sr-only">Toggle navigation</span>
+               <span class="icon-bar"></span>
+               <span class="icon-bar"></span>
+               <span class="icon-bar"></span>
+               </button>
+            <a class="navbar-brand banner-container" href="/index.html">
+               <span class="syriaca-icon syriaca-mss banner-icon"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span>
+                  </span>
+               <span class="banner-text">Syriac Manuscripts in the British Library</span>
+               </a>
+            
+         </div>
+         
+         <div class="navbar-collapse collapse pull-right" id="navbar-collapse-1">
+            
+            <ul class="nav navbar-nav">
+               
+               <li>
+                  <a href="/browse.html" class="nav-text">Browse</a>
+                  
+               </li>
+               
+               <li data-template="app:shared-content" data-template-path="/templates/shared-links.html"></li>
+               
+               <li>
+                  <a href="/search.html" class="nav-text">Advanced Search</a>
+                  
+               </li>
+               
+               <li>
+                  
+                  <div id="search-wrapper">
+                     
+                     <form class="navbar-form navbar-right search-box" role="search" action="/search.html" method="get">
+                        
+                        <div class="form-group">
+                           <input type="text" class="form-control keyboard" placeholder="search" name="keyword" id="keywordNav" />
+                           <span data-template="app:keyboard-select-menu" data-template-input-id="keywordNav"></span>
+                           <button class="btn btn-default search-btn" id="searchbtn" type="submit" title="Search">
+                              <span class="glyphicon glyphicon-search"></span>
+                              </button>
+                           
+                        </div>
+                        
+                     </form>
+                     
+                  </div>
+                  
+               </li>
+               
+               <li data-template="app:shared-content" data-template-path="/templates/fontMenu.html"></li>
+               
+            </ul>
+            
+         </div>
+         
+      </nav>
+      <div class="main-content-block">
+         <div class="interior-content">
+            <div class="container otherFormats"><a href="mailto:bl.syriac.uk@gmail.com?subject=Shelf mark: Record URI: " type="button" class="btn btn-default btn-xs" data-toggle="tooltip" title="Click to report a correction via e-mail."><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span> Corrections
+                  </a> <a href="https://github.com/srophe/britishLibrary-data/issues/new?assignees=&amp;labels=community-submitted&amp;title=:" target="_blank" id="issueBtn" data-toggle="tooltip" class="btn btn-default btn-xs" title="Click to file a data issue on GitHub (requires login)."><span class="glyphicon glyphicon-record" aria-hidden="true"></span> Open
+                  </a> <a href="https://github.com/srophe/britishLibrary-data/blob/main/data/tei/28.xml" target="_blank" class="btn btn-default btn-xs" id="openBtn" data-toggle="tooltip" title="Click to view the TEI XML data for this record."><img src="/resources/images/github-mark.png" height="18px" /></a> <a href="javascript:window.print();" type="button" class="btn btn-default btn-xs" id="printBtn" data-toggle="tooltip" title="Click to send this page to the printer."><span class="glyphicon glyphicon-print" aria-hidden="true"></span> 
+                  </a> 
+            </div>
+            <div class="row">
+               <div class="col-md-12">
+                  <div xmlns:x="http://www.w3.org/1999/xhtml" xmlns:local="http://syriaca.org/ns" class="title">
+                     <h1>Add. 12,153</h1>
+                  </div>
+                  <div xmlns:x="http://www.w3.org/1999/xhtml" xmlns:local="http://syriaca.org/ns" class="tei-note">
+                     <div>URI: <span class="tei-idno">https://bl.syriac.uk/ms/28</span></div>
+                  </div>
+                  <div xmlns:x="http://www.w3.org/1999/xhtml" xmlns:local="http://syriaca.org/ns" class="header section">
+                     <div class="tei-note">
+                        <div>
+                           Description based on Wright
+                           <a href="#" data-toggle="tooltip" title="This entry number is from Wright's printed catalogue. Due to renumbering, Wright's entry numbers do not match the numbering used in this digital catalogue."><span class="tei-idno">DLV</span></a>
+                           (<span class="tei-citedRange">2:423-428</span>)
+                           <a href="https://archive.org/details/catalogueofsyria02brituoft/page/423" target="_blank"><img src="/resources/images/ialogo.jpg" alt="Link to Archive.org Bibliographic record" height="18px" /></a></div>
+                        <div>
+                           Date: 
+                           AD 845 / AG 1156
+                        </div>
+                        <div>Unspecified Syriac script (multiple hands) ܀  Parchment Codex, 206 leaves.
+                           
+                        </div>
+                        <div>
+                           Features: 
+                           
+                           Decoration
+                        </div>
+                        <div>
+                           Wright's Subject Classification:
+                           
+                        </div>
+                     </div>
+                     <div class="tei-note"><span>This manuscript contains: Gregory of Nazianzus. The first volume of the works of Gregory
+                           Theologus of Nazianzus. In total, including sub-sections, this manuscript contains
+                           37 items.</span></div>
+                  </div>
+                  <div xmlns:x="http://www.w3.org/1999/xhtml" xmlns:local="http://syriaca.org/ns" class="panel panel-default">
+                     <div class="panel-heading">
+                        <h2 class="panel-title" data-toggle="collapse" data-target="#Overview">Physical Description </h2>
+                     </div>
+                     <div id="Overview" class="panel-collapse collapse in">
+                        <div class="panel-body">
+                           <div class="msDesc">
+                              <div class="tei-physDesc">
+                                 <div class="indent">
+                                    <p>Vellum, about 11 ¼  in. by 8, consisting of 206 leaves, a few of which, near the end,
+                                       are slightly stained and torn. The quires are numbered throughout with letters, but
+                                       this must have been done, in part at least, by a later hand, as the 10th is also signed
+                                       with the letter ܐ, and the next four with the arithmetical figures%and %. The quires,
+                                       ܒ ,ܓ and ܕ are marked on the last leaf with the Coptic ciphers %,%and %. The manuscript
+                                       is not all the work of one hand. Foll. 1—42 are written in a neat cursive character.
+                                       On fol. 43 a, the second scribe began also to write a cursive hand, but almost immediately
+                                       changed it to Estrangela (fol. 43 b), which he continued as far as fol. 139, reverting
+                                       then to the cursive. Greek vowels have been occasionally added by later hands. Each
+                                       page is divided into two columns, but the number of lines in each column varies very
+                                       considerably. It is dated A. Gr. 1156, A.D. 845.
+                                    </p><span class="tei-handDesc">
+                                       
+                                       <div name="handNote1"><span class="inline-h4">Hand 1 (major, Unspecified Syriac script): </span>
+                                          <span class="tei-locus">Foll. 1—42</span> are written in a neat cursive character.<span class="tei-ref"> See additions.</span>
+                                          
+                                       </div>
+                                       
+                                       <div name="handNote2"><span class="inline-h4">Hand 2 (major, ): </span>
+                                          On <span class="tei-locus"> fol. 43 a</span> the second scribe began also to write a cursive hand, but almost immediately changed
+                                          it to Estrangela (fol. 43b), which he continued as far as fol. 139, reverting then
+                                          to the cursive.<span class="tei-ref"> See additions.</span>
+                                          
+                                       </div>
+                                       
+                                       <div name="handNote3"><span class="inline-h4">Hand 3 (minor, Unspecified Greek script): </span>
+                                          Greek vowels have been occasionally added by later hands.
+                                          
+                                       </div>
+                                       
+                                       <div name="handNote4"><span class="inline-h4">Hand 4 (minor, Unspecified Greek script): </span>
+                                          <span class="tei-ref">See additions.</span>
+                                          
+                                       </div>
+                                       
+                                       <div name="handNote5"><span class="inline-h4">Hand 5 (minor, Unspecified Syriac script): </span>
+                                          The quires are numbered throughout with letters, but this must have been done, in
+                                          part at least, by a later hand, as the 10th is also signed with the letter <span class="tei-foreign" lang="syr">ܐ</span>, and the next four with the arithmetical figuresand.
+                                          
+                                       </div>
+                                       </span><span class="tei-decoDesc">
+                                       
+                                       <div name=""><span class="msItem"><span class="inline-h4">Decoration (Ornamentation):</span>
+                                             On fol. <span class="tei-locus">206a</span> there is a circular ornament, coloured with red, green and yellow paint.
+                                             </span></div>
+                                       
+                                       <div name=""><span class="msItem"><span class="inline-h4">Decoration (Initial):</span>
+                                             On fol.<span class="tei-locus"> 1a</span> are the letters G. PP.
+                                             </span></div>
+                                       </span></div>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+                  <div xmlns:x="http://www.w3.org/1999/xhtml" xmlns:local="http://syriaca.org/ns" class="panel panel-default">
+                     <div class="panel-heading">
+                        <h2 class="panel-title" data-toggle="collapse" data-target="#Contents">Manuscript Contents</h2>
+                     </div>
+                     <div id="Contents" class="panel-collapse collapse in">
+                        <div class="panel-body">
+                           <div class="msContent"><span class="summary ident">Note: Item numbering updated in digital edition.</span><span class="tei-msContents">
+                                 
+                                 
+                                 <div class="tei-msItem"><span class="inline-h4">Item 1 (Fol. 1): </span>. The first volume of the works ofGregory Theologus of Nazianzus
+                                     [defective]
+                                    <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                             <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܦܠܓܘܬܐ ܩܕܡܝܬܐ ܕܩܕܝܫܐ ܓܪܝܓܪܝܘܣ ܬܐܘܠܘܓܘܣ
+                                             </span></span><span class="tei-finalRubric"><span class="inline-h4"> 
+                                             Subscription  (Fol. 205b): </span><span xml:lang="syr" lang="syr" dir="rtl">ܫܠܡ ܠܡܟ̣ܬܒ ܦܠܓܘܬܐ ܩܕܡܝܬܐ ܕܟܬܒܐ ܕܩܕܝܫܐ ܓܪܝܓܪܝܘܣ ܡ̇ܡܠܠ ܐܠܗ̈ܝܬܐ ܐܦܝܣܩܘܦܐ ܕܐܢܙܝܢܙܘ.
+                                             </span></span><span class="tei-colophon"><span class="inline-h4"> 
+                                             Colophon: </span><span>
+                                             <a href="#addition1">See additions.</a>
+                                             </span></span><div class="msItem-notes"><span class="inline-h4">Notes:</span><ul>
+                                             <li>This volume was translated into Syriac by the abbatPaul, in the island of<span class="tei-placeName">Cyprus</span>, A. Gr.<span class="tei-date">935</span>, A.D.<span class="tei-date">624</span>. This manuscript was one of those seen byAssemaniin the<span class="tei-placeName">convent of S. Mary Deipara</span>, but which he was fortunately unable to carry off. See theBibl. Orient., t. i. p. 171(whereAssemanihas taken some curious liberties with the text), andt. iii., pars i., p. 23, note.
+                                             </li>
+                                             <li>Cf. Assemani, Bibl. Or., t. i. p. 171; Assemani, Bibl. Or., t. iii. pars 1, p. 23
+                                                
+                                             </li>
+                                          </ul>
+                                       </div>
+                                       <div class="tei-msItem"><span class="inline-h4">Item 2 (Fol. 1b): </span>. An index to the 30 discourses contained in this volume
+                                          <div class="msItemChild"><span class="tei-quote"><span class="inline-h4"> 
+                                                   Excerpt: </span><span xml:lang="syr" lang="syr" dir="rtl">ܩ̈ܦܠܐܐ ܕܦܠܓܘܬܐ ܩܕܡܝܬܐ ܕܩܕܝܫܐ ܘܠܒܝܫ ܠܐܠܗܐ ܓܪܝܓܪܝܘܣ. ܬܐܘܠܘܓܘܣ܇ ܐܦܝܣܩܦܐ ܕܐܢܙܝܢܙܘ: ܕܦܫܩܗ̇
+                                                   ܡܢ ܝܘܢܝܐ ܠܣܘܪܝܝܐ̣. ܚܣܝܐ ܘܡܝܩܪ ܡܢ ܐܠܗܐ̣. ܐܒܣ ܡܪܝ ܦܘܠܐ̣. ܒܩܘܦܪܘܣ ܓܙܪܬܐ. ܒܫܢܬ ܬܫ̈ܥܡܐܐ
+                                                   ܘܬ̈ܠܬܝܢ ܘܚܡܫ: ܐܢܕܩܛܝܘܢܐ ܕܕܘܕܩܛܐ .. ܡܣܝܟܝܢ ܕܝܢ ܒܗ̇ ܡܐܡ̈ܪܐ ܬܠܬܝܢ܀ ܀</span></span></div>
+                                       </div>
+                                       <div class="tei-msItem"><span class="inline-h4">Item 3 (Fol. 2b): </span>. In sanctum Pascha et in tarditatem
+                                          <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                   <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܡܐܡܪܐ ܩܕܡܝܐ ܕܥܠ ܦܨܚܐ̣. ܘܥܠ ܬܘܚܪܬܐ. ܐܘܟܝܬ ܥܠ ܐܒܘܗܝ ܐܦܝܣܩܘܦܐ ܕܐܢܙܝܢܙܘ: ܒܗܝ̇ ܕܐܦ ܟܝܪܛܘܢܝܣܐ
+                                                   ܥܒ̣ܕܗ ܩܫܝܫܐ
+                                                   </span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>Cf. Opera, ed. 1778, t. i., p. 3; Migne, t. xxxv., col. 395
+                                                
+                                             </div>
+                                          </div>
+                                       </div>
+                                       <div class="tei-msItem"><span class="inline-h4">Item 4 (Fol. 3b): </span>. Ad eos qui ipsum acciverant, nec occurrerant
+                                          <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                   <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܡܐܡܪܐ ܕܬܪ̈ܝܢ ܕܝܠܗ ܕܛܘܒܢܐ ܓܪܝܓܪܝܘܣ: ܠܘܬ ܗ̇ܢܘܢ ܕܩܪܘ ܒܫܘܪܝܐ ܘܠܐ ܦܓܥܘ: ܒܬܪ ܕܗܘ̣ܐ ܩܫܝܫܐ.
+                                                   ܟܕ ܓܝܪ ܥܕܟܝܠ ܐܣܟܝܡܐ ܕܕܝܪܝܘܬܐ ܡ̇ܥܛܦ ܗܘ̣ܐ̣. ܐܬܬܣܝܡܬ ܐܝ̣ܕܐ ܥܠܘܗܝ ܡܢ ܐܒܘܗܝ. ܕܩܫܝܫܐ ܕܢܙܝܢܙܘ.
+                                                   ܕܗ̇ܝ ܕܐܦܣܩܘܦܐ ܐܝܬܘܗܝ ܗܘܐ ܐܒܘܗܝ ܗܘ̣ ܕܝܢ ܟܕ ܫܬܩܐ ܦܝܠܘܣܘܦܝܣܐ ܥ̇ܒܕ ܗܘܐ̣. ܥ̇ܡܪ ܗܘܐ ܒܩܪܝܬܐ
+                                                   ܕܡܬܐܡܪܐ ܗܘܬ. ܐܪܝܢܙܘ. ܕܡܢܗ̇ ܐܦ ܐܝܬܘܗܝ ܗܘܐ. ܒܝܘܡܐ ܕܝܢ ܕܦܛܝܪ̈ܐ ܐܦܝܣܘܗܝ ܩܠܝܪ̈ܝܩܘ ܕܐܢܙܝܢܙܘ
+                                                   ܕܢܥܕܥܕ ܥܡܗܘܢ̣ ܘܗ̣ܘ ܡ̇ܢ ܐܬ݂ܐ. ܗܢܘܢ ܕܝܢ ܦܫ̣ܘ
+                                                   </span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>Cf. Opp., t. i., p. 68; Migne, t. xxxv., col. 517
+                                                
+                                             </div>
+                                          </div>
+                                       </div>
+                                       <div class="tei-msItem"><span class="inline-h4">Item 5 (Fol. 4b): </span>. Apologetica, in qua causas exponit, ob quas, post sibi impositam sacerdotii dignitatem,
+                                          in Pontum fugerit, etc.
+                                          <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                   <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܕܝܠܗ ܟܕ ܕܝܠܗ ܕܡ̇ܦܩ ܒܪܘܚܐ ܘܡܛܠ ܟܗܢܘܬܐ܇ ܐܡܬܝ ܕܡܢ ܦܢ̣ܛܘܣ ܦܢ̣ܐ. ܡܛܠ ܗ̇ܝ ܕܠܐ ܩ̇ܒܠ ܩܫܝܫܘܬܐ.
+                                                   ܡܐܡܪܐ ܕܬ̈ܠܬܐ
+                                                   </span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>Cf. Opp., t. i. p. 11; Migne, t. xxxv., col. 407
+                                                
+                                             </div>
+                                          </div>
+                                       </div>
+                                       <div class="tei-msItem"><span class="inline-h4">Item 6 (Fol. 22b): </span>. Funebris in laudem Caesarii fratris oratio, etc.
+                                          <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                   <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܕܝܠܗ ܟܕ ܕܝܠܗ܆ ܕܥܠ ܩܒܘܪܝܬܐ ܕܩܣܪܝܘܣ ܐܚܘܗܝ: ܡܐܡܪܐ ܕܐܪ̈ܒܥܐ
+                                                   </span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>Cf. Opp., t. i., p. 198; Migne, t. xxxv., col. 755
+                                                
+                                             </div>
+                                          </div>
+                                       </div>
+                                       <div class="tei-msItem"><span class="inline-h4">Item 7 (Fol. 29b): </span>. In patrem tacentem propter plagam grandinis
+                                          <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                   <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܕܝܠܗ ܟܕ ܕܝܠܗ܆ ܥܠ ܡܚܘܬܐ ܕܒܪܕܐ̣. ܘܠܘܬ ܐܒܘܗܝ ܕܡܛܠ ܗܕܐ ܫܲܬܝܩ ܗܘܐ. ܟܕ ܓܝܪ ܦܐܪ̈ܐ ܡ̈ܫܡܠܝܐ
+                                                   ܗܘܘ ܕܕܘܟܬܐ ܕܡܬܩܪܝܐ ܛܝܒܪܝܢܐ: ܕܒܗ̇ ܣܝ̣ܡܐ ܩܪܝܬܐ ܐܪܝܢܙܘ ܡܢ ܗ̇ܝ ܕܐܝܬܘܗܝ ܗܘܐ̣. ܐܒܘܗܝ ܡ̇ܢ
+                                                   ܟܕ ܡܬܚ̇ܫܒ ܗܘܐ ܕܡܛܠ ܚܛܗ̈ܘܗܝ ܕܥܡܐ ܗܕܐ ܓܕܫ̣ܬ݂. ܫ̇ܬܝܩ ܗܘܐ. ܗ̣ܘ ܕܝܢ ܟܕ ܐܬܛܦܝ̣ܣ ܡܢ ܥܡܐ̣.
+                                                   ܡܚ̇ܦܛ ܗܘܐ ܠܗ ܕܢܐܡܪ ܠܘܬ ܥܡܐ. ܡܐܡܪܐ ܕܚ̈ܡܫܐ
+                                                   </span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>Cf. Opp., t., i., p. 299; Migne, t. xxxv., col. 933
+                                                
+                                             </div>
+                                          </div>
+                                       </div>
+                                       <div class="tei-msItem"><span class="inline-h4">Item 8 (Fol. 35a): </span>. In seipsum, ad patrem et Basilium magnum, post reditum e fuga
+                                          <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                   <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܕܝܠܗ ܟܕ ܕܝܠܗ ܥܠ ܒܣܝܠܝܘܣ ܘܥܠ ܐܒܘܗܝ܆ ܟܕ ܥ̣ܬܝܕܝܢ ܗܘܘ ܕܢܣܝܡܘܢ ܥܠܘܗܝ ܐܝ̣ܕܐ ܕܐܦܝܣܩܦܘܬܐ ܕܣܐܣܝܡܘܢ:
+                                                   ܡܐܡܪܐ ܕܫ̈ܬܐ
+                                                   </span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>Cf. Opp., t. i., p. 239; Migne, t. xxxv., col. 827
+                                                
+                                             </div>
+                                          </div>
+                                       </div>
+                                       <div class="tei-msItem"><span class="inline-h4">Item 9 (Fol. 35b): </span>. Apologeticus ad patrem suum Gregorium, praesente Basilio magno, cum Episcopus Sasimorum
+                                          ereatus est
+                                          <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                   <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܥܠܝܗܘܢ ܟܕ ܥܠܝܗܘܢ ܒܬܪ ܣܝ̇ܡ ܐܝ̣ܕܐ: ܡܐܡܪܐ ܕܫ̈ܒܥܐ
+                                                   </span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>Cf. Opp., t. i., p. 234; Migne, t. xxxv., col. 819
+                                                
+                                             </div>
+                                          </div>
+                                       </div>
+                                       <div class="tei-msItem"><span class="inline-h4">Item 10 (Fol. 37a): </span>. Ad Gregorium Nyssenum, Basilii magni fratrcm, qui post illius consecrationem advenerat
+                                          <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                   <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܬܘܒ ܕܝܠܗ ܟܕ ܕܝܠܗ ܥܠ ܓܪܝܓܪܝܣ ܐܦܝܣܩܘܦܐ ܕܢܘܣܐ ܐܚܘܗܝ ܕܩܕܝܫܐ ܒܣܝܠܝܘܣ: ܕܐܬ݂ܐ ܒܬܪ ܚܕ ܝܘܡܐ
+                                                   ܕܣܝ̇ܡ   ;ܐܝ̣ܕܐ: ܘܥܠ ܣܗ̈ܕܐ: ܡܐܡܪܐ ܕܬܡ̈ܢܝܐ
+                                                   </span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>Cf. Opp. t. i, p. 241; Migne, t. xxxv., col. 831
+                                                
+                                             </div>
+                                          </div>
+                                       </div>
+                                       <div class="tei-msItem"><span class="inline-h4">Item 11 (Fol. 39a): </span>. Ad patrem, cum ci Nazianzenae ecclesiae curam commisisset
+                                          <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                   <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܕܝܠܗ ܟܕ ܕܝܠܗ ܥܠ ܐܒܘܗܝ: ܟܕ ܐܦܣ ܠܗ ܕܢܐܨܦ ܘܕܥܕܬܐ ܕܐܢܙܝܢܙܘ: ܡܐܡܪܐ ܕܬܫ̈ܥܐ
+                                                   </span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>Cf. Opp., t. i., p. 248; Migne, t. xxxv., col. 843
+                                                
+                                             </div>
+                                          </div>
+                                       </div>
+                                       <div class="tei-msItem"><span class="inline-h4">Item 12 (Fol. 40b): </span>. Prima de pace oratio, ob monachorum reconciliationem, post silentium, praesente patre
+                                          <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                   <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܕܝܠܗ ܟܕ ܕܝܠܗ ܡܐܡܪܐ ܩܕܡܝܐ ܡܫ̇ܝܢܢܐ܇ ܥܠ ܚܕܝܘܬܐ ܕܕܝ̈ܪܝܐ̇. ܒܩܪܝܒܘܬܐ ܕܐܒܘܗܝ. ܡܐܡܪܐ ܕܥܣܪ̈ܐ
+                                                   </span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>Cf. Opp., t. i., p. 178; Migne, t. xxxv., col. 722
+                                                
+                                             </div>
+                                          </div>
+                                       </div>
+                                       <div class="tei-msItem"><span class="inline-h4">Item 13 (Fol. 48a): </span>. Tertia de pace oratio
+                                          <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                   <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܕܝܠܗ ܟܕ ܕܝܠܗ ܡܫܝܢܢܐ ܕܬܪ̈ܝܢ ܡܐܡܪܐ ܕܚܕܥܣܪ̈
+                                                   </span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>Cf. Opp., t. i., p. 425; Migne, t. xxxv., col. 1151
+                                                
+                                             </div>
+                                          </div>
+                                       </div>
+                                       <div class="tei-msItem"><span class="inline-h4">Item 14 (Fol. 52b): </span>. Two extracts from letters of Severus of Antioch, treating of the doctrine of the Trinity [defective]
+                                          <div class="msItemChild">
+                                             <div class="tei-msItem"><span class="inline-h4">Item 15 (Fol. 52b): </span>. Illustration taken from a letter toCaesaria
+                                                
+                                                <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                         <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܢܘܗ̇ܪܐ ܕܩܕܝܫܐ ܣܐܘܪܐ ܦܛܪܝܪܟܐ ܡܢ ܐܓܪܬܐ ܕܠܘܬ ܪܚܡ̇ܬ ܠܡܫܝܚܐ ܩܣܪܝܐ
+                                                         </span></span></div>
+                                             </div>
+                                             <div class="tei-msItem"><span class="inline-h4">Item 16 (Fol. 52b): </span>. Two extracts from letters of Severus of Antioch, treating of the doctrine of the Trinity [defective]
+                                                <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                         <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܢܘܗ̇ܪܐ ܕܝܠܗ ܕܩܕܝܫܐ ܣܐܘܪܐ ܥܠܘܗܝ ܟܕ ܥܠܗܘܝ ܕܦܬܓܡܐ ܕܩܕܝܡ ܐܡܝܪ.
+                                                         </span></span></div>
+                                             </div>
+                                          </div>
+                                       </div>
+                                       <div class="tei-msItem"><span class="inline-h4">Item 17 (Fol. 53b): </span>. Secunda de pace oratio, in Constantini urbe habita, etc.
+                                          <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                   <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܕܝܠܗ ܟܕ ܕܝܠܗ ܕܩܕܝܫܐ ܓܪܝܓܘܪܝܘܣ ܡܐܡܪܐ ܡܫ̇ܝܢܢܐ ܕܬܠܬܐ ܕܐܬܐܡܪ ܒܩܘܣܛܢܛܝܢܘܦܘܠܝܣ ܥܠ ܚܪܝܢܐ
+                                                   ܕܗܘ̣ܐ ܠܗ ܠܥܡܐ ܡܛܠ ܐܦܝ̈ܣܩܘܦܐ ܕܐܬܟܬ݁ܫܘ ܠܘܬ ܚ̈ܕܕܐ ܡܐܡܪܐ ܕܬܪ̈ܥܣܪ
+                                                   </span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>Cf. Opp., t. i., p. 414; Migne, t. xxxv., col. 1131
+                                                
+                                             </div>
+                                          </div>
+                                       </div>
+                                       <div class="tei-msItem"><span class="inline-h4">Item 18 (Fol. 60a): </span>. De suis sermonibus, et ad Julianum tributorum exaequatorem<span class="tei-supplied" lang="grc">ἐξισωτής</span>
+                                          
+                                          <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                   <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܕܝܠܗ ܟܕ ܕܝܠܗ ܥܠ ܡ̈ܠܐ ܘܥܠ ܝܘܠܝܢܐ ܐܟܣܝܣܘܛܝܣ. ܕܒܪ ܐܣ̈ܟܠܘܗܝ ܗܘܐ. ܡܐܡܪܐ ܕܬܠܬܥܣܪ̈
+                                                   </span></span><div class="msItem-notes"><span class="inline-h4">Notes:</span><ul>
+                                                   <li>Cf. Opp., t. i., p. 364; Migne, t. xxxv., col. 1044
+                                                      
+                                                   </li>
+                                                   <li>At the beginning of the discourse, we read the following note:<span class="tei-foreign" xml:lang="syr" lang="syr" dir="rtl">ܦܪܐܓܪܦܐ<span class="tei-supplied" xml:lang="grc" lang="grc">παραγραφή</span>ܕܦܛܪܝܪܟܐ ܡܫܝܢܢܐ ܕܬܠܬܐ ܥܠ ܐܡܦܝܠܟܝܣ<span class="tei-sic">ܐܦܝܦܩܘܦܐ</span>. ܡܦܠܓ ܫܘܝܐܝܬ</span>, which refers to<a href="#b14">no. 13</a>.
+                                                   </li>
+                                                </ul>
+                                             </div>
+                                          </div>
+                                       </div>
+                                       <div class="tei-msItem"><span class="inline-h4">Item 19 (Fol. 65b): </span>. Ad cives<span class="tei-supplied" lang="grc">πολιτευόμενοι</span>Nazianzenos, gravi timore perculsos, et praefectum irascentem
+                                          <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                   <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܕܝܠܗ ܟܕ ܕܝܠܗ ܥܠ ܦܘ̈ܠܝܛܐ ܐܘ̈ܡܢܘ ܕܐܢܙܝܢܙܘ ܕܐܝ̈ܬܝܗܘܢ ܗܘܘ ܒܩܢܛܐ̣. ܘܥܠ ܪܝܫܢܐ ܕܪܓܝܙ ܗܘܐ
+                                                   ܡܐܡܪܐ ܕܐܪ̈ܒܬܥܣܪ̈
+                                                   </span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>Cf. Opp., t, i., p. 317; Migne, t. xxxv., col. 963
+                                                
+                                             </div>
+                                          </div>
+                                       </div>
+                                       <div class="tei-msItem"><span class="inline-h4">Item 20 (Fol. 70a): </span>. In Novam Dominicam
+                                          <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                   <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܕܝܠܗ ܟܕ ܕܝܠܗ ܕܥܠ ܚܕܒܫܒܐ ܚܕܬܐ ܘܥܠ ܬܕܐܐ. ܘܥܠ ܣܗܕܐ ܡܐܡܐ. ܒܚܕ ܒܫܒܐ ܓܝܪ ܡܫܬܡܠܐ ܕܘܟܪܢܗ ܒܩܣܪܝܐ
+                                                   ܡܐܡܪܐ ܏ܝܗ
+                                                   </span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>Cf. Opp., t. i., p. 835; Migne, t. xxxvi., col. 607
+                                                
+                                             </div>
+                                          </div>
+                                       </div>
+                                       <div class="tei-msItem"><span class="inline-h4">Item 21 (Fol. 74a): </span>. Funebris oratio in laudem sororis suae Gorgoniae
+                                          <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                   <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܕܝܠܗ ܟܕ ܕܝܠܗ ܕܩܕܝܫܐ ܓܪܝܓܪܝܘܣ ܥܠ ܥܘܦܝܐ ܕܓܘܪܓܢܝܐ ܚܬܗ. ܡܐܡܪܐ ܕܫܬܬܥܣܪ̈
+                                                   </span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>Cf. Opp., t. i., p. 218; Migne, t. xxxv., col. 789
+                                                
+                                             </div>
+                                          </div>
+                                       </div>
+                                       <div class="tei-msItem"><span class="inline-h4">Item 22 (Fol. 81b): </span>. Funebris oratio in patrem, praesente Basilio
+                                          <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                   <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܬܘܒ ܕܝܠܗ ܟܕ ܕܝܠܗ ܕܩܕܝܫܐ ܓܪܝܓܘܪܝܘܣ ܥܠ ܥܘܿܦܝܐ ܕܐܒܘܗܝ. ܘܒܘܝܐܐ ܕܢܘܢܐ ܐܡܗ. ܒܩܪܝܒܘܬܐ ܕܒܣܝܠܝܘܣ.
+                                                   ܕܥܠܘܗܝ ܐܦ ܪܝܫܗ ܕܡܐܡܪܐ ܥܒ̣ܕ. ܡܐܡܪܐ̣ ܕܫܒܬܥܣܪ̈
+                                                   </span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>Cf. Opp., t. i., p. 330; Migne, t. xxxv., col. 986
+                                                
+                                             </div>
+                                          </div>
+                                       </div>
+                                       <div class="tei-msItem"><span class="inline-h4">Item 23 (Fol. 99b): </span>. In Theophania sive Natalitia Salvatoris
+                                          <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                   <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܕܝܠܗ ܟܕ ܕܝܠܗ܆ ܥܠ ܒܝܬ ܕܢܚܐ ܐܘ ܟܝܬ ܒܝܬ ܝܠܕܐ ܕܒܒܣܪ ܕܦܪܘܩܢ ܝܫܘܥ ܡܫܝܚܐ܀ ܡܐܡܪܐ ܕܬܡܢܬܥܣܪ̈
+                                                   </span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>Cf. Opp., t. i., p. 663; Migne, t. xxxvi., col. 311
+                                                
+                                             </div>
+                                          </div>
+                                       </div>
+                                       <div class="tei-msItem"><span class="inline-h4">Item 24 (Fol. 107b): </span>. In sancta Lumina<span class="tei-supplied">τὰ φῶτα</span>
+                                          
+                                          <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                   <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܕܝܠܗ ܟܕ ܕܝܠܗ ܕܩܕܝܫܐ ܓܪܝܓܘܪܝܘܣ̣ ܕܥܠ ܢܘܗܪ̈ܐ ܡܐܡܪܐ ܕܬܫܬܥܣܪ
+                                                   </span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>Cf. Opp., t. i., p. 677; Migne, t. xxxvi., col. 335
+                                                
+                                             </div>
+                                          </div>
+                                       </div>
+                                       <div class="tei-msItem"><span class="inline-h4">Item 25 (Fol. 110b): </span>. An illustration from the16th epistleofSeverustoCaesaria
+                                          
+                                          <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                   <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܢܘܗܪܐ ܕܩܕܝܫܐ ܣܐܘܝܪܐ ܦܐܛܪܝܐܪܟܐ ܡܢ ܐܓܪܬܐ ܕܫܬܬܥܣܪܐ ܕܠܘܬ ܩܐܣܐܪܝܐ.
+                                                   </span></span></div>
+                                       </div>
+                                       <div class="tei-msItem"><span class="inline-h4">Item 26 (Fol. 116a): </span>. A section containing explanations of the Greek and other legends referred to byGregoryat
+                                          the commencement ofdiscourse 20.
+                                          <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                   <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܟܘܢܫܐ ܘܦܘܫܩܐ ܕܬܫܥ̈ܝܬܐ ܗܠܝܢ ܕܐܬܥܗܕ ܗ̇ܘ ܕܒܝܬ ܩܕܝ̈ܫܐ ܓܪܝܓܘܪܝܘܣ̇. ܒܡܐܡܪܐ ܗ̇ܘ ܕܥܠ ܢܘܗܪ̈ܐ.
+                                                   ܕܐܝܬܘܗܝ ܪܝܫܗ܆ ܬܘܒ ܝܫܘܥ ܕܝܠܝ.
+                                                   </span></span><span class="tei-finalRubric"><span class="inline-h4"> 
+                                                   Subscription  (Fol. 121a): </span><span xml:lang="syr" lang="syr" dir="rtl">ܫܠܡܘ ܢܘܗܪ̈ܐ ܚܕܬ̈ܐ ܗ̇ܢܘܢ ܕܬܪܨ ܐܬܢܣܝܘܣ ܦܛܪܝܐܪܟܐ܆ ܒܬܪ ܡܝܩܪ ܡܢ ܐܠܗܐ ܚܣܝܐ ܐܒܣ ܡܪܝ ܦܘܠܐ.
+                                                   </span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>In the subscription, fol.121a, we are told that this section 
+                                                was drawn up by the patriarch <a href="/search.html?person=http://syriaca.org/person/109">Athanasius II</a>.
+                                                See 
+                                                <a href="https://www.zotero.org/groups/4861694/a_comprehensive_bibliography_on_syriac_studies/items/WMADLJWW/library">Assemani, Bibl. Or., t. ii., p. 335 
+                                                   <span class="tei-ref"></span>
+                                                   </a>. In Greek manuscripts (e.g.
+                                                Add. 18,231, fol.318a, 
+                                                which is dated A.D.<span class="tei-date">972</span>) this 
+                                                <span class="tei-foreign" xml:lang="grc" lang="grc">Συναγωγὴ καὶ ἐξήγησις  ἱστοριῶν</span>is ascribed to
+                                                Nonus, Νόνος, Nonnus. 
+                                                See alsoMigne, t. xxxvi., col. 1066, and the Spicilegium Romanum, t. ii. p. 381.
+                                                
+                                             </div>
+                                          </div>
+                                       </div>
+                                       <div class="tei-msItem"><span class="inline-h4">Item 27 (Fol. 121b): </span>. In Pentecosten
+                                          <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                   <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܕܝܠܗ ܟܕ ܕܝܠܗ ܕܥܠ ܦܢܛܝܩܘܣܛܐ̣. ܘܥܠ ܪܘܚܐ ܩܕܝܫܐ. ܡܐܡܪܐ ܕܥܣܪ̈ܝܢ
+                                                   </span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>Cf. Opp., t. i., p. 731; Migne, t. xxxvi., col. 427
+                                                
+                                             </div>
+                                          </div>
+                                       </div>
+                                       <div class="tei-msItem"><span class="inline-h4">Item 28 (Fol. 129a): </span>. Theologica prima, adversus Eunomianos praevia dissertatio
+                                          <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                   <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܕܝܠܗ ܟܕ ܕܝܠܗ ܕܠܘܬ ܐܘܢܘܡܝܘܣ܀ ܡܐܡܪܐ ܕܥܣܪܝܢ ܘܚܕ
+                                                   </span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>Cf. Opp., t. i., p. 487; Migne, t. xxxvi., col. 11
+                                                
+                                             </div>
+                                          </div>
+                                       </div>
+                                       <div class="tei-msItem"><span class="inline-h4">Item 29 (Fol. 133b): </span>. Theological tertia, de Filio
+                                          <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                   <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܕܝܠܗ ܟܕ ܕܝܠܗ܆ ܡܛܠ ܒܪܐ ܡܐܡܪܐ ܕܥܣܪܝܢ ܘܬܪܝܢ
+                                                   </span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>Cf. Opp., t. i., p. 522; Migne, t. xxxvi., col. 74
+                                                
+                                             </div>
+                                          </div>
+                                       </div>
+                                       <div class="tei-msItem"><span class="inline-h4">Item 30 (Fol. 143b): </span>. Theologica quarta, de Filio
+                                          <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                   <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܕܝܠܗ ܟܕ ܕܝܠܗ ܕܬܪ̈ܝܢ ܡܛܠ ܒܪܐ ܡܐܡܪܐ ܕܥܣܪܝܢ ܘܬܠܬܐ
+                                                   </span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>Cf. Opp., t, i., p. 540; Migne, t. xxxvi., col. 103
+                                                
+                                             </div>
+                                          </div>
+                                       </div>
+                                       <div class="tei-msItem"><span class="inline-h4">Item 31 (Fol. 152a): </span>. Theologica quinta, de Spiritu Sancto
+                                          <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                   <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܕܝܠܗ ܟܕ ܕܝܠܗ ܕܡܛܠ ܪܘܚܐ ܩܕܝܫܐ ܡܐܡܪܐ ܕܥܣܪ̈ܝܢ ܘܐܪ̈ܒܥܐ
+                                                   </span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>Cf. Opp., t. i., p. 566; Migne, t. xxxvi., col. 134
+                                                
+                                             </div>
+                                          </div>
+                                       </div>
+                                       <div class="tei-msItem"><span class="inline-h4">Item 32 (Fol. 163a): </span>. Adversus Arianos et de seipso
+                                          <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                   <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܕܝܠܗ ܟܕ ܕܝܠܗ ܐܪ̈ܝܢܘ ܘܥܠ ܢܦܫܗ. ܡܐܡܪܐ ܕܥܣܪ̈ܝܢ ܘܚ̈ܡܫܐ
+                                                   </span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>Cf. Opp., t. i., p. 603; Migne, t. xxxvi., p. 214
+                                                
+                                             </div>
+                                          </div>
+                                       </div>
+                                       <div class="tei-msItem"><span class="inline-h4">Item 33 (Fol. 168b): </span>. In Machabaeorum laudem
+                                          <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                   <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܕܝܠܗ ܟܕ ܕܝܠܗ ܡܐܡܪܐ ܕܥܠ ܡ̈ܩܒܝܐ. ܕܥܣܪ̈ܝܢ ܘܫ̈ܬܐ
+                                                   </span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>Cf. Opp., t. i., p. 286; Migne, t. xxxv., col. 911
+                                                
+                                             </div>
+                                          </div>
+                                       </div>
+                                       <div class="tei-msItem"><span class="inline-h4">Item 34 (Fol. 174b): </span>. In laudem sancti martyris Cypriani
+                                          <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                   <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܕܝܠܗ ܟܕ ܕܝܠܗ ܡܢ ܕܦܢ̣ܐ ܡܢ ܐܓܘܪܣܐ. ܥܠ ܩܘܦܪܝܢܘܣ ܣܗܕܐ ܒܬܪ ܚܕ ܝܘܡܐ ܕܕܘܟܪܢܗ. ܡܐܡܪܐ ܕܥܣܪ̈ܝܢ
+                                                   ܘܫ̈ܒܥܐ
+                                                   </span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>Cf. Opp., t. i., p. 437; Migne, t. xxxv., col. 1169
+                                                
+                                             </div>
+                                          </div>
+                                       </div>
+                                       <div class="tei-msItem"><span class="inline-h4">Item 35 (Fol. 181a): </span>. In laudem Heronis philosophi
+                                          <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                   <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܕܝܠܗ ܟܕ ܕܝܠܗ ܕܥܠ ܗܪܘܢ ܦܝܠܘܣܘܦܐ ܐܠܟܣܢܕܪܝܐ܇ ܕܦ̣ܢܐ ܡܢ ܐܟܣܘܪܝܐ<span class="tei-supplied">ἐξορία</span>: ܡܐܡܪܐ ܕܥܣܪ̈ܝܢ ܘܬܡ̈ܢܝܐ
+                                                   </span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>Cf. Opp., t. i., p. 454; Migne, t. xxxv., col. 1198
+                                                
+                                             </div>
+                                          </div>
+                                       </div>
+                                       <div class="tei-msItem"><span class="inline-h4">Item 36 (Fol. 188b): </span>. In Egyptiorum adventum
+                                          <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                   <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܕܝܠܗ ܟܕ ܕܝܠܗ ܥܠ ܛܘܦܐ̣. ܘܡܐܬܝܬܐ ܕܐܦܝ̈ܣܩܘܦܐ ܡܨܪ̈ܝܐ ܡܐܡܪܐ ܕܥܣܪ̈ܝܢ ܘܬܫ̈ܥܐ
+                                                   </span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>Cf. Opp., t. i., p. 619; Migne, t. xxxvi., col. 242
+                                                
+                                             </div>
+                                          </div>
+                                       </div>
+                                       <div class="tei-msItem"><span class="inline-h4">Item 37 (Fol. 192b): </span>. In laudem magni Athanasii episcopi Alexandrini
+                                          <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                   <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܕܝܠܗ ܟܕ ܕܝܠܗ ܕܥܠ ܝܘܡܗ ܕܩܕܝܫܐ ܐܬܐܢܐܣܝܘܣ ܐܦܝܣܩܦܐ ܕܐܠܟܣܢܕܪܝܐ ܡܐܡܪܐ ܕܬܠܬܝܢ
+                                                   </span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>Cf. Opp., t. i., p. 386; Migne, t. xxxv., col. 1082
+                                                
+                                             </div>
+                                          </div>
+                                       </div>
+                                    </div>
+                                 </div>
+                                 </span></div>
+                        </div>
+                     </div>
+                  </div>
+                  <div xmlns:x="http://www.w3.org/1999/xhtml" xmlns:local="http://syriaca.org/ns" class="panel panel-default">
+                     <div class="panel-heading">
+                        <h2 class="panel-title" data-toggle="collapse" data-target="#Additions">Additions </h2>
+                     </div>
+                     <div id="Additions" class="panel-collapse collapse in">
+                        <div class="panel-body">
+                           <div class="msDesc">
+                              <div class="indent">
+                                 
+                                 <div class="tei-note"><span>N.B., folio location may not be available for some items below.</span></div>
+                                 
+                                 
+                                 <div class="tei-item"><span class="inline-h4">Addition 1</span><strong> (Fol. 205b)</strong>:
+                                    <span class="tei-p">On fol. 205b, after the doxology, there is a long colophon, stating that the greater
+                                       part of this volume was written by one <span class="tei-persName">Ephraim</span>, a stylite, of <span class="tei-placeName">Kĕphar-Taurĕthā</span>, near <span class="tei-placeName">Zeugma</span>()in the year <span class="tei-date">1156</span>, A.D.<span class="tei-date">845</span>, when <span class="tei-persName">Dionysius I of Tel-mahar,</span> who died on the 22nd of August in this same year, was patriarch of <span class="tei-placeName">Antioch</span>, and <span class="tei-persName">David</span> bishop of <span class="tei-placeName">Urem Castra</span>, for the use of one <span class="tei-persName">George</span>, a monk of the <span class="tei-placeName">convent of Job at <span class="tei-foreign" lang="syr">ܫܪܟܝܫ</span>
+                                          </span>(?). On Zeugma and Urem Castra, See <span class="tei-bibl">Assemani, Bibl, Orient., t. ii., dissert, de monophys., art. IX</span>. On Dionysius I, See <span class="tei-bibl">Assemani, Bibl. Orient., t. ii., p. 344; Le Quien, Or. Christ,, t. ii., col, 1372</span>.</span><span class="tei-p">
+                                       <span class="tei-quote" lang="syr">ܟܠ ܕܥܬܝܕ ܠܡܦܓܥ ܒܟܬܒܐ ܗܢܐ: ܘܒܗܝܡܢܘܬܐ ܕܫܪܪܐ ܐܝܬܘܗܝ̣. ܢܨ̇ܠܐ ܥܠ ܐܦܪܝܡ ܚ̇ܛܝܐ ܢ̇ܛܪ ܐܣܛܘܢܐ
+                                          ܕܕܝܪ̈ܬܐ ܩ̈ܕܝܫܬܐ ܕܟܦܪܬܘܪܬܐ܇ ܗ̇ܝ ܕܐܝܬ ܥܠ ܓܢ̣ܒ ܙܘܓܡܐ. ܕܟܬ݂ܒ ܣܘܓܐܗ ܕܟܬܒܐ ܗܢܐ̣ ܐܝܟ ܚܝ̇ܠܗ.
+                                          ܘܬܪܨ̇ ܟܡܐ ܕܐܫܟܚ ܚܝ̇ܠܗ. ܘܕܒ̇ܩ ܐܝܟ ܡܐ ܕܐܕܪܟ̣ܬ݁ ܝܕܥܬܗ. ܐܝܟ ܕܠܝܘܬܪܢܐ ܕܝܠܗ܆ ܘܕܐܚ̈ܘܗܝ ܟܠܗܘܢ
+                                          ܟܪ̈ܝܣܛܝܢܐ ܡܗܝ̈ܡܢܐ. ܨܠܘ ܐܚ̈ܝ ܐܝܟܢܐ ܕܢܬܚܢܢ ܗ̣ܘ ܘܥܢ̈ܝܕܘܗܝ ܘܪ̈ܒܢܘܗܝ ܕܐܠܦܘܗܝ ܒܝܘܡܐ ܕܕܝܢ̣ܐ.
+                                          ܐܝܟ ܓܝ̇ܣܐ ܗ̇ܘ ܕܡܢ ܝܡܝܢܗ ܕܡܪܢ ܨܠܝܒ ܗܘܐ ܐܝܢ ܘܐܡܝܢ ܘܐܡܝܢ܀ ܐܫܬܡ̣ܠܝܬ ܕܝܢ ܦܢܩܝܬܐ ܗܕܐ ܕܩܕܝܫܐ
+                                          ܓܪܝܓܪܝܘܣ ܬܐܘܠܘܓܘܣ܆ ܫܢܬ ܐܠܦܐ ܘܡܐܐ ܘܚܡܫܝܢ ܘܫܬ ܒܕܝܘ̈ܢܝܐ. ܒܝ̈ܘܡܝ ܚܣܝܐ ܘܩܕܝܫܐ ܘܠܒܝܫ ܠܐܠܗܐ
+                                          ܦܐܛܪܝܐܪܟܝܣ ܡܪܝ ܕܝ݊ܢܘܣ݊ܝܘ݊ܣ ܕܟܘܪܣܝܐ ܫܠܝܚܝܐ ܕܐܪ̈ܬܘܕܘܟܣܘ ܕܐܢܛܝܘܟܝܐ ܡܕܝܢܬܐ ܕܣܘܪܝܐ. ܘܒܝ̈ܘܡܝ
+                                          ܚܣܝܐ ܘܛܘܒܬܢܐ ܐܒܐܣ ܡܪܝ ܕܐܘ݊ܝܕ ܐܦܝܣܩܘܦܐ ܕܐܘܪܡ ܩܣܛܪܐ܇ ܕܥܠ ܓܢܒ ܢܗܪܐ ܪܒܐ ܦܪܬ. ܐܬܚ̇ܦܛ ܕܝܢ
+                                          ܘܥܒ̣ܕ ܟܬܒܐ ܗܢܐ̣. ܡܪܝ ܓܐܘܪܓܝ ܛܘܒܢܐ ܕܒܝܬ ܡܪܝ ܐܝܘܒ ܕܫܪܟܝܫ. ܐܝܟ ܕܠܝܘܬܪܢܐ ܕܢܦܫܗ ܘܕܟܠ ܕܥܬܝܕ
+                                          ܕܢܩܪܐ ܒܗ. ܘܚܠ̣ܦ ܕܘܟܪܢܐ ܛ̇ܒܐ ܕܥܢܝ̈ܕܘܗܝ. ܟܠ ܕܩ̇ܪܐ ܒܥܘܗܕܢܐ ܗܢܐ ܏ܘܫ.</span>
+                                       </span></div>
+                                 
+                                 <div class="tei-item"><span class="inline-h4">Addition 2</span>:
+                                    <span class="tei-p">The margins of this manuscript are covered with notes, in the same hand¬writings as
+                                       the text, which are probably due either to the translator <span class="tei-persName">Paul</span> or to the patriarch <span class="tei-persName">Athanasius II</span>. Many of them are either various readings (see in particular fol.<span class="tei-locus">147b</span>), or references to Scripture; but others relate to the occasions of the sermons,
+                                       or are explanatory of words or passages in them. For example—</span><span class="tei-p">Fol.<span class="tei-locus">5a</span>. On the 3rd sermon:</span><span class="tei-p">
+                                       <span class="tei-quote" lang="syr">ܟܕ ܐܬܥܒܕ ܩܫܝܫܐ̣. ܫܢܝ ܠܦ݁ܢܛܘܣ ܘܠܐ ܫܡܫ܇ ܡܛܠ ܕܚܠܬܐ ܘܙܘܥܬܐ ܕܪܒܘܬ ܬܫܡܫܬܐ ܕܟܗܢܘܬܐ. ܟܕ ܕܝܢ
+                                          ܐܬܚ̇ܫܒ ܡܛܠ ܐܝܠܝܢ ܕܗ̈ܘܝ܆ ܘܕܠܐ ܙܕܩ̇ ܕܢܩܘܡ ܠܘܩܒܠ ܩ̇ܪܝܬܐ ܕܐܠܗܐ̣. ܦܢ̣ܐ ܠܐܪܝܢܙܘ. ܘܥܒ̣ܕ ܗ̇ܘ
+                                          ܡܐܡܪܐ ܕܡܦܩ ܒܪܘܚܐ. ܡܛܠ ܥܪܘܩܝܗ̣. ܘܥܠ ܗ̇ܝ ܕܦܢ̣ܐ. ܘܟܕ ܐܬܐ ܐܦܝܣܝܘܗܝ ܩܠܝܪ̈ܝܩܘ ܕܐܢܙܝܢܙܘ ܕܢܥܕܥܕ
+                                          ܥܡܗܘܢ ܥܐܕܐ ܕܦܨܚܐ. ܘܥ̣ܒܕ ܗ̇ܘ ܡܐܡܪܐ ܕܦܨܚܐ܇ ܐܝܟ ܕܢܐܡܪ ܠܥܡܐ. ܘܗ̣ܘ ܡ̇ܢ ܐܬܐ̣. ܗܢܘܢ ܕܝܢ ܦܫ̣ܘ.
+                                          ܘܥܕܥܕ ܥܡ ܙܥܘܪ̈ܐ. ܘܥܠ ܗ̇ܝ ܕܝܠܗ ܕܡܐܡܪܐ ܕܦܨܚܐ ܐܡ̣ܪ: ܕܒܨܝܪ ܩܠܝܠ ܟ̇ܠܐ ܗܘܝܬ ܠܗ̇ ܠܡܠܬܐ ܕܛܝܒܬ
+                                          ܠܡܫܬܘܬܐ. ܘܒܬܪܟܢ ܟܕ ܐܬ݂ܐ ܘܥ̣ܒܕ ܥܠܝܗܘܢ ܗ̇ܘ ܡܐܡܪܐ ܕܠܘܬ ܗ̇ܢܘܢ ܕܩܪ̈ܘ ܒܫܘܪܝܐ ܘܠܐ ܦܓܥܘ:</span>
+                                       </span><span class="tei-p">On the passage in the same discourse:<span class="tei-quote" lang="syr">ܠܒܪܢܫܐ ܕܝܢ ܕܟܕ ܕܩܫܝܐ ܐܝܬܝܗ̇: ܗ̇ܝ ܕܢܕܥ ܠܡ̇ܗܘܐ ܬܚܝܬ ܪܝܫܐ̣. ܏ܘܫ</span>(<span class="tei-bibl">Opp., t. i., p. 17, A</span>), there is the note, fol.<span class="tei-locus">6b</span>:</span><span class="tei-p">
+                                       <span class="tei-quote" lang="syr">ܡܢ ܗ̇ܝ ܕܝ̇ܕܥ ܐܢܫ ܟܡܐ ܩܫܝܐ ܠܗ ܕܢܫ̇ܬܥܒܕ ܠܪܝܫ̈ܢܐ̣. ܡܢܗ̇ ܝ̇ܠܦ ܟܡܐ ܩܫܝܐ ܗ̇ܝ ܕܢܗܘܐ ܐܢܫ ܪܝܫܐ
+                                          ܠܐܝܠܝܢ ܕܩܫܝܐ ܠܗܘܢ ܕܢܬܡܠܟܘܢ ܡܢ ܪܝܫܐ ܕܐܚܪ̈ܢܐ.</span>
+                                       </span><span class="tei-p">On the passage in the 10th discourse:<span class="tei-quote" lang="syr">ܒܬܪ ܕܝܢ ܕܫ̇ܪܝܘ ܠܡܬ݂ܟܪܗܘ. ܘܥܠ ܚ̈ܕܕܐ ܫܢܘ: ܘܐܬ݂ܦܪܫܘ ܠܡܢ̈ܘܬܐ ܣܓܝܐ̈ܬܐ: ܏ܘܫ</span>(<span class="tei-bibl">Opp. t. i., p. 190, D</span>), the annotator remarks, fol.<span class="tei-locus">45b</span>:</span><span class="tei-p">
+                                       <span class="tei-quote" lang="syr">ܡܛܠ ܡ̇ܢ ܟܘܪ̈ܗܢܐ ܩ̈ܕܡܝܐ ܚ̣ܫ̈ܐ ܗ̇ܢܘܢ ܕܡܢ ܒܒ̈ܠܝܐ ܣܒܠܘ. ܐܘ̈ܠܝܬܐ ܗ̇ܢܝܢ ܕܡܢ ܐܪܡܝܐ ܐܬܐ̇ܠܝܘ.
+                                          ܡܛܠ ܕܝܢ ܡܫܩܠܘܬܐ ܗ̇ܝ ܕܥܠ ܦܪܘܩܢ ܚܫ̈ܐ ܗ̇ܢܘܢ ܪ̈ܘܡܝܐ.</span>
+                                       </span><span class="tei-p">In the 22nd discourse, the words <span class="tei-quote" lang="syr">ܠܐ ܝܠܝܕܐ ܘܝܠܝܕܐ</span>, <span class="tei-foreign" lang="grc">τὸ ἀγέννητον καὶ τὸ γεννητόν</span>(<span class="tei-bibl">Opp. t. i., p. 530, D</span>), are thus explained, fol.<span class="tei-locus">138b</span>:</span><span class="tei-p">
+                                       <span class="tei-quote" lang="syr">ܠܐ ܝܠܝ̣ܕܐ ܘܝܠܝ̣ܕܐ ܒܝܘܢܝܐ̣ ܐܓܘܢܝ̣ܛܘܢ ܘܓܢܛܘܢ ܡܬܩܪܐ. ܐܓܘܢܝ̇ܛܘܢ ܡܬܩ̣ܪܐ ܒܬܠܬ̈ܐ ܟܘ̈ܢܝܐ܆
+                                          ܕܐܝܬ ܠܗܘܢ ܬܠܬ̈ܐ ܣܘ̈ܟܠܐ. ܠܐ ܝܠܝ̣ܕܐ ܘܠܐ ܒ̣ܪܝܐ̣ ܘܠܐ ܝܠܝܕܘܬܐ. ܘܓܢܛܘܢ̣ ܗܘ ܗܟܢ ܒܬܠ̈ܬܐ ܟܘ̈ܢܝܐ.
+                                          ܕܐܝܬܝܗܘܢ ܬܠܬ̈ܐ ܣܘ̈ܟܠܐ. ܝܠܝܕܐ. ܘܒ̣ܪܝܐ ܘܝܠܝܕܘܬܐ. ܡܛܠܗܢܐ ܡܫ̇ܐܠ ܡܠܦܢܐ ܐܝܟܢ ܐ̇ܡܪ ܐܢܬ ܝܠܝܕܐ<span class="tei-sic">ܘܝܠܝܕܐ</span>ܐܝܟ ܙܦܠ<span class="tei-sic">ܘܢܦܠ</span>ܘܐܝܟ ܙܦܠܢ.</span>
+                                       </span><span class="tei-p">In the 24th discourse on the words:<span class="tei-quote" lang="syr">ܠܗܠܝܢ ܕܐܦ ܐܩܝܢܘ ܘܛܝܬܘ̈ܣ ܘܦ̈ܢܝܛܘܣ܇ ܘܠܐ ܝ̇ܕܥ ܐܢ̣ܐ ܐܝܠܝܢ ܐܚܪ̈ܢܐ ܡܫܡܗܝܢ</span>(<span class="tei-bibl">Opp. t. i., p. 566, B</span>) there is the note, fol.<span class="tei-locus">157a</span>:</span><span class="tei-p">
+                                       <span class="tei-quote" lang="syr">ܐܩܝܢܘܣ ܐܡ̇ܪܝܢ ܢܗܪܐ ܕܪܕܐ ܚܕܪ̈ܝ ܡܬܥܡܪܢܝܬܐ܀ ܘܛܝܬܘܣ ܐܢܬܬܗ ܕܗܢܐ. ܘܦܢܝܛܐ ܘܐܘܪܦܐܘܣ ܠܥܠ̣ܬܐ
+                                          ܩܕܡܝܬܐ ܡܫ̇ܡܗ. ܐܠܗܐ ܣ̇ܢܐ ܒ̈ܢܘܗܝ ܠܩܪܢܘܣ ܕܫܝܘܠ. ܦܠܛܘܢ ܙܝܘܣ ܕܫܡܝܐ. ܕܝܡܐ ܦܝܣܝܕܘܢ.</span>
+                                       </span></div>
+                                 
+                                 <div class="tei-item"><span class="inline-h4">Addition 3</span>:
+                                    <span class="tei-p">Many Greek words, especially proper names, are written on the margins in Greek letters;
+                                       see, for example, foll.<span class="tei-locus">25a</span>, <span class="tei-locus">28a</span>, <span class="tei-locus">47b</span>, <span class="tei-locus">70a</span>, <span class="tei-locus">116a</span>, <span class="tei-locus">165b</span>, <span class="tei-locus">166a</span>, <span class="tei-locus">183a</span> and <span class="tei-locus">183b</span>, and <span class="tei-locus">196b</span>.</span></div>
+                                 
+                                 
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+                  <div class="citationinfo">
+                     <h3>How to Cite This Entry</h3>
+                     <div id="citation-note" class="content-block indent"><span> William Wright</span> et al., “<span class="title">London, BL, Add. 12153</span>” in ,  last modified April 21, 2023, <a href="https://bl.syriac.uk/ms/28">https://bl.syriac.uk/ms/28</a>.
+                        <div class="collapse" id="showcit">
+                           <div id="citation-bibliography">
+                              <h4>Bibliography:</h4><span class="editor">William Wright</span> et al., “<span class="title">London, BL, Add. 12153</span>.” In , edited by . Syriaca.org: The Syriac Reference Portal,
+                              2023.
+                               Entry published April 21, 2023. <a href="https://bl.syriac.uk/ms/28">https://bl.syriac.uk/ms/28</a>.
+                           </div>
+                           <div id="about">
+                              <h3>About this Entry</h3>
+                              <p><span class="heading-inline">Entry Title:</span> <span class="title">London, BL, Add. 12153</span></p>
+                              <div>
+                                 <h4>Authorial and Editorial Responsibility:</h4>
+                                 <ul>
+                                    <li><span> David A. Michelson</span>, general editor, Syriaca.org: The Syriac Reference Portal
+                                    </li>
+                                    <li>, editor, </li>
+                                    <li>William Wright, David A. Michelson, Daniel J. Greeson, Tucker D. Hannah, Robert Aydin, and Justin Arnwine, entry contributors, “”</li>
+                                 </ul>
+                              </div>
+                              <div>
+                                 <h4>Additional Credit:</h4>
+                                 <ul>
+                                    <li>Created by <span> Justin A. Arnwine</span></li>
+                                    <li>Based on the work of <span> William Wright</span></li>
+                                    <li>Syriac text entered by <span> Robert Aydin</span></li>
+                                    <li>Greek and coptic text entry and proofreading by <span> Ryan Stitt</span></li>
+                                    <li>Project management by <span> Elizabeth Walston</span></li>
+                                    <li>English text entry and proofreading by <span> Syriac Research Group, University of Alabama</span></li>
+                                    <li>Locus information for manuscript items added by <span> Ziyan Zhang</span></li>
+                                    <li>Syriaca.org URIs for authors edited by <span> Justin Arnwine</span></li>
+                                    <li>Syriaca.org URIs for authors checked by <span> Alexys Ahn</span><span> Joseph DAlfonso</span></li>
+                                    <li>Folio extent edited by <span> Kurt Urban</span></li>
+                                 </ul>
+                              </div>
+                           </div>
+                           <div id="license">
+                              <h3>Copyright and License for Reuse</h3>
+                              <div>Except otherwise noted, this page is © 2023.
+                                 
+                              </div><span class="tei-licence">
+                                 
+                                 <p>Distributed under a Creative Commons Attribution 3.0 Unported License</p>
+                                 </span></div>
+                        </div><a class="btn-sm btn-info togglelink pull-right" data-toggle="collapse" data-target="#showcit" data-text-swap="Hide citation">Show full citation information...</a></div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </body><script type="text/javascript" src="/resources/js/jquery.validate.min.js"></script><script type="text/javascript" src="/resources/js/require.min.js"></script><script type="text/javascript" src="/resources/js/srophe.js"></script><script data-template="app:google-analytics"></script></html>

@@ -1,0 +1,818 @@
+<?xml version="1.0" encoding="UTF-8"?><html xmlns="http://www.w3.org/1999/xhtml" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:srophe="https://srophe.app">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <title>London, BL, Add. 14526</title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <meta name="DC.type" property="dc.type" content="Text" />
+      <meta name="DC.isPartOf" property="dc.ispartof" content="Syriaca.org: The Syriac Reference Portal" />
+      <link data-template="app:metadata" />
+      <link rel="shortcut icon" href="/resources/images/fav-icons/mss-favicon.ico" />
+      <link rel="stylesheet" type="text/css" href="/resources/bootstrap/css/bootstrap.min.css" />
+      <link rel="stylesheet" type="text/css" href="/resources/css/sm-core-css.css" />
+      <link rel="stylesheet" type="text/css" href="/resources/css/syr-icon-fonts.css" />
+      <link rel="stylesheet" type="text/css" href="/resources/css/style.css" />
+      <link rel="stylesheet" type="text/css" href="/resources/css/syriaca.css" />
+      <link rel="stylesheet" type="text/css" media="print" href="/resources/css/print.css" />
+      <link rel="stylesheet" href="/resources/leaflet/leaflet.css" />
+      <link rel="stylesheet" href="/resources/leaflet/leaflet.awesome-markers.css" />
+      <link href="/resources/jquery-ui/jquery-ui.min.css" rel="stylesheet" /><script type="text/javascript" src="/resources/js/jquery.min.js"></script><script type="text/javascript" src="/resources/jquery-ui/jquery-ui.min.js"></script><script type="text/javascript" src="/resources/js/jquery.smartmenus.min.js"></script><script type="text/javascript" src="/resources/js/clipboard.min.js"></script><script type="text/javascript" src="/resources/bootstrap/js/bootstrap.min.js"></script><script defer="defer" data-domain="bl.syriac.uk" src="https://plausible.io/js/script.js"></script><link href="/resources/keyboard/css/keyboard.min.css" rel="stylesheet" />
+      <link href="/resources/keyboard/css/keyboard-previewkeyset.min.css" rel="stylesheet" />
+      <link href="/resources/keyboard/syr/syr.css" rel="stylesheet" /><script type="text/javascript" src="/resources/keyboard/syr/jquery.keyboard.js"></script><script type="text/javascript" src="/resources/keyboard/js/jquery.keyboard.extension-mobile.min.js"></script><script type="text/javascript" src="/resources/keyboard/js/jquery.keyboard.extension-navigation.min.js"></script><script type="text/javascript" src="/resources/keyboard/syr/jquery.keyboard.extension-autocomplete.js"></script><script type="text/javascript" src="/resources/keyboard/syr/keyboardSupport.js"></script><script type="text/javascript" src="/resources/keyboard/syr/syr.js"></script><script type="text/javascript" src="/resources/keyboard/layouts/ms-Greek.min.js"></script><script type="text/javascript" src="/resources/keyboard/layouts/ms-Russian.min.js"></script><script type="text/javascript" src="/resources/keyboard/layouts/ms-Arabic.min.js"></script><script type="text/javascript">
+            $(document).ready(function () {
+                $('[data-toggle="tooltip"]').tooltip({ container: 'body' })
+
+                $('.keyboard').keyboard({
+                    openOn: null,
+                    stayOpen: false,
+                    alwaysOpen: false,
+                    autoAccept: true,
+                    usePreview: false,
+                    initialFocus: true,
+                    rtl : true,
+                    layout: 'syriac-phonetic',
+                    hidden: function(event, keyboard, el){
+                       //  keyboard.destroy();
+                     }
+                });
+
+                $('.keyboard-select').click(function () {
+                    var keyboardID = '#' + $(this).data("keyboard-id")
+                    var kb = $(keyboardID).getkeyboard();
+                    //var kb = $('#searchField').getkeyboard();
+                    // change layout based on link ID
+                    kb.options.layout = this.id
+                    // open keyboard if layout is different, or time from it last closing is &gt; 200 ms
+                    if (kb.last.layout !== kb.options.layout || (new Date().getTime() - kb.last.eventTime) &gt; 200) {
+                        kb.reveal();
+                    }
+                });
+                //Change fonts
+                $('.swap-font').on('click', function(){
+                    var selectedFont = $(this).data("font-id")
+                    $('.selectableFont').not('.syr').css('font-family', selectedFont);
+                    $("*:lang(syr)").css('font-family', selectedFont)
+                });
+
+            })
+        </script></head>
+   <body id="body">
+      <nav class="navbar navbar-default navbar-fixed-top" role="navigation" data-template="app:fix-links">
+         
+         <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse-1">
+               <span class="sr-only">Toggle navigation</span>
+               <span class="icon-bar"></span>
+               <span class="icon-bar"></span>
+               <span class="icon-bar"></span>
+               </button>
+            <a class="navbar-brand banner-container" href="/index.html">
+               <span class="syriaca-icon syriaca-mss banner-icon"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span>
+                  </span>
+               <span class="banner-text">Syriac Manuscripts in the British Library</span>
+               </a>
+            
+         </div>
+         
+         <div class="navbar-collapse collapse pull-right" id="navbar-collapse-1">
+            
+            <ul class="nav navbar-nav">
+               
+               <li>
+                  <a href="/browse.html" class="nav-text">Browse</a>
+                  
+               </li>
+               
+               <li data-template="app:shared-content" data-template-path="/templates/shared-links.html"></li>
+               
+               <li>
+                  <a href="/search.html" class="nav-text">Advanced Search</a>
+                  
+               </li>
+               
+               <li>
+                  
+                  <div id="search-wrapper">
+                     
+                     <form class="navbar-form navbar-right search-box" role="search" action="/search.html" method="get">
+                        
+                        <div class="form-group">
+                           <input type="text" class="form-control keyboard" placeholder="search" name="keyword" id="keywordNav" />
+                           <span data-template="app:keyboard-select-menu" data-template-input-id="keywordNav"></span>
+                           <button class="btn btn-default search-btn" id="searchbtn" type="submit" title="Search">
+                              <span class="glyphicon glyphicon-search"></span>
+                              </button>
+                           
+                        </div>
+                        
+                     </form>
+                     
+                  </div>
+                  
+               </li>
+               
+               <li data-template="app:shared-content" data-template-path="/templates/fontMenu.html"></li>
+               
+            </ul>
+            
+         </div>
+         
+      </nav>
+      <div class="main-content-block">
+         <div class="interior-content">
+            <div class="container otherFormats"><a href="mailto:bl.syriac.uk@gmail.com?subject=Shelf mark: Record URI: " type="button" class="btn btn-default btn-xs" data-toggle="tooltip" title="Click to report a correction via e-mail."><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span> Corrections
+                  </a> <a href="https://github.com/srophe/britishLibrary-data/issues/new?assignees=&amp;labels=community-submitted&amp;title=:" target="_blank" id="issueBtn" data-toggle="tooltip" class="btn btn-default btn-xs" title="Click to file a data issue on GitHub (requires login)."><span class="glyphicon glyphicon-record" aria-hidden="true"></span> Open
+                  </a> <a href="https://github.com/srophe/britishLibrary-data/blob/main/data/tei/249.xml" target="_blank" class="btn btn-default btn-xs" id="openBtn" data-toggle="tooltip" title="Click to view the TEI XML data for this record."><img src="/resources/images/github-mark.png" height="18px" /></a> <a href="javascript:window.print();" type="button" class="btn btn-default btn-xs" id="printBtn" data-toggle="tooltip" title="Click to send this page to the printer."><span class="glyphicon glyphicon-print" aria-hidden="true"></span> 
+                  </a> 
+            </div>
+            <div class="row">
+               <div class="col-md-12">
+                  <div xmlns:x="http://www.w3.org/1999/xhtml" xmlns:local="http://syriaca.org/ns" class="title">
+                     <h1>Add. 14,526</h1>
+                  </div>
+                  <div xmlns:x="http://www.w3.org/1999/xhtml" xmlns:local="http://syriaca.org/ns" class="tei-note">
+                     <div>URI: <span class="tei-idno">https://bl.syriac.uk/ms/249</span></div>
+                  </div>
+                  <div xmlns:x="http://www.w3.org/1999/xhtml" xmlns:local="http://syriaca.org/ns" id="msTOC" class="mstoc">
+                     <ul>
+                        <li><a href="#msPart1">1. Add. 14,526, foll. 1–39
+                              (636 - 675 CE) 
+                              
+                              [https://bl.syriac.uk/ms/250]
+                              </a></li>
+                        <li><a href="#msPart2">2. Add. 14,526, foll. 40–47
+                              (641 CE)
+                              
+                              [https://bl.syriac.uk/ms/251]
+                              </a></li>
+                     </ul>
+                  </div>
+                  <div xmlns:x="http://www.w3.org/1999/xhtml" xmlns:local="http://syriaca.org/ns" class="header section">
+                     <div class="tei-note">
+                        <div></div>
+                     </div>
+                     <div class="tei-note"><span>This manuscript record does not have a summary list of contents. For composite manuscripts,
+                           the list of contents can be found under each individual part.</span></div>
+                  </div>
+                  <div xmlns:x="http://www.w3.org/1999/xhtml" xmlns:local="http://syriaca.org/ns" id="msPart1" class="msContent">
+                     <div class="panel-group">
+                        <div class="panel panel-default">
+                           <div class="panel-heading">
+                              <h2 class="panel-title" data-toggle="collapse" data-target="#panelmsPartPart1"><span class="anchor" id="msPartPart1"></span><span class="shelfmark"><span class="tei-idno">Add. 14,526, foll. 1–39</span></span></h2>
+                           </div>
+                           <div id="panelmsPartPart1" class="panel-collapse collapse in">
+                              <div class="panel-body">
+                                 <div class="msDesc">
+                                    <div class="header section">
+                                       <div class="tei-note">
+                                          <div>URI: <span class="tei-idno">https://bl.syriac.uk/ms/250</span></div>
+                                          <div>
+                                             Description based on Wright
+                                             <a href="#" data-toggle="tooltip" title="This entry number is from Wright's printed catalogue. Due to renumbering, Wright's entry numbers do not match the numbering used in this digital catalogue."><span class="tei-idno">DCCCCVII</span></a>
+                                             (<span class="tei-citedRange">2:1033-1036</span>)
+                                             <a href="https://archive.org/details/catalogueofsyria02brituoft/page/1033" target="_blank"><img src="/resources/images/ialogo.jpg" alt="Link to Archive.org Bibliographic record" height="18px" /></a></div>
+                                          <div>
+                                             Date: 
+                                             7th century, probably soon after AD 641
+                                          </div>
+                                          <div>Unspecified Syriac script ܀  Parchment Codex, 39 leaves.
+                                             
+                                          </div>
+                                          <div></div>
+                                          <div>
+                                             Wright's Subject Classification:
+                                             Councils of the Church and Ecclesiastical Canons
+                                          </div>
+                                       </div>
+                                       <div class="tei-note"><span>This manuscript contains: A Collection of Ecclesiastical Canons and Creeds. In total,
+                                             including sub-sections, this manuscript contains 35 items.</span></div>
+                                    </div>
+                                 </div>
+                                 <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                       <h2 class="panel-title" data-toggle="collapse" data-target="#msPartPart1PhysDesc">Physical Description </h2>
+                                    </div>
+                                    <div id="msPartPart1PhysDesc" class="panel-collapse collapse in">
+                                       <div class="panel-body">
+                                          <div class="msDesc">
+                                             <div class="tei-physDesc">
+                                                <div class="indent">
+                                                   <p>Vellum, about 9 5/8 in. by 6, consisting of 39
+                                                      leaves, the last of which is soiled and torn. The
+                                                      quires, four in number, are signed with letters,
+                                                      from <span class="tei-foreign" xml:lang="syr" lang="syr" dir="rtl">ܟܗ</span> to <span class="tei-foreign" xml:lang="syr" lang="syr" dir="rtl">ܟܚ</span>, but there was an older numeration,
+                                                      apparently from <span class="tei-foreign" xml:lang="syr" lang="syr" dir="rtl">ܟܘ</span> to <span class="tei-foreign" xml:lang="syr" lang="syr" dir="rtl">ܟܛ</span> (see fol. 31
+                                                      a). Each page is divided into two columns, of
+                                                      from 33 to 43 lines.
+                                                   </p><span class="tei-handDesc">
+                                                      
+                                                      <div name="p1handNote1"><span class="inline-h4">Hand 1 (major, Unspecified Syriac script): </span>
+                                                         This manuscript is written in a small, neat hand of the <span class="tei-date">viith cent.</span>, probably soon after <span class="tei-date">A.D. 641</span> (see the <span class="tei-ref">List of the Emperors of Constantinople, beginning with Constantine the Great, and
+                                                            ending with Constantine the son of Heraclius, A.D. 641</span>).
+                                                         
+                                                      </div>
+                                                      
+                                                      <div name="p1handNote2"><span class="inline-h4">Hand 2 (minor, Unspecified Syriac script): </span>
+                                                         See additions.
+                                                         
+                                                      </div>
+                                                      </span></div>
+                                             </div>
+                                          </div>
+                                       </div>
+                                    </div>
+                                 </div>
+                                 <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                       <h2 class="panel-title" data-toggle="collapse" data-target="#msPartPart1Contents">Contents</h2>
+                                    </div>
+                                    <div id="msPartPart1Contents" class="panel-collapse collapse in">
+                                       <div class="panel-body">
+                                          <div class="msContent">
+                                             <p class="summary indent">This manuscript contains 35 item(s) including nested subsections. N.B. Items were re-numbered for this online catalog and may not reflect William
+                                                Wright's previous numeration.
+                                             </p>
+                                             <div class="indent"><span class="tei-msContents">
+                                                   
+                                                   
+                                                   <div class="tei-msItem"><span class="inline-h4">Item 1 (Fol. 1a): </span>A Collection of Ecclesiastical Canons and Creeds [defective]
+                                                      <div class="msItemChild">
+                                                         <div class="msItem-notes"><span class="inline-h4">Note: </span>See Add. 12,155, no. xxvii., and Add. 14,527.
+                                                         </div>
+                                                         <div class="tei-msItem"><span class="inline-h4">Item 2 (Fol. 1a): </span>A short section explanatory of the division and arrangement
+                                                            <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                                     <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܥܠܬܐ ܕܫ̇ܘܝܐ ܕܬܬܩܪܐ ܩܕܡ ܩܢܘ̈ܢܐ ܥ̈ܕܬܢܝܐ̣. ܡܛܠ ܗ̇ܝ ܕܐܝܟܢܐ ܙܕܩ̇ ܕܢܦܓ̣ܥ ܒܗܘܢ ܒܚܬܝܬܘܬܐ ܕܩ̣ܢܝܢ</span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>This work precedes the <a href="">Synopsis</a>.
+                                                               </div>
+                                                               <div class="tei-msItem"><span class="inline-h4">Item 3 (Fol. 1a): </span>51 <span class="tei-foreign" lang="grc">τίτλοι</span> or heads
+                                                                  <div class="msItemChild"><span class="tei-quote"><span class="inline-h4"> 
+                                                                           Excerpt: </span><span xml:lang="syr" lang="syr" dir="rtl">ܛܝܛܠܘܣ ܏ܩܕܡܝܐ. ܥܠ ܕܡܢ ܟܡܐ ܐ̈ܦܝܣܩܘܦܐ܇ ܙܕܩ̇ ܠܗ ܠܐܦܝܣܩܘܦܐ ܕܢܩܒܠ ܟܝܪܘܛܢܝܐ. ܘܕܒܠܥܕ ܡܛܪܘܦܘܠܝܛܝܣ̣
+                                                                           ܠܐ ܙܕܩ̇ ܕܬܗܘܐ ܟܝܪܘܛܘܢܝܐ ܕܐܦܝܣܩܘܦܐ. ܘܕܐܢ ܗܘ̇ܐ ܚܪܝܢܐ ܡܛܠ ܟܝܪܘܛܘܢܝܐ̣. ܨܒܝܢܐ ܕܣ̈ܓܝܐܐ ܘ̇ܠܐ
+                                                                           ܕܢܠܒܘܟ. ܕܫ̈ܠܝܚܐ ܏ܐ ܘܗ̇ܘ ܏ܒ. ܩܢܘܢܐ ܕܫܡܥܘܢ ܩܢܢܝܐ. ܕܣܘܢܗܕܘܣ ܕܠܕܝܩܝܐ̣. ܗ̇ܘ ܏ܕ ܀ ܕܐܢܛܝܟܝܐ
+                                                                           ܗ̇ܘ. ܏ܝܛ. ܕܢܩܝܐ̣ ܗ̇ܘ ܏ܕܫܬܐ</span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>The first is here cited as a specimen.
+                                                                     </div>
+                                                                  </div>
+                                                               </div>
+                                                            </div>
+                                                         </div>
+                                                         <div class="tei-msItem"><span class="inline-h4">Item 4 (Fol. 1a): </span>A Synopsis, as it may be called, of the
+                                                            Canons of the Apostles and of the principal Councils of the
+                                                            Church
+                                                            <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                                     <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">
+                                                                     ܟܘܢܫܐ ܕܩ̈ܢܘܢܐ ܟܠܗܘܢ ܕܫ̈ܠܝܚܐ ܩ̈ܕܝܫܐ ܘܕܣ̈ܘܢܗܕܘ ܩ̈ܕܝܫܬܐ ܕܐ̈ܒܗܬܐ ܚܝܣ̈ܝܐ. <span class="tei-foreign" xml:lang="en" lang="en" dir="ltr">(sic)</span> ܕܡܟܢܫܝܢ
+                                                                     ܐܟܚܕܐ ܨܝܕ ܚ̈ܕܕܐ. ܘܩܢ̣ܝܢ ܚܕ ܚܝܠܐ̣. ܘܡܫܡܠܝ̣ܢ ܚܕ ܛܝܛܠܘܣ. ܟܕ ܡܬܝܕܥ
+                                                                     ܟܠ ܛܝܛܠܘܣ ܡܢܐ ܐܝܬܘܗܝ ܚܝܠܗ̣. ܡܢ ܪܘܫܡܐ ܕܝܠܗ</span></span></div>
+                                                         </div>
+                                                         <div class="tei-msItem"><span class="inline-h4">Item 5 (Fol. 4b): </span>Canons of the Apostles
+                                                            
+                                                            <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                                     <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܩ̈ܢܘܢܐ ܥ̈ܕܬܢܝܐ̣ ܕܫ̈ܠܝܚܐ ܩ̈ܕܝܫܐ</span></span><div class="msItem-notes"><span class="inline-h4">Notes:</span><ul>
+                                                                     <li>82 in
+                                                                        number.
+                                                                     </li>
+                                                                     <li>See de Lagarde, Reliquiae juris ecclesiast. antiquiss., pp. ܣ — ܡܕ; and Labbe, Sacrosancta Concilia, ed. Coleti, t. i., coll. 26, seqq.
+                                                                        
+                                                                     </li>
+                                                                  </ul>
+                                                               </div>
+                                                            </div>
+                                                         </div>
+                                                         <div class="tei-msItem"><span class="inline-h4">Item 6 (Fol. 9a): </span>Hippolytus. Orders of the Apostles, given through
+                                                            Hippolytus
+                                                            
+                                                            <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                                     <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܛ̈ܟܣܐ ܕܫ̈ܠܝܚܐ ܛ̈ܘܒܢܐ̣. ܒܝܕ ܩܕܝܫܐ ܐܝܦܝܠܝܛܘܣ</span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>These are extracts from <a href="">the eighth
+                                                                     book of the Constitutiones Apostolorum</a>; see Labbe, t. i., coll. 153, seqq.
+                                                                  
+                                                               </div>
+                                                               <div class="tei-msItem"><span class="inline-h4">Item 7 (Fol. 9a): </span>Of Simon the Cananite
+                                                                  
+                                                                  <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                                           <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܕܫܡܥܘܢ ܩܢܝܢܐ̣. <span class="tei-foreign" xml:lang="en" lang="en" dir="ltr">(sic)</span> ܡܛܠ ܩܢܘ̈ܢܐ ܥ̈ܕܬܢܝܐ ܘ̈ܦܣܩܐ</span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>See Constitt. Apostt., lib. viii., cap. xxviii.; and de Lagarde, Reliquiae, p. ܟܕ, line 4.
+                                                                     </div>
+                                                                  </div>
+                                                               </div>
+                                                               <div class="tei-msItem"><span class="inline-h4">Item 8 (Fol. 9b): </span>Of S.
+                                                                  Matthew
+                                                                  
+                                                                  <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                                           <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܡܛܠ ܪ̈ܫܝܬܐ ܘܡܥܣܪ̈ܐ</span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>See Constitt. Apostt., lib. viii., capp. xxx. and xxxi.; and de Lagarde, p. ܟܗ, line 2.
+                                                                     </div>
+                                                                  </div>
+                                                               </div>
+                                                               <div class="tei-msItem"><span class="inline-h4">Item 9 (Fol. 10a): </span>Of S.
+                                                                  Paul
+                                                                  
+                                                                  <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                                           <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܦܘܩܕܢܐ̣ ܕܦܘܠܘܣ ܫܠܝܚܐ</span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>See de Lagarde, p. ܟܗ, line 17.
+                                                                     </div>
+                                                                  </div>
+                                                               </div>
+                                                               <div class="tei-msItem"><span class="inline-h4">Item 10 (Fol. 10a): </span>Of S. Paul
+                                                                  and S. Peter
+                                                                  
+                                                                  <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                                           <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܡܛܠ ܒܛܠܢܐ ܕܥ̣̈ܒܕܐ. ܦܘܩܕܢܐ ܕܦܘܠܘܣ̣ ܘܕܦܛܪܘܣ</span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>See Constitt. Apostt., lib. viii., cap. xxxiii.; and de Lagarde, p. ܟܗ, line 23.
+                                                                     </div>
+                                                                  </div>
+                                                               </div>
+                                                               <div class="tei-msItem"><span class="inline-h4">Item 11 (Fol. 10a): </span>Of S.
+                                                                  Paul
+                                                                  
+                                                                  <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                                           <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܡܛܠ ܥ̣̈ܕܢܐ ܕܨ̈ܠܘܬܐ̣ ܕܦܘܠܘܣ
+                                                                           ܫܠܝܚܐ.</span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>See Constitt. Apostt., lib. viii., cap. xxxiv.; and de Lagarde, p. ܟܘ, line 22.
+                                                                     </div>
+                                                                  </div>
+                                                               </div>
+                                                               <div class="tei-msItem"><span class="inline-h4">Item 12 (Fol. 10b): </span>Of S. Paul,
+                                                                  or, according to others, of S.
+                                                                  James
+                                                                  
+                                                                  <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                                           <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܡܛܠ ܝܘܡ̈ܬܐ ܕܕܡ̈ܟ̣ܐ ܕܐܝܠܝܢ ܢܫܬܡܠܘܢ̣. ܕܦܘܠܘܣ ܫܠܝܚܐ. ܐܝܟ ܐܚܪ̈ܢܐ ܕܝـ̣ܢ. ܕܝܥܩܘܒ</span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>See Constitt. Apostt., lib. viii., capp. xiii. and xliii.; and de Lagarde, p. ܟܚ, line 1.
+                                                                     </div>
+                                                                  </div>
+                                                               </div>
+                                                               <div class="tei-msItem"><span class="inline-h4">Item 13 (Fol. 10b): </span>Of the same
+                                                                  
+                                                                  <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                                           <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܡܛܠ ܗ̇ܝ ܕܢܬܩܪܘܢ ܩܠܝܪ̈ܝܩܘ ܠܕܘܟܪܢܐ ܕܗܠܝܢ ܕܕܡ̣ܟܘ</span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>See Constitt. Apostt., lib. viii., cap. xliv.; and de Lagarde, p. ܟܚ, line 14.
+                                                                     </div>
+                                                                  </div>
+                                                               </div>
+                                                               <div class="tei-msItem"><span class="inline-h4">Item 14 (Fol. 10b): </span>Of the same
+                                                                  
+                                                                  <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                                           <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܡܛܠ ܗ̇ܢܘܢ ܕܡܬܪ̈ܕܦܝܢ ܘܥܪ̈ܩܝܢ ܡܛܠ ܗܝܡܢܘܬܐ̣. ܕܐܝܢܐ ܒܘܝܐܐ ܢܗܘܐ ܠܗܘܢ</span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>See Constitt. Apostt., lib. viii., cap. xiv.; and de Lagarde, p. ܟܛ, line 13.
+                                                                     </div>
+                                                                  </div>
+                                                               </div>
+                                                               <div class="tei-msItem"><span class="inline-h4">Item 15 (Fol. 11a): </span>Of S. Paul
+                                                                  and S. Peter
+                                                                  
+                                                                  <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                                           <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܡܛܠ ܗ̇ܝ ܕܟܠ ܐܢܫ ܢܟܬܪ ܒܛܟܣܐ ܐܝܢܐ ܕܐܦ̣ܪܫ ܠܗ̣. ܘܠܐ ܢܥܒܪ ܬܚܘܡ̈ܐ܀ ܕܦܘܠܘܣ ܘܕܦܛܪܘܣ</span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>See Constitt. Apostt., lib. viii., cap. xlvi.
+                                                                     </div>
+                                                                  </div>
+                                                               </div>
+                                                               <div class="tei-msItem"><span class="inline-h4">Item 16 (Fol. 12b): </span>Of S.
+                                                                  Paul
+                                                                  
+                                                                  <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                                           <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܦܘܩܕܢܐ ܕܦܘܠܘܣ ܫܠܝܚܐ ܡܛܠ ܗ̇ܢܘܢ ܕܚܕܬܐܝܬ
+                                                                           ܡܬܩܪ̈ܒܝܢ ܠܪ̈ܐܙܐ.</span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>See Constitt. Apostt., lib. viii., cap. xxxii.; and de Lagarde, p. ܟܛ, line 21.
+                                                                     </div>
+                                                                  </div>
+                                                               </div>
+                                                            </div>
+                                                         </div>
+                                                         <div class="tei-msItem"><span class="inline-h4">Item 17 (Fol. 13b): </span>Constantine. The epistle of
+                                                            Constantine, summoning the bishops from Ancyra to
+                                                            Nicaea
+                                                            
+                                                            <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                                     <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܐܓܪܬܐ ܕܩܘܣܛܢܛܝܢܘܣ ܪܒܐ ܐܒܘܗܝ ܕܩܘܣܛܢܛܝܢܣ ܙܥܘܪܐ ܕܩܪܝܐ ܠܐ̈ܦܝܣܩܦܐ ܡܢ ܐܢܩܘܪܐ ܠܢܝܩܝܐ</span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>See Cowper, Analecta Nicaena, p. 1.
+                                                               </div>
+                                                            </div>
+                                                         </div>
+                                                         <div class="tei-msItem"><span class="inline-h4">Item 18 (Fol. 13b): </span>Canons of the Council of Nicaea
+                                                            
+                                                            <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                                     <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܬ̈ܚܘܡܐ ܥ̈ܕܬܢܝܐ ܕܣܘܢܗܕܘܣ ܪܒܬܐ ܘܩܕܝܫܬܐ ܕܬܠܬܡ̈ܐܐ
+                                                                     ܘܬܡܢܬܥܣܪ̈ ܐ̈ܦܝܣܩܘܦܐ ܕܐܬ݂ܟܢܫܬ ܒܢܝܩܝܐ ܡܕܝܢܬܐ ܕܒܬܘܢܝܐ̣. ܒܫܢܬ ܫ̈ܬܡܐܐ
+                                                                     ܘܬ̈ܠܬܝܢ ܘܫܬ݂ ܒܡܢܝܢܐ ܕܐܠܟܣܢܕܪܘܣ. ܒܐܝܪܚ ܚܙܝܪܢ̣. ܒܬܫܬܥܣܪ̈ ܒܗ.
+                                                                     ܒܗܘܦܛܝܐ ܕܦܠܘܝܢܘܣ̣ ܘܕܝܘܠܝܢܘܣ. ܘܬܚ̣ܡܬ ܗܠܝܢ ܕܟܬ̈ܝܒܝܢ ܡܢ
+                                                                     ܠܬܚܬ</span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>They are 20 in number (see Labbe, t. ii., coll. 33, seqq.).
+                                                               </div>
+                                                            </div>
+                                                         </div>
+                                                         <div class="tei-msItem"><span class="inline-h4">Item 19 (Fol. 16a): </span>Constantine. The edict of
+                                                            Constantine against the Arians
+                                                            
+                                                            <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                                     <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܣܩܪܐ ܕܝܠܗ ܕܩܘܣܛܢܛܝܢܘܣ ܪܒܐ̣. ܠܘܩܒܠ ܐܪ̈ܝܢܘܼ
+                                                                     ܠܟܠ ܐܬܪ ܕܬܚܝܬ ܐܘܚܕܢܐ ܕܡܠܟܘܬܗ̣. ܡܢ ܒܬܪ ܕܐܬܬܣ̣ܝܡܬ ܗܝܡܢܘܬܐ
+                                                                     ܒܬܚܘܡܐ̇. ܕܗܕܐ ܣܘܢܗܕܣ ܩܕܝܫܬܐ</span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>See Cowper, Anal. Nic., p. 2.
+                                                               </div>
+                                                            </div>
+                                                         </div>
+                                                         <div class="tei-msItem"><span class="inline-h4">Item 20 (Fol. 16b): </span>Canons of the Council of
+                                                            Ancyra
+                                                            
+                                                            <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                                     <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܩ̈ܢܘܢܐ ܕܣܘܢܗܕܣ ܕܒܐܢܩܘܪܐ ܥܣܪ̈ܝܢ ܘܐܪ̈ܒܥܐ. ܗܠܝܢ
+                                                                     ܕܝܢ ܩ̈ܢܘܢܐ ܩܕܝܡܝܢ ܠܐܝܠܝܢ ܕܬܬܣܝܡܘ ܒܢܝܩܝܐ. ܐܬܟܬܒܘ ܕܝܢ ܗܠܝܢ ܕܒܢܝܩܝܐ
+                                                                     ܩ̈ܕܡܝܐ̣. ܡܛܠ ܐܘܬܢܛܝܐ ܕܝܠܗ̇ ܕܣܘܢܗܕܣ ܪܒܬܐ ܘܩܕܝܫܬܐ.</span></span><div class="msItem-notes"><span class="inline-h4">Notes:</span><ul>
+                                                                     <li>24 in number.</li>
+                                                                     <li>See Labbe, t. i., coll. 11S5, seqq.
+                                                                        
+                                                                     </li>
+                                                                  </ul>
+                                                               </div>
+                                                            </div>
+                                                         </div>
+                                                         <div class="tei-msItem"><span class="inline-h4">Item 21 (Fol. 18b): </span>Canons of the Council of
+                                                            Neo-Caesarea
+                                                            
+                                                            <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                                     <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܕܣܘܢܗܕܘܣ ܕܢܐܘܩܣܘܪܝܐ ܩ̈ܢܘܢܐ ܐܪ̈ܒܬܥܣܪ: ܘܐܦ ܗܠܝܢ
+                                                                     ܩ̈ܢܘܢܐ̣ ܒܬܪ ܗܠܝܢ ܕܒܐܢܩܘܪܐ ܐܬܬܣܝܡܘ. ܩܕܝܡܝܢ ܕܝܢ ܐܦ ܗ̣ܢܘܢ ܠܗ̇ܢܘܢ
+                                                                     ܕܒܢܝܩܝܐ. </span></span><div class="msItem-notes"><span class="inline-h4">Notes:</span><ul>
+                                                                     <li>14 in number.</li>
+                                                                     <li>See Labbe, t. i., coll. 1509, seqq.
+                                                                        
+                                                                     </li>
+                                                                  </ul>
+                                                               </div>
+                                                            </div>
+                                                         </div>
+                                                         <div class="tei-msItem"><span class="inline-h4">Item 22 (Fol. 19b): </span>The
+                                                            letter to the Armenians
+                                                            
+                                                            <div class="msItemChild"></div>
+                                                         </div>
+                                                         <div class="tei-msItem"><span class="inline-h4">Item 23 (Fol. 19b): </span>Canons of the Council of
+                                                            Gangra
+                                                            
+                                                            <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                                     <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܕܣܘܢܗܕܘܣ ܕܒܓܢܓܪܐ ܩܢ̈ܘܢܐ ܥܣܪ̈ܝܢ܀ ܗܠܝܢ ܕܝܢ
+                                                                     ܩ̈ܢܘܢܐ̣. ܡܢ ܒܬܪ ܗܠܝܢ ܕܒܢܝܩܝܐ ܐܬܬܣܝܡܘ</span></span><div class="msItem-notes"><span class="inline-h4">Notes:</span><ul>
+                                                                     <li>20 in number.</li>
+                                                                     <li>See Labbe, t. ii., coll. 123, seqq.
+                                                                        
+                                                                     </li>
+                                                                  </ul>
+                                                               </div>
+                                                            </div>
+                                                         </div>
+                                                         <div class="tei-msItem"><span class="inline-h4">Item 24 (Fol. 21b): </span>Canons of the first Council of
+                                                            Antioch
+                                                            
+                                                            <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                                     <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܕܣܘܢܗܕܘܣ ܕܐܬ݂ܟܢܫܬ ܒܐܢܩܢܝܐ ܕܥܕܬܐ ܕܐܢܛܝܘܟܝܐ. ܩ̈ܢܘܢܐ ܥܣܪ̈ܝـ̣ܢ ܘܚ̈ܡܫܐ</span></span><div class="msItem-notes"><span class="inline-h4">Notes:</span><ul>
+                                                                     <li>25 in number.</li>
+                                                                     <li>See Labbe, t. ii., coll. 583, seqq.
+                                                                        
+                                                                     </li>
+                                                                  </ul>
+                                                               </div>
+                                                            </div>
+                                                         </div>
+                                                         <div class="tei-msItem"><span class="inline-h4">Item 25 (Fol. 25a): </span>Canons of the Council of Laodicca in Phrygia
+                                                            
+                                                            <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                                     <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܕܣܘܢܗܕܣ ܕܠܕܝܩܝܐ ܕܦܪܘܓܝܐ ܩܢܘ̈ܢܐ ܚܡ̈ܫܝ̣ܢ
+                                                                     ܘܬ̈ܫܥܐ܀ ܣܘܢܗܕܘܣ ܩܕܝܫܬܐ ܕܒܠܕܝܩܝܐ ܕܦܪܘܓܝܐ ܕܦܩܛܝܢܐ ܐܬܟ̣ܢܫܬ: ܡܢ
+                                                                     ܗܘܦܪ̈ܟܝܣ ܡ̈ܫܚܠܦܬܐ ܕܐܣܝܐ̣. ܬܚ̈ܘܡܐ ܣܡ̣ܬ ܥ̈ܕܬܢܝܐ. ܐܝܟ ܕܟܬܝܒ ܡܢ
+                                                                     ܠܬܚܬ</span></span><div class="msItem-notes"><span class="inline-h4">Notes:</span><ul>
+                                                                     <li>59 in number.</li>
+                                                                     <li>See Labbe, t. i., coll. 1529, seqq.
+                                                                        
+                                                                     </li>
+                                                                  </ul>
+                                                               </div>
+                                                            </div>
+                                                         </div>
+                                                         <div class="tei-msItem"><span class="inline-h4">Item 26 (Fol. 27b): </span>The address of the Council to the emperor Theodosius
+                                                            
+                                                            <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                                     <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܐܢܦܘܪܐ ܕܐܫܬܕܪܬ ܠܕܚܠ ܠܐܠܗܐ ܡ̇ܠܟܐ ܬܐܘܕܣܝܣ
+                                                                     ܪܒܐ̣. ܡܢ ܣܘܢܗܕܘܣ ܕܡܐܐ ܘܚ̈ܡܫܝܢ ܗ̇ܝ ܕܒܩܘܣܛܢܛܝܢܦܘܠܝܣ</span></span></div>
+                                                         </div>
+                                                         <div class="tei-msItem"><span class="inline-h4">Item 27 (Fol. 27b): </span>Canons of the first Council of
+                                                            Constantinople
+                                                            
+                                                            <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                                     <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܣܘܢܗܕܣ ܗ̇ܝ ܕܒܩܘܣܛܢܛܝܢܦܘܠܝܣ ܩ̈ܢܘܢܐ ܐܪ̈ܒܥܐ.
+                                                                     ܒܫܢܬ ܬܫܥ ܕܗܘܦܛܝܐ ܕܐܘܟܪ ܘܕܣܘܓܪܝܣ ܒܝܪܚܐ ܐܒܝ̣. ܒܫܢܬ ܐܪ̈ܒܥܡܐܐ
+                                                                     ܘܥܣܪ̈ܝܢ ܘܬܫܥ ܒܡܢܝܢܐ ܕܐ̈ܢܛܘܟܝܐ̣. ܗܠܝܢ ܬܚܡܘ ܐ̈ܦܝܣܩܘܦܐ ܕܒܛܝܒܘܬܐ
+                                                                     ܕܐܠܗܐ ܡܢ ܗܘܦܪ̈ܟܝܣ ܡ̈ܫܚܠܦܬܐ ܒܩܘܣܛܢܛܝܢܦܘܠܝܣ ܐܬ̇ܟܢܫ̣ܘ. ܒܩ̇ܪܝܬܐ
+                                                                     ܕܪܚ̇ܡ ܐܠܗܐ ܬܐܘܕܣܝܣ ܡ̇ܠܟܐ. ܒܟܝܪܘܛܢܝܐ ܕܢܩܛܘܪܝܘܣ ܐܦܝܣܩܘܦܐ</span></span><div class="msItem-notes"><span class="inline-h4">Notes:</span><ul>
+                                                                     <li>Here four in number.</li>
+                                                                     <li>See Labbe, t. ii., coll. 1123, seqq., omitting no. vii.</li>
+                                                                  </ul>
+                                                               </div>
+                                                            </div>
+                                                         </div>
+                                                         <div class="tei-msItem"><span class="inline-h4">Item 28 (Fol. 29a): </span>A single canon of the Council of
+                                                            Ephesus, confirmatory of the Nicene Creed
+                                                            
+                                                            <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                                     <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܬܚܘܡܐ ܐܘ ܟܝܬ ܩܢܘܢܐ̣ ܕܣܘܢܗܕܘܣ ܩܕܝܫܬܐ ܕܒܐܦܣܘܣ
+                                                                     ܐܬܟ̣ܢܫܬ. ܩܕܡ ܟܠܡܕܡ ܬ̇ܚܡ̣ܬ ܣܘܗܢܕܘܣ̣ <span class="tei-foreign" xml:lang="en" lang="en" dir="ltr">(sic)</span> ܕܗܝܡܢܘܬܐ ܐܚܪܬܐ̣ ܠܐ ܗܘ̣ܬ
+                                                                     ܫܠܝܛ ܠܐܢܫ ܠܡܚܘܝܘ ܐܘ ܠܡܟܬܒ ܐܘ ܠܡܣܡܘܿ. ܠܒܪ ܡܢ ܗ̇ܝ ܕܐܬܬ̣ܚܡܬ ܡܢ
+                                                                     ܐ̈ܒܗܬܐ ܩ̈ܕܝܫܐ ܗܠܝܢ ܕܒܢܝܩܝܐ ܐܬܟܢܫܘ ܥܡ ܪܘܚܐ ܩܕܝܫܐ. ܠܗܠܝܢ ܕܝܢ
+                                                                     ܕܡܡܪܚܝܢ ܠܡܣܡ ܗܝܡܢܘܬܐ ܐܚܪܬܐ܆ ܐܘ ܠܡܦܩܘ ܐܘ ܠܡܚܘܝܘ ܠܐܝܠܝܢ ܕܒ̇ܥܝܢ
+                                                                     ܠܡܬܦܢܝܘ ܠܘܬ ܝܕܥܬܐ ܕܫܪܪܐ: ܐܘ ܡܢ ܚܢܦܘܬܐ ܐܘ ܡܢ ܝܗܘܕܝܘܬܐ: ܐܘ ܡܢ
+                                                                     ܗܪܣܝܣ ܐܝܕܐ ܕܗ̣ܝ̣. ܗܠܝܢ ܐܢ ܡ̇ܢ ܐܝܬܝܗܘܢ ܐ̈ܦܝܣܩܘܦܐ ܐܘ ܩܠܝܪ̈ܝܩܘܼ.
+                                                                     ܗܘ̣ܘ ܐܝܬܝܗܘܢ ܢܘܟܪ̈ܝܐ ܐ̈ܦܝܣܩܦܐ ܠܐܦܝܣܩܦܘܬܗܘܢ̣ ܘܩܠܝܪ̈ܝܩܘ ܠܩܠܝܪܘܣ.
+                                                                     ܐܢ ܕܝܢ ܒ̈ܢܝ ܥܠܡܐ ܐܝܬܝܗܘܢ̣ ܗ̣ܘܘ ܡܚܪ̈ܡܝܢ</span></span><span class="tei-finalRubric"><span class="inline-h4"> 
+                                                                     Subscription  (Fol. 29b): </span><span xml:lang="syr" lang="syr" dir="rtl">
+                                                                     ܫܠܡܘ ܟܠܗܘܢ ܩ̈ܢܘܢܐ ܕܫ̈ܠܝܚܐ ܘܕܟܠܗܝܢ
+                                                                     ܣܘܢܗ̈ܕܣ ܗܠܝܢ ܕܗܪܟܐ܀ ܗ̇ܘܝܢ ܕܝܢ ܟܠܗܘܢ̣ ܗܟܢܐ. ܕܢܝܩܝܐ̣ ܥܣܪ̈ܝܢ.
+                                                                     ܕܐܢܩܘܪܐ ܥܣܪ̈ܝܢ ܘܐܪ̈ܒܥܐ. ܏ܘܫ. ܕܗ̇ܘܝܢ ܟܠܗܘܢ ܟܢܝܫܐܝܬ݂. ܣܛܪ ܡܢ ܗܠܝܢ
+                                                                     ܕܫ̈ܠܝܚܐ ܩ̈ܕܝܫܐ̣. ܡܐܐ ܘܫܬܝ̣ܢ ܘܫ̈ܒܥܐ. ܗܠܝ̣ܢ ܕܝܠܗܝܢ ܕܣܘܢܗܕܘܣ</span></span></div>
+                                                         </div>
+                                                         <div class="tei-msItem"><span class="inline-h4">Item 29 (Fol. 29b): </span>Timothy of Alexandria. Questions addressed to Timothy of Alexandria, with his replies
+                                                            <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                                     <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܫܐܘ̈ܠܐ ܕܐ̇ܬܩܪ̈ܒܘ ܠܩܕܝܫܐ ܡܪܝ ܛܝܡܬܐܘܣ ܐܦܝܣܩܦܐ
+                                                                     ܕܐܠܟܣܢܕܪܝܐ̣ ܡܢ ܩܠܝܪ̈ܝܩܘ ܕܝܠܗ.</span></span><div class="msItem-notes"><span class="inline-h4">Notes:</span><ul>
+                                                                     <li>See Renaudot, Hist. Patr. Alexandria Jacob., p. 101.</li>
+                                                                     <li>See Labbe, t. ii., coll. 1571, seqq., as far as Interrogatio xv.</li>
+                                                                  </ul>
+                                                               </div>
+                                                            </div>
+                                                         </div>
+                                                         <div class="tei-msItem"><span class="inline-h4">Item 30 (Fol. 30b): </span>Rabūlas, bishop of Edessa. Canons of Rabūlas, bishop of Edessa
+                                                            
+                                                            <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                                     <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܩ̈ܢܘܢܐ̣. ܕܡܪܝ ܪܒܘܠܐ ܐܦܝܣܩܘܦܐ ܕܐܘܪܗܝ</span></span><div class="msItem-notes"><span class="inline-h4">Notes:</span><ul>
+                                                                     <li>8 in number</li>
+                                                                     <li>See Overbeck, S. Ephraemi Syri etc. Opera Selecta, Oxon., 1805, p. 210.</li>
+                                                                  </ul>
+                                                               </div>
+                                                            </div>
+                                                         </div>
+                                                         <div class="tei-msItem"><span class="inline-h4">Item 31 (Fol. 31a): </span>John, bishop of Tellā. Canons of John, bishop of Tellā
+                                                            
+                                                            <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                                     <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܩ̈ܢܘܢܐ ܕܛܘܒܢܐ ܡܪܝ ܝܘܚܢܢ ܐܦܝܣܩܘܦܐ ܕܬ̇ܠ̣ܐ</span></span><div class="msItem-notes"><span class="inline-h4">Notes:</span><ul>
+                                                                     <li>Here are included Canons 2, 3, 4, 5, 6, 7, 9, 10, 12,
+                                                                        13, 14, and 25.
+                                                                     </li>
+                                                                     <li>See Assemani, Bibl. Or., t. ii., pp. 53, 54.</li>
+                                                                  </ul>
+                                                               </div>
+                                                            </div>
+                                                         </div>
+                                                         <div class="tei-msItem"><span class="inline-h4">Item 32 (Fol. 32b): </span>Canons of the Council of Chalcedon
+                                                            
+                                                            <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                                     <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܩ̈ܢܘܢܐ ܕܣܘܗܕܘܣ <span class="tei-foreign" xml:lang="en" lang="en" dir="ltr">(sic)</span> ܕܒܟܠܩܝܕܘܢܐ. ܣܘܢܗܕܘܣ
+                                                                     ܕܒܟܠܩܝܕܘܢܐ ܐܬ݂ܟܢܫܬ݂ ܡܢ ܗܘܦܪ̈ܟܝܘܣ ܡ̈ܫܚܠܦܬܐ̣. ܬ̇ܚܡ̣ܬ ܗܠܝܢ ܕܟܬ̈ܝܒܝܢ
+                                                                     ܡܢ ܠܬܚܬ̣. ܒܥܣܪܝܢ ܘܚܡܫܐ ܒܬܫܪܝ ܩܕܝܡ̇. ܕܫܢܬ ܫܒܥܡܐܐ ܘܫܬܝܢ ܘܬ̈ܠܬ̇.
+                                                                     ܕܐܠܟܣܢܕܪܘܣ ܒܪ ܦܝܠܝܦܘܣ ܡ̇ܩܕܘܢܝܐ. ܩ̈ܢܘܢܐ ܥܣܪ̈ܝܢ ܘܫܒ̈ܥܐ</span></span><div class="msItem-notes"><span class="inline-h4">Notes:</span><ul>
+                                                                     <li>27 in number.</li>
+                                                                     <li>See Labbe, t. iv., coll. 1681, seqq.
+                                                                        
+                                                                     </li>
+                                                                  </ul>
+                                                               </div>
+                                                            </div>
+                                                         </div>
+                                                         <div class="tei-msItem"><span class="inline-h4">Item 33 (Fol. 36a): </span>The Creeds of the Councils of
+                                                            Chalcedon,
+                                                            Nicaea, and
+                                                            Constantinople
+                                                            
+                                                            <div class="msItemChild"></div>
+                                                         </div>
+                                                         <div class="tei-msItem"><span class="inline-h4">Item 34 (Fol. 38a): </span>A brief account of the Councils of
+                                                            Nicaea,
+                                                            Constantinople,
+                                                            Ephesus, and
+                                                            Chalcedon, giving the date of each
+                                                            and the reason of its being assembled
+                                                            <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                                     <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܫܘܘܕܥܐ ܕܝܠܗܝܢ ܕܣܘ̈ܢܕܘܣ <span class="tei-foreign" xml:lang="en" lang="en" dir="ltr">(sic)</span> ܗܠܝܢ</span></span></div>
+                                                         </div>
+                                                         <div class="tei-msItem"><span class="inline-h4">Item 35 (Fol. 38): </span>List of the Emperors of
+                                                            Constantinople, beginning with
+                                                            Constantine the Great, and ending with
+                                                            Constantine the son of
+                                                            Heraclius, A.D.
+                                                            641
+                                                            
+                                                            <div class="msItemChild"></div>
+                                                         </div>
+                                                      </div>
+                                                   </div>
+                                                   </span></div>
+                                          </div>
+                                       </div>
+                                    </div>
+                                 </div>
+                                 <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                       <h2 class="panel-title" data-toggle="collapse" data-target="#msPartPart1Additions">Additions </h2>
+                                    </div>
+                                    <div id="msPartPart1Additions" class="panel-collapse collapse in">
+                                       <div class="panel-body">
+                                          <div class="msDesc">
+                                             <div class="indent">
+                                                
+                                                
+                                                <div class="tei-item"><span class="inline-h4">Addition 1</span><strong> (Fol. 39a)</strong>:
+                                                   <span class="tei-p">On fol. 39 a there is a long note, of which, unfortunately,
+                                                      the most important part has been erased, and various words
+                                                      altered. The offender in this case was the <span class="tei-persName">abbat
+                                                         Moses of <span class="tei-placeName">Nisibis</span>
+                                                         </span> (<span class="tei-date">A.D. 932</span>), who
+                                                      states that the book was procured by him, for the
+                                                      <span class="tei-placeName">convent of S. Mary Deipara</span>, from
+                                                      the monks <span class="tei-persName">Mārūthā</span>,
+                                                      <span class="tei-persName">Athanasius</span> and
+                                                      <span class="tei-persName">Marcus</span>.</span><span class="tei-p">
+                                                      <span class="tei-quote" lang="syr">ܐܝܬܘܗܝ ܟܬܒܐ ܗܢܐ ܕܢܟ̈ܦܐ ܘܡܝܬܪ̈ܐ ܘܪ̈ܚܡܝ <span class="tei-foreign" lang="en">(originally <span class="tei-foreign" lang="syr">ܕܢܟܦܐ ܘܡܝܬܪܐ ܘܪܚ̇ܡ</span>)</span> ܠܡܫܝܚܐ
+                                                         [ܡܪܘܬܐ <span class="tei-foreign" lang="en">(orig. <span class="tei-foreign" lang="syr">ܡܪܝ</span>)</span> ܘܐܬܢܣ ܘܡܪܩܘܣ ܕܝܪ̈ܝܐ ܟ̈ܚܝܕܐ. ܩܢܝܗܝ ܕܝܢ
+                                                         ܠܕܝܪܐ ܕܝܠܕܬ ܐܠܗܐ ܕܣܘܪ̈ܝܝܐ ܕܒܡܕܒܪܐ ܕܐܣܩ̈ܝܛܐ ܡܘܫܐ ܢܨܝܒܢܝܐ
+                                                         ܪܝܫܕܝܪܐ ܕܐܠܗܐ ܢܚܣܐ ܠܗ ܘܠܟܠ ܕܐܫܬܘܬܦ ܒܗ ܘܚܪܡܗ ܕܐܠܗܐ ܢܗܘܐ
+                                                         ܥܠ ܟܠ ܕܡܘܒܕ ܐܘ ܡܫܓܢܐ ܠܗ ܡܢ ܕܝܪܐ] ܕܐܠܗܐ ܗ̇ܘ ܕܡܛܠ ܫܡܗ
+                                                         ܩܕܝܫܐ. ܐܬܚܦܛܘܢ ܘܐܠܐܘܢ ܘܣ̣ܡܘܢ <span class="tei-foreign" lang="en">(orig. <span class="tei-foreign" lang="syr">ܘܐܬܚܦܛ ܘܐܠܐܝ ܘܣܡ</span>)</span>
+                                                         ܣܝܡܬܐ ܗܕܐ ܪܘܚܢܝܬܐ ܗ̣ܘ ܢܫܘܐ ܐܢܘܢ <span class="tei-foreign" lang="en">(orig. <span class="tei-foreign" lang="syr">ܢܫܘܝܘܗܝ</span>)</span> ܠܗ̇ܝ ܒܪܬ
+                                                         ܩܠܐ ܕܐܡܪܐ .. ܕܬܘ ܥܘܠܘ ܒܪ̈ܝܟܘܗܝ ܕܐܒܝ ܏ܘܫ ܘܠܥܢ̈ܝܕܝܗܘܢ
+                                                         <span class="tei-foreign" lang="en">(orig. <span class="tei-foreign" lang="syr">ܘܠܥܢܝ̈ܕܘܗܝ</span>)</span> ܢܥ̣ܒܕ ܕܘܟܪܢܐ ܛ̇ܒܐ ܒܨ̈ܠܘܬܐ ܕܝܠܕܬ ܐܠܗܐ
+                                                         ܡܪܝܡ ܠܥܠܡܝܢ ܐܡܢ <span class="tei-foreign" lang="en">(sic)</span> ܀ ܟܠ ܡ̇ܢ ܕܝܢ ܕܫ̇ܩܠ ܠܗ ܠܟܬܒܐ ܗܢܐ
+                                                         ܕܢܩܪܐ ܒܗ ܐܘ ܕܢܟܬܘܒ ܡܢܗ ܐܘ ܕܢܦܚܡ ܡܢܗ ܐܘ ܒܐܝ̇ܕܐ ܕܗ̣ܝ ܥܠܬܐ
+                                                         ܘܟܐ̇ܡ ܥܠܘܗܝ ܬܚܝܬ ܚܪܡܐ ܕܐܠܗܐ ܐܝܬܘܗܝ ܥܕܡܐ ܕܡ̇ܦܢܐ ܠܗ ܠܕܝܪܐ
+                                                         ܕܐܡܝܪܐ <span class="tei-foreign" lang="en">(orig. <span class="tei-foreign" lang="syr">ܠܡܪܗ ܕܐܡܝܪ</span>)</span> ܘܟܠ ܡ̇ܢ ܕܩܛ̇ܥ ܐܘ ܓ̇ܪܕ ܐܘ ܠܚܐ
+                                                         ܡܕܡ ܡܢ ܥܘܗܕܢܐ ܗܢܐ ܬܗܘܐ ܠܗ ܡܢܬܐ ܥܡ ܡܚ̈ܠܨܝ <span class="tei-foreign" lang="en">(orig. <span class="tei-foreign" lang="syr">ܡܚܨ̈ܝ</span>)</span> ܒܝܬ ܩܘܕܫܐ ܘܥܡ ܝܗ̈ܘܕܝܐ ܕܨܠܒܘ ܠܡܫܝܚܐ ܐܡܝܢ ܘܐܡܝܢ ܘܗܠܝܢ ܠܟܪܝܣܛܝܢܐ ܣ̈ܦܩܢ</span>
+                                                      </span></div>
+                                                
+                                                
+                                             </div>
+                                          </div>
+                                       </div>
+                                    </div>
+                                 </div>
+                                 <div class="msPart"></div>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+                  <div xmlns:x="http://www.w3.org/1999/xhtml" xmlns:local="http://syriaca.org/ns" id="msPart2" class="msContent">
+                     <div class="panel-group">
+                        <div class="panel panel-default">
+                           <div class="panel-heading">
+                              <h2 class="panel-title" data-toggle="collapse" data-target="#panelmsPartPart2"><span class="anchor" id="msPartPart2"></span><span class="shelfmark"><span class="tei-idno">Add. 14,526, foll. 40–47</span></span></h2>
+                           </div>
+                           <div id="panelmsPartPart2" class="panel-collapse collapse in">
+                              <div class="panel-body">
+                                 <div class="msDesc">
+                                    <div class="header section">
+                                       <div class="tei-note">
+                                          <div>URI: <span class="tei-idno">https://bl.syriac.uk/ms/251</span></div>
+                                          <div>
+                                             Description based on Wright
+                                             <a href="#" data-toggle="tooltip" title="This entry number is from Wright's printed catalogue. Due to renumbering, Wright's entry numbers do not match the numbering used in this digital catalogue."><span class="tei-idno">DCCCCVIII</span></a>
+                                             (<span class="tei-citedRange">2:1036</span>)
+                                             <a href="https://archive.org/details/catalogueofsyria02brituoft/page/1036" target="_blank"><img src="/resources/images/ialogo.jpg" alt="Link to Archive.org Bibliographic record" height="18px" /></a></div>
+                                          <div>
+                                             Date: 
+                                             AD 641
+                                          </div>
+                                          <div>Estrangela script ܀  Parchment Codex, 8 leaves.
+                                             
+                                          </div>
+                                          <div></div>
+                                          <div>
+                                             Wright's Subject Classification:
+                                             Councils of the Church and Ecclesiastical Canons
+                                          </div>
+                                       </div>
+                                       <div class="tei-note"><span>This manuscript contains: A Synopsis of the Canons of the Apostles and the principal
+                                             Councils, arranged under 51 heads; The Canons of the Apostles, as far as ܢܛ. In total,
+                                             including sub-sections, this manuscript contains 2 items.</span></div>
+                                    </div>
+                                 </div>
+                                 <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                       <h2 class="panel-title" data-toggle="collapse" data-target="#msPartPart2PhysDesc">Physical Description </h2>
+                                    </div>
+                                    <div id="msPartPart2PhysDesc" class="panel-collapse collapse in">
+                                       <div class="panel-body">
+                                          <div class="msDesc">
+                                             <div class="tei-physDesc">
+                                                <div class="indent">
+                                                   <p>Vellum, about 9 5/8 in. by 6, consisting of 8 leaves (Add. 14,526, foll. 40—47), the
+                                                      first two of which are much stained and torn. Each page is divided into two columns,
+                                                      of from 33 to 38 lines. The contents are identical with a portion of those of <a href="">the preceding number</a>.
+                                                   </p><span class="tei-handDesc">
+                                                      
+                                                      <div name="p2handNote1"><span class="inline-h4">Hand 1 (major, Estrangela script): </span>
+                                                         The writing is a fine, regular Estrangělā of the viiith cent.
+                                                         
+                                                      </div>
+                                                      </span></div>
+                                             </div>
+                                          </div>
+                                       </div>
+                                    </div>
+                                 </div>
+                                 <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                       <h2 class="panel-title" data-toggle="collapse" data-target="#msPartPart2Contents">Contents</h2>
+                                    </div>
+                                    <div id="msPartPart2Contents" class="panel-collapse collapse in">
+                                       <div class="panel-body">
+                                          <div class="msContent">
+                                             <p class="summary indent">This manuscript contains 2 item(s). N.B. Items were re-numbered for this online catalog and may not reflect William
+                                                Wright's previous numeration.
+                                             </p>
+                                             <div class="indent"><span class="tei-msContents">
+                                                   
+                                                   
+                                                   <div class="tei-msItem"><span class="inline-h4">Item 1 (Fol. 40b): </span>A Synopsis of the Canons of the Apostles and the principal Councils, arranged under
+                                                      51 heads
+                                                      <div class="msItemChild">
+                                                         <div class="msItem-notes"><span class="inline-h4">Note: </span>The prefatory section is omitted.
+                                                         </div>
+                                                      </div>
+                                                   </div>
+                                                   
+                                                   <div class="tei-msItem"><span class="inline-h4">Item 2 (Fol. 44b): </span>The Canons of the Apostles, as far as <span class="tei-foreign" lang="syr">ܢܛ</span>
+                                                      
+                                                      <div class="msItemChild"></div>
+                                                   </div>
+                                                   </span></div>
+                                          </div>
+                                       </div>
+                                    </div>
+                                 </div>
+                                 <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                       <h2 class="panel-title" data-toggle="collapse" data-target="#msPartPart2Additions">Additions </h2>
+                                    </div>
+                                    <div id="msPartPart2Additions" class="panel-collapse collapse in">
+                                       <div class="panel-body">
+                                          <div class="msDesc">
+                                             <div class="indent">
+                                                
+                                                
+                                                <div class="tei-item"><span class="inline-h4">Addition 1</span><strong> (Fol. 40a)</strong>:
+                                                   <span class="tei-p">Fol. 40 a seems originally to have contained some chronological notes, for we can
+                                                      still read near the top the words <span class="tei-quote" lang="syr">ܘܒܫܢܬ ܫܒܥܡܐܐ ܘܚܡܫ</span>, and lower down the words  <span class="tei-quote" lang="syr">ܡܢ ܥܝܕܬܐ <span class="tei-foreign" lang="en">(sic)</span> ܕܐܘܪܗܝ . ܒܪܕܘܦܝܐ . . . ܫܬܡܐܐ ܘܬܡܢܝܢ ܘܬܫܥ . . .</span> 
+                                                      </span></div>
+                                                
+                                                <div class="tei-item"><span class="inline-h4">Addition 2</span><strong> (Fol. 40a)</strong>:
+                                                   <span class="tei-p">
+                                                      <span class="tei-ref">The entries on fol. 40 a</span> have, however, been erased, and some words in Karshūnī written over them, of which
+                                                      the half has been torn away.</span></div>
+                                                
+                                                
+                                             </div>
+                                          </div>
+                                       </div>
+                                    </div>
+                                 </div>
+                                 <div class="msPart"></div>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+                  <div class="citationinfo">
+                     <h3>How to Cite This Entry</h3>
+                     <div id="citation-note" class="content-block indent"><span> William Wright</span> et al., “<span class="title-analytic">London, BL, Add. 14526</span>” in <span class="title-monographic">A Digital Catalogue of Syriac Manuscripts in the British Library</span>,  last modified April 21, 2023, <a href="https://bl.syriac.uk/ms/249">https://bl.syriac.uk/ms/249</a>.
+                        <div class="collapse" id="showcit">
+                           <div id="citation-bibliography">
+                              <h4>Bibliography:</h4><span class="editor">William Wright</span> et al., “<span class="title-analytic">London, BL, Add. 14526</span>.” In <span class="title-monographic">A Digital Catalogue of Syriac Manuscripts in the British Library</span>, edited by . Syriaca.org: The Syriac Reference Portal,
+                              2023.
+                               Entry published April 21, 2023. <a href="https://bl.syriac.uk/ms/249">https://bl.syriac.uk/ms/249</a>.
+                           </div>
+                           <div id="about">
+                              <h3>About this Entry</h3>
+                              <p><span class="heading-inline">Entry Title:</span> <span class="title-analytic">London, BL, Add. 14526</span></p>
+                              <div>
+                                 <h4>Authorial and Editorial Responsibility:</h4>
+                                 <ul>
+                                    <li><span> David A. Michelson</span>, general editor, Syriaca.org: The Syriac Reference Portal
+                                    </li>
+                                    <li>, editor, <span class="title-monographic">A Digital Catalogue of Syriac Manuscripts in the British Library</span></li>
+                                    <li>William Wright, David A. Michelson, Robert Aydin, Emma Claire Geitner, and Justin Arnwine, entry contributors, “<span class="title-analytic">London, BL, Add. 14526</span>”
+                                    </li>
+                                 </ul>
+                              </div>
+                              <div>
+                                 <h4>Additional Credit:</h4>
+                                 <ul>
+                                    <li>Created by <span> Emma Claire Geitner</span></li>
+                                    <li>Based on the work of <span> William Wright</span></li>
+                                    <li>Edited by <span> William L. Potter</span></li>
+                                    <li>Syriac text entered by <span> Robert Aydin</span></li>
+                                    <li>Greek and coptic text entry and proofreading by <span> Ryan Stitt</span></li>
+                                    <li>Project management by <span> Lindsay Ruth</span></li>
+                                    <li>English text entry and proofreading by <span> Syriac Research Group, University of Alabama</span></li>
+                                    <li>Locus information for manuscript items added by <span> Ziyan Zhang</span></li>
+                                    <li>Syriaca.org URIs for authors edited by <span> Justin Arnwine</span></li>
+                                    <li>Syriaca.org URIs for authors checked by <span> Alexys Ahn</span><span> Joseph DAlfonso</span></li>
+                                    <li>Folio extent edited by <span> Kurt Urban</span></li>
+                                 </ul>
+                              </div>
+                           </div>
+                           <div id="license">
+                              <h3>Copyright and License for Reuse</h3>
+                              <div>Except otherwise noted, this page is © 2023.
+                                 
+                              </div><span class="tei-licence">
+                                 
+                                 <p>Distributed under a Creative Commons Attribution 3.0 Unported License</p>
+                                 </span></div>
+                        </div><a class="btn-sm btn-info togglelink pull-right" data-toggle="collapse" data-target="#showcit" data-text-swap="Hide citation">Show full citation information...</a></div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </body><script type="text/javascript" src="/resources/js/jquery.validate.min.js"></script><script type="text/javascript" src="/resources/js/require.min.js"></script><script type="text/javascript" src="/resources/js/srophe.js"></script><script data-template="app:google-analytics"></script></html>

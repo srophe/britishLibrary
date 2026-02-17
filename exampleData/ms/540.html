@@ -1,0 +1,683 @@
+<?xml version="1.0" encoding="UTF-8"?><html xmlns="http://www.w3.org/1999/xhtml" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:srophe="https://srophe.app">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <title>London, BL, Add. 14684</title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <meta name="DC.type" property="dc.type" content="Text" />
+      <meta name="DC.isPartOf" property="dc.ispartof" content="Syriaca.org: The Syriac Reference Portal" />
+      <link data-template="app:metadata" />
+      <link rel="shortcut icon" href="/resources/images/fav-icons/mss-favicon.ico" />
+      <link rel="stylesheet" type="text/css" href="/resources/bootstrap/css/bootstrap.min.css" />
+      <link rel="stylesheet" type="text/css" href="/resources/css/sm-core-css.css" />
+      <link rel="stylesheet" type="text/css" href="/resources/css/syr-icon-fonts.css" />
+      <link rel="stylesheet" type="text/css" href="/resources/css/style.css" />
+      <link rel="stylesheet" type="text/css" href="/resources/css/syriaca.css" />
+      <link rel="stylesheet" type="text/css" media="print" href="/resources/css/print.css" />
+      <link rel="stylesheet" href="/resources/leaflet/leaflet.css" />
+      <link rel="stylesheet" href="/resources/leaflet/leaflet.awesome-markers.css" />
+      <link href="/resources/jquery-ui/jquery-ui.min.css" rel="stylesheet" /><script type="text/javascript" src="/resources/js/jquery.min.js"></script><script type="text/javascript" src="/resources/jquery-ui/jquery-ui.min.js"></script><script type="text/javascript" src="/resources/js/jquery.smartmenus.min.js"></script><script type="text/javascript" src="/resources/js/clipboard.min.js"></script><script type="text/javascript" src="/resources/bootstrap/js/bootstrap.min.js"></script><script defer="defer" data-domain="bl.syriac.uk" src="https://plausible.io/js/script.js"></script><link href="/resources/keyboard/css/keyboard.min.css" rel="stylesheet" />
+      <link href="/resources/keyboard/css/keyboard-previewkeyset.min.css" rel="stylesheet" />
+      <link href="/resources/keyboard/syr/syr.css" rel="stylesheet" /><script type="text/javascript" src="/resources/keyboard/syr/jquery.keyboard.js"></script><script type="text/javascript" src="/resources/keyboard/js/jquery.keyboard.extension-mobile.min.js"></script><script type="text/javascript" src="/resources/keyboard/js/jquery.keyboard.extension-navigation.min.js"></script><script type="text/javascript" src="/resources/keyboard/syr/jquery.keyboard.extension-autocomplete.js"></script><script type="text/javascript" src="/resources/keyboard/syr/keyboardSupport.js"></script><script type="text/javascript" src="/resources/keyboard/syr/syr.js"></script><script type="text/javascript" src="/resources/keyboard/layouts/ms-Greek.min.js"></script><script type="text/javascript" src="/resources/keyboard/layouts/ms-Russian.min.js"></script><script type="text/javascript" src="/resources/keyboard/layouts/ms-Arabic.min.js"></script><script type="text/javascript">
+            $(document).ready(function () {
+                $('[data-toggle="tooltip"]').tooltip({ container: 'body' })
+
+                $('.keyboard').keyboard({
+                    openOn: null,
+                    stayOpen: false,
+                    alwaysOpen: false,
+                    autoAccept: true,
+                    usePreview: false,
+                    initialFocus: true,
+                    rtl : true,
+                    layout: 'syriac-phonetic',
+                    hidden: function(event, keyboard, el){
+                       //  keyboard.destroy();
+                     }
+                });
+
+                $('.keyboard-select').click(function () {
+                    var keyboardID = '#' + $(this).data("keyboard-id")
+                    var kb = $(keyboardID).getkeyboard();
+                    //var kb = $('#searchField').getkeyboard();
+                    // change layout based on link ID
+                    kb.options.layout = this.id
+                    // open keyboard if layout is different, or time from it last closing is &gt; 200 ms
+                    if (kb.last.layout !== kb.options.layout || (new Date().getTime() - kb.last.eventTime) &gt; 200) {
+                        kb.reveal();
+                    }
+                });
+                //Change fonts
+                $('.swap-font').on('click', function(){
+                    var selectedFont = $(this).data("font-id")
+                    $('.selectableFont').not('.syr').css('font-family', selectedFont);
+                    $("*:lang(syr)").css('font-family', selectedFont)
+                });
+
+            })
+        </script></head>
+   <body id="body">
+      <nav class="navbar navbar-default navbar-fixed-top" role="navigation" data-template="app:fix-links">
+         
+         <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse-1">
+               <span class="sr-only">Toggle navigation</span>
+               <span class="icon-bar"></span>
+               <span class="icon-bar"></span>
+               <span class="icon-bar"></span>
+               </button>
+            <a class="navbar-brand banner-container" href="/index.html">
+               <span class="syriaca-icon syriaca-mss banner-icon"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span>
+                  </span>
+               <span class="banner-text">Syriac Manuscripts in the British Library</span>
+               </a>
+            
+         </div>
+         
+         <div class="navbar-collapse collapse pull-right" id="navbar-collapse-1">
+            
+            <ul class="nav navbar-nav">
+               
+               <li>
+                  <a href="/browse.html" class="nav-text">Browse</a>
+                  
+               </li>
+               
+               <li data-template="app:shared-content" data-template-path="/templates/shared-links.html"></li>
+               
+               <li>
+                  <a href="/search.html" class="nav-text">Advanced Search</a>
+                  
+               </li>
+               
+               <li>
+                  
+                  <div id="search-wrapper">
+                     
+                     <form class="navbar-form navbar-right search-box" role="search" action="/search.html" method="get">
+                        
+                        <div class="form-group">
+                           <input type="text" class="form-control keyboard" placeholder="search" name="keyword" id="keywordNav" />
+                           <span data-template="app:keyboard-select-menu" data-template-input-id="keywordNav"></span>
+                           <button class="btn btn-default search-btn" id="searchbtn" type="submit" title="Search">
+                              <span class="glyphicon glyphicon-search"></span>
+                              </button>
+                           
+                        </div>
+                        
+                     </form>
+                     
+                  </div>
+                  
+               </li>
+               
+               <li data-template="app:shared-content" data-template-path="/templates/fontMenu.html"></li>
+               
+            </ul>
+            
+         </div>
+         
+      </nav>
+      <div class="main-content-block">
+         <div class="interior-content">
+            <div class="container otherFormats"><a href="mailto:bl.syriac.uk@gmail.com?subject=Shelf mark: Record URI: " type="button" class="btn btn-default btn-xs" data-toggle="tooltip" title="Click to report a correction via e-mail."><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span> Corrections
+                  </a> <a href="https://github.com/srophe/britishLibrary-data/issues/new?assignees=&amp;labels=community-submitted&amp;title=:" target="_blank" id="issueBtn" data-toggle="tooltip" class="btn btn-default btn-xs" title="Click to file a data issue on GitHub (requires login)."><span class="glyphicon glyphicon-record" aria-hidden="true"></span> Open
+                  </a> <a href="https://github.com/srophe/britishLibrary-data/blob/main/data/tei/540.xml" target="_blank" class="btn btn-default btn-xs" id="openBtn" data-toggle="tooltip" title="Click to view the TEI XML data for this record."><img src="/resources/images/github-mark.png" height="18px" /></a> <a href="javascript:window.print();" type="button" class="btn btn-default btn-xs" id="printBtn" data-toggle="tooltip" title="Click to send this page to the printer."><span class="glyphicon glyphicon-print" aria-hidden="true"></span> 
+                  </a> 
+            </div>
+            <div class="row">
+               <div class="col-md-12">
+                  <div xmlns:x="http://www.w3.org/1999/xhtml" xmlns:local="http://syriaca.org/ns" class="title">
+                     <h1>Add. 14,684</h1>
+                  </div>
+                  <div xmlns:x="http://www.w3.org/1999/xhtml" xmlns:local="http://syriaca.org/ns" class="tei-note">
+                     <div>URI: <span class="tei-idno">https://bl.syriac.uk/ms/540</span></div>
+                  </div>
+                  <div xmlns:x="http://www.w3.org/1999/xhtml" xmlns:local="http://syriaca.org/ns" id="msTOC" class="mstoc">
+                     <ul>
+                        <li><a href="#msPart1">1. Add. 14,684, foll. 1–36
+                              (1100 - 1200 CE) 
+                              
+                              [https://bl.syriac.uk/ms/541]
+                              </a></li>
+                        <li><a href="#msPart2">2. Add. 14,684, foll. 37–117
+                              (1100 - 1300 CE) 
+                              
+                              [https://bl.syriac.uk/ms/542]
+                              </a></li>
+                     </ul>
+                  </div>
+                  <div xmlns:x="http://www.w3.org/1999/xhtml" xmlns:local="http://syriaca.org/ns" class="header section">
+                     <div class="tei-note">
+                        <div></div>
+                     </div>
+                     <div class="tei-note"><span>This manuscript record does not have a summary list of contents. For composite manuscripts,
+                           the list of contents can be found under each individual part.</span></div>
+                  </div>
+                  <div xmlns:x="http://www.w3.org/1999/xhtml" xmlns:local="http://syriaca.org/ns" id="msPart1" class="msContent">
+                     <div class="panel-group">
+                        <div class="panel panel-default">
+                           <div class="panel-heading">
+                              <h2 class="panel-title" data-toggle="collapse" data-target="#panelmsPartPart1"><span class="anchor" id="msPartPart1"></span><span class="shelfmark"><span class="tei-idno">Add. 14,684, foll. 1–36</span></span></h2>
+                           </div>
+                           <div id="panelmsPartPart1" class="panel-collapse collapse in">
+                              <div class="panel-body">
+                                 <div class="msDesc">
+                                    <div class="header section">
+                                       <div class="tei-note">
+                                          <div>URI: <span class="tei-idno">https://bl.syriac.uk/ms/541</span></div>
+                                          <div>
+                                             Description based on Wright
+                                             <a href="#" data-toggle="tooltip" title="This entry number is from Wright's printed catalogue. Due to renumbering, Wright's entry numbers do not match the numbering used in this digital catalogue."><span class="tei-idno">CLXVI</span></a>
+                                             (<span class="tei-citedRange">1:113</span>)
+                                             <a href="https://archive.org/details/catalogueofsyria01brituoft/page/113" target="_blank"><img src="/resources/images/ialogo.jpg" alt="Link to Archive.org Bibliographic record" height="18px" /></a></div>
+                                          <div>
+                                             Date: 
+                                             12th century
+                                          </div>
+                                          <div>West Syriac script (multiple hands) ܀  Paper Codex, 36 leaves.
+                                             
+                                          </div>
+                                          <div></div>
+                                          <div>
+                                             Wright's Subject Classification:
+                                             Punctuation
+                                          </div>
+                                       </div>
+                                       <div class="tei-note"><span>This manuscript contains: A work similar in character to the preceding, exhibiting
+                                             some of the books of the Old Testament, in the following order. In total, including
+                                             sub-sections, this manuscript contains 14 items.</span></div>
+                                    </div>
+                                 </div>
+                                 <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                       <h2 class="panel-title" data-toggle="collapse" data-target="#msPartPart1PhysDesc">Physical Description </h2>
+                                    </div>
+                                    <div id="msPartPart1PhysDesc" class="panel-collapse collapse in">
+                                       <div class="panel-body">
+                                          <div class="msDesc">
+                                             <div class="tei-physDesc">
+                                                <div class="indent">
+                                                   <p>Paper, about 7 1/4, in. by 4 7/8, consisting of 36 leaves, some of which
+                                                      are much stained and torn, especially foll.
+                                                      1—3, 14—17, and 23—26. The quires were originally 9 in number, the first
+                                                      five of which are now lost, with the exception of two leaves. They are
+                                                      signed with Syriac and Greek letters and arithmetical figures, thus: fol. 3
+                                                      <span class="tei-foreign" xml:lang="syr" lang="syr" dir="rtl">ܘ</span>; fol. 13,
+                                                      <span class="tei-foreign" xml:lang="syr" lang="syr" dir="rtl">ܙ</span>; and fol. 23,
+                                                      <span class="tei-foreign" xml:lang="syr" lang="syr" dir="rtl">ܚ</span>. There are from 18 to 20 lines in each
+                                                      page.
+                                                   </p><span class="tei-handDesc">
+                                                      
+                                                      <div name="p1handNote1"><span class="inline-h4">Hand 1 (major, West Syriac script): </span>
+                                                         This manuscript is written in a good, regular hand of the <span class="tei-date">xiith cent.</span>, and is fully pointed with Greek
+                                                         vowels (<span class="tei-foreign" lang="grc">ܰ</span>, <span class="tei-foreign" lang="grc">ܶ</span>, <span class="tei-foreign" lang="grc">ܺ</span>, <span class="tei-foreign" lang="grc">ܳ</span>, <span class="tei-foreign" lang="grc">ܽ</span>, , , , , , e.g. <span class="tei-foreign" lang="syr">ܢܰܚܫܝܺܘܗܝ</span>, <span class="tei-foreign" lang="syr">ܐܶܦܱܠܓ݂ܝܺܘܗܝ</span>, <span class="tei-foreign" lang="syr">ܚܶܘܬ݂ܐ</span>),
+                                                         rukkākh, kushshāi, etc.
+                                                      </div>
+                                                      
+                                                      <div name="p1handNote2"><span class="inline-h4">Hand 2 (minor, Unspecified Syriac script): </span>
+                                                         See additions.
+                                                         
+                                                      </div>
+                                                      </span></div>
+                                             </div>
+                                          </div>
+                                       </div>
+                                    </div>
+                                 </div>
+                                 <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                       <h2 class="panel-title" data-toggle="collapse" data-target="#msPartPart1Contents">Contents</h2>
+                                    </div>
+                                    <div id="msPartPart1Contents" class="panel-collapse collapse in">
+                                       <div class="panel-body">
+                                          <div class="msContent">
+                                             <p class="summary indent">This manuscript contains 14 item(s) including nested subsections. N.B. Items were re-numbered for this online catalog and may not reflect William
+                                                Wright's previous numeration.
+                                             </p>
+                                             <div class="indent"><span class="tei-msContents">
+                                                   
+                                                   
+                                                   <div class="tei-msItem"><span class="inline-h4">Item 1 (Fol. 1a): </span>A work similar in character to the preceding, exhibiting some of the books of
+                                                      the Old Testament, in the following order [defective]
+                                                      <div class="msItemChild">
+                                                         <div class="tei-msItem"><span class="inline-h4">Item 2 (Fol. 1a): </span>Ruth [defective]
+                                                            <div class="msItemChild"></div>
+                                                         </div>
+                                                         <div class="tei-msItem"><span class="inline-h4">Item 3 (Fol. 1a): </span>Susanna [defective]
+                                                            <div class="msItemChild"></div>
+                                                         </div>
+                                                         <div class="tei-msItem"><span class="inline-h4">Item 4 (Fol. 1b): </span>Esther [defective]
+                                                            <div class="msItemChild"></div>
+                                                         </div>
+                                                         <div class="tei-msItem"><span class="inline-h4">Item 5 (Fol. 2a): </span>Judith [defective]
+                                                            <div class="msItemChild"></div>
+                                                         </div>
+                                                         <div class="tei-msItem"><span class="inline-h4">Item 6 (Fol. 3a): </span>Isaiah
+                                                            <div class="msItemChild"></div>
+                                                         </div>
+                                                         <div class="tei-msItem"><span class="inline-h4">Item 7 (Fol. 10a): </span>The twelve minor Prophets
+                                                            <div class="msItemChild"></div>
+                                                         </div>
+                                                         <div class="tei-msItem"><span class="inline-h4">Item 8 (Fol. 10a): </span>Jeremiah
+                                                            <div class="msItemChild"><span class="tei-finalRubric"><span class="inline-h4"> 
+                                                                     Subscription : </span><span xml:lang="syr" lang="syr" dir="rtl">ܫܠܷܡ̣ܘ . ܫܡ̈ܳܗܷܐ . ܕܰܟܬܴܒܴܐ . ܕܶܐܪܱܡܝܳܐ</span></span><div class="tei-msItem"><span class="inline-h4">Item 9 (Fol. 23b): </span>The Lamentations
+                                                                  <div class="msItemChild">
+                                                                     <div class="msItem-notes"><span class="inline-h4">Note: </span>Appended to <a href="">Jeremiah</a>.
+                                                                     </div>
+                                                                  </div>
+                                                               </div>
+                                                               <div class="tei-msItem"><span class="inline-h4">Item 10 (Fol. 24a): </span>Baruch. The two Epistles of Baruch
+                                                                  
+                                                                  <div class="msItemChild">
+                                                                     <div class="msItem-notes"><span class="inline-h4">Note: </span>Appended to <a href="">Jeremiah</a>.
+                                                                     </div>
+                                                                  </div>
+                                                               </div>
+                                                               <div class="tei-msItem"><span class="inline-h4">Item 11 (Fol. 24b): </span>Jeremiah. The Epistle of Jeremiah
+                                                                  
+                                                                  <div class="msItemChild">
+                                                                     <div class="msItem-notes"><span class="inline-h4">Note: </span>Appended to <a href="">Jeremiah</a>.
+                                                                     </div>
+                                                                  </div>
+                                                               </div>
+                                                            </div>
+                                                         </div>
+                                                         <div class="tei-msItem"><span class="inline-h4">Item 12 (Fol. 25a): </span>Ezekiel
+                                                            <div class="msItemChild">
+                                                               <div class="msItem-notes"><span class="inline-h4">Note: </span>See <a href="">additions</a>.
+                                                               </div>
+                                                            </div>
+                                                         </div>
+                                                         <div class="tei-msItem"><span class="inline-h4">Item 13 (Fol. 30a): </span>Daniel
+                                                            <div class="msItemChild"></div>
+                                                         </div>
+                                                         <div class="tei-msItem"><span class="inline-h4">Item 14 (Fol. 32b): </span>The Psalms
+                                                            <div class="msItemChild"></div>
+                                                         </div>
+                                                      </div>
+                                                   </div>
+                                                   </span></div>
+                                          </div>
+                                       </div>
+                                    </div>
+                                 </div>
+                                 <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                       <h2 class="panel-title" data-toggle="collapse" data-target="#msPartPart1Additions">Additions </h2>
+                                    </div>
+                                    <div id="msPartPart1Additions" class="panel-collapse collapse in">
+                                       <div class="panel-body">
+                                          <div class="msDesc">
+                                             <div class="indent">
+                                                
+                                                <div class="tei-note"><span>N.B., items below may have been listed out of folio order in Wright's catalogue.</span></div>
+                                                
+                                                
+                                                <div class="tei-item"><span class="inline-h4">Addition 1</span><strong> (Fol. 30a)</strong>:
+                                                   <span class="tei-p">The subscription to <span class="tei-ref">Ezekiel</span> is repeated in Armenian capitals.</span></div>
+                                                
+                                                <div class="tei-item"><span class="inline-h4">Addition 2</span><strong> (Fol. 7b)</strong>:
+                                                   <span class="tei-p">The margins contain short notes by different hands, referring sometimes to
+                                                      grammatical points, e.g., fol. 7 b:</span><span class="tei-p">
+                                                      <span class="tei-quote" lang="syr">ܢܨܒ̣ܘܢ ܡܢ ܢܨܒܬܐ ܢܨܒ̇ܘܢ ܡܢ ܨܒܝܢܐ</span>
+                                                      </span></div>
+                                                
+                                                <div class="tei-item"><span class="inline-h4">Addition 3</span><strong> (Fol. 7a)</strong>:
+                                                   <span class="tei-p">Other marginal notes refer to readings of the <span class="tei-ref">Septuagint</span>, e.g., fol. 7 a:</span><span class="tei-p">
+                                                      <span class="tei-quote" lang="syr">ܥ܏ܒ</span>
+                                                      </span></div>
+                                                
+                                                <div class="tei-item"><span class="inline-h4">Addition 4</span><strong> (Fol. 9b)</strong>:
+                                                   <span class="tei-p">Other marginal notes are explanatory of difficult words, e.g., fol. 9 b, referring
+                                                      to <span class="tei-foreign" lang="syr">ܐܰܥܦܳܐ</span> is written marginally:</span><span class="tei-p">
+                                                      <span class="tei-quote" lang="syr">܏ܗ. ܚܕ ܬܪ̈ܝܢ</span>)
+                                                      </span></div>
+                                                
+                                                <div class="tei-item"><span class="inline-h4">Addition 5</span><strong> (Fol. 36a)</strong>:
+                                                   <span class="tei-p">On fol. 36a there are two notes, one of which seems to be of nearly the same
+                                                      age as the manuscript. It states that a certain <span class="tei-persName">Yeshūa’, the son of
+                                                         <span class="tei-persName">Rabban Sergius, of
+                                                            <span class="tei-placeName">Melitene</span>
+                                                            </span></span>, became the son-in-law
+                                                      of the writer in in the year <span class="tei-date">1474</span>, <span class="tei-date">A.D. 1163</span>.</span><span class="tei-p">
+                                                      <span class="tei-quote" lang="syr">ܒܫܢܬ ܐܠܦ ܘܐܪܒܥܡܐ ܘܫܒܥܝܢ ܘܐܪܒܥ ܗܘ̣ܐ ܠܢ ܚܬܢܐ ܒܪܝܟܐ ܝܫܘܥ ܒܪ
+                                                         ܪܒܢ ܣܪܓܝܣ ܡܢ ܡܝܠܝܛܝܢܝ. ܡܬ̇ܚ ܡܪܝܐ ܒܚ̈ܝܘܗܝ ܘܡܫܘܐ ܠܗ ܕܢ̣ܛܪ ܦܘ̈ܩܕܢܘܗܝ</span>
+                                                      </span></div>
+                                                
+                                                <div class="tei-item"><span class="inline-h4">Addition 6</span><strong> (Fol. 36a)</strong>:
+                                                   <span class="tei-p">The second note on fol. 36 a is of later date, and reads, "In the year <span class="tei-date">1500</span> (<span class="tei-date">A.D. 1189</span>) <span class="tei-persName">the
+                                                         Franks</span> went forth to <span class="tei-placeName">the country of Syria</span>. And in the year <span class="tei-date">1448</span> (<span class="tei-date">A.D. 1137</span>) <span class="tei-persName">the king of <span class="tei-persName">the Greeks</span>
+                                                         </span> went
+                                                      forth to <span class="tei-placeName">the land of Syria</span>."</span><span class="tei-p">
+                                                      <span class="tei-quote" lang="syr">ܒܫܢܬ ܐ̈ܠܦ ܏ܘܢـ ܕܝܘ̈ܢܝܐ̣. ܢܦ̣ܩܘ ܦܪ̈ܢܓܝܐ ܠܐܬܪܐ ܕܣܘܪܝܐ. ܘܒܫܢܬ
+                                                         ܐ̈ܠܦ ܏ܘܬ ܏ܘܡܚ܆ ܢܦ̣ܩ ܡ̇ܠ̣ܟܐ ܕܝܘ̈ܢܝܐ ܠܐܪܥܐ ܕܣܘܪܝܐ</span>
+                                                      </span></div>
+                                                
+                                                
+                                             </div>
+                                          </div>
+                                       </div>
+                                    </div>
+                                 </div>
+                                 <div class="msPart"></div>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+                  <div xmlns:x="http://www.w3.org/1999/xhtml" xmlns:local="http://syriaca.org/ns" id="msPart2" class="msContent">
+                     <div class="panel-group">
+                        <div class="panel panel-default">
+                           <div class="panel-heading">
+                              <h2 class="panel-title" data-toggle="collapse" data-target="#panelmsPartPart2"><span class="anchor" id="msPartPart2"></span><span class="shelfmark"><span class="tei-idno">Add. 14,684, foll. 37–117</span></span></h2>
+                           </div>
+                           <div id="panelmsPartPart2" class="panel-collapse collapse in">
+                              <div class="panel-body">
+                                 <div class="msDesc">
+                                    <div class="header section">
+                                       <div class="tei-note">
+                                          <div>URI: <span class="tei-idno">https://bl.syriac.uk/ms/542</span></div>
+                                          <div>
+                                             Description based on Wright
+                                             <a href="#" data-toggle="tooltip" title="This entry number is from Wright's printed catalogue. Due to renumbering, Wright's entry numbers do not match the numbering used in this digital catalogue."><span class="tei-idno">CLXIX</span></a>
+                                             (<span class="tei-citedRange">1:119-120</span>)
+                                             <a href="https://archive.org/details/catalogueofsyria01brituoft/page/119" target="_blank"><img src="/resources/images/ialogo.jpg" alt="Link to Archive.org Bibliographic record" height="18px" /></a></div>
+                                          <div>
+                                             Date: 
+                                             12th or 13th century
+                                          </div>
+                                          <div>West Syriac script (multiple hands) ܀  Paper Codex, 81 leaves.
+                                             
+                                          </div>
+                                          <div></div>
+                                          <div>
+                                             Wright's Subject Classification:
+                                             Punctuation
+                                          </div>
+                                       </div>
+                                       <div class="tei-note"><span>This manuscript contains: A work similar to the preceding, but comprising not only
+                                             biblical books, but also the works of several Greek Fathers and other writers. In
+                                             total, including sub-sections, this manuscript contains 25 items.</span></div>
+                                    </div>
+                                 </div>
+                                 <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                       <h2 class="panel-title" data-toggle="collapse" data-target="#msPartPart2PhysDesc">Physical Description </h2>
+                                    </div>
+                                    <div id="msPartPart2PhysDesc" class="panel-collapse collapse in">
+                                       <div class="panel-body">
+                                          <div class="msDesc">
+                                             <div class="tei-physDesc">
+                                                <div class="indent">
+                                                   <p>Paper, about 7 1/2 in. by 5, consisting of 81 leaves (Add. 14,684, foll.
+                                                      37—117), some of which are much stained and torn, especially foll. 110—112,
+                                                      and 117. The quires have been left without signatures. Leaves are wanting
+                                                      after foll. 110, 111, and 117. The number of lines in each page varies from
+                                                      19 to 25.
+                                                   </p><span class="tei-handDesc">
+                                                      
+                                                      <div name="p2handNote1"><span class="inline-h4">Hand 1 (major, West Syriac script): </span>
+                                                         This manuscript is written in a good, current hand of the <span class="tei-date">xiith or
+                                                            xiiith cent.</span>, with numerous Greek vowels, etc.
+                                                      </div>
+                                                      
+                                                      <div name="p2handNote2"><span class="inline-h4">Hand 2 (minor, Unspecified Syriac script): </span>
+                                                         See additions.
+                                                         
+                                                      </div>
+                                                      
+                                                      <div name="p2handNote3"><span class="inline-h4">Hand 3 (minor, Unspecified Greek script): </span>
+                                                         See additions.
+                                                         
+                                                      </div>
+                                                      </span></div>
+                                             </div>
+                                          </div>
+                                       </div>
+                                    </div>
+                                 </div>
+                                 <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                       <h2 class="panel-title" data-toggle="collapse" data-target="#msPartPart2Contents">Contents</h2>
+                                    </div>
+                                    <div id="msPartPart2Contents" class="panel-collapse collapse in">
+                                       <div class="panel-body">
+                                          <div class="msContent">
+                                             <p class="summary indent">This manuscript contains 25 item(s) including nested subsections. N.B. Items were re-numbered for this online catalog and may not reflect William
+                                                Wright's previous numeration.
+                                             </p>
+                                             <div class="indent"><span class="tei-msContents">
+                                                   
+                                                   
+                                                   <div class="tei-msItem"><span class="inline-h4">Item 1 (Fol. 37a): </span>A work similar to the preceding, but comprising not only biblical books, but also
+                                                      the works of several Greek Fathers and other writers
+                                                       [defective]
+                                                      <div class="msItemChild">
+                                                         <div class="msItem-notes"><span class="inline-h4">Notes:</span><ul>
+                                                               <li>See the passages of Bar-Hebræus quoted by Assemani, Bibl. Or., t. iii., pars. ii., pp. 937-8.</li>
+                                                               <li>See <a href="">additions</a>.
+                                                               </li>
+                                                            </ul>
+                                                         </div>
+                                                         <div class="tei-msItem"><span class="inline-h4">Item 2 (Fol. 37a): </span>The New Testament
+                                                            <div class="msItemChild">
+                                                               <div class="tei-msItem"><span class="inline-h4">Item 3 (Fol. 37a): </span>The Acts of the Apostles
+                                                                  
+                                                                  <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                                           <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܟܬܒܐ ܕܦܪܱܟܣܺܝܣ. ܕ܏ܝܒ. ܫܠܝ̈ܚܐ</span></span><div class="tei-msItem"><span class="inline-h4">Item 4 (Fol. 37a): </span>The three Catholic Epistles
+                                                                        <div class="msItemChild">
+                                                                           <div class="msItem-notes"><span class="inline-h4">Note: </span>Appended to <a href="">The Acts of the Apostles</a>.
+                                                                           </div>
+                                                                        </div>
+                                                                     </div>
+                                                                  </div>
+                                                               </div>
+                                                               <div class="tei-msItem"><span class="inline-h4">Item 5 (Fol. 39a): </span>S. Paul. The Epistles of S. Paul, in the usual order
+                                                                  <div class="msItemChild"></div>
+                                                               </div>
+                                                               <div class="tei-msItem"><span class="inline-h4">Item 6 (Fol. 43a): </span>The four Gospels, according to the Peshitta version
+                                                                  <div class="msItemChild"></div>
+                                                               </div>
+                                                               <div class="tei-msItem"><span class="inline-h4">Item 7 (Fol. 46a): </span>The four Gospels, according to the Harklensian version
+                                                                  <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                                           <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܡ̇ܫܠܡܢܘܬܐ ܕܬܐܘܡܐ</span></span></div>
+                                                               </div>
+                                                               <div class="tei-msItem"><span class="inline-h4">Item 8 (Fol. 48a): </span>The genealogies of our Saviour (S. Matthew, ch. i., and S. Luke, ch. iii.)
+                                                                  <div class="msItemChild"></div>
+                                                               </div>
+                                                            </div>
+                                                         </div>
+                                                         <div class="tei-msItem"><span class="inline-h4">Item 9 (Fol. 48a): </span>The Greek Doctors [defective]
+                                                            <div class="msItemChild">
+                                                               <div class="tei-msItem"><span class="inline-h4">Item 10 (Fol. 49a): </span>Dionysius the Areopagite. The writings of Dionysius the Areopagite, as translated
+                                                                  by Phocas bar Sergius of Edessa
+                                                                  
+                                                                  <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                                           <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܬܘܒ ܟܬܒܐ ܕܩܕܝܫܐ ܕܺܝܴܢܘܣܻܝܳܘܣ ܗ̇ܘ ܕܡܢ ܐܱܪܷܐܝܳܘܣ ܦܰܐܓܴܘܣ</span></span></div>
+                                                               </div>
+                                                               <div class="tei-msItem"><span class="inline-h4">Item 11 (Fol. 51a): </span>A list of the Byzantine emperors, from Constantine the Great down to Heraclius I
+                                                                  
+                                                                  <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                                           <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܡ̈ܠܟܐ ܟܪ̈ܝܣܛܝܢܐ ܕܪ̈ܘܡܝܐ</span></span></div>
+                                                               </div>
+                                                               <div class="tei-msItem"><span class="inline-h4">Item 12 (Fol. 52b): </span>Basil of Caesarea. The writings of Basil of Caesarea
+                                                                  
+                                                                  <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                                           <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܫܡ̈ܗܐ ܕܩܕܝܫܐ ܒܣܝܠܝܘܣ. ܐܦܝܣܩܘܦܐ ܕܗ̇ܝ ܕܩܣܪ̈ܝܐ</span></span><div class="tei-msItem"><span class="inline-h4">Item 13 (Fol. 66b): </span>Joannes Maro. A discourse of Joannes Maro on the Incarnation of God the Word
+                                                                        <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                                                 <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܡܠܬܐ. ܐܝܟ ܕܒܦܣ̈ܝܩܬܐ ܕܥܠ ܡܬܒܪܢܫܢܘܬܐ ܕܡܠܬܐ ܐܠܗܐ. ܕܥܒ̣ܝܕܐ ܠܗ̇ܘ ܕܒܝܬ ܩܕܝܫ̈ܐ. ܡܪܝ ܝܘܚܢܢ.
+                                                                                 ܕܡܬܝܕܥ ܕܡܪܘܢ. ܐܝܟ ܬܪܥܝܬܐ ܕܟ̈ܠܗܘܢ ܡ̈ܠܦܢܐ ܬܪܝܨ̈ܝ ܫ܏ܘ</span></span><span class="tei-incipit"><span class="inline-h4"> 
+                                                                                 Incipit: </span><span xml:lang="syr" lang="syr" dir="rtl">ܨܒ̇ܐ ܐܢܐ ܐܘ ܪܚ̇ܡ ܫܪܪܐ ܘܪܚ̇ܡ ܝܘܠܦܢܐ ܘܕܚ̇ܠ ܐܠܗܐ: ܕܠܗܠܝܢ
+                                                                                 ܬܪ̈ܝܢ ܣܘܪ̈ܛܐ ܕܡܢ ܒܨܝܪܘܬܢ ܡܬܟܬܒܝܢ܆ ܕܬܗܘܐ ܕܝܢܐ ܠܐ ܢܣ̇ܒ ܒ̈ܐܦܐ܇ ܘܡܒܚܢܢܐ ܚܬܝܬܐ</span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>Interposed in the <a href="">writings of Basil
+                                                                                 </a>.
+                                                                           </div>
+                                                                        </div>
+                                                                     </div>
+                                                                  </div>
+                                                               </div>
+                                                               <div class="tei-msItem"><span class="inline-h4">Item 14 (Fol. 74a): </span>Gregory Nazianzen. The writings of Gregory Nazianzen, part I
+                                                                  <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                                           <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܫܡ̈ܗܐ ܘܩܪ̈ܝܬܐ ܕܓܪܝ݊ܓܪܝܘܣ ܐܦ܏ܝܣ ܕܰܢܙܻܝܰܢܙܾܘ</span></span><div class="tei-msItem"><span class="inline-h4">Item 15 (Fol. 89b): </span>A short tract on the various meanings of the word <span class="tei-foreign" lang="syr">ܡܠܬܐ</span>
+                                                                        in the writings of Gregory Nazianzen, with examples
+                                                                        <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                                                 <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܒܗ̈ܠܝܢ ܙܢܝ̈ܐ ܡܬܡܪܐ <span class="tei-foreign" xml:lang="en" lang="en" dir="ltr">(sic)</span> ܡܠܬܐ. ܒܟܬܒܐ ܕܩܕܝܫܐ ܬܐܘ݊ܠܓܘܣ</span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>Inserted into <a href="">The writings of Gregory Nazianzen, part I</a>.
+                                                                           </div>
+                                                                        </div>
+                                                                     </div>
+                                                                     <div class="tei-msItem"><span class="inline-h4">Item 16 (Fol. 90b): </span>Words from the commentary to certain of the discourses of Gregory Nazianzen
+                                                                        
+                                                                        <div class="msItemChild">
+                                                                           <div class="msItem-notes"><span class="inline-h4">Note: </span>Inserted into <a href="">The writings of Gregory Nazianzen, part I</a>.
+                                                                           </div>
+                                                                        </div>
+                                                                     </div>
+                                                                     <div class="tei-msItem"><span class="inline-h4">Item 17 (Fol. 92b): </span>Joannes Philponus. Words from the <span class="tei-foreign" lang="grc">Διαιτητής</span>, <span class="tei-foreign" lang="syr">ܕܻܝܰܐܛܺܐܛܝܺܘܣ</span> of Joannes
+                                                                        Philoponus
+                                                                        <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                                                 <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܫܡ̈ܗܐ ܕܦܻܝܠܳܘܦܳܘܢܳܘܣ ܐܘܟܝܬ ܪܚ̇ܡ ܟܐܒ̈ܐ. ܝܘܚܢܢ</span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>Inserted into <a href="">The writings of Gregory Nazianzen, part I</a>.
+                                                                           </div>
+                                                                        </div>
+                                                                     </div>
+                                                                  </div>
+                                                               </div>
+                                                               <div class="tei-msItem"><span class="inline-h4">Item 18 (Fol. 93a): </span>Gregory Nazianzen. The writings of Gregory Nazianzen, part II
+                                                                  <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                                           <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܩܪ̈ܝܬܐ ܕܦܠܓܘܬܐ ܐܚܪܝܬܐ ܕܩܕܝܫܐ ܬܐܘ݊ܠܓܘܣ</span></span></div>
+                                                               </div>
+                                                               <div class="tei-msItem"><span class="inline-h4">Item 19 (Fol. 106a): </span>Basil of Caesarea, Gregory Nazianzen. The letters of Basil and Gregory Nazianzen
+                                                                  <div class="msItemChild"></div>
+                                                               </div>
+                                                               <div class="tei-msItem"><span class="inline-h4">Item 20 (Fol. 108b): </span>The names and sayings of the Seven Sages
+                                                                  
+                                                                  <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                                           <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܫܡ̈ܗܐ ܘܡ̈ܠܐ ܕܫܒܥܐ ܦܝ̈ܠܘܣܦܐ</span></span><span class="tei-quote"><span class="inline-h4"> 
+                                                                           Excerpt: </span><span xml:lang="syr" lang="syr" dir="rtl">
+                                                                           ܐ. ܣܳܐܠܳܘܢ ܐܬ݂ܝܢܝܐ. ܠܐ ܡܕ̇ܡ ܣܓ݁ܝ
+                                                                           ܒ ܒ̣ܺܝܐܰܣ ܦ݁ܐܪܝܢܝܐ ܣܘܓ݂ܐ ܒ̣̈ܝ̣ܫܐ.
+                                                                           ܓ. ܦܶܐܪܻܝܐܰܢܕ݂ܪܴܘܣ ܩܘܪܢܬ݂ܝܐ. ܒ݁ܗܘܓ݁ܝܐ ܟ݂ܠ ܡܕ̇ܡ ܐܡ̣ܪ.
+                                                                           ܕ. ܬ݂ܰܐܠܐܺܘܣ ܡܝܠܝܣܝܐ. ܕܥ̣ ܢܦ݂ܫܟ.
+                                                                           ܗ. ܟ݂ܻܝܠܳܘܢ ܠܐܩܕ݂ܡܘܢܝܐ. ܡܢ ܥܪܒ̣ܘܬ݂ܐ ܐܫܬ݁ܐܠ
+                                                                           ܘ. ܦ݁ܺܝܛܰܩܘܳܣ ܠܶܙܒ̣ܺܝܢܴܝܴܐ. ܕ̇ܥ̣ ܙܒܢܐ
+                                                                           ܙ. ܩܐܠܷܘܳܒ̣ܠܘܳܣ ܠܝܢܕ̣ܝܐ. ܡܡܫܚܘܬ݂ܐ ܛܪܩܐ</span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>The names are also barbarously written in Greek.
+                                                                     </div>
+                                                                  </div>
+                                                               </div>
+                                                               <div class="tei-msItem"><span class="inline-h4">Item 21 (Fol. 109b): </span>Severus of Antioch. The discourses of Severus of Antioch, in three parts [defective]
+                                                                  <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                                           <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܬܘܒ ܫܡ̈ܗܐ ܕܟܬܒܐ ܩܕܡܝܐ ܕܩܕܝܫܐ ܣ݊ܘܐܝܪܣ ܦܐܛܪܝܪܟܐ ܕܐܢܛܝܘܟܝܐ</span></span><div class="tei-msItem"><span class="inline-h4">Item 22 (Fol. 109a): </span>the synod (of Antioch). The letter of the synod (of Antioch) to John,
+                                                                        patriarch of Alexandria
+                                                                        
+                                                                        <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                                                 <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܐܓܪܬܐ ܕܣܘܢܕܘܣ ܠܪܝܫ ܐܦܝܣܩܘܦܐ ܕܐܠܟܣܢܕܪܝܐ ܡܪܝ ܝܘܚܢܢ</span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>Prefixed to <a href="">The discourses of Severus of Antioch, in three parts</a>.
+                                                                           </div>
+                                                                        </div>
+                                                                     </div>
+                                                                     <div class="tei-msItem"><span class="inline-h4">Item 23 (Fol. 109a): </span>John. The reply of John to the synod
+                                                                        
+                                                                        <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                                                 <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܐܓܪܬܐ ܕܝܘܚܢܢ ܠܣܷܘܺܢܕ݂ܳܘܣ</span></span></div>
+                                                                     </div>
+                                                                     <div class="tei-msItem"><span class="inline-h4">Item 24 (Fol. 109a): </span>Severus. The letter of Severus to John
+                                                                        
+                                                                        <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                                                 <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܕܣܷܘܻܐܝܪܴܘܣ ܠܝܾܘܚܰܢܳܢ</span></span></div>
+                                                                     </div>
+                                                                     <div class="tei-msItem"><span class="inline-h4">Item 25 (Fol. 109b): </span>John. The reply of John to Severus
+                                                                        
+                                                                        <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                                                 <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܕܝܘܚܢܢ ܠܣܶܘܻܐܝܪܷܐ</span></span></div>
+                                                                     </div>
+                                                                  </div>
+                                                               </div>
+                                                            </div>
+                                                         </div>
+                                                      </div>
+                                                   </div>
+                                                   </span></div>
+                                          </div>
+                                       </div>
+                                    </div>
+                                 </div>
+                                 <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                       <h2 class="panel-title" data-toggle="collapse" data-target="#msPartPart2Additions">Additions </h2>
+                                    </div>
+                                    <div id="msPartPart2Additions" class="panel-collapse collapse in">
+                                       <div class="panel-body">
+                                          <div class="msDesc">
+                                             <div class="indent">
+                                                
+                                                <div class="tei-note"><span>N.B., folio location may not be available for some items below.</span></div>
+                                                
+                                                
+                                                <div class="tei-item"><span class="inline-h4">Addition 1</span>:
+                                                   <span class="tei-p">The margins are crowded with notes, and with words written in Greek characters.</span></div>
+                                                
+                                                
+                                             </div>
+                                          </div>
+                                       </div>
+                                    </div>
+                                 </div>
+                                 <div class="msPart"></div>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+                  <div class="citationinfo">
+                     <h3>How to Cite This Entry</h3>
+                     <div id="citation-note" class="content-block indent"><span> William Wright</span> et al., “<span class="title-analytic">London, BL, Add. 14684</span>” in <span class="title-monographic">A Digital Catalogue of Syriac Manuscripts in the British Library</span>,  last modified April 21, 2023, <a href="https://bl.syriac.uk/ms/540">https://bl.syriac.uk/ms/540</a>.
+                        <div class="collapse" id="showcit">
+                           <div id="citation-bibliography">
+                              <h4>Bibliography:</h4><span class="editor">William Wright</span> et al., “<span class="title-analytic">London, BL, Add. 14684</span>.” In <span class="title-monographic">A Digital Catalogue of Syriac Manuscripts in the British Library</span>, edited by . Syriaca.org: The Syriac Reference Portal,
+                              2023.
+                               Entry published April 21, 2023. <a href="https://bl.syriac.uk/ms/540">https://bl.syriac.uk/ms/540</a>.
+                           </div>
+                           <div id="about">
+                              <h3>About this Entry</h3>
+                              <p><span class="heading-inline">Entry Title:</span> <span class="title-analytic">London, BL, Add. 14684</span></p>
+                              <div>
+                                 <h4>Authorial and Editorial Responsibility:</h4>
+                                 <ul>
+                                    <li><span> David A. Michelson</span>, general editor, Syriaca.org: The Syriac Reference Portal
+                                    </li>
+                                    <li>, editor, <span class="title-monographic">A Digital Catalogue of Syriac Manuscripts in the British Library</span></li>
+                                    <li>William Wright, David A. Michelson, Robert Aydin, Lindsay Ruth, Roman Brasoveanu, and Justin Arnwine, entry contributors, “<span class="title-analytic">London, BL, Add. 14684</span>”
+                                    </li>
+                                 </ul>
+                              </div>
+                              <div>
+                                 <h4>Additional Credit:</h4>
+                                 <ul>
+                                    <li>Created by <span> Lindsay Ruth</span></li>
+                                    <li>Created by <span> Roman Brasoveanu</span></li>
+                                    <li>Based on the work of <span> William Wright</span></li>
+                                    <li>Edited by <span> William L. Potter</span></li>
+                                    <li>Syriac text entered by <span> Robert Aydin</span></li>
+                                    <li>Greek and coptic text entry and proofreading by <span> Ryan Stitt</span></li>
+                                    <li>Project management by <span> William L. Potter</span></li>
+                                    <li>Project management by <span> Lindsay Ruth</span></li>
+                                    <li>English text entry and proofreading by <span> Syriac Research Group, University of Alabama</span></li>
+                                    <li>Locus information for manuscript items added by <span> Ziyan Zhang</span></li>
+                                    <li>Syriaca.org URIs for authors edited by <span> Justin Arnwine</span></li>
+                                    <li>Syriaca.org URIs for authors checked by <span> Alexys Ahn</span><span> Joseph DAlfonso</span></li>
+                                    <li>Folio extent edited by <span> Kurt Urban</span></li>
+                                 </ul>
+                              </div>
+                           </div>
+                           <div id="license">
+                              <h3>Copyright and License for Reuse</h3>
+                              <div>Except otherwise noted, this page is © 2023.
+                                 
+                              </div><span class="tei-licence">
+                                 
+                                 <p>Distributed under a Creative Commons Attribution 3.0 Unported License</p>
+                                 </span></div>
+                        </div><a class="btn-sm btn-info togglelink pull-right" data-toggle="collapse" data-target="#showcit" data-text-swap="Hide citation">Show full citation information...</a></div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </body><script type="text/javascript" src="/resources/js/jquery.validate.min.js"></script><script type="text/javascript" src="/resources/js/require.min.js"></script><script type="text/javascript" src="/resources/js/srophe.js"></script><script data-template="app:google-analytics"></script></html>

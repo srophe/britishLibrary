@@ -1,0 +1,901 @@
+<?xml version="1.0" encoding="UTF-8"?><html xmlns="http://www.w3.org/1999/xhtml" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:srophe="https://srophe.app">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <title>London, BL, Add. 14587</title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <meta name="DC.type" property="dc.type" content="Text" />
+      <meta name="DC.isPartOf" property="dc.ispartof" content="Syriaca.org: The Syriac Reference Portal" />
+      <link data-template="app:metadata" />
+      <link rel="shortcut icon" href="/resources/images/fav-icons/mss-favicon.ico" />
+      <link rel="stylesheet" type="text/css" href="/resources/bootstrap/css/bootstrap.min.css" />
+      <link rel="stylesheet" type="text/css" href="/resources/css/sm-core-css.css" />
+      <link rel="stylesheet" type="text/css" href="/resources/css/syr-icon-fonts.css" />
+      <link rel="stylesheet" type="text/css" href="/resources/css/style.css" />
+      <link rel="stylesheet" type="text/css" href="/resources/css/syriaca.css" />
+      <link rel="stylesheet" type="text/css" media="print" href="/resources/css/print.css" />
+      <link rel="stylesheet" href="/resources/leaflet/leaflet.css" />
+      <link rel="stylesheet" href="/resources/leaflet/leaflet.awesome-markers.css" />
+      <link href="/resources/jquery-ui/jquery-ui.min.css" rel="stylesheet" /><script type="text/javascript" src="/resources/js/jquery.min.js"></script><script type="text/javascript" src="/resources/jquery-ui/jquery-ui.min.js"></script><script type="text/javascript" src="/resources/js/jquery.smartmenus.min.js"></script><script type="text/javascript" src="/resources/js/clipboard.min.js"></script><script type="text/javascript" src="/resources/bootstrap/js/bootstrap.min.js"></script><script defer="defer" data-domain="bl.syriac.uk" src="https://plausible.io/js/script.js"></script><link href="/resources/keyboard/css/keyboard.min.css" rel="stylesheet" />
+      <link href="/resources/keyboard/css/keyboard-previewkeyset.min.css" rel="stylesheet" />
+      <link href="/resources/keyboard/syr/syr.css" rel="stylesheet" /><script type="text/javascript" src="/resources/keyboard/syr/jquery.keyboard.js"></script><script type="text/javascript" src="/resources/keyboard/js/jquery.keyboard.extension-mobile.min.js"></script><script type="text/javascript" src="/resources/keyboard/js/jquery.keyboard.extension-navigation.min.js"></script><script type="text/javascript" src="/resources/keyboard/syr/jquery.keyboard.extension-autocomplete.js"></script><script type="text/javascript" src="/resources/keyboard/syr/keyboardSupport.js"></script><script type="text/javascript" src="/resources/keyboard/syr/syr.js"></script><script type="text/javascript" src="/resources/keyboard/layouts/ms-Greek.min.js"></script><script type="text/javascript" src="/resources/keyboard/layouts/ms-Russian.min.js"></script><script type="text/javascript" src="/resources/keyboard/layouts/ms-Arabic.min.js"></script><script type="text/javascript">
+            $(document).ready(function () {
+                $('[data-toggle="tooltip"]').tooltip({ container: 'body' })
+
+                $('.keyboard').keyboard({
+                    openOn: null,
+                    stayOpen: false,
+                    alwaysOpen: false,
+                    autoAccept: true,
+                    usePreview: false,
+                    initialFocus: true,
+                    rtl : true,
+                    layout: 'syriac-phonetic',
+                    hidden: function(event, keyboard, el){
+                       //  keyboard.destroy();
+                     }
+                });
+
+                $('.keyboard-select').click(function () {
+                    var keyboardID = '#' + $(this).data("keyboard-id")
+                    var kb = $(keyboardID).getkeyboard();
+                    //var kb = $('#searchField').getkeyboard();
+                    // change layout based on link ID
+                    kb.options.layout = this.id
+                    // open keyboard if layout is different, or time from it last closing is &gt; 200 ms
+                    if (kb.last.layout !== kb.options.layout || (new Date().getTime() - kb.last.eventTime) &gt; 200) {
+                        kb.reveal();
+                    }
+                });
+                //Change fonts
+                $('.swap-font').on('click', function(){
+                    var selectedFont = $(this).data("font-id")
+                    $('.selectableFont').not('.syr').css('font-family', selectedFont);
+                    $("*:lang(syr)").css('font-family', selectedFont)
+                });
+
+            })
+        </script></head>
+   <body id="body">
+      <nav class="navbar navbar-default navbar-fixed-top" role="navigation" data-template="app:fix-links">
+         
+         <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse-1">
+               <span class="sr-only">Toggle navigation</span>
+               <span class="icon-bar"></span>
+               <span class="icon-bar"></span>
+               <span class="icon-bar"></span>
+               </button>
+            <a class="navbar-brand banner-container" href="/index.html">
+               <span class="syriaca-icon syriaca-mss banner-icon"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span>
+                  </span>
+               <span class="banner-text">Syriac Manuscripts in the British Library</span>
+               </a>
+            
+         </div>
+         
+         <div class="navbar-collapse collapse pull-right" id="navbar-collapse-1">
+            
+            <ul class="nav navbar-nav">
+               
+               <li>
+                  <a href="/browse.html" class="nav-text">Browse</a>
+                  
+               </li>
+               
+               <li data-template="app:shared-content" data-template-path="/templates/shared-links.html"></li>
+               
+               <li>
+                  <a href="/search.html" class="nav-text">Advanced Search</a>
+                  
+               </li>
+               
+               <li>
+                  
+                  <div id="search-wrapper">
+                     
+                     <form class="navbar-form navbar-right search-box" role="search" action="/search.html" method="get">
+                        
+                        <div class="form-group">
+                           <input type="text" class="form-control keyboard" placeholder="search" name="keyword" id="keywordNav" />
+                           <span data-template="app:keyboard-select-menu" data-template-input-id="keywordNav"></span>
+                           <button class="btn btn-default search-btn" id="searchbtn" type="submit" title="Search">
+                              <span class="glyphicon glyphicon-search"></span>
+                              </button>
+                           
+                        </div>
+                        
+                     </form>
+                     
+                  </div>
+                  
+               </li>
+               
+               <li data-template="app:shared-content" data-template-path="/templates/fontMenu.html"></li>
+               
+            </ul>
+            
+         </div>
+         
+      </nav>
+      <div class="main-content-block">
+         <div class="interior-content">
+            <div class="container otherFormats"><a href="mailto:bl.syriac.uk@gmail.com?subject=Shelf mark: Record URI: " type="button" class="btn btn-default btn-xs" data-toggle="tooltip" title="Click to report a correction via e-mail."><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span> Corrections
+                  </a> <a href="https://github.com/srophe/britishLibrary-data/issues/new?assignees=&amp;labels=community-submitted&amp;title=:" target="_blank" id="issueBtn" data-toggle="tooltip" class="btn btn-default btn-xs" title="Click to file a data issue on GitHub (requires login)."><span class="glyphicon glyphicon-record" aria-hidden="true"></span> Open
+                  </a> <a href="https://github.com/srophe/britishLibrary-data/blob/main/data/tei/323.xml" target="_blank" class="btn btn-default btn-xs" id="openBtn" data-toggle="tooltip" title="Click to view the TEI XML data for this record."><img src="/resources/images/github-mark.png" height="18px" /></a> <a href="javascript:window.print();" type="button" class="btn btn-default btn-xs" id="printBtn" data-toggle="tooltip" title="Click to send this page to the printer."><span class="glyphicon glyphicon-print" aria-hidden="true"></span> 
+                  </a> 
+            </div>
+            <div class="row">
+               <div class="col-md-12">
+                  <div xmlns:x="http://www.w3.org/1999/xhtml" xmlns:local="http://syriaca.org/ns" class="title">
+                     <h1>Add. 14,587</h1>
+                  </div>
+                  <div xmlns:x="http://www.w3.org/1999/xhtml" xmlns:local="http://syriaca.org/ns" class="tei-note">
+                     <div>URI: <span class="tei-idno">https://bl.syriac.uk/ms/323</span></div>
+                  </div>
+                  <div xmlns:x="http://www.w3.org/1999/xhtml" xmlns:local="http://syriaca.org/ns" class="header section">
+                     <div class="tei-note">
+                        <div>
+                           Description based on Wright
+                           <a href="#" data-toggle="tooltip" title="This entry number is from Wright's printed catalogue. Due to renumbering, Wright's entry numbers do not match the numbering used in this digital catalogue."><span class="tei-idno">DCLXXII</span></a>
+                           (<span class="tei-citedRange">2:517-524</span>)
+                           <a href="https://archive.org/details/catalogueofsyria02brituoft/page/517" target="_blank"><img src="/resources/images/ialogo.jpg" alt="Link to Archive.org Bibliographic record" height="18px" /></a></div>
+                        <div>
+                           Date: 
+                           AD 603 / AG 914
+                        </div>
+                        <div>Estrangela script (multiple hands) ܀  Parchment Codex, 137 leaves.
+                           
+                        </div>
+                        <div></div>
+                        <div>
+                           Wright's Subject Classification:
+                           Individual Authors
+                        </div>
+                     </div>
+                     <div class="tei-note"><span>This manuscript contains: Jacob of Batnae. Letters and discourses (in prose) of Jacob
+                           of Batnae; Six homilies, written in prose. In total, including sub-sections, this
+                           manuscript contains 43 items.</span></div>
+                  </div>
+                  <div xmlns:x="http://www.w3.org/1999/xhtml" xmlns:local="http://syriaca.org/ns" class="panel panel-default">
+                     <div class="panel-heading">
+                        <h2 class="panel-title" data-toggle="collapse" data-target="#Overview">Physical Description </h2>
+                     </div>
+                     <div id="Overview" class="panel-collapse collapse in">
+                        <div class="panel-body">
+                           <div class="msDesc">
+                              <div class="tei-physDesc">
+                                 <div class="indent">
+                                    <p>Vellum, about 9 7/8 in. by 6 3/4, consisting of 137 leaves, many of which are much
+                                       stained and torn, especially foll. 5, 7, 8, 17, 35, 44, 45, 54, 55, 58—93 (soaked
+                                       in oil), 136 and 137. The quires, signed with letters, were originally 19 in number,
+                                       but of these ܘ and ܙ are lost, and several others are very imperfect. Leaves are wanting
+                                       at the beginning, as well as after foll. 8, 16, 23, 55, 57, 58, 78, 80, 82 and 83.
+                                       Each page is divided into two columns, of from 29 to 41 lines.
+                                    </p><span class="tei-handDesc">
+                                       
+                                       <div name="handNote1"><span class="inline-h4">Hand 1 (major, Estrangela script): </span>
+                                          This volume is written in a clear, though rather inelegant Estrangela.
+                                          
+                                       </div>
+                                       
+                                       <div name="handNote2"><span class="inline-h4">Hand 2 (minor, Unspecified Syriac script): </span>
+                                          <span class="tei-ref">See additions</span>
+                                          
+                                       </div>
+                                       </span></div>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+                  <div xmlns:x="http://www.w3.org/1999/xhtml" xmlns:local="http://syriaca.org/ns" class="panel panel-default">
+                     <div class="panel-heading">
+                        <h2 class="panel-title" data-toggle="collapse" data-target="#Contents">Manuscript Contents</h2>
+                     </div>
+                     <div id="Contents" class="panel-collapse collapse in">
+                        <div class="panel-body">
+                           <div class="msContent"><span class="summary ident">Note: Item numbering updated in digital edition.</span><span class="tei-msContents">
+                                 
+                                 
+                                 <div class="tei-msItem"><span class="inline-h4">Item 1 (Fol. 1a): </span>Jacob of Batnae. Letters and discourses (in prose) of Jacob of Batnae. [defective]
+                                    <div class="msItemChild"><span class="tei-colophon"><span class="inline-h4"> 
+                                             Colophon: </span><span>
+                                             <a href="addition1">See additions.
+                                                </a>
+                                             </span></span><div class="tei-msItem"><span class="inline-h4">Item 2 (Fol. 1a): </span>Jacob of Batnae. Letters of Jacob of Batnae [defective]
+                                          <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                   <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">
+                                                   <span class="tei-fw">ܐܓܪ̈ܬܐ ܕܡܪܝ ܝܥܩܘܒ</span>
+                                                   </span></span><span class="tei-finalRubric"><span class="inline-h4"> 
+                                                   Subscription  (Fol. 104a): </span><span xml:lang="syr" lang="syr" dir="rtl">ܫܠܡ ܠܡܟܬܒ ܒܦܢܩܝܬܐ ܗܕܐ ܐܓܪ̈[ܬܐ ܐܪ̈]ܒܥܝܢ ܘܚܕܐ ܡܓܒ̈[ـܝܬܐ] ܕܣܝ̈ܡܢ ܠܛܘܒܢܐ ܡܪܝ ܝܥܩܘܒ ܐܦܣܩܦܐ
+                                                   ܕܒܛܢܢ . . 
+                                                   
+                                                   </span></span><div class="tei-msItem"><span class="inline-h4">Item 3 (Fol. 1a): </span>Jacob of Serugh. Letter to Stephen bar Sūdailī
+                                                 [defective]
+                                                <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                         <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܕܡܪܚܡܢܘܬܐ  
+                                                         Margin
+                                                         </span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>See Assemani, Bibl. Orient., t. i., p. 303, no. 4; <a href="https://bl.syriac.uk/ms/809">Add. 17,163<span class="tei-ptr"></span>, <span class="tei-citedRange">fol. 23 b</span>
+                                                         </a>.
+                                                   </div>
+                                                </div>
+                                             </div>
+                                             <div class="tei-msItem"><span class="inline-h4">Item 4 (Fol. 3a): </span>Jacob of Serugh. Letter on the faithOf the Nativity
+                                                <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                         <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܐܓܪܬܐ ܕܗܝܡܢܘܬܐ
+                                                         
+                                                         </span></span><span class="tei-rubric"><span class="inline-h4"> 
+                                                         <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܕܝܠܕܐ
+                                                         Margin, Fol. 3a-5, precise folio unknown
+                                                         </span></span><span class="tei-incipit"><span class="inline-h4"> 
+                                                         Incipit: </span><span xml:lang="syr" lang="syr" dir="rtl">ܐܘ ܕܣܒ̇ܟ ܕܢܒܨܐ ܠܐܘܪܚܐ ܕܡܕܒܪܢܘܬܗ ܕܡܫܝܚܐ̣. ܣܝܡ ܬܚܘܡܐ ܠܒܥܬܟ. ܘܠܐ ܬܗܘܐ ܛܥܐ̇. ܕܬܒܥܐ ܡܕܡ
+                                                         ܕܠܐ ܡܫܬܟܚ. ܘܠܐ ܬܪܗܛ ܠܡܕܪܟܘ ܠܡܕܡ ܕܠܐ ܡܬܕܪܟ. ܏ܘܫ.
+                                                         
+                                                         </span></span></div>
+                                             </div>
+                                             <div class="tei-msItem"><span class="inline-h4">Item 5 (Fol. 5b): </span>Jacob of Serugh. Letter on the faith, to the priest Mār Thomas
+                                                ̄On the Epiphany [defective]
+                                                <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                         <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܐܓܪܬܐ ܕܗܝܡܢܘܬܐ ܠܘܬ ܡܪܝ ܬܐܘܡܐ ܩܫܝܫܐ
+                                                         
+                                                         </span></span><span class="tei-rubric"><span class="inline-h4"> 
+                                                         <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">
+                                                         on the margin:
+                                                         ܕܕܢܝܚ
+                                                         </span></span><span class="tei-incipit"><span class="inline-h4"> 
+                                                         Incipit: </span><span xml:lang="syr" lang="syr" dir="rtl">ܠܚܣܝܐ ܘܡܝܬܪ ܕܘܒܪ̈ܐ: ܐܚܐ̇. ܘܪܚܡܐ ܕܫܪܪܐ: ܡܪܝ ܬܐܘܡܐ ܩܫܝܫܐ: ܝܥܩܘܒ ܒܨܝܪܐ ܐܚܘܟ. ܒܝܫܘܥ ܢܘܗܪܐ
+                                                         ܫܪܝܪܐ: ܘܚ̈ܝܐ ܠܐ ܡܬܚܒ̈ܠܢܐ: ܘ . . . ܫܗ . . . ܕܐ . . . ܕܚܘܝ . . . ܡܡܠܠܢܗ . . . ܡܠܬܐ ܠ
+                                                         . . . ܘܩܠܐ ܠܫܬܝܩ̈ܐ: ܡܚܝܢ ܟܠ ܓܡܪ ܟܠ ܡܫܡܠܐ ܟܠ: ܡܚ̇ܕܬ ܟܠ ܒܚ̈ܫܐ ܕܩܢܘܡܗ̣ ܫܠܡ . ܘ . ܥܠܬܐ
+                                                         ܕܟܠ ܛܒ̈ܢ ܡܫܝܚܐ ܗܘ. ܘܡܢܗ ܢܒ̈ܥܢ ܟܠܗܝܢ ܡܘܗ̈ܒܢ ܠܣܢܝ̈ܩܐ. ܗܘܝܘ ܓܝܪ ܥܘܬܪܐ ܫܪܝܪܐ. ܘܠܝܬ ܥܘܬܪܐ
+                                                         ܠܒܪ ܡܢܗ. ܏ܘܫ.
+                                                         
+                                                         </span></span></div>
+                                             </div>
+                                             <div class="tei-msItem"><span class="inline-h4">Item 6 (Fol. 7b): </span>Jacob of Serugh. Letter to Antonine, bishop of Aleppo
+                                                 [defective]
+                                                <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                         <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܐܓܪܬܐ ܠܘܬ ܡܪܝ ܐܢܛܘܢܝܢ ܐܦܣܩܦܐ ܕܚ̇ܠܒ
+                                                         
+                                                         </span></span><span class="tei-rubric"><span class="inline-h4"> 
+                                                         <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܕܡܕܒܪܢܘܬܐ
+                                                         Margin
+                                                         </span></span><span class="tei-incipit"><span class="inline-h4"> 
+                                                         Incipit: </span><span xml:lang="syr" lang="syr" dir="rtl">ܠܚܣܝܐ ܘܩܕܝܫܐ ܪܒܐ ܘܪܚܡܐ ܕܐܠܗܐ. ܡܪܝ [ܐ]ܢܛܘܢܝܢ ܐܦܣܩܦܐ̣. ܝܥܩܘܒ [ܒܨܝܪ]ܐ ܣܓܘܕܐ ܕܓܒܝܘܬܟ ܒܡܪܢ
+                                                         ܫܠܡ
+                                                         . ܘ .  ܐܝܚܝܕܝܗ ܕܐܒܐ: ܡܠܬܐ ܕܠܐ ܡܬܡܠܠ̣. ܗܘ ܝܗܒ̣ ܡܠܬܐ ܠܡܡ̈ܠܠܢܐ ܕܢܡܠܠܘܢܝܗܝ ܕܠܐ ܡܬܡܠܠ.
+                                                         ܐܠܘ ܓܝܪ ܡܬܡܠܠ ܗܘܐ̣ ܠܘ ܡܠܬܐ ܗܘܐ. ܡܠܬܐ ܓܝܪ ܠܘ ܡܬܡܠܠܘ ܡܬܡܠܠܐ. ܐܠܐ ܡܡܠܠܘ ܡܡ̇ܠܠܐ. ܘܗ̣ܝ
+                                                         ܝܗܒܐ ܩ̈ܠܐ ܗܠܝܢ ܕܡܫܬܡܥܝܢ ܠܘܬ ܒ̇ܪ̈ܝܐ̣. ܟܕ ܗ̣ܝ ܓܢܝܙܐ ܗܝ ܒܐܬܪܗ̣̇ ܠܓܘ ܡܢ ܟܣܝܘܬܗ ܕܢܦܫܐ.
+                                                         ܏ܘܫ.
+                                                         
+                                                         </span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>Cf. Le Quien, Or. Christ., t. ii., col. 783
+                                                      
+                                                   </div>
+                                                </div>
+                                             </div>
+                                             <div class="tei-msItem"><span class="inline-h4">Item 7 (Fol. 9a): </span>Jacob of Serugh. Letter to John the priest, with the title <span class="tei-foreign" lang="syr">ܕܕܝܪ̈ܝܐ</span>, of monks [defective]
+                                                <div class="msItemChild">
+                                                   <div class="msItem-notes"><span class="inline-h4">Notes:</span><ul>
+                                                         <li>Imperfect at the beginning</li>
+                                                         <li>Cf. <a href="https://bl.syriac.uk/ms/809">Add. 17163, fol. 22a<span class="tei-ptr"></span>
+                                                               </a></li>
+                                                      </ul>
+                                                   </div>
+                                                </div>
+                                             </div>
+                                             <div class="tei-msItem"><span class="inline-h4">Item 8 (Fol. 9b): </span>Jacob of Serugh. Letter on the faith, sent to the monks at 
+                                                Arzūn of the Persians, 
+                                                , Erzerūm
+                                                
+                                                <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                         <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܐܓܪܬܐ ܕܗܝܡܢܘܬܐ ܕܐܫܬܕܪܬ ܠܘܬ ܛܘܒ̈ܢܐ ܕܐܝܬ ܒܐܪܙܘܢ ܕܦܪ̈ܣܝܐ
+                                                         
+                                                         </span></span><span class="tei-rubric"><span class="inline-h4"> 
+                                                         <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܕܥ̈ܐܕܐ ܘܕܡ̈ܠܦܢܐ
+                                                         Margin
+                                                         </span></span><span class="tei-incipit"><span class="inline-h4"> 
+                                                         Incipit: </span><span xml:lang="syr" lang="syr" dir="rtl">ܠܐܚ̈ܝܢ ܡܗܝܡ̈ܢܐ ܘܪ̈ܚ̇ܡܝ ܐܠܗܐ: ܬܪܒܝܬܐ ܫܦܝܪܬܐ: ܕܗܝܡܢܘܬܐ ܫܪܝܪܬܐ܆ ܛܘܒ̈ܢܐ ܕܥܡܪܝܢ ܒܐܪܙܘܢ
+                                                         ܡܚܘܙܐ ܕܦܪ̈ܣܝܐ̣. ܝܥܩܘܒ ܒܨܝܪܐ ܐܚܘܟܘܢ̣. ܒܝܫܘܥ ܐܠܗܐ ܕܡܢ ܐܠܗܐ̣ ܫܠܡ. ܘ . ܛܒ̣ܐ ܫܦܝܪܐ ܕܗܝܡܢܘܬܟܘܢ
+                                                         ܬܪܝܨܬܐ. ܐܝܟ ܙܠܝܩܐ ܕܨܦܪܐ ܐܫܬܕܪ ܠܘܬܢ. ܡܢ ܡܕܢܚܐ ܝܠ̣ܕܬ ܐܝܡܡܐ. ܘܢܘܗܪܐ ܕܫܪܪܟܘܢ ܐܝܟ ܛܗܪܐ
+                                                         ܥܙܝܙܐ̣. ܒܐܬܪܢ ܓܠܝܐܝܬ݂ ܐܬ݂ܦܪܣ. ܏ܘܫ.
+                                                         
+                                                         </span></span></div>
+                                             </div>
+                                             <div class="tei-msItem"><span class="inline-h4">Item 9 (Fol. 13a): </span>Jacob of Serugh. Letter to the monks of Mount Sinai
+                                                
+                                                <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                         <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܐܓܪܬܐ ܠܘܬ ܛܘܒ̈ܢܐ̣ ܕܒܛܘܪ ܣܝܢܝ
+                                                         
+                                                         </span></span><span class="tei-rubric"><span class="inline-h4"> 
+                                                         <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܕܩܝܡܬܐ
+                                                         Margin
+                                                         </span></span><span class="tei-incipit"><span class="inline-h4"> 
+                                                         Incipit: </span><span xml:lang="syr" lang="syr" dir="rtl">ܠܩܕܝ̈ܫܐ ܘܓܒ̈ܝܐ ܘܪ̈ܚܡ̇ܝ ܐܠܗܐ ܐܒܗ̈ܬܐ ܛܘܒ̈ܢܐ ܕܥܡܪ̈ܝܢ ܒܛܘܪ ܣܝܢܝ: ܝܥܩܘܒ ܒܨܝܪܐ ܘܕܘܝܐ: ܘܣܢܝܩ
+                                                         ܥܠ ܪ̈ܚܡܐ ܕܐܠܗܐ ܘܥܠ ܥܘܕܪܢܐ ܕܨܠܘ̈ܬܟܘܢ: ܒܝܫܘܥ ܢܘܗܪܐ ܘܚ̈ܝܐ: ܘܐܠܗܐ ܕܡܢ ܐܠܗܐ: ܕܐܝܬܘܗܝ ܣܒܪܐ
+                                                         ܕܚܝܝ̈ܟܘܢ̣ ܫܠܡ . ܘ . ܡܠܬܐ ܐܠܗܐ ܐܬܚܙܝ ܒܥܠܡ̣ܢ ܒܡܘܠܕܗ ܕܡܢ ܒܬܘܠܬܐ. ܘܣ̣ܥܪ ܛܒ̈ܬܐ ܒܓܠܝܢܗ ܕܒܒܣܪ̣
+                                                         ܠܟܠܗ ܓܢܣܐ ܕܒ̈ܢܝ ܐܢܫܐ. ܏ܘܫ. 
+                                                         
+                                                         </span></span></div>
+                                             </div>
+                                             <div class="tei-msItem"><span class="inline-h4">Item 10 (Fol. 14b): </span>Jacob of Serugh. Letter of salutation to Habīb
+                                                
+                                                <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                         <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܐܓܪܬܐ ܕܫܠܡܐ ܕܐܫ̣ܬܕܪܬ ܠܡܪܝ ܚܒܝܒ
+                                                         
+                                                         </span></span><span class="tei-rubric"><span class="inline-h4"> 
+                                                         <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܕܩܝܡܬܐ
+                                                         Margin
+                                                         </span></span><span class="tei-incipit"><span class="inline-h4"> 
+                                                         Incipit: </span><span xml:lang="syr" lang="syr" dir="rtl">ܠܡܪܝ ܚܒܝܒ ܫܘ̇ܐ ܠܪ̈ܚܡ̣ܐ ܕܐܠܗܐ̣. ܡܢ ܝܥܩܘܒ ܒܨܝܪܐ ܒܡܪܢ̣ ܫܠܡ . ܘ . ܫܠܡܐ̇ ܫܠܡܐ̇ ܠܪ̈ܚܝܩܐ
+                                                         ܘܠܩܪ̈ܝܒܐ ܐܡ̇ܪ ܡܪܝܐ. ܣܒܪܬܐ ܡܠܝ̣ܬ ܚܕܘ̈ܬܐ ܒܝܘܡܐ ܢܗܝܪܐ̣. ܠܟܠܗ ܓܢܣܐ ܕܒܢ̈ܝ ܐܢܫܐ. ܝܘܡܢܐ ܗ̣ܦܟ
+                                                         ܡܠܟܢ ܡܢ ܚܪܒܐ ܕܒܥܠܕܒ̈ܒܐ̣. ܟܕ ܪܡ̇ܐ ܩܫ̣ܬܗ ܘܢܨܚܐ ܙܟܘܬܗ. ܏ܘܫ..
+                                                         
+                                                         </span></span></div>
+                                             </div>
+                                             <div class="tei-msItem"><span class="inline-h4">Item 11 (Fol. 15a): </span>Jacob of Serugh. Letter to Julian the archdeacon
+                                                
+                                                <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                         <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܐܓܪܬܐ ܕܠܘܬ ܡܪܝ ܝܘܠܝܢܐ ܐܪܟܝܕܝܩܘܢ
+                                                         
+                                                         </span></span><span class="tei-rubric"><span class="inline-h4"> 
+                                                         <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܕܡܪܬܝܘܬܐ
+                                                         Margin
+                                                         </span></span><span class="tei-incipit"><span class="inline-h4"> 
+                                                         Incipit: </span><span xml:lang="syr" lang="syr" dir="rtl">ܠܡܝܬܪܐ ܘܪܚܡ ܐܠܗܐ: ܡܪܝ ܝܘܠܝܢܐ ܐܪܟܝܕܝܩܘܢ̇. ܝܥܩܘܒ ܒܨܝܪܐ ܣܓܘܕܟ ܒܡܪܢ ܫܠܡ. ܘ . ܡܘܕܥ ܐܢܐ
+                                                         ܠܚܘܒܟ ܡܪܝ̣ ܕܐܠܘ ܢܗܝܪܐ ܢܦܫܢ ܒܪܚܡܬܐ ܕܐܠܗܐ̣. ܓܠܝܐܝܬ ܡܬܚܙܐ ܗܘܐ ܠܢ ܫܘܚ̈ܠܦܐ ܕܙܒ̈ܢܐ̇. ܗܠܝܢ
+                                                         ܕܪ̈ܟܝܒܝܢ ܓܝ̈ܓܠܐ̇. ܘܒܚܐܦܐ ܪܒܐ ܕܩܠܝܠ ܐܝܟ ܗܘܢܐ ܒܬܪ ܚܕ̈ܕܐ̣ ܪܗܛܝܢ. ܏ܘܫ.
+                                                         
+                                                         </span></span></div>
+                                             </div>
+                                             <div class="tei-msItem"><span class="inline-h4">Item 12 (Fol. 16b): </span>Jacob of Serugh. Letter to Stephen the notary
+                                                 [defective]
+                                                <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                         <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܐܓܪܬܐ ܠܘܬ ܡܪܝ ܐܣܛܦܢܐ ܢܘܛܪܐ
+                                                         
+                                                         </span></span><span class="tei-rubric"><span class="inline-h4"> 
+                                                         <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܕܡܕܒܪܢܘܬܐ
+                                                         Margin
+                                                         </span></span><span class="tei-incipit"><span class="inline-h4"> 
+                                                         Incipit: </span><span xml:lang="syr" lang="syr" dir="rtl">ܠܡܝܬܪܐ ܘܪܚܡ ܐܠܗܐ: ܡܪܝ ܣܛܦܢܐ ܢܘܛܪܐ. ܝܥܩܘܒ ܒܨܝܪܐ ܣܓܘܕܟ ܒܡܪܢ̣ ܫܠܡ. ܘ . ܩܒܠܬ ܟܬܝܒ̈ܬܟ ܙܗܝ̈ܬܐ
+                                                         ܐܘ ܡܪܝ. ܗܠܝܢ ܕܡ̣̈ܠܝܢ ܛܥܡܐ̇. ܘܝܕܥܬܐ ܘܣܘ̈ܟܠܐ ܪ̈ܘܚܢܐ. ܘܠܝܫ̈ܢ ܘܡܙܝ̈ܓܢ ܒܚܘܒܐ̣ ܕܠܝܬ ܠܗ ܣܟܐ̇.
+                                                         ܘܡܬܚܙܐ ܒܗܝܢ ܢܗܝܪܐܝܬ ܪܥܝܢܐ ܕܟܬܒܐ̣. ܗ̇ܘ ܕܒܪܘܚ ܡܡܠܠ ܥܡ ܒܢ̈ܝ ܪܥܝܢܗ. ܏ܘܫ.. 
+                                                         
+                                                         </span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>Imperfect
+                                                   </div>
+                                                </div>
+                                             </div>
+                                             <div class="tei-msItem"><span class="inline-h4">Item 13 (Fol. 21b): </span>Jacob of Serugh. Letter to the monks of the convent of Bassus
+                                                 [defective]
+                                                <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                         <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܐܓܪܬܐ ܕܠܘܬ ܕܝܪ̈ܝܐ ܕܒܝܬ ܡܪܝ ܒܣ
+                                                         
+                                                         </span></span><span class="tei-rubric"><span class="inline-h4"> 
+                                                         <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܕܡܕܒܪܢܘܬܐ
+                                                         Margin
+                                                         </span></span><span class="tei-incipit"><span class="inline-h4"> 
+                                                         Incipit: </span><span xml:lang="syr" lang="syr" dir="rtl">ܠܚܣܝܐ ܘܩܕܝܫܐ ܪܒܐ ܘܪܚ̇ܡܐ ܕܐܠܗܐ: ܐܒܘܢ ܫܘ̇ܐ ܠܐܠܗܐ܆ ܡܪܝ ܠܥܙܪ ܪܫܐ ܕܝܚܝ̈ܕܝܐ̣. ܝܥܩܘܒ ܒܨܝܪܐ
+                                                         ܣܢܝܩ ܥܠ ܪ̈ܚܡ̣ܐ ܕܐܠܗܐ: ܘܥܠ ܥܘܕܪܢܐ ܕܨܠܘ̈ܬܟܘܢ̇ ܒܡܪܢ̣ ܫܠܡ. ܘ . ܐܠܗܐ ܡܠܬܐ ܝܚܝܕܝܗ ܕܐܒܐ:
+                                                         ܝܠܕܐ ܡܬܘܡܝܐ ܗ̇ܘ ܕܠܐ ܡܬܕܪܟ: ܘܠܐ ܡܬ̇ܥܩܒ ܘܠܐ ܡܬܦܫܩ: ܘܠܐ ܡܣܬܝܟ ܘܠܐ ܡܬܡܠܠ. ܘܠܐ ܡܬܒܨܐ: ܘܠܐ
+                                                         ܡܛܝܐ ܠܗ ܡܠܬܐ: ܘܠܐ ܡܗ̇ܦܟ ܠܗ ܠܫܢܐ̣. ܐܬܚܙܝ ܒܒܣܪ̣ ܡܢ ܒܬܘܠܬܐ ܩܕܝܫܬܐ ܝ̇ܠ̣ܕܬ ܐܠܗܐ. ܐܝܟ ܕܡ̇ܠܦܐ
+                                                         ܩܕܝܫܘܬܟ. ܘܡܛܠܬܢ ܥܒ̣ܕ ܠܗ ܐܘܪܚܐ ܕܡܐܬܝܬܐ̣. ܘܓܠܝܢܐ ܡܬܚܙܝܢܐ. ܘܣܘܥܪܢܐ ܕܡܩ̇ܪܒ ܠܗ ܠܘܬܢ ܒܚܘܒܐ
+                                                         ܠܐ ܡܬܡܠܠܢܐ. ܏ܘܫ.. 
+                                                         
+                                                         </span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>Imperfect
+                                                   </div>
+                                                </div>
+                                             </div>
+                                             <div class="tei-msItem"><span class="inline-h4">Item 14 (Fol. 25a): </span>Jacob of Serugh. Letter of the monks of the convent of Bassus to Jacob
+                                                
+                                                <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                         <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܐܓܪܬܐ ܕܝܠܗܘܢ ܕܛܘܒ̈ܢܐ ܕܒܝܬ ܡܪܝ ܒܣ ܨܝܕ ܡܪܝ ܝܥܩܘܒ
+                                                         
+                                                         </span></span><span class="tei-rubric"><span class="inline-h4"> 
+                                                         <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܡܓܫܘܬܐ ܕܥܠ ܫܘܪܪܐ ܕܗܝܡܢܘܬܐ
+                                                         Margin
+                                                         <span class="tei-quote"><span class="inline-h4"> 
+                                                               Excerpt: </span><span xml:lang="en" lang="en" dir="ltr">Investigation concerning the confirmation of the faith</span></span>
+                                                         </span></span><span class="tei-incipit"><span class="inline-h4"> 
+                                                         Incipit: </span><span xml:lang="syr" lang="syr" dir="rtl">ܠܩܕܝܫܐ ܘܪܚܡ ܐܠܗܐ: ܡܪܝ ܝܥܩܘܒ ܦܪܝܗܕܘܛܐ. ܚܟܝܡܐ̣. ܡܢ ܪܝܫ ܕܝܪܐ ܠܥܙܪ ܕܕܝܪܐ ܕܒܝܬ ܡܪܝ ܒܣ ܛܘܒܢܐ̣.
+                                                         ܒܡܪܢ ܒܡܪܢ̣ (sic) ܣܓܝ ܫܠܡ. ܘ . ܡܪܢ ܡܪܝ ܢܓܠ̣ܐ ܠܐܒܗܘܬܟ܆ ܕܣܓܝ ܐܬܥܝܩܢ ܚܢܢ̇. ܡܢ ܒܬܪ ܕܐܬܒܝܢ
+                                                         ܚܢܢ ܒܟܬܝܒ̈ܬܐ. ܗܠܝܢ ܕܥܒ̣ܕܬ ܠܢ ܟܕ ܐܝܬܝܟ ܨܐܕܝܢ. ܒܕܐܫܟܚܢܢ ܐܢ̈ܝܢ ܟܪ̈ܝܗܬܐ̣ ܘܠܐ ܚܠܝܡ̈ܬܐ.
+                                                         ܘܡ̈ܝܬܬܐ̣ ܘܠܐ ܚܝ̈ܬܐ. ܘܟܕ ܚܙܝ̣ܢ ܚܢܢ ܕܡܣܓܦܢ̈ܝܬܐ ܐܝܬܝܗܝܢ ܘܠܐ ܡܥܕܪ̈ܢܝܬܐ̣. ܐܣܬܪܗܒܢ̣ܢ ܘܫܕܪ̈ܢ
+                                                         ܐ̈ܢܝܢ ܠܟ. ܟܕ ܡܦܝ̣ܣܝܢ ܚܢܢ ܠܚܟܡܬ ܐܠܐ ܕܒܟ݂. ܕܐܢ ܐܝܬ ܠܟ ܨܒܝܢܐ ܛܒ̇ܐ ܒܗܢܐ ܣܘܥܪܢܐ ܕܥܠ ܐ̈ܦܝ
+                                                         ܗܝܡܢܘܬܐ̣ ܟܬܘܒ ܠܢ ܡܫܡܠܝܐܝܬ݂. ܘܐܚܪܡ ܒܟܬܝܒ̈ܬܟ̇. ܐܝܟ ܕܥܒ̣ܕ ܡܪܝ ܐܦܣܩ̈̇ܘܦܐ ܝܘܚ̈̇ܢܢ ܕܐܠܟܣܢܕܪܝܐ̇.
+                                                         ܘܐܝܟ ܕܥܒ̣ܕ ܬܘܒ ܪܚܡ ܐܠܗܐ ܡܪܝ ܦܝܠܟܣܢܘܣ. ܐܦܣܩܘܦܐ ܕܡܒܘܓ. ܏ܘܫ.  
+                                                         
+                                                         </span></span></div>
+                                             </div>
+                                             <div class="tei-msItem"><span class="inline-h4">Item 15 (Fol. 25b): </span>Jacob of Serugh. Letter of Jacob to the monks of the convent of Bassus, in reply to the preceding letter
+                                                <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                         <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܐܓܪܬܐ ܕܝܠܗ ܕܡܪܝ ܝܥܩܘܒ ܠܘܬܗܘܢ ܕܛܘܒ̈ܢܐ ܕܒܝܬ ܡܪܝ ܒܣ
+                                                         
+                                                         </span></span><span class="tei-rubric"><span class="inline-h4"> 
+                                                         <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܗܕܐ ܦܘܢܝ ܦܬܓܡܐ
+                                                         Margin
+                                                         </span></span><span class="tei-incipit"><span class="inline-h4"> 
+                                                         Incipit: </span><span xml:lang="syr" lang="syr" dir="rtl">ܠܚܣܝܐ ܘܩܕܝܫܐ ܘܪܚܡܐ ܕܐܠ̣ܗܐ: ܡܪܝ ܠܥܙܪ ܩܫܝܫܐ ܘܪܫܐ ܕܐܝܚܝܕ̈ܝܐ̣. ܕܥܘܡܪܐ ܩܕܝܫܐ ܕܒܝܬ ܡܪܝ ܒܣ̣.
+                                                         ܝܥܩܘܒ ܒܨܝܪܐ ܒܡܪܢ ܝܫܘܥ ܡܫܝܚܐ: ܠܐ ܡܬܒܨܝܢܐ ܘܠܐ ܡܬܕܪܟܢܐ: ܕܐܝܬܘܗܝ ܢܘܗܪܐ ܘܚ̈ܝܐ ܕܟܠ̣ ܫܠܡ.
+                                                         ܘ . ܩܒܠܬ ܟܬܝܒ̈ܬܐ ܕܙܗܝܘܬܟ ܐܘ ܪܒܐ ܕܐܠܗܐ̣ ܘܐܝܟ ܕܠܩܢܘܡܟ ܢܟܦܐ̣. ܣܘ̇ܚܬ ܠܦܓܥܗܝܢ ܪܚܝܡܐ. ܝܕܥܐ
+                                                         ܗܝ ܓܝܪ ܩܕܝܫܘܬܟ݂. ܕܟܬܝܒ̈ܬܐ ܕܡܢ ܪܘܚܩܐ̣. ܕܘܟܬ ܩܢܘܡܗ ܕܡܫܕܪܝܗܝܢ  ܡܡ̈ܠܠܝܢ̇. ܐܝܟܐ ܕܒܚܘܒܐ
+                                                         ܡܬܩ̈ܒܠܢ. ܗ̣ܢܝܢ ܕܝܢ ܟܬܝܒ̈ܬܟ܆ ܠܘ ܚܘܒܐ ܘܪܘܚܐ ܡܟܝܟܬܐ ܛܥܝ̈ܢܢ ܗܘ̈ܝ ܥܠܝ. ܐܠܐ̣ ܚܘܛܪܐ. ܘܠܘ
+                                                         ܐܝܟ ܕܥܡ ܐܢܫ ܡܗܝܡܢܐ ܡܡ̈ܠܠܢ ܗܘ̈ܝ ܥܡܝ̣. ܐܠܐ̣ ܐܝܟ ܕܥܡ ܓܒܪܐ ܗܪܣܝܘܛܐ̇. ܕܪ̈ܗܛܢ ܒܬܪܗ ܡܣܒܪ̈ܢܘܬܐ
+                                                         ܕܟܫ̈ܠܐ. ܏ܘܫ..
+                                                         
+                                                         </span></span></div>
+                                             </div>
+                                             <div class="tei-msItem"><span class="inline-h4">Item 16 (Fol. 35b): </span>Jacob of Serugh. Third letter to the monks of the convent of Bassus
+                                                
+                                                <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                         <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܐܓܪܬܐ ܕܨܝܕ ܕܝܪ̈ܝܐ ܕܒܝܬ ܡܪܝ ܒܣ
+                                                         
+                                                         </span></span><span class="tei-incipit"><span class="inline-h4"> 
+                                                         Incipit: </span><span xml:lang="syr" lang="syr" dir="rtl">ܠܚܣܝܐ ܘܩܕܝܫܐ ܪܒܐ ܘܪܚܡܐ ܕܐܠܗܐ ܠܐܒܘܢ ܫ̇ܘܐ ܠܐܠܗܐ: ܡܪܝ ܠܥܙܪ ܪܝܫ ܕܝܪܐ ܕܐܝܚܝ̈ܕܝܐ: ܝܥܩܘܒ
+                                                         ܒܨܝܪܐ ܐܚܘܟ܆ ܒܝܫܘܥ ܢܘܗܪܐ ܕܥܠܡ̈ܐ. ܘܣܒܪܐ ܕܡ̈ܝܬܐ ܘܕܚ̈ܝܐ̣ ܫܠܡ. ܡܛܠ ܟܢܘܫܝܐ ܕܗܘܐ ܒܟܠܩܕܘܢܐ̣.
+                                                         ܠܐ ܛܥܝܐ ܠܢ̇. ܕܒܫܩܠ ܛܥܢܗ ܒܝܫ̣ܐ ܕܡܪܩܝܢܘܣ̇. ܪܚܡ̇ܗ ܘܒܪ ܝܘܠܦܢܗ ܕܢܣܛܪܝܣ ܐܬ̇ܟܢܫܘ. ܗ̇ܘ ܕܡ̣ܛܝܒ
+                                                         ܗܘܐ ܕܠܢܣܛܪܝܣ ܕܐ̇ܒܐ ܡܚܒܠܢܐ̣ ܠܪܥܝܘܬܐ ܢܗ̇ܦܟ. ܘܫܘܠܛܢܐ ܥܠ ܥܢܐ ܡܠܝܠܬܐ ܦܪܝܩܬ ܒܕܡܗ ܕܐܠܗܐ̣.
+                                                         ܢܬܠ ܗܘܐ ܠܗ ܐܠܘ ܐܬܡ̣ܨܝ. ܏ܘܫ.
+                                                         
+                                                         </span></span></div>
+                                             </div>
+                                             <div class="tei-msItem"><span class="inline-h4">Item 17 (Fol. 38a): </span>Jacob of Serugh. Letter to the Himyarite Christians [defective]
+                                                <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                         <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܐܓܪܬܐ ܕܫܕܪ ܡܪܝ ܝܥܩܘܒ ܠܘܬ ܚܡܝܪ̈ܝܐ
+                                                         
+                                                         </span></span><span class="tei-rubric"><span class="inline-h4"> 
+                                                         <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܕܘܟܪܢܐ ܕܣܗ̈ܕܐ ܚܡܝܪ̈ܝܐ
+                                                         Margin
+                                                         <span class="tei-quote"><span class="inline-h4"> 
+                                                               Excerpt: </span><span xml:lang="en" lang="en" dir="ltr">Commemoration of the Himyarite martyrs</span></span>
+                                                         </span></span><span class="tei-incipit"><span class="inline-h4"> 
+                                                         Incipit: </span><span xml:lang="syr" lang="syr" dir="rtl">ܠܐܬ̈ܠܝܛܐ ܓܒܝ̈ܐ ܪ̈ܚܡܝ ܙܟܘܬܐ ܫܪܝܪܬܐ܆ ܬܡܝܗ̈ܐ ܘܚܝ̈ܠܬܢܐ: ܥܒ̈ܕܝ ܐܠܗܐ ܡܗܝܡ̈ܢܐ ܫܪܝܪ̈ܐ̣. ܐܚ̈ܝܢ
+                                                         ܟܪ̈ܣܛܝܢܐ ܘܡܘܕܝ̈ܢܐ ܒܚܝܪ̈ܐ: ܕܒܢܓܪܢ ܡܕܝܢܬܐ ܕܚܡܝܪ̈ܝܐ̣. ܝܥܩܘܒ ܒܨܝܪܐ ܕܡܢ ܐܬܪܐ ܕܐܘܪܗܝ. ܡܕܝܢܬܐ
+                                                         ܡܗܝܡܢܬܐ ܕܪ̈ܗܘܡܝܐ̣. ܒܝܫܘܥ ܢܘܗܪܐ ܕܥܡ̈ܡܐ ܘܣܒܪܐ ܕܥ̈ܠܡܐ. ܘܕܝ̇ܢܐ ܕܡ̈ܝܬܐ ܘܕܚ̈ܝܐ ܫܠܡ. ܘ .
+                                                         ܛܒ̈ܐ ܫܦܝܪ̈ܐ ܕܗܝܡܢܘܬܟܘܢ ܫܪܝܪܬܐ̣. ܐܝܟ ܪ̈ܝܚܢܐ ܓܒ̈ܝܐ ܕܗܪ̈ܘܡܐ ܪ̈ܫܝܐ̇. ܦܚܘ ܒܐܬܪܢ ܡܢ ܠܘܬܟܘܢ
+                                                         ܐܘ ܫܦܝܪ̈ܬܐ. ܪ̈ܚܡܝ ܐܠܗܐ. ܏ܘܫ. 
+                                                         
+                                                         </span></span><div class="msItem-notes"><span class="inline-h4">Notes:</span><ul>
+                                                         <li>Imperfect at the end</li>
+                                                         <li>See <a href="https://bl.syriac.uk/ms/809">Add. 17,163, fol. 10a<span class="tei-ptr"></span>
+                                                               </a></li>
+                                                      </ul>
+                                                   </div>
+                                                </div>
+                                             </div>
+                                             <div class="tei-msItem"><span class="inline-h4">Item 18 (Fol. 45a): </span>Jacob of Serugh. Letter to the citizens of Edessa, in time of hostile invasion
+                                                <div class="msItemChild"><span class="tei-quote"><span class="inline-h4"> 
+                                                         Excerpt: </span><span xml:lang="syr" lang="syr" dir="rtl">ܡܢ ܡܠܬܐ ܝܚܝܕܝܐ ܒܪ ܐܒܐ ܢܦ̣ܩ ܦܬܓܡܐ̣. ܕܥܠ ܐܘܪܗܝ̣
+                                                         ܠܐ ܡܫܬܠܛ ܒܥܠܕܒܒܐ. ܘܠܐ ܡܫܟܚܐ ܕܢܗܦܘܟ ܦܬܓܡܐ̣. ܐܝܟ ܕܠܐ ܡܛܪܐ ܠܫܡܝܐ.
+                                                          
+                                                         
+                                                         <p>Reminding them of the promise of our Saviour to king Abgar, that no enemy should prevail against <span class="tei-placeName"><a href="http://syriaca.org/place/78">Edessa</a></span>
+                                                            
+                                                         </p>
+                                                         </span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>Imperfect at the beginning
+                                                   </div>
+                                                </div>
+                                             </div>
+                                             <div class="tei-msItem"><span class="inline-h4">Item 19 (Fol. 49b): </span>Jacob of Serugh. Letter to Antiochus, Simeon, Samuel, John, Sergius, and Ignatius, priests and abbats
+                                                 [defective]
+                                                <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                         <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܐܓܪܬܐ ܕܫܕܪ ܡܪܝ ܝܥܩܘܒ ܠܪܫܝ ܕܝܪ̈ܬܐ ܠܐܢܫܐ ܛܘ̈ܒܢܐ
+                                                         
+                                                         </span></span><span class="tei-rubric"><span class="inline-h4"> 
+                                                         <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܕܡܕܒܪܢܘܬܐ ܕܝܠܕܐ ܕ܏ܨܠܝܒ
+                                                         Margin
+                                                         <span class="tei-quote"><span class="inline-h4"> 
+                                                               Excerpt: </span><span xml:lang="en" lang="en" dir="ltr">of the Christian dispensation, the Nativity, and the Crucifixion</span></span>
+                                                         </span></span><span class="tei-incipit"><span class="inline-h4"> 
+                                                         Incipit: </span><span xml:lang="syr" lang="syr" dir="rtl">ܠܚܣ̈ܝܐ ܘܩܕܝ̈ܫܐ ܓܒ̈ܝܐ̇ ܘܪ̈ܚܡܝ ܐܠܗܐ: ܥܡܘ̈ܕܐ ܕܫܪܪܐ ܘܢܘܗܪܗ ܕܥܠܡܐ: ܡܪܝ ܐܢܛܝܘܟ ܘܡܪܝ ܫܡܥܘܢ:
+                                                         ܘܡܪܝ ܫܡܘܐܝܠ ܘܡܪܝ ܝܘܚܢܢ: ܘܡܪܝ ܣܪܓܝܣ ܘܡܪܝ ܐܝܓܢܛ: ܩܫܝ̈ܫܐ ܘܪ̈ܝܫܝ ܕܝܪ̈ܬܐ̣. ܝܥܩܘܒ ܒܨܝܪܐ
+                                                         ܘܕܘܝܐ: ܘܣܢܝܩ ܥܠ ܪ̈ܚܡܐ ܕܐܠܗܐ: ܘܥܠ ܥܘܕܪܢܐ ܕܨܠܘܬ̈ܟܘܢ̣. ܒܝܫܘܥ ܢܘܗܪܐ ܘܚ̈ܝܐ: ܘܠܐ ܡܬܚܒܠܢܘܬܐ
+                                                         ܘܣܒܪܐ ܘܦܪܘܩܐ ܕܟܠ̣ ܫܠܡ. ܘ . ܘܩܒܠܬ ܟܬܝܒ̈ܬܐ ܕܓܒܝܘܬܟܘܢ. ܐܘ ܪ̈ܚܡܝ ܐܠܗܐ̣. ܘܚ̣ܕܝܬ݂ ܘܢܗ̣ܪܬ
+                                                         ܢܦܫܝ ܚܫܘܟܬܐ̇. ܒܫܠܡܟܘܢ ܐܠܗܝܐ. ܘܫ̇ܢܝ ܡܢ ܗܕܡ̈ܝ ܟܘܪܗܢܐ̣ ܒܣܥܘܪܘܬܐ ܕܟܬܝܒ̈ܬܟܘܢ̇ ܘܐܝܟ ܕܛܠܢܝܬܗ
+                                                         ܕܫܡܥܘܢ: ܚܘܠܡܢܐ ܠܟܪ̈ܝܗܐ̣ ܝܗܒܐ ܗܘܬ݂. ܗܟܢ ܐܓܪܬܟܘܢ ܡܨܒܬܬ ܒܚܘܒܐ ܐܠܗܝܐ̇. ܡܐܝܢܘܬܐ ܘܝܘܩܪܐ
+                                                         ܡܢ ܡܚܝܠܘܬܝ ܐܥܪܩܬ. ܏ܘܫ.. 
+                                                         
+                                                         </span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>It is imperfect at the end, and the last two leaves (foll. 54 and 55), which are much soiled and mutilated, may perhaps be misplaced.
+                                                   </div>
+                                                </div>
+                                             </div>
+                                             <div class="tei-msItem"><span class="inline-h4">Item 20 (Fol. 55b): </span>Jacob of Serugh. 
+                                                <div class="msItemChild">
+                                                   <div class="msItem-notes"><span class="inline-h4">Note: </span>
+                                                      Fol. 55 b contains the commencement of another letter, but the leaf is so damaged that scarcely
+                                                      a word is legible.
+                                                   </div>
+                                                </div>
+                                             </div>
+                                             <div class="tei-msItem"><span class="inline-h4">Item 21 (Fol. 56a): </span>Jacob of Serugh. Letter to Jacob, abbat of the convent of Naphshāthā
+                                                 [defective]
+                                                <div class="msItemChild">
+                                                   <div class="msItem-notes"><span class="inline-h4">Note: </span>Cf. Assemani, Bibl. Orient., t. i., p. 303, no. 5; <a href="https://bl.syriac.uk/ms/809">Add. 17,163, fol. 35 a<span class="tei-ptr"></span>
+                                                         </a>
+                                                      
+                                                   </div>
+                                                </div>
+                                             </div>
+                                             <div class="tei-msItem"><span class="inline-h4">Item 22 (Fol. 58a): </span>Jacob of Serugh. Letter to Maron, containing answers to six questions that had been propounded by him
+                                                to Jacob
+                                                 [defective]
+                                                <div class="msItemChild">
+                                                   <div class="msItem-notes"><span class="inline-h4">Notes:</span><ul>
+                                                         <li>It is very imperfect at the beginning, the whole of the first section, and the greater
+                                                            part of the second and third, being lost.
+                                                         </li>
+                                                         <li>See <a href="https://bl.syriac.uk/ms/809">Add. 17,163, fol. 43 a<span class="tei-ptr"></span>
+                                                               </a></li>
+                                                      </ul>
+                                                   </div>
+                                                </div>
+                                             </div>
+                                             <div class="tei-msItem"><span class="inline-h4">Item 23 (Fol. 72a): </span>Jacob of Serugh. Letter on the text S. Matth. xii. 32 [defective]
+                                                <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                         <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܐܓܪܬܐ ܕܝܠܗ ܕܛܘܒܢܐ ܡܪܝ ܝܥܩܘܒ ܥܠ ܗ̇ܝ ܕܐܡܪ ܡܪܢ ܕܟܠ ܡ̇ܢ ܕܢܐܡܪ ܡܠܬܐ ܥܠ ܒܪܗ ܕܐܢܫܐ ܢܫܬܒܩ
+                                                         ܠܗ. ܡ̇ܢ ܕܝܢ ܕܥܠ ܪܘܚܐ ܕܩܘܕܫܐ ܢܐܡܪ ܠܐ ܢܫܬܒܩ ܠܗ
+                                                         
+                                                         </span></span><span class="tei-incipit"><span class="inline-h4"> 
+                                                         Incipit: </span><span xml:lang="syr" lang="syr" dir="rtl">ܫܪܓܐ ܕܦܓܪܐ ܐܝܬܝܗ̣̇ ܥܝܢܐ. ܘܟܠ ܐܡܬܝ ܕܥܝܢܐ ܬܗܘܐ ܚܠܝܡܐ̣. ܟܠܗ ܦܓܪܐ̣ ܒܢܘܗܪܐ ܡܗܠܟ. ܐܢ ܕܝܢ
+                                                         ܢܥܪܨ ܟܐܒܐ: ܘܢܡ̣ܛܐ ܢܟܝܢܐ ܠܥܝܢܐ̣. ܡܬܚܒܠ̣ ܠܗ ܢܘܗܪܐ ܡܛܟܣܢܗܘܢ ܕܗܕܡ̈ܐ. ܏ܘܫ..
+                                                         
+                                                         </span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>Imperfect
+                                                   </div>
+                                                </div>
+                                             </div>
+                                             <div class="tei-msItem"><span class="inline-h4">Item 24 (Fol. 79b): </span>Jacob of Serugh. Letter to a friend
+                                                <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                         <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܐܓܪܬܐ ܕܡܪܝ ܝܥܩܘܒ ܨܝܕ ܐܢܫ ܪܚܡܗ
+                                                         
+                                                         </span></span><span class="tei-rubric"><span class="inline-h4"> 
+                                                         <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܕܝܚ̈ܝܕܝܐ
+                                                         Margin
+                                                         </span></span><span class="tei-incipit"><span class="inline-h4"> 
+                                                         Incipit: </span><span xml:lang="syr" lang="syr" dir="rtl">ܐܝܢܐ ܕܠܐ ܫܠܚ ܠܟܠ̣. ܕܢܠ̣ܒܫ ܠܚܕ݂ ܠܐ ܡܫܟܚ. ܚܕ ܓܝܪ ܥܡ ܟܠ ܠܐ ܡܬܠ̣ܒܫ. ܏ܘܫ..
+                                                         
+                                                         <span class="tei-quote"><span class="inline-h4"> 
+                                                               Excerpt: </span><span xml:lang="en" lang="en" dir="ltr">Of solitaries</span></span>
+                                                         </span></span></div>
+                                             </div>
+                                             <div class="tei-msItem"><span class="inline-h4">Item 25 (Fol. 80b): </span>Jacob of Serugh. Letter to 
+                                                Maras, bishop of Amid, 
+                                                Maras III, consecrated A.D. 520 
+                                                 [defective]
+                                                <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                         <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܐܓܪܬܐ ܕܫܕܪ ܡܪܝ ܝܥܩܘܒ ܡܠܦܢܐ ܠܡܪܝ ܡܪܐ ܐܦܣܩܦܐ ܕܐܡܕ
+                                                         
+                                                         </span></span><span class="tei-rubric"><span class="inline-h4"> 
+                                                         <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܕܒܘܝܐܐ ܘܡܣܝܒܪܢܘܬܐ
+                                                         Margin
+                                                         </span></span><span class="tei-incipit"><span class="inline-h4"> 
+                                                         Incipit: </span><span xml:lang="syr" lang="syr" dir="rtl">ܠܚܣܝܐ ܘܩܕܝܫܐ ܪܒܐ ܘܪܚܡܐ ܕܐܠܗܐ: ܡܪܝ ܡܪܐ܆ ܕܒܛܝܒܘܬܐ ܕܐܠܗܐ ܐܦܣܩܦܐ̣. ܝܥܩܘܒ ܒܨܝܪܐ ܣܓܘܕܐ ܕܓܒܝܘܬܟ
+                                                         ܒܡܪܢ ܫܠܡ. ܘ . ܡܕܒܪܢܘܬܐ ܕܐܠܗܐ ܥܬܝܪܬ ܣܘܟ̈ܠܐ ܘܥܡܝܩܬ ܡܚܫܒ̈ܬܐ: ܗ̇ܝ ܕܒܠܥܕܝܗ ܘܠܐ ܡܕܡ ܡܬܬܙܝܥܢ
+                                                         ܠܡܗܘܐ܆ ܟܐܢܐܝܬ ܐܝܟ ܕܡܥܕܐ ܦܪܢܣܬ ܒܙܒܢܐ ܗܢܐ̇. ܠܡܕܝܢܬܐ ܗ̇ܝ ܫܘܝܬ ܠܪ̈ܚܡܐ ܕܐܠܗܐ̇. ܘܓܒܬ ܘܐܩܝܡܬܟ
+                                                         ܡܕܒܪܢܐ ܠܥܡܐ ܡܗܝܡܢܐ̇. ܕܬܗܘܐ ܪܥܝܐ ܠܥܢܐ ܡܠܝܠܬܐ̇. ܦܪܝܩܬ ܒܕܡܐ ܝܩܝܪܐ ܕܐܠܗܐ. ܏ܘܫ.. 
+                                                         
+                                                         </span></span><div class="msItem-notes"><span class="inline-h4">Notes:</span><ul>
+                                                         <li>Imperfect</li>
+                                                         <li>Cf. Le Quien, Or. Christ., t. ii., col. 993
+                                                            
+                                                         </li>
+                                                      </ul>
+                                                   </div>
+                                                </div>
+                                             </div>
+                                             <div class="tei-msItem"><span class="inline-h4">Item 26 (Fol. 81b): </span>Jacob of Serugh. Letter to Daniel the solitary
+                                                 [defective]
+                                                <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                         <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܐܓܪܬܐ ܕܫܕܪ ܡܪܝ ܝܥܩܘܒ ܡܠܦܢܐ ܠܘܬ ܡܪܝ ܕܢܝܐܝܠ ܝܚܝܕܝܐ
+                                                         
+                                                         </span></span><span class="tei-rubric"><span class="inline-h4"> 
+                                                         <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܥܠ ܗ̇ܝ ܕܕܚܠ ܡܢ ܬܫܡܫܬܐ ܕܟܗܢܘܬܐ
+                                                         Margin
+                                                         <span class="tei-quote"><span class="inline-h4"> 
+                                                               Excerpt: </span><span xml:lang="en" lang="en" dir="ltr">concerning his unwillingness to serve as a priest</span></span>
+                                                         </span></span><span class="tei-incipit"><span class="inline-h4"> 
+                                                         Incipit: </span><span xml:lang="syr" lang="syr" dir="rtl">ܠܚܣܝܐ ܘܥܬܝܪ ܦܘܪ̈ܫܢܐ: ܥܒ̣ܕܐ ܕܐܠܗܐ ܘܡܪܐ ܕܝܠܝ: ܫܬܝܩܐ ܒܦܓܪ ܘܡܠܠܐ ܒܪܘܚ̣. ܡܪܝ ܕܢܝܐܝܠ̣. ܝܥܩܘܒ
+                                                         ܒܨܝܪܐ ܐܚܘܟ܆ ܒܡܪܢ ܣܒܪܐ ܘܚܝܐ ܕܟܠ ܫܠܡ. ܘ . ܩܒܠܬ ܟܬܝܒ̈ܬܟ ܪ̈ܚܝܡܬܐ ܡܪܝ ܓܒܝܐ ܕܐܠܗܐ̣. ܘܪܘܙܬ
+                                                         ܒܗܝܢ ܢܦܫܝ ܡܚܝܠܬܐ. ܘܛܦܝܬ ܐ̈ܢܝܢ ܠܓܘܫܡܝ̣. ܐܝܟ ܥܨ̇ܒܐ ܚܝܠܬܢܐ ܠܦܓܪܐ ܡܚܝܠܐ. ܏ܘܫ.. 
+                                                         
+                                                         </span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>Imperfect
+                                                   </div>
+                                                </div>
+                                             </div>
+                                             <div class="tei-msItem"><span class="inline-h4">Item 27 (Fol. 83a): </span>Jacob of Serugh. Letter on repentance [defective]
+                                                <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                         <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܥܠ ܬܘܬ ܢܦܫܐ
+                                                         
+                                                         </span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>Imperfect at the beginning
+                                                   </div>
+                                                </div>
+                                             </div>
+                                             <div class="tei-msItem"><span class="inline-h4">Item 28 (Fol. 83b): </span>Jacob of Serugh. 
+                                                <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                         <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܥܠ ܛܝܒܘܬܐ ܠܘܩܒܠ ܝܪ̈ܝܛܝܩܘ
+                                                         Margin
+                                                         <span class="tei-quote"><span class="inline-h4"> 
+                                                               Excerpt: </span><span xml:lang="en" lang="en" dir="ltr">on grace, against heretics</span></span>
+                                                         </span></span><span class="tei-incipit"><span class="inline-h4"> 
+                                                         Incipit: </span><span xml:lang="syr" lang="syr" dir="rtl">ܐܠܗܐ ܡܛܠ ܛܒܘܬܗ̣. ܠܟܠܗ ܓܢܣܐ ܕܒ̈ܢܝ ܐܢܫܐ ܒܥܐ ܕܢܥ̇ܬܪ ܒܡܘܗܒܬܗ: ܘܕܠܐ ܚܣ̇ܡ ܝܗܒ ܥܬܝܪܐܝܬ݂ ܠܟܠ
+                                                         ܐܢܫ. ܘܐܝܬ ܐܝܟܐ ܕܝܗܒ ܠܡ̇ܢ ܕܫܘܐ̣. ܘܐܝܬ ܐܝܟܐ ܕܝܗܒ̣ ܐܦ ܠܡ̇ܢ ܕܠܐ ܫܘܐ. ܏ܘܫ.. 
+                                                         
+                                                         </span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>Imperfect. The heading is entirely effaced.
+                                                   </div>
+                                                </div>
+                                             </div>
+                                             <div class="tei-msItem"><span class="inline-h4">Item 29 (Fol. 84b): </span>Jacob of Serugh. Letter to a friend
+                                                <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                         <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܨܝܕ ܐܢܫ ܪܚܡܗ
+                                                         
+                                                         </span></span><span class="tei-rubric"><span class="inline-h4"> 
+                                                         <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܕܫܒܬܐ ܪܒܬܐ
+                                                         Margin
+                                                         <span class="tei-quote"><span class="inline-h4"> 
+                                                               Excerpt: </span><span xml:lang="en" lang="en" dir="ltr">of the Great Week</span></span>
+                                                         </span></span><span class="tei-incipit"><span class="inline-h4"> 
+                                                         Incipit: </span><span xml:lang="syr" lang="syr" dir="rtl">ܒܥܘܕܪܢܐ ܕܐܠܗܐ ܫܡܠܝܢ ܚܢܢ ܥܐܕܐ ܩܕܝܫܐ ܘܥܬܝܪ ܬܗܪ̈ܐ ܕܫܒܐ ܪܒܐ: ܐܘ ܕܚܫܐ̈ ܕܐܠܗܐ. ܘܛܝܒܘܬܐ ܡܠܝܬ
+                                                         ܟܠ ܥܘܕܪ̈ܢܝܢ: ܦܪܢܣܬܗ ܠܢ ܠܥܐܕܐ̣. ܐܝܟ ܕܠܫܘܒܩܢܗ ܕ . . . ܢ. ܏ܘܫ.
+                                                         
+                                                         </span></span></div>
+                                             </div>
+                                             <div class="tei-msItem"><span class="inline-h4">Item 30 (Fol. 86b): </span>Jacob of Serugh.  [defective]
+                                                <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                         <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܕܥܐܕܐ ܕܩܝܡܬܐ
+                                                         Margin
+                                                         <span class="tei-quote"><span class="inline-h4"> 
+                                                               Excerpt: </span><span xml:lang="en" lang="en" dir="ltr">of the feast of the Resurrection</span></span>
+                                                         </span></span><span class="tei-incipit"><span class="inline-h4"> 
+                                                         Incipit: </span><span xml:lang="syr" lang="syr" dir="rtl">ܚܕܘ[ܬܐ ܪܒ]ـܬܐ ܥܒܕ ܠܢ ܥܘ[ܕܪ̈ܢܘܗܝ] ܕܡܫܝܚܐ܇ ܐ[ܝܚܝܕܝܐ ܒܪܐ] ܕܐܠܗܐ̣. ܘܒܫܝܢܐ ܪܒܐ ܦܪܢܣܬ ܐܢـ[ܘܢ]
+                                                         ܠܢ ܛܝܒܘܬܐ ܗ̇ܝ ܕܡܢ ܥܠܡ. ܏ܘܫ.
+                                                         
+                                                         </span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>The heading is entirely effaced
+                                                   </div>
+                                                </div>
+                                             </div>
+                                             <div class="tei-msItem"><span class="inline-h4">Item 31 (Fol. 88a): </span>Jacob of Serugh. Letter to Paul, bishop of Edessa
+                                                
+                                                <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                         <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܐܓܪܬܐ ܕܝܠܗ ܕܡܪܝ ܝܥܩܘܒ ܠܘܬ ܦܘܠܐ ܐܦܣܩܦܐ ܕܐܘܪܗܝ
+                                                         
+                                                         </span></span><span class="tei-rubric"><span class="inline-h4"> 
+                                                         <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܥܠ ܗ̇ܝ ܕܐܚܒܘ ܠܒܥܠܕܒ̈ܒܝܗܘܢ ܘܕܙܘܗܪܐ
+                                                         Margin
+                                                         <span class="tei-quote"><span class="inline-h4"> 
+                                                               Excerpt: </span><span xml:lang="en" lang="en" dir="ltr">on S. Matthew, ch. v. 44, and admonitory</span></span>
+                                                         </span></span><span class="tei-incipit"><span class="inline-h4"> 
+                                                         Incipit: </span><span xml:lang="syr" lang="syr" dir="rtl">ܠܚܣܝܐ ܘܩܕܝܫܐ ܘܪܚܡܐ ܕܐܠܗܐ ܡܪܝ ܦܘܠܐ ܐܦܣܩܦܐ̣. ܝܥܩܘܒ ܥܒ̣ܕܐ ܕܩܕܝܫܘܬܟ݂. ܒܡܪܢ ܫܠܡ. ܘ . ܡܕܒܪܢܘܬܐ
+                                                         ܚܟܝܡܬܐ ܕܐܠܗܐ. ܗ̇ܝ ܕܟܠ ܙܒܢ ܝܨܝܦܐ ܕܓܢܣܐ ܕܒ̈ܢܝ ܐܢܫܐ̣. ܡܥܕܐ ܗܝ ܕܡܢ ܒܝܫܬܐ ܬܗܘܐ ܣܥܪܐ ܛܒܬܐ̇.
+                                                         ܘܡܢ ܐܝܠܝܢ ܕܡܣ̣ܬܒܪ̈ܢ ܕܕܠܩܘܒܠܐ ܐ̈ܢܝ̣ܢ. ܬܓܕܘܠ ܟܠܝܠ ܬܫܒܘܚܬܐ. ܠܐܝܠܝܢ ܕܒܡܣܝܒܪܢܘܬܐ ܘܒܡܓܪܬ
+                                                         ܪܘܚܐ ܡܩܒܠܝܢ ܕܠܐ ܪܛܢܐ̣ ܠܗܠܝܢ ܕܕܠܩܘܒܠܐ. ܏ܘܫ..
+                                                         
+                                                         </span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>Cf. Assemani, Bibl. Orient., t.i., p. 409; Le Quien, Or. Christ, t. ii., col. 963
+                                                      
+                                                   </div>
+                                                </div>
+                                             </div>
+                                             <div class="tei-msItem"><span class="inline-h4">Item 32 (Fol. 91a): </span>Jacob of Serugh. Letter addressed to a bishop named Eutychianus. [defective]
+                                                <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                         <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܙܘܗܪܐ ܕܥܠ ܗܝܡܢܘܬܐ
+                                                         Margin
+                                                         <span class="tei-quote"><span class="inline-h4"> 
+                                                               Excerpt: </span><span xml:lang="en" lang="en" dir="ltr">admonition regarding the faith</span></span>
+                                                         </span></span><span class="tei-incipit"><span class="inline-h4"> 
+                                                         Incipit: </span><span xml:lang="syr" lang="syr" dir="rtl">ܠܚܣܝܐ ܘܩܕܝܫܐ ܪܒܐ ܘܪܚܡܐ ܕܐܠܗܐ: ܡܪܝ ܐܘܛܘܟܝܢܐ ܐܦܣܩܦܐ̣. ܝܥܩܘܒ ܒܨܝܪܐ ܣܓܘܕܟ݂. ܒܝܫܘܥ ܢܘܗܪܐ
+                                                         ܘܚ̈ܝܐ ܘܠܐ ܡܬܚܒܠܢܘܬܐ ܘܣܒܪܐ ܘܫܘܡܠܝܐ ܕܟܠ̣ ܫܠܡ. ܘ . ܩܒܠܬ ܐܓܪܬܟ ܡܠܝܬ ܦܘܪ̈ܫܢܐ̣. ܐܘ ܪܒܐ ܕܐܠܗܐ̣.
+                                                         ܏ܘܫ..
+                                                         
+                                                         </span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>The letter is altogether doctrinal, being directed chiefly against the Nestorians.
+                                                   </div>
+                                                </div>
+                                             </div>
+                                             <div class="tei-msItem"><span class="inline-h4">Item 33 (Fol. 93a): </span>Jacob of Serugh. Letter addressed to one Sīmai
+                                                 [defective]
+                                                <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                         <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܕܒܘܝܐܐ ܕܥܢܝ̈ܕܐ
+                                                         Margin
+                                                         <span class="tei-quote"><span class="inline-h4"> 
+                                                               Excerpt: </span><span xml:lang="en" lang="en" dir="ltr">of consolation for the dead</span></span>
+                                                         </span></span><span class="tei-incipit"><span class="inline-h4"> 
+                                                         Incipit: </span><span xml:lang="syr" lang="syr" dir="rtl">ܠܪܒܐ ܘܪܚܡܐ ܕܐܠܗܐ ܡܪܝ ܣܝܡܝ̣ ܝܥܩܘܒ ܒܨܝܪܐ ܡܚܒܢܟ ܒܡܪܢ̣ ܫܠܡ. ܘ . ܥܝܕܐ ܐܝܬ ܒܥܠܡܐ ܐܘ ܚܟܝܡ
+                                                         ܒܐܠܗܐ̣. ܕܟܠ ܡܢ ܕܥܪܨ ܥܠܘܗܝ ܚܫܐ ܒܡܘܬܐ ܕܚܒܝܒܗ̣. ܢܗܘܘܢ ܡܬܟܢܫܝܢ ܠܘܬܗ̣. ܪ̈ܚܡܐ ܘܚܒ̈ܝܒܐ ܘ[ܒ̈ܢـ]ـܝ
+                                                         ܓܢܣܐ̣ ܕܒܥܢܝܢܐ ܕ . . . ܗܘܢ ܢܛܪܕܘܢ ܚܫܐ ܡܢ ܪܥܝܢܗ. ܏ܘܫ..
+                                                         
+                                                         </span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>The heading is much effaced
+                                                   </div>
+                                                </div>
+                                             </div>
+                                             <div class="tei-msItem"><span class="inline-h4">Item 34 (Fol. 96b): </span>Jacob of Serugh. Letter to the Comes Bassus
+                                                
+                                                <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                         <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܐܓܪܬܐ ܕܡܪܝ ܝܥܩܘܒ ܨܝܕ ܩܡܣ ܒܣܐ
+                                                         
+                                                         </span></span><span class="tei-rubric"><span class="inline-h4"> 
+                                                         <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܕܗܝܡܢܘܬܐ ܕܫܪܪܐ
+                                                         Margin
+                                                         <span class="tei-quote"><span class="inline-h4"> 
+                                                               Excerpt: </span><span xml:lang="en" lang="en" dir="ltr">Of the true faith</span></span>
+                                                         </span></span><span class="tei-incipit"><span class="inline-h4"> 
+                                                         Incipit: </span><span xml:lang="syr" lang="syr" dir="rtl">ܠܪܒܐ ܘܢܨܝܚܐ ܘܡܗܝܡܢܐ ܫܪܝܪܐ ܡܪܝ ܒܣܐ ܩܘܡܣ. ܝܥܩܘܒ ܣܓܘܕܐ ܕܪܒܘܬܟ ܒܡܪܢ̣ ܫܠܡ. ܘ . ܐܝܠܝܢ ܕܪܗܛܝܢ
+                                                         ܒܬܪ ܥܘܬܪܐ ܘܒܬܪ ܩܢܝܢܗ ܕܥܠܡܐ̣. ܡܛܠ ܕܢܫܬܒܚܘܢ ܒܗ ܒܥܘܬܪܐ ܪܗܛܝܢ ܒܬܪܗ. ܘܒܥܠܡܐ ܣܓܝܐܐ ܘܒܠܐܘܬܐ
+                                                         ܕܠܐ ܣܟܐ: ܘܒܥܘܠܐ ܘܒܚ̈ܛܗܐ̣. ܒܥܝܢ ܕܢܟܢܫܘܢ ܠܗܘܢ ܩܢܝܢܐ̣. ܡܛܘܠ ܕܬܣ̣ܓܐ ܬܫܒܘܚܬܗܘܢ ܘܩܢܝܢܗܘܢ
+                                                         ܣܓܝܐܐ. ܏ܘܫ..
+                                                         
+                                                         </span></span></div>
+                                             </div>
+                                             <div class="tei-msItem"><span class="inline-h4">Item 35 (Fol. 98b): </span>Jacob of Serugh. Letter to Cyrus, the archiater or chief physician
+                                                
+                                                <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                         <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܐܓܪܬܐ ܕܡܪܝ ܝܥܩܘܒ ܨܝܕ ܡܪܝ ܩܘܪܐ ܐܪܟܝܛܪܘܣ
+                                                         
+                                                         </span></span><span class="tei-rubric"><span class="inline-h4"> 
+                                                         <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܦܘܫܩܐ ܕܗܝܡܢܘܬܐ ܕܫܪܪܐ
+                                                         Margin
+                                                         <span class="tei-quote"><span class="inline-h4"> 
+                                                               Excerpt: </span><span xml:lang="en" lang="en" dir="ltr">exposition of the true faith</span></span>
+                                                         </span></span><span class="tei-incipit"><span class="inline-h4"> 
+                                                         Incipit: </span><span xml:lang="syr" lang="syr" dir="rtl">ܠܪܒܐ ܘܢܨܝܚܐ ܘܡܗܝܡܢܐ ܫܪܝܪܐ: ܡܪܝ ܩܘܪܐ ܐܪܟܝܛܪܘܣ ܩܘܡܣ̣. ܝܥܩܘܒ ܣܓܘܕܐ ܕܪܒܘܬܟ ܒܡܪܢ ܫܠܡ. ܘ
+                                                         . ܝܐܐ ܠܟ ܐܘ ܚܟܝܡܐ ܪܒܐ̇. ܕܒܪܚܡܬܐ ܕܐܠܗܐ ܘܒܗܝܡܢܘܬܐ ܕܫܪܪܐ ܚܘܝܬ ܢܦܫܟ ܠܥܕܬܗ ܕܡܫܝܚܐ. ܘܗܘܝܬ
+                                                         ܡܚܙܝܬܐ ܫܦܝܪܬܐ̣. ܕܒܥܠܬܟ ܢܣܬܡ̈ܟܢ ܘܢܬܐܣ̈ܝ̣ܢ. ܢܦܫ̈ܬܐ ܕܣܓܝܐ̈ܐ ܏ܘܫ.
+                                                         
+                                                         </span></span></div>
+                                             </div>
+                                             <div class="tei-msItem"><span class="inline-h4">Item 36 (Fol. 101a): </span>Jacob of Serugh. Letter to two harlots who had become recluses, by name Leontia and Maria
+                                                
+                                                <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                         <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܐܓܪܬܐ ܕܡܪܝ ܝܥܩܘܒ ܠܘܬ ܢܫ̈ܐ ܙܢ̈ܝܬܐ ܕܗ̈ܘܝ ܚܒܝ̈ܫܬܐ
+                                                         
+                                                         </span></span><span class="tei-rubric"><span class="inline-h4"> 
+                                                         <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܕܒܬܘ̈ܠܬܐ
+                                                         Margin
+                                                         <span class="tei-quote"><span class="inline-h4"> 
+                                                               Excerpt: </span><span xml:lang="en" lang="en" dir="ltr">of virgins</span></span>
+                                                         </span></span><span class="tei-incipit"><span class="inline-h4"> 
+                                                         Incipit: </span><span xml:lang="syr" lang="syr" dir="rtl">ܠܢܟ̈ܦܬܐ ܕܢܟܦ ܐ̈ܢܝܢ ܙܩܝܦܐ: ܡܪܬܝ ܠܐܢܛܝܐ ܘܡܪܬܝ ܡܪܝܐ̣. ܝܥܩܘܒ ܒܨܝܪܐ ܣܢܝܩ ܥܠ ܪ̈ܚܡ̣ܐ ܕܐܠܗܐ:
+                                                         ܘܥܠ ܥܘܕܪܢܐ ܕܨܠܘܬ̈ܟܝ̣ܢ. ܒܝܫܘܥ ܓܡܪ ܟܘܠ ܒܚܫܐ ܕܙܩܝܦܗ ܫܠܡ. ܘ . ܛܝܒܘܬܐ ܕܐܠܗܐ ܣܥ̣ܪܬ ܟܠ ܚܝ̈ܠܝܢ
+                                                         ܘܫ̣ܪܝܬ ܟܠ ܩܛܪ̈ܝܢ: ܘܥܬܝܪܬ ܒܟܠ ܛܒܢ: ܩܪܬܟܝܢ ܕܬܐ̈ܬܝܢ ܡܢ ܢܚܠܐ ܕܚܛܝܬܐ ܠܐܬܪܐ ܕܒܝܬ ܚܙܘ̈ܢܐ.
+                                                         ܕܬܥ̈ܒܕܢ ܒܗ ܐܓܘܢܐ ܫܦܝܪܐ̣. ܏ܘܫ..
+                                                         
+                                                         </span></span></div>
+                                             </div>
+                                          </div>
+                                       </div>
+                                    </div>
+                                 </div>
+                                 
+                                 <div class="tei-msItem"><span class="inline-h4">Item 37 (Fol. 104a): </span>Jacob of Serugh. Six homilies, written in prose
+                                    <div class="msItemChild">
+                                       <div class="msItem-notes"><span class="inline-h4">Note: </span>Cf. Assemani, Bibl. Orient., t. i., pp. 23 and 304, nos. 8—13; Zingerle, Sechs Homilien des heiligen Jacob von Sarug, Bonn, 1867
+                                          
+                                       </div>
+                                       <div class="tei-msItem"><span class="inline-h4">Item 38 (Fol. 104a): </span>Jacob of Serugh. On the Nativity of our Lord
+                                          <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                   <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܬܘܪܓܡܐ ܕܥܠ ܝܠܕܗ ܕܡܪܢ. ܕܣܝܡ ܠܡܪܝ ܝܥܩܘܒ
+                                                   
+                                                   </span></span></div>
+                                       </div>
+                                       <div class="tei-msItem"><span class="inline-h4">Item 39 (Fol. 107a): </span>Jacob of Serugh. On the Epiphany
+                                          <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                   <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܬܘܪܓܡܐ ܥܠ ܕܢܚܗ ܕܡܪܢ
+                                                   
+                                                   </span></span></div>
+                                       </div>
+                                       <div class="tei-msItem"><span class="inline-h4">Item 40 (Fol. 112a): </span>Jacob of Serugh. On Lent
+                                          <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                   <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܬܘܪܓܡܐ ܥܠ ܨܘܡܐ ܕܐܪܒܥܝܢ
+                                                   
+                                                   </span></span></div>
+                                       </div>
+                                       <div class="tei-msItem"><span class="inline-h4">Item 41 (Fol. 117b): </span>Jacob of Serugh. On Palm Sunday
+                                          <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                   <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܬܘܪܓܡܐ ܕܥܠ ܚܕ ܒܫܒܐ ܕܐܘܫ̈ܥܢܐ
+                                                   
+                                                   </span></span></div>
+                                       </div>
+                                       <div class="tei-msItem"><span class="inline-h4">Item 42 (Fol. 124b): </span>Jacob of Serugh. On the Friday in Passion Week
+                                          <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                   <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܬܘܪܓܡܐ ܕܥܠ ܥܪܘܒܬܐ ܕܚܫܗ ܕܡܪܢ
+                                                   
+                                                   </span></span></div>
+                                       </div>
+                                       <div class="tei-msItem"><span class="inline-h4">Item 43 (Fol. 130b): </span>Jacob of Serugh. On the Sunday of the Resurrection
+                                          <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                   <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܬܘܪܓܡܐ ܕܚܕ ܒܫܒܐ ܕܦܛܝܪܐ
+                                                   
+                                                   </span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>Cf. Zingerle's Monumenta Syriaca, vol. i., p. 91
+                                                
+                                             </div>
+                                          </div>
+                                       </div>
+                                    </div>
+                                 </div>
+                                 </span></div>
+                        </div>
+                     </div>
+                  </div>
+                  <div xmlns:x="http://www.w3.org/1999/xhtml" xmlns:local="http://syriaca.org/ns" class="panel panel-default">
+                     <div class="panel-heading">
+                        <h2 class="panel-title" data-toggle="collapse" data-target="#Additions">Additions </h2>
+                     </div>
+                     <div id="Additions" class="panel-collapse collapse in">
+                        <div class="panel-body">
+                           <div class="msDesc">
+                              <div class="indent">
+                                 
+                                 <div class="tei-note"><span>N.B., items below may have been listed out of folio order in Wright's catalogue.</span></div>
+                                 
+                                 
+                                 <div class="tei-item"><span class="inline-h4">Addition 1</span><strong> (Fol. 136a)</strong>:
+                                    <span class="tei-p">A note on fol. 136 a states that the volume was written in the year <span class="tei-date">914</span>, <span class="tei-date">A.D. 603</span>, for certain persons, whose names have been erased, that of <span class="tei-persName">Joseph of <span class="tei-placeName">Dārā</span>
+                                          </span> being substituted</span><span class="tei-p">
+                                       <span class="tei-quote" lang="syr">♰ ܕܘܟܪܢܐ ܛܒܐ ܢܗܘܐ ܩܕܡ ܐܠܗܐ ܘܡܫܝܚܗ ܘܪܘܚܗ ܚܝܐ ܘܩܕܝܫܐ [ܥܠ ܝܘܣܦ ܚܛܝܐ ܡܢ ܕܪܐ ܡܕܝܬܐ: : (sic)
+                                          ܕܟܬܒ ܟܬܒܐ ܗܢܐ ܡܢ ܙܝܢܬܐ ܕܠܗܐ (sic) ܘܦܘܠܚ̈ܢܐ ܕܐܝܕ̈ܘܗܝ ܒܡܕܒܪܐ ܕܣܩܛܐ ܕܡܨܝܢ. (sic)  ܐܠܐ
+                                          ܨܠܘ ܥܠܘ (sic) ܡܛܠ ܡܪܢ ܝܫܘܥ ܡܫܝܚܐ ܘܥܠ ܥܢܝ̈ܕܘܗܝ̣] ܕܢܥܒܕ ܥܠܝܗܘܢ ܪ̈ܚܡܐ ܒܬܪ̈ܝܗܘܢ ܥ̈ܠܡܐ
+                                          ܠܥܠܡܝܢ ܐܡܝܢ ܘܐܡܝܢ܀ . . . ܟܬܒܐ ܗܢܐ ܒܐܝܪܚ ܐܝܠܘܠ ܒܫܢܬ݂݀ ܬܫܥܡܐܐ ܘܐܪ̈ܒܥܣܪܐ܀</span>
+                                       </span></div>
+                                 
+                                 <div class="tei-item"><span class="inline-h4">Addition 2</span><strong> (Fol. 136a)</strong>:
+                                    <span class="tei-p">Then follows an extract, fol. 136 a, entitled  <span class="tei-foreign" lang="syr">ܬܫܥܝܬܐ ܕܡܪܝ ܓܪܝܓܘܪܝܣ</span>, somewhat rudely written, but apparently by the same hand as the rest of the manuscript.
+                                       This "history of Mar Gregory" is identical with the extract contained in <span class="tei-bibl">Add. 14,582<span class="tei-ptr"></span>, fol. 189 a</span>.</span></div>
+                                 
+                                 <div class="tei-item"><span class="inline-h4">Addition 3</span><strong> (Fol. 135b)</strong>:
+                                    <span class="tei-p">On fol. 135 b there is a note, stating that this book was presented to the <span class="tei-placeName">convent of S. Mary Deipara</span> by three persons, named <span class="tei-persName">Isaac</span>, <span class="tei-persName">Daniel</span> and <span class="tei-persName">Solomon</span> (about <span class="tei-date">A.D. 851—59</span>)</span><span class="tei-p">
+                                       <span class="tei-quote" lang="syr">ܝܗܒܘ ܟܬܒܐ ܗܢܐ ܠܕܝܪܐ ܕܝܠܕܬ ܐܠܗܐ ܕܡܕܒܪܐ ܐܝܣܚܩ ܘܕܢܝܐܠ ܘܫܠܡܘܢ ܕܡܪܝܐ ܢܦܪܘܥ ܐܢܘܢ ܒܡܠܟܘܬܗ
+                                          ܐܡܝܢ. ܟܠ ܕܠܚܐ ܥܘܗܕܢܐ ܗܢܐ ܐܘ ܓܢܒ ܠܟܬܒܐ ܗܢܐ ܢܗܘܐ ܢܘܟܪܝ ܠܐܠܗܐ ܐܡܝܢ.</span>
+                                       </span><span class="tei-p">The remainder of this note has been carefully erased, but it seems to have contained
+                                       only one of the usual anathemas.</span></div>
+                                 
+                                 
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+                  <div class="citationinfo">
+                     <h3>How to Cite This Entry</h3>
+                     <div id="citation-note" class="content-block indent"><span> William Wright</span> et al., “<span class="title">London, BL, Add. 14587</span>” in ,  last modified April 21, 2023, <a href="https://bl.syriac.uk/ms/323">https://bl.syriac.uk/ms/323</a>.
+                        <div class="collapse" id="showcit">
+                           <div id="citation-bibliography">
+                              <h4>Bibliography:</h4><span class="editor">William Wright</span> et al., “<span class="title">London, BL, Add. 14587</span>.” In , edited by . Syriaca.org: The Syriac Reference Portal,
+                              2023.
+                               Entry published April 21, 2023. <a href="https://bl.syriac.uk/ms/323">https://bl.syriac.uk/ms/323</a>.
+                           </div>
+                           <div id="about">
+                              <h3>About this Entry</h3>
+                              <p><span class="heading-inline">Entry Title:</span> <span class="title">London, BL, Add. 14587</span></p>
+                              <div>
+                                 <h4>Authorial and Editorial Responsibility:</h4>
+                                 <ul>
+                                    <li><span> David A. Michelson</span>, general editor, Syriaca.org: The Syriac Reference Portal
+                                    </li>
+                                    <li>, editor, </li>
+                                    <li>William Wright, David A. Michelson, James E. Walters, Robert Aydin, and Justin Arnwine, entry contributors, “”</li>
+                                 </ul>
+                              </div>
+                              <div>
+                                 <h4>Additional Credit:</h4>
+                                 <ul>
+                                    <li>Created by <span> James E. Walters</span></li>
+                                    <li>Based on the work of <span> William Wright</span></li>
+                                    <li>Edited by <span> James E. Walters</span></li>
+                                    <li>Syriac text entered by <span> Robert Aydin</span></li>
+                                    <li>Greek and coptic text entry and proofreading by <span> Ryan Stitt</span></li>
+                                    <li>Project management by <span> Elizabeth Walston</span></li>
+                                    <li>English text entry and proofreading by <span> Syriac Research Group, University of Alabama</span></li>
+                                    <li>Syriaca.org URIs for authors edited by <span> Justin Arnwine</span></li>
+                                    <li>Syriaca.org URIs for authors checked by <span> Alexys Ahn</span><span> Joseph DAlfonso</span></li>
+                                    <li>Folio extent edited by <span> Kurt Urban</span></li>
+                                 </ul>
+                              </div>
+                           </div>
+                           <div id="license">
+                              <h3>Copyright and License for Reuse</h3>
+                              <div>Except otherwise noted, this page is © 2023.
+                                 
+                              </div><span class="tei-licence">
+                                 
+                                 <p>Distributed under a Creative Commons Attribution 3.0 Unported License</p>
+                                 </span></div>
+                        </div><a class="btn-sm btn-info togglelink pull-right" data-toggle="collapse" data-target="#showcit" data-text-swap="Hide citation">Show full citation information...</a></div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </body><script type="text/javascript" src="/resources/js/jquery.validate.min.js"></script><script type="text/javascript" src="/resources/js/require.min.js"></script><script type="text/javascript" src="/resources/js/srophe.js"></script><script data-template="app:google-analytics"></script></html>

@@ -1,0 +1,658 @@
+<?xml version="1.0" encoding="UTF-8"?><html xmlns="http://www.w3.org/1999/xhtml" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:srophe="https://srophe.app">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <title>London, BL, Add. 14631</title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <meta name="DC.type" property="dc.type" content="Text" />
+      <meta name="DC.isPartOf" property="dc.ispartof" content="Syriaca.org: The Syriac Reference Portal" />
+      <link data-template="app:metadata" />
+      <link rel="shortcut icon" href="/resources/images/fav-icons/mss-favicon.ico" />
+      <link rel="stylesheet" type="text/css" href="/resources/bootstrap/css/bootstrap.min.css" />
+      <link rel="stylesheet" type="text/css" href="/resources/css/sm-core-css.css" />
+      <link rel="stylesheet" type="text/css" href="/resources/css/syr-icon-fonts.css" />
+      <link rel="stylesheet" type="text/css" href="/resources/css/style.css" />
+      <link rel="stylesheet" type="text/css" href="/resources/css/syriaca.css" />
+      <link rel="stylesheet" type="text/css" media="print" href="/resources/css/print.css" />
+      <link rel="stylesheet" href="/resources/leaflet/leaflet.css" />
+      <link rel="stylesheet" href="/resources/leaflet/leaflet.awesome-markers.css" />
+      <link href="/resources/jquery-ui/jquery-ui.min.css" rel="stylesheet" /><script type="text/javascript" src="/resources/js/jquery.min.js"></script><script type="text/javascript" src="/resources/jquery-ui/jquery-ui.min.js"></script><script type="text/javascript" src="/resources/js/jquery.smartmenus.min.js"></script><script type="text/javascript" src="/resources/js/clipboard.min.js"></script><script type="text/javascript" src="/resources/bootstrap/js/bootstrap.min.js"></script><script defer="defer" data-domain="bl.syriac.uk" src="https://plausible.io/js/script.js"></script><link href="/resources/keyboard/css/keyboard.min.css" rel="stylesheet" />
+      <link href="/resources/keyboard/css/keyboard-previewkeyset.min.css" rel="stylesheet" />
+      <link href="/resources/keyboard/syr/syr.css" rel="stylesheet" /><script type="text/javascript" src="/resources/keyboard/syr/jquery.keyboard.js"></script><script type="text/javascript" src="/resources/keyboard/js/jquery.keyboard.extension-mobile.min.js"></script><script type="text/javascript" src="/resources/keyboard/js/jquery.keyboard.extension-navigation.min.js"></script><script type="text/javascript" src="/resources/keyboard/syr/jquery.keyboard.extension-autocomplete.js"></script><script type="text/javascript" src="/resources/keyboard/syr/keyboardSupport.js"></script><script type="text/javascript" src="/resources/keyboard/syr/syr.js"></script><script type="text/javascript" src="/resources/keyboard/layouts/ms-Greek.min.js"></script><script type="text/javascript" src="/resources/keyboard/layouts/ms-Russian.min.js"></script><script type="text/javascript" src="/resources/keyboard/layouts/ms-Arabic.min.js"></script><script type="text/javascript">
+            $(document).ready(function () {
+                $('[data-toggle="tooltip"]').tooltip({ container: 'body' })
+
+                $('.keyboard').keyboard({
+                    openOn: null,
+                    stayOpen: false,
+                    alwaysOpen: false,
+                    autoAccept: true,
+                    usePreview: false,
+                    initialFocus: true,
+                    rtl : true,
+                    layout: 'syriac-phonetic',
+                    hidden: function(event, keyboard, el){
+                       //  keyboard.destroy();
+                     }
+                });
+
+                $('.keyboard-select').click(function () {
+                    var keyboardID = '#' + $(this).data("keyboard-id")
+                    var kb = $(keyboardID).getkeyboard();
+                    //var kb = $('#searchField').getkeyboard();
+                    // change layout based on link ID
+                    kb.options.layout = this.id
+                    // open keyboard if layout is different, or time from it last closing is &gt; 200 ms
+                    if (kb.last.layout !== kb.options.layout || (new Date().getTime() - kb.last.eventTime) &gt; 200) {
+                        kb.reveal();
+                    }
+                });
+                //Change fonts
+                $('.swap-font').on('click', function(){
+                    var selectedFont = $(this).data("font-id")
+                    $('.selectableFont').not('.syr').css('font-family', selectedFont);
+                    $("*:lang(syr)").css('font-family', selectedFont)
+                });
+
+            })
+        </script></head>
+   <body id="body">
+      <nav class="navbar navbar-default navbar-fixed-top" role="navigation" data-template="app:fix-links">
+         
+         <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse-1">
+               <span class="sr-only">Toggle navigation</span>
+               <span class="icon-bar"></span>
+               <span class="icon-bar"></span>
+               <span class="icon-bar"></span>
+               </button>
+            <a class="navbar-brand banner-container" href="/index.html">
+               <span class="syriaca-icon syriaca-mss banner-icon"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span>
+                  </span>
+               <span class="banner-text">Syriac Manuscripts in the British Library</span>
+               </a>
+            
+         </div>
+         
+         <div class="navbar-collapse collapse pull-right" id="navbar-collapse-1">
+            
+            <ul class="nav navbar-nav">
+               
+               <li>
+                  <a href="/browse.html" class="nav-text">Browse</a>
+                  
+               </li>
+               
+               <li data-template="app:shared-content" data-template-path="/templates/shared-links.html"></li>
+               
+               <li>
+                  <a href="/search.html" class="nav-text">Advanced Search</a>
+                  
+               </li>
+               
+               <li>
+                  
+                  <div id="search-wrapper">
+                     
+                     <form class="navbar-form navbar-right search-box" role="search" action="/search.html" method="get">
+                        
+                        <div class="form-group">
+                           <input type="text" class="form-control keyboard" placeholder="search" name="keyword" id="keywordNav" />
+                           <span data-template="app:keyboard-select-menu" data-template-input-id="keywordNav"></span>
+                           <button class="btn btn-default search-btn" id="searchbtn" type="submit" title="Search">
+                              <span class="glyphicon glyphicon-search"></span>
+                              </button>
+                           
+                        </div>
+                        
+                     </form>
+                     
+                  </div>
+                  
+               </li>
+               
+               <li data-template="app:shared-content" data-template-path="/templates/fontMenu.html"></li>
+               
+            </ul>
+            
+         </div>
+         
+      </nav>
+      <div class="main-content-block">
+         <div class="interior-content">
+            <div class="container otherFormats"><a href="mailto:bl.syriac.uk@gmail.com?subject=Shelf mark: Record URI: " type="button" class="btn btn-default btn-xs" data-toggle="tooltip" title="Click to report a correction via e-mail."><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span> Corrections
+                  </a> <a href="https://github.com/srophe/britishLibrary-data/issues/new?assignees=&amp;labels=community-submitted&amp;title=:" target="_blank" id="issueBtn" data-toggle="tooltip" class="btn btn-default btn-xs" title="Click to file a data issue on GitHub (requires login)."><span class="glyphicon glyphicon-record" aria-hidden="true"></span> Open
+                  </a> <a href="https://github.com/srophe/britishLibrary-data/blob/main/data/tei/378.xml" target="_blank" class="btn btn-default btn-xs" id="openBtn" data-toggle="tooltip" title="Click to view the TEI XML data for this record."><img src="/resources/images/github-mark.png" height="18px" /></a> <a href="javascript:window.print();" type="button" class="btn btn-default btn-xs" id="printBtn" data-toggle="tooltip" title="Click to send this page to the printer."><span class="glyphicon glyphicon-print" aria-hidden="true"></span> 
+                  </a> 
+            </div>
+            <div class="row">
+               <div class="col-md-12">
+                  <div xmlns:x="http://www.w3.org/1999/xhtml" xmlns:local="http://syriaca.org/ns" class="title">
+                     <h1>Add. 14,631</h1>
+                  </div>
+                  <div xmlns:x="http://www.w3.org/1999/xhtml" xmlns:local="http://syriaca.org/ns" class="tei-note">
+                     <div>URI: <span class="tei-idno">https://bl.syriac.uk/ms/378</span></div>
+                  </div>
+                  <div xmlns:x="http://www.w3.org/1999/xhtml" xmlns:local="http://syriaca.org/ns" id="msTOC" class="mstoc">
+                     <ul>
+                        <li><a href="#msPart1">1. Add. 14,631, foll. 1–16
+                              (900 - 1000 CE) 
+                              
+                              [https://bl.syriac.uk/ms/379]
+                              </a></li>
+                        <li><a href="#msPart2">2. Add. 14,631, foll. 17–44
+                              (800 - 1000 CE) 
+                              
+                              [https://bl.syriac.uk/ms/380]
+                              </a></li>
+                        <li><a href="#msPart3">3. Add. 14,631, foll. 45–53, upper text
+                              (800 - 1000 CE) 
+                              
+                              [https://bl.syriac.uk/ms/381]
+                              </a></li>
+                        <li><a href="#msPart4">4. Add. 14,631, fol. 45, lower text
+                              (600 - 700 CE) 
+                              
+                              [https://bl.syriac.uk/ms/1487]
+                              </a></li>
+                     </ul>
+                  </div>
+                  <div xmlns:x="http://www.w3.org/1999/xhtml" xmlns:local="http://syriaca.org/ns" class="header section">
+                     <div class="tei-note">
+                        <div></div>
+                     </div>
+                     <div class="tei-note"><span>This manuscript record does not have a summary list of contents. For composite manuscripts,
+                           the list of contents can be found under each individual part.</span></div>
+                  </div>
+                  <div xmlns:x="http://www.w3.org/1999/xhtml" xmlns:local="http://syriaca.org/ns" id="msPart1" class="msContent">
+                     <div class="panel-group">
+                        <div class="panel panel-default">
+                           <div class="panel-heading">
+                              <h2 class="panel-title" data-toggle="collapse" data-target="#panelmsPartPart1"><span class="anchor" id="msPartPart1"></span><span class="shelfmark"><span class="tei-idno">Add. 14,631, foll. 1–16</span></span></h2>
+                           </div>
+                           <div id="panelmsPartPart1" class="panel-collapse collapse in">
+                              <div class="panel-body">
+                                 <div class="msDesc">
+                                    <div class="header section">
+                                       <div class="tei-note">
+                                          <div>URI: <span class="tei-idno">https://bl.syriac.uk/ms/379</span></div>
+                                          <div>
+                                             Description based on Wright
+                                             <a href="#" data-toggle="tooltip" title="This entry number is from Wright's printed catalogue. Due to renumbering, Wright's entry numbers do not match the numbering used in this digital catalogue."><span class="tei-idno">DCCCCLXXII</span></a>
+                                             (<span class="tei-citedRange">3:1149</span>)
+                                             <a href="https://archive.org/details/catalogueofsyria03brituoft/page/1149" target="_blank"><img src="/resources/images/ialogo.jpg" alt="Link to Archive.org Bibliographic record" height="18px" /></a></div>
+                                          <div>
+                                             Date: 
+                                             10th century
+                                          </div>
+                                          <div>Unspecified Syriac script ܀  Parchment Codex, 16 leaves.
+                                             
+                                          </div>
+                                          <div></div>
+                                          <div>
+                                             Wright's Subject Classification:
+                                             Single Lives
+                                          </div>
+                                       </div>
+                                       <div class="tei-note"><span>This manuscript contains: Part of a life of Dioscorus I., patriarch of Alexandria,
+                                             the successor of Cyril (See Renaudot, Hist. Patr. Alexandrin. Jacobit., p. 114, and
+                                             Le Quien, Oriens Christ., t. ii., col. 409 ), written by his disciple Theopistus,
+                                             Θεόπιστος , ܬܐܘܒܝܣܛܘܣ (fol. 1b., 12a) in the Pentapolis or Cyrenaica, shortly after
+                                             the death of Dioscorus; Extract from a letter of Jacob of Edessa to the deacon Bar-had-be-shabba,
+                                             against the adherents of the Council of Chalcedon. In total, including sub-sections,
+                                             this manuscript contains 2 items.</span></div>
+                                    </div>
+                                 </div>
+                                 <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                       <h2 class="panel-title" data-toggle="collapse" data-target="#msPartPart1PhysDesc">Physical Description </h2>
+                                    </div>
+                                    <div id="msPartPart1PhysDesc" class="panel-collapse collapse in">
+                                       <div class="panel-body">
+                                          <div class="msDesc">
+                                             <div class="tei-physDesc">
+                                                <div class="indent">
+                                                   <p>Vellum, about 7 1/8 in. by 5 3/8, consisting of 16 leaves, some of which are much
+                                                      stained and torn, especially foll. 1, 9, 12, 15, and 16. The quires are signed with
+                                                      letters,
+                                                      but only <span class="tei-foreign" xml:lang="syr" lang="syr" dir="rtl">ܘ</span> is complete. Many leaves are wanting both at the
+                                                      beginning and end, and there is a lacuna after fol. 10. There are from 21 to 25 lines
+                                                      in each
+                                                      page.
+                                                   </p><span class="tei-handDesc">
+                                                      
+                                                      <div name="p1handNote1"><span class="inline-h4">Hand 1 (sole, Unspecified Syriac script): </span>
+                                                         This manuscript is written in a good, regular hand of the <span class="tei-date">xth cent.</span>
+                                                         
+                                                      </div>
+                                                      </span></div>
+                                             </div>
+                                          </div>
+                                       </div>
+                                    </div>
+                                 </div>
+                                 <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                       <h2 class="panel-title" data-toggle="collapse" data-target="#msPartPart1Contents">Contents</h2>
+                                    </div>
+                                    <div id="msPartPart1Contents" class="panel-collapse collapse in">
+                                       <div class="panel-body">
+                                          <div class="msContent">
+                                             <p class="summary indent">This manuscript contains 2 item(s). N.B. Items were re-numbered for this online catalog and may not reflect William
+                                                Wright's previous numeration.
+                                             </p>
+                                             <div class="indent"><span class="tei-msContents">
+                                                   
+                                                   
+                                                   <div class="tei-msItem"><span class="inline-h4">Item 1 (Fol. 1): </span>Part of a life of Dioscorus I., patriarch of Alexandria, the successor of Cyril written
+                                                      by his disciple Theopistus, 
+                                                      <span class="tei-foreign" lang="grc">Θεόπιστος</span>, <span class="tei-foreign" lang="syr">ܬܐܘܒܝܣܛܘܣ</span> (fol. <span class="tei-locus">1b</span>., <span class="tei-locus">12a</span>) in the Pentapolis or Cyrenaica, shortly after the death of Dioscorus
+                                                      
+                                                      <div class="msItemChild">
+                                                         <div class="msItem-notes"><span class="inline-h4">Notes:</span><ul>
+                                                               <li>*See Renaudot, Hist. Patr. Alexandrin. Jacobit., p. 114, and Le Quien, Oriens Christ., t. ii., col. 409
+                                                                  
+                                                               </li>
+                                                               <li>See fol. 13 a at the foot: <span class="tei-quote"><span xml:lang="syr" lang="syr" dir="rtl">ܗܝܕܝܢ ܐܬ݀ܕܟܪܬ ܡ̈ܠܘܗܝ ܕܐܒܐ
+                                                                        ܕܝܠܝ ܕܐܬܢܒܝ ܥܠܝ ܘܐܡ̣ܪ ܕܩܝܢܕܝܢܘܣ ܪܒܐ ܐܬ̇ܐ ܥܠܝܟ. ܘܒܪܫܥܬܗ ܫ̇ܢܝܬ ܠܝ̣ ܠܦܢܛܐܦܘܠܝܣ ܡܕܝܢܬܐ̣
+                                                                        ܘܐܬ̇ܛ̇ܫܝܬ ܒܗ̇. ܘܬܡܢ ܐܟ̇ܬܒܬ ܠܗܕܐ ܬܫܥܝܬܐ ܕܐܒܘܢ ܚܣܝܐ ܘܩܕܝܫܐ ܡܪܝ ܕܝܣܩܪܘܣ. ܘܡ̇ܘܕܐ ܐܢܐ ܩܕܡ
+                                                                        ܐܠܗܐ
+                                                                        ܕܫܪܪܐ ܐܟ݁ܬܒܬ. ܏ܘܫ.</span></span>
+                                                                  
+                                                               </li>
+                                                            </ul>
+                                                         </div>
+                                                      </div>
+                                                   </div>
+                                                   
+                                                   <div class="tei-msItem"><span class="inline-h4">Item 2 (Fol. 14b): </span>Extract from a letter of Jacob of Edessa to the deacon Bar-had-be-shabba, against
+                                                      the adherents of the Council of Chalcedon
+                                                       [defective]
+                                                      <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                               <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܕܡܪܝ ܝܥܩܘܒ ܕܐܘܪܗܝ ܡܢ ܐܓܪܬܐ
+                                                               ܕܠܘܬ ܫܡܫܐ ܒܪܚܕܒܫܒܐ. ܠܘܩܒܠ ܟܠܩܝ̈ܕܘܢܝܐ.</span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>Imperfect at the end.
+                                                         </div>
+                                                      </div>
+                                                   </div>
+                                                   </span></div>
+                                          </div>
+                                       </div>
+                                    </div>
+                                 </div>
+                                 <div class="msPart"></div>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+                  <div xmlns:x="http://www.w3.org/1999/xhtml" xmlns:local="http://syriaca.org/ns" id="msPart2" class="msContent">
+                     <div class="panel-group">
+                        <div class="panel panel-default">
+                           <div class="panel-heading">
+                              <h2 class="panel-title" data-toggle="collapse" data-target="#panelmsPartPart2"><span class="anchor" id="msPartPart2"></span><span class="shelfmark"><span class="tei-idno">Add. 14,631, foll. 17–44</span></span></h2>
+                           </div>
+                           <div id="panelmsPartPart2" class="panel-collapse collapse in">
+                              <div class="panel-body">
+                                 <div class="msDesc">
+                                    <div class="header section">
+                                       <div class="tei-note">
+                                          <div>URI: <span class="tei-idno">https://bl.syriac.uk/ms/380</span></div>
+                                          <div>
+                                             Description based on Wright
+                                             <a href="#" data-toggle="tooltip" title="This entry number is from Wright's printed catalogue. Due to renumbering, Wright's entry numbers do not match the numbering used in this digital catalogue."><span class="tei-idno">DCCCCXXXIII</span></a>
+                                             (<span class="tei-citedRange">3:1080</span>)
+                                             <a href="https://archive.org/details/catalogueofsyria03brituoft/page/1080" target="_blank"><img src="/resources/images/ialogo.jpg" alt="Link to Archive.org Bibliographic record" height="18px" /></a></div>
+                                          <div>
+                                             Date: 
+                                             9th or 10th century
+                                          </div>
+                                          <div>Unspecified Syriac script ܀  Parchment Codex, 28 leaves.
+                                             
+                                          </div>
+                                          <div></div>
+                                          <div>
+                                             Wright's Subject Classification:
+                                             Collected Lives
+                                          </div>
+                                       </div>
+                                       <div class="tei-note"><span>This manuscript contains: Anecdotes of holy men and women, chiefly Egyptian, from
+                                             the earliest times down to the end of the vth cent. In total, including sub-sections,
+                                             this manuscript contains 1 item.</span></div>
+                                    </div>
+                                 </div>
+                                 <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                       <h2 class="panel-title" data-toggle="collapse" data-target="#msPartPart2PhysDesc">Physical Description </h2>
+                                    </div>
+                                    <div id="msPartPart2PhysDesc" class="panel-collapse collapse in">
+                                       <div class="panel-body">
+                                          <div class="msDesc">
+                                             <div class="tei-physDesc">
+                                                <div class="indent">
+                                                   <p>Vellum, about 7 1/4 in. by 5 1/4, consisting of 28 leaves (Add.
+                                                      14,631, foll. 17—44), some of which are much stained and torn, especially foll. 25,
+                                                      33, 35,
+                                                      and 44. The quires, now only three in number, are signed with letters. One leaf is
+                                                      missing at
+                                                      the beginning, and another after fol. 24; how much is wanting at the end, cannot be
+                                                      determined. There are from 25 to 33 lines in each page.
+                                                   </p><span class="tei-handDesc">
+                                                      
+                                                      <div name="p2handNote1"><span class="inline-h4">Hand 1 (sole, Unspecified Syriac script): </span>
+                                                         This manuscript is written in a small, neat hand of the <span class="tei-date">ixth or xth cent.</span>
+                                                         
+                                                      </div>
+                                                      </span></div>
+                                             </div>
+                                          </div>
+                                       </div>
+                                    </div>
+                                 </div>
+                                 <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                       <h2 class="panel-title" data-toggle="collapse" data-target="#msPartPart2Contents">Contents</h2>
+                                    </div>
+                                    <div id="msPartPart2Contents" class="panel-collapse collapse in">
+                                       <div class="panel-body">
+                                          <div class="msContent">
+                                             <p class="summary indent">This manuscript contains 1 item(s). N.B. Items were re-numbered for this online catalog and may not reflect William
+                                                Wright's previous numeration.
+                                             </p>
+                                             <div class="indent"><span class="tei-msContents">
+                                                   
+                                                   
+                                                   <div class="tei-msItem"><span class="inline-h4">Item 1 (Fol. 17): </span>Anecdotes of holy men and women, chiefly Egyptian, from the earliest times down to
+                                                      the
+                                                      end of the vth cent.
+                                                       [defective]
+                                                      <div class="msItemChild">
+                                                         <div class="msItem-notes"><span class="inline-h4">Note: </span>They are numbered with red letters on the margin, as far as
+                                                            <span class="tei-foreign" xml:lang="syr" lang="syr" dir="rtl">ܦܕ</span>. Only the first anecdote is altogether wanting, but <span class="tei-foreign" xml:lang="syr" lang="syr" dir="rtl">ܒ</span>, <span class="tei-foreign" xml:lang="syr" lang="syr" dir="rtl">ܟܐ</span>, <span class="tei-foreign" xml:lang="syr" lang="syr" dir="rtl">ܟܒ</span>,
+                                                            and <span class="tei-foreign" xml:lang="syr" lang="syr" dir="rtl">ܦܕ</span>, are more or less imperfect.
+                                                         </div>
+                                                      </div>
+                                                   </div>
+                                                   </span></div>
+                                          </div>
+                                       </div>
+                                    </div>
+                                 </div>
+                                 <div class="msPart"></div>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+                  <div xmlns:x="http://www.w3.org/1999/xhtml" xmlns:local="http://syriaca.org/ns" id="msPart3" class="msContent">
+                     <div class="panel-group">
+                        <div class="panel panel-default">
+                           <div class="panel-heading">
+                              <h2 class="panel-title" data-toggle="collapse" data-target="#panelmsPartPart3"><span class="anchor" id="msPartPart3"></span><span class="shelfmark"><span class="tei-idno">Add. 14,631, foll. 45–53, upper text</span></span></h2>
+                           </div>
+                           <div id="panelmsPartPart3" class="panel-collapse collapse in">
+                              <div class="panel-body">
+                                 <div class="msDesc">
+                                    <div class="header section">
+                                       <div class="tei-note">
+                                          <div>URI: <span class="tei-idno">https://bl.syriac.uk/ms/381</span></div>
+                                          <div>
+                                             Description based on Wright
+                                             <a href="#" data-toggle="tooltip" title="This entry number is from Wright's printed catalogue. Due to renumbering, Wright's entry numbers do not match the numbering used in this digital catalogue."><span class="tei-idno">DCCCVII</span></a>
+                                             (<span class="tei-citedRange">2:815</span>)
+                                             <a href="https://archive.org/details/catalogueofsyria02brituoft/page/815" target="_blank"><img src="/resources/images/ialogo.jpg" alt="Link to Archive.org Bibliographic record" height="18px" /></a></div>
+                                          <div>
+                                             Date: 
+                                             9th or 10th century
+                                          </div>
+                                          <div>Unspecified Syriac script ܀  Parchment Codex, 9 leaves.
+                                             
+                                          </div>
+                                          <div></div>
+                                          <div>
+                                             Wright's Subject Classification:
+                                             Collected Authors
+                                          </div>
+                                       </div>
+                                       <div class="tei-note"><span>This manuscript contains: Part of a prayer; Questions addressed by the priest Sergius
+                                             to John bar Cyriacus, bishop of Tellā, with the replies of the latter; Questions addressed
+                                             by the priest Addai to Jacob of Edessa, with the replies of the latter; A calendar
+                                             of Saints' days; Unspecified contents. In total, including sub-sections, this manuscript
+                                             contains 5 items.</span></div>
+                                    </div>
+                                 </div>
+                                 <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                       <h2 class="panel-title" data-toggle="collapse" data-target="#msPartPart3PhysDesc">Physical Description </h2>
+                                    </div>
+                                    <div id="msPartPart3PhysDesc" class="panel-collapse collapse in">
+                                       <div class="panel-body">
+                                          <div class="msDesc">
+                                             <div class="tei-physDesc">
+                                                <div class="indent">
+                                                   <p>Vellum, about 7 3/4 in. by 5 1/8, consisting of 9 leaves (Add. 14,631,
+                                                      foll. 45 — 53), of which the first and last are much stained and torn. There
+                                                      are from 29 to 39 lines in each page.
+                                                   </p>
+                                                   <p>
+                                                      <a href="https://bl.syriac.uk/ms/1487">Fol. 45 is palimpsest</a>. The more ancient text is Coptic, written in double
+                                                      columns, in uncial characters of about the <span class="tei-date">viith cent.</span> Perhaps the leaf belonged
+                                                      to the palimpsest that appears in <a href="https://bl.syriac.uk/ms/1489">Add. 17,183</a>.
+                                                   </p><span class="tei-handDesc">
+                                                      
+                                                      <div name="p3handNote1"><span class="inline-h4">Hand 1 (sole, Unspecified Syriac script): </span>
+                                                         The writing is good and regular, partly Estrangela, partly current, of the <span class="tei-date">ixth or xth cent.</span>
+                                                         
+                                                      </div>
+                                                      </span></div>
+                                             </div>
+                                          </div>
+                                       </div>
+                                    </div>
+                                 </div>
+                                 <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                       <h2 class="panel-title" data-toggle="collapse" data-target="#msPartPart3Contents">Contents</h2>
+                                    </div>
+                                    <div id="msPartPart3Contents" class="panel-collapse collapse in">
+                                       <div class="panel-body">
+                                          <div class="msContent">
+                                             <p class="summary indent">This manuscript contains 5 item(s). N.B. Items were re-numbered for this online catalog and may not reflect William
+                                                Wright's previous numeration.
+                                             </p>
+                                             <div class="indent"><span class="tei-msContents">
+                                                   
+                                                   
+                                                   <div class="tei-msItem"><span class="inline-h4">Item 1 (Fol. 45a): </span>Part of a prayer
+                                                      <div class="msItemChild"></div>
+                                                   </div>
+                                                   
+                                                   <div class="tei-msItem"><span class="inline-h4">Item 2 (Fol. 45a): </span>Questions addressed by the priest
+                                                      Sergius to John bar Cyriacus, bishop of
+                                                      Tellā, with the replies of the latter
+                                                      <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                               <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܫ̈ܘܐܠܐ ܕܫܐܠ ܩܫܝܫܐ ܣܪܓܝܣ. ܠܚܣܝܐ ܡܪܝ ܝܘܚܢܢ ܒܪ ܩܘܪܝܩܘܣ ܐܦܝܣܩܘܦܐ
+                                                               ܕܬܠܐ ܕܡܘܙܠܬ. ܐܝܬ ܠܗܘܢ ܛܟܣܐ ܕܩ̈ܢܘܢܐ</span></span><span class="tei-finalRubric"><span class="inline-h4"> 
+                                                               Subscription  (Fol. 49a): </span><span xml:lang="syr" lang="syr" dir="rtl">ܫܠܡ ܩ̈ܢܘܢܐ ܕܡܪܝ ܝܘܚܢܢ ܒܪ ܩܘܪܩܘܣ
+                                                               </span></span><div class="msItem-notes"><span class="inline-h4">Notes:</span><ul>
+                                                               <li>These are also called  <span>the Canons of John of Tellā
+                                                                     </span>
+                                                                  
+                                                               </li>
+                                                               <li>See Lamy, Dissert, de Syrorum fide et disciplina in re Eucharistica, p. 62.
+                                                                  
+                                                               </li>
+                                                            </ul>
+                                                         </div>
+                                                      </div>
+                                                   </div>
+                                                   
+                                                   <div class="tei-msItem"><span class="inline-h4">Item 3 (Fol. 49a): </span>Questions addressed by the priest Addai to Jacob of Edessa, with the replies of the
+                                                      latter
+                                                      <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                               <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܬܘܒ ܕܡܪܝ ܝܥܩܘܒ ܕܐܘܪܗܝ ܫ̈ܘܐܠܐ ܕܫܐܠܗ ܩܫܝܫܐ ܐܕܝ</span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>See de Lagarde, Reliquiae juris ecclesiast. antiquiss.,19.1 p. ܩܟܕ, and Lamy, Dissert. de Syr. fide etc., p. 98.
+                                                            
+                                                         </div>
+                                                      </div>
+                                                   </div>
+                                                   
+                                                   <div class="tei-msItem"><span class="inline-h4">Item 4 (Fol. 52b): </span>A calendar of Saints' days [defective]
+                                                      <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                               <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">[ܩܘܕܝܟـ]ـܣ ܐܘܟܝܬ ܛܘܟܣܐ ܕܕܘܟܪ̈ܢܐ ܕܩ̈ܕܝܫܐ ܕܒܐܝܢܐ ܕܗ̣ܘ ܝܘܡܐ ܐܘ . . . ܕܟܪܘܟܝܐ ܕܟܠܗ̇ ܫܢܬܐ</span></span></div>
+                                                   </div>
+                                                   
+                                                   <div class="tei-msItem"><span class="inline-h4">Item 5 (Fol. 53b): </span>Unspecified contents [defective]
+                                                      <div class="msItemChild">
+                                                         <div class="msItem-notes"><span class="inline-h4">Note: </span>Fol. 53 b was also covered with writing by the same hand, but this leaf is so
+                                                            much mutilated, that it is impossible to say what the subject was.
+                                                         </div>
+                                                      </div>
+                                                   </div>
+                                                   </span></div>
+                                          </div>
+                                       </div>
+                                    </div>
+                                 </div>
+                                 <div class="msPart"></div>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+                  <div xmlns:x="http://www.w3.org/1999/xhtml" xmlns:local="http://syriaca.org/ns" id="msPart4" class="msContent">
+                     <div class="panel-group">
+                        <div class="panel panel-default">
+                           <div class="panel-heading">
+                              <h2 class="panel-title" data-toggle="collapse" data-target="#panelmsPartPart4"><span class="anchor" id="msPartPart4"></span><span class="shelfmark"><span class="tei-idno">Add. 14,631, fol. 45, lower text</span></span></h2>
+                           </div>
+                           <div id="panelmsPartPart4" class="panel-collapse collapse in">
+                              <div class="panel-body">
+                                 <div class="msDesc">
+                                    <div class="header section">
+                                       <div class="tei-note">
+                                          <div>URI: <span class="tei-idno">https://bl.syriac.uk/ms/1487</span></div>
+                                          <div>
+                                             Description based on Wright
+                                             <a href="#" data-toggle="tooltip" title="This entry number is from Wright's printed catalogue. Due to renumbering, Wright's entry numbers do not match the numbering used in this digital catalogue."><span class="tei-idno">DCCCVII</span></a>
+                                             (<span class="tei-citedRange">2:815</span>)
+                                             <a href="https://archive.org/details/catalogueofsyria02brituoft/page/815" target="_blank"><img src="/resources/images/ialogo.jpg" alt="Link to Archive.org Bibliographic record" height="18px" /></a></div>
+                                          <div>
+                                             Date: 
+                                             7th century
+                                          </div>
+                                          <div>Unspecified Coptic script ܀  Parchment Codex, 1 leaf. 
+                                             
+                                          </div>
+                                          <div></div>
+                                          <div>
+                                             Wright's Subject Classification:
+                                             Collected Authors
+                                          </div>
+                                       </div>
+                                       <div class="tei-note"><span>This manuscript contains: Unspecified contents. In total, including sub-sections,
+                                             this manuscript contains 1 item.</span></div>
+                                    </div>
+                                 </div>
+                                 <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                       <h2 class="panel-title" data-toggle="collapse" data-target="#msPartPart4PhysDesc">Physical Description </h2>
+                                    </div>
+                                    <div id="msPartPart4PhysDesc" class="panel-collapse collapse in">
+                                       <div class="panel-body">
+                                          <div class="msDesc">
+                                             <div class="tei-physDesc">
+                                                <div class="indent">
+                                                   <p>This folio is palimpsest. The more ancient text is Coptic, written in double
+                                                      columns, in uncial characters of about the <span class="tei-date">viith cent.</span> Perhaps the leaf belonged
+                                                      to the palimpsest that appears in <a href="https://bl.syriac.uk/ms/1489">Add. 17,183</a>.
+                                                   </p><span class="tei-handDesc">
+                                                      
+                                                      <div name="p4handNote1"><span class="inline-h4">Hand 1 (sole, Unspecified Coptic script): </span>
+                                                         The more ancient text is Coptic, written in double
+                                                         columns, in uncial characters of about the <span class="tei-date">viith cent.</span>
+                                                         
+                                                      </div>
+                                                      </span></div>
+                                             </div>
+                                          </div>
+                                       </div>
+                                    </div>
+                                 </div>
+                                 <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                       <h2 class="panel-title" data-toggle="collapse" data-target="#msPartPart4Contents">Contents</h2>
+                                    </div>
+                                    <div id="msPartPart4Contents" class="panel-collapse collapse in">
+                                       <div class="panel-body">
+                                          <div class="msContent">
+                                             <p class="summary indent">This manuscript contains 1 item(s). N.B. Items were re-numbered for this online catalog and may not reflect William
+                                                Wright's previous numeration.
+                                             </p>
+                                             <div class="indent"><span class="tei-msContents">
+                                                   
+                                                   
+                                                   <div class="tei-msItem"><span class="inline-h4">Item 1 (Fol. 45a): </span>Unspecified contents
+                                                      <div class="msItemChild"></div>
+                                                   </div>
+                                                   </span></div>
+                                          </div>
+                                       </div>
+                                    </div>
+                                 </div>
+                                 <div class="msPart"></div>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+                  <div class="citationinfo">
+                     <h3>How to Cite This Entry</h3>
+                     <div id="citation-note" class="content-block indent"><span> William Wright</span> et al., “<span class="title-analytic">London, BL, Add. 14631</span>” in <span class="title-monographic">A Digital Catalogue of Syriac Manuscripts in the British Library</span>,  last modified April 21, 2023, <a href="https://bl.syriac.uk/ms/378">https://bl.syriac.uk/ms/378</a>.
+                        <div class="collapse" id="showcit">
+                           <div id="citation-bibliography">
+                              <h4>Bibliography:</h4><span class="editor">William Wright</span> et al., “<span class="title-analytic">London, BL, Add. 14631</span>.” In <span class="title-monographic">A Digital Catalogue of Syriac Manuscripts in the British Library</span>, edited by . Syriaca.org: The Syriac Reference Portal,
+                              2023.
+                               Entry published April 21, 2023. <a href="https://bl.syriac.uk/ms/378">https://bl.syriac.uk/ms/378</a>.
+                           </div>
+                           <div id="about">
+                              <h3>About this Entry</h3>
+                              <p><span class="heading-inline">Entry Title:</span> <span class="title-analytic">London, BL, Add. 14631</span></p>
+                              <div>
+                                 <h4>Authorial and Editorial Responsibility:</h4>
+                                 <ul>
+                                    <li><span> David A. Michelson</span>, general editor, Syriaca.org: The Syriac Reference Portal
+                                    </li>
+                                    <li>, editor, <span class="title-monographic">A Digital Catalogue of Syriac Manuscripts in the British Library</span></li>
+                                    <li>William Wright, David A. Michelson, Robert Aydin, Lindsay Ruth, Justin Arnwine, and Roman Brasoveanu, entry contributors, “<span class="title-analytic">London, BL, Add. 14631</span>”
+                                    </li>
+                                 </ul>
+                              </div>
+                              <div>
+                                 <h4>Additional Credit:</h4>
+                                 <ul>
+                                    <li>Created by <span> Lindsay Ruth</span></li>
+                                    <li>Created by <span> Roman Brasoveanu</span></li>
+                                    <li>Created by <span> Justin Arnwine</span></li>
+                                    <li>Based on the work of <span> William Wright</span></li>
+                                    <li>Edited by <span> Justin Arnwine</span></li>
+                                    <li>Syriac text entered by <span> Robert Aydin</span></li>
+                                    <li>Greek and coptic text entry and proofreading by <span> Ryan Stitt</span></li>
+                                    <li>Project management by <span> William L. Potter</span></li>
+                                    <li>English text entry and proofreading by <span> Syriac Research Group, University of Alabama</span></li>
+                                    <li>Folio extent edited by <span> Kurt Urban</span></li>
+                                 </ul>
+                              </div>
+                           </div>
+                           <div id="license">
+                              <h3>Copyright and License for Reuse</h3>
+                              <div>Except otherwise noted, this page is © 2023.
+                                 
+                              </div><span class="tei-licence">
+                                 
+                                 <p>Distributed under a Creative Commons Attribution 3.0 Unported License</p>
+                                 </span></div>
+                        </div><a class="btn-sm btn-info togglelink pull-right" data-toggle="collapse" data-target="#showcit" data-text-swap="Hide citation">Show full citation information...</a></div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </body><script type="text/javascript" src="/resources/js/jquery.validate.min.js"></script><script type="text/javascript" src="/resources/js/require.min.js"></script><script type="text/javascript" src="/resources/js/srophe.js"></script><script data-template="app:google-analytics"></script></html>

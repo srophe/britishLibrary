@@ -1,0 +1,508 @@
+<?xml version="1.0" encoding="UTF-8"?><html xmlns="http://www.w3.org/1999/xhtml" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:srophe="https://srophe.app">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <title>London, BL, Add. 17194</title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <meta name="DC.type" property="dc.type" content="Text" />
+      <meta name="DC.isPartOf" property="dc.ispartof" content="Syriaca.org: The Syriac Reference Portal" />
+      <link data-template="app:metadata" />
+      <link rel="shortcut icon" href="/resources/images/fav-icons/mss-favicon.ico" />
+      <link rel="stylesheet" type="text/css" href="/resources/bootstrap/css/bootstrap.min.css" />
+      <link rel="stylesheet" type="text/css" href="/resources/css/sm-core-css.css" />
+      <link rel="stylesheet" type="text/css" href="/resources/css/syr-icon-fonts.css" />
+      <link rel="stylesheet" type="text/css" href="/resources/css/style.css" />
+      <link rel="stylesheet" type="text/css" href="/resources/css/syriaca.css" />
+      <link rel="stylesheet" type="text/css" media="print" href="/resources/css/print.css" />
+      <link rel="stylesheet" href="/resources/leaflet/leaflet.css" />
+      <link rel="stylesheet" href="/resources/leaflet/leaflet.awesome-markers.css" />
+      <link href="/resources/jquery-ui/jquery-ui.min.css" rel="stylesheet" /><script type="text/javascript" src="/resources/js/jquery.min.js"></script><script type="text/javascript" src="/resources/jquery-ui/jquery-ui.min.js"></script><script type="text/javascript" src="/resources/js/jquery.smartmenus.min.js"></script><script type="text/javascript" src="/resources/js/clipboard.min.js"></script><script type="text/javascript" src="/resources/bootstrap/js/bootstrap.min.js"></script><script defer="defer" data-domain="bl.syriac.uk" src="https://plausible.io/js/script.js"></script><link href="/resources/keyboard/css/keyboard.min.css" rel="stylesheet" />
+      <link href="/resources/keyboard/css/keyboard-previewkeyset.min.css" rel="stylesheet" />
+      <link href="/resources/keyboard/syr/syr.css" rel="stylesheet" /><script type="text/javascript" src="/resources/keyboard/syr/jquery.keyboard.js"></script><script type="text/javascript" src="/resources/keyboard/js/jquery.keyboard.extension-mobile.min.js"></script><script type="text/javascript" src="/resources/keyboard/js/jquery.keyboard.extension-navigation.min.js"></script><script type="text/javascript" src="/resources/keyboard/syr/jquery.keyboard.extension-autocomplete.js"></script><script type="text/javascript" src="/resources/keyboard/syr/keyboardSupport.js"></script><script type="text/javascript" src="/resources/keyboard/syr/syr.js"></script><script type="text/javascript" src="/resources/keyboard/layouts/ms-Greek.min.js"></script><script type="text/javascript" src="/resources/keyboard/layouts/ms-Russian.min.js"></script><script type="text/javascript" src="/resources/keyboard/layouts/ms-Arabic.min.js"></script><script type="text/javascript">
+            $(document).ready(function () {
+                $('[data-toggle="tooltip"]').tooltip({ container: 'body' })
+
+                $('.keyboard').keyboard({
+                    openOn: null,
+                    stayOpen: false,
+                    alwaysOpen: false,
+                    autoAccept: true,
+                    usePreview: false,
+                    initialFocus: true,
+                    rtl : true,
+                    layout: 'syriac-phonetic',
+                    hidden: function(event, keyboard, el){
+                       //  keyboard.destroy();
+                     }
+                });
+
+                $('.keyboard-select').click(function () {
+                    var keyboardID = '#' + $(this).data("keyboard-id")
+                    var kb = $(keyboardID).getkeyboard();
+                    //var kb = $('#searchField').getkeyboard();
+                    // change layout based on link ID
+                    kb.options.layout = this.id
+                    // open keyboard if layout is different, or time from it last closing is &gt; 200 ms
+                    if (kb.last.layout !== kb.options.layout || (new Date().getTime() - kb.last.eventTime) &gt; 200) {
+                        kb.reveal();
+                    }
+                });
+                //Change fonts
+                $('.swap-font').on('click', function(){
+                    var selectedFont = $(this).data("font-id")
+                    $('.selectableFont').not('.syr').css('font-family', selectedFont);
+                    $("*:lang(syr)").css('font-family', selectedFont)
+                });
+
+            })
+        </script></head>
+   <body id="body">
+      <nav class="navbar navbar-default navbar-fixed-top" role="navigation" data-template="app:fix-links">
+         
+         <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse-1">
+               <span class="sr-only">Toggle navigation</span>
+               <span class="icon-bar"></span>
+               <span class="icon-bar"></span>
+               <span class="icon-bar"></span>
+               </button>
+            <a class="navbar-brand banner-container" href="/index.html">
+               <span class="syriaca-icon syriaca-mss banner-icon"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span>
+                  </span>
+               <span class="banner-text">Syriac Manuscripts in the British Library</span>
+               </a>
+            
+         </div>
+         
+         <div class="navbar-collapse collapse pull-right" id="navbar-collapse-1">
+            
+            <ul class="nav navbar-nav">
+               
+               <li>
+                  <a href="/browse.html" class="nav-text">Browse</a>
+                  
+               </li>
+               
+               <li data-template="app:shared-content" data-template-path="/templates/shared-links.html"></li>
+               
+               <li>
+                  <a href="/search.html" class="nav-text">Advanced Search</a>
+                  
+               </li>
+               
+               <li>
+                  
+                  <div id="search-wrapper">
+                     
+                     <form class="navbar-form navbar-right search-box" role="search" action="/search.html" method="get">
+                        
+                        <div class="form-group">
+                           <input type="text" class="form-control keyboard" placeholder="search" name="keyword" id="keywordNav" />
+                           <span data-template="app:keyboard-select-menu" data-template-input-id="keywordNav"></span>
+                           <button class="btn btn-default search-btn" id="searchbtn" type="submit" title="Search">
+                              <span class="glyphicon glyphicon-search"></span>
+                              </button>
+                           
+                        </div>
+                        
+                     </form>
+                     
+                  </div>
+                  
+               </li>
+               
+               <li data-template="app:shared-content" data-template-path="/templates/fontMenu.html"></li>
+               
+            </ul>
+            
+         </div>
+         
+      </nav>
+      <div class="main-content-block">
+         <div class="interior-content">
+            <div class="container otherFormats"><a href="mailto:bl.syriac.uk@gmail.com?subject=Shelf mark: Record URI: " type="button" class="btn btn-default btn-xs" data-toggle="tooltip" title="Click to report a correction via e-mail."><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span> Corrections
+                  </a> <a href="https://github.com/srophe/britishLibrary-data/issues/new?assignees=&amp;labels=community-submitted&amp;title=:" target="_blank" id="issueBtn" data-toggle="tooltip" class="btn btn-default btn-xs" title="Click to file a data issue on GitHub (requires login)."><span class="glyphicon glyphicon-record" aria-hidden="true"></span> Open
+                  </a> <a href="https://github.com/srophe/britishLibrary-data/blob/main/data/tei/850.xml" target="_blank" class="btn btn-default btn-xs" id="openBtn" data-toggle="tooltip" title="Click to view the TEI XML data for this record."><img src="/resources/images/github-mark.png" height="18px" /></a> <a href="javascript:window.print();" type="button" class="btn btn-default btn-xs" id="printBtn" data-toggle="tooltip" title="Click to send this page to the printer."><span class="glyphicon glyphicon-print" aria-hidden="true"></span> 
+                  </a> 
+            </div>
+            <div class="row">
+               <div class="col-md-12">
+                  <div xmlns:x="http://www.w3.org/1999/xhtml" xmlns:local="http://syriaca.org/ns" class="title">
+                     <h1>Add. 17,194</h1>
+                  </div>
+                  <div xmlns:x="http://www.w3.org/1999/xhtml" xmlns:local="http://syriaca.org/ns" class="tei-note">
+                     <div>URI: <span class="tei-idno">https://bl.syriac.uk/ms/850</span></div>
+                  </div>
+                  <div xmlns:x="http://www.w3.org/1999/xhtml" xmlns:local="http://syriaca.org/ns" class="header section">
+                     <div class="tei-note">
+                        <div>
+                           Description based on Wright
+                           <a href="#" data-toggle="tooltip" title="This entry number is from Wright's printed catalogue. Due to renumbering, Wright's entry numbers do not match the numbering used in this digital catalogue."><span class="tei-idno">DCCCLXII</span></a>
+                           (<span class="tei-citedRange">2:1002-1003</span>)
+                           <a href="https://archive.org/details/catalogueofsyria02brituoft/page/1002" target="_blank"><img src="/resources/images/ialogo.jpg" alt="Link to Archive.org Bibliographic record" height="18px" /></a></div>
+                        <div>
+                           Date: 
+                           AD 886 / AG 1197
+                        </div>
+                        <div>Unspecified Syriac script (multiple hands) ܀  Parchment Codex, 84 leaves.
+                           
+                        </div>
+                        <div></div>
+                        <div>
+                           Wright's Subject Classification:
+                           Catenae Patrum and Demonstrations against Heresies
+                        </div>
+                     </div>
+                     <div class="tei-note"><span>This manuscript contains: Demonstrations from the Fathers on various Biblical and
+                           theological subjects. In total, including sub-sections, this manuscript contains 4
+                           items.</span></div>
+                  </div>
+                  <div xmlns:x="http://www.w3.org/1999/xhtml" xmlns:local="http://syriaca.org/ns" class="panel panel-default">
+                     <div class="panel-heading">
+                        <h2 class="panel-title" data-toggle="collapse" data-target="#Overview">Physical Description </h2>
+                     </div>
+                     <div id="Overview" class="panel-collapse collapse in">
+                        <div class="panel-body">
+                           <div class="msDesc">
+                              <div class="tei-physDesc">
+                                 <div class="indent">
+                                    <p>Vellum, about 5 1/4 in. by 3 1/2, consisting of 84 leaves, some of which
+                                       are much stained and torn, especially foll. 1—7, 46, 52—54, 64, 81—84. The
+                                       quires, signed with letters, are 8 in number. A leaf is wanting after fol.
+                                       74. There are from 19 to 25 lines in each page. This volume is dated 
+                                       <span class="tei-date">A. Gr. 1197</span>, 
+                                       <span class="tei-date">A.D. 886</span>.
+                                    </p><span class="tei-handDesc">
+                                       
+                                       <div name="handNote1"><span class="inline-h4">Hand 1 (major, Unspecified Syriac script): </span>
+                                          This volume is written in a small, current hand.
+                                          
+                                       </div>
+                                       
+                                       <div name="handNote2"><span class="inline-h4">Hand 2 (minor, ): </span>
+                                          See additions.
+                                          
+                                       </div>
+                                       </span></div>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+                  <div xmlns:x="http://www.w3.org/1999/xhtml" xmlns:local="http://syriaca.org/ns" class="panel panel-default">
+                     <div class="panel-heading">
+                        <h2 class="panel-title" data-toggle="collapse" data-target="#Contents">Manuscript Contents</h2>
+                     </div>
+                     <div id="Contents" class="panel-collapse collapse in">
+                        <div class="panel-body">
+                           <div class="msContent"><span class="summary ident">Note: Item numbering updated in digital edition.</span><span class="tei-msContents">
+                                 
+                                 
+                                 <div class="tei-msItem"><span class="inline-h4">Item 1 (Fol. 45a): </span>Demonstrations from the Fathers on various Biblical and
+                                    theological subjects
+                                    <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                             <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܩ̈ܦܠܐܐ ܡܫܚ̈ܠܦܐ ܘܦܘܫ̈ܩܐ ܕܐܒ̈ܗܬܐ ܩ̈ܕܝܫܐ ܕܕܝܠܗܘܢ ܕܩܦ̈ܠܐܐ ܐܝܟ
+                                             ܕܒܦ̈܏ܣܝܩ.</span></span><span class="tei-rubric"><span class="inline-h4"> 
+                                             <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">
+                                             <span class="tei-fw">ܟܬܒܐ ܕܬܚ̈ܘܝܬܐ ܕܐܒ̈ܗܬܐ ܩܕܝܫ̈ܐ</span>
+                                             </span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>
+                                          
+                                          <p>The authorities cited are—</p> 
+                                          
+                                          <p>
+                                             <a href="/search.html?person=http://syriaca.org/person/308">Abbā, the disciple of Ephraim</a>: 
+                                             fol. 34 b, <span class="tei-quote"><span xml:lang="syr" lang="syr" dir="rtl">ܕܡܪܝ ܐܒܐ
+                                                   ܬܠܡܝܕܗ ܕܡܪܝ ܐܦܪܝܡ ܡܢ ܦܘܫܩܐ ܕ܏ܡܙ ܕܐܠܗܐ ܠܡܢܐ ܛܥܝܬܢܝ</span></span>;
+                                             fol. 44 b, <span class="tei-quote"><span xml:lang="syr" lang="syr" dir="rtl">ܡܢ ܡܐܡܪܐ ܕܥܠ ܐܬܠܝܛܐ
+                                                   ܐܝܘܒ</span></span>;
+                                             foll. 48 b, 59 a, 62 a, 74 b,
+                                             <span class="tei-quote"><span xml:lang="syr" lang="syr" dir="rtl">ܡܢ ܦܘܫܩܐ ܕܐܘܢܓܠܝܘܢ</span></span>.
+                                          </p>
+                                          
+                                          <p>
+                                             <a href="/search.html?person=http://syriaca.org/person/1118">Addai</a>: fol. 30 a, <span class="tei-quote"><span xml:lang="syr" lang="syr" dir="rtl">ܡܢ
+                                                   ܡܠܦܢܘܬܗ ܕܐܕܝ ܫܠܝܚܐ ܗܘܿ ܕܬܠܡܕ ܠܐܘܪܗܝ</span></span>.
+                                          </p>
+                                          
+                                          <p>
+                                             <a href="/search.html?person=http://syriaca.org/person/354">Athanasius</a>: 
+                                             foll. 3 a, 5 b, 78 b.
+                                          </p>
+                                          
+                                          <p>
+                                             <a href="/search.html?person=http://syriaca.org/person/376">Basil</a>: 
+                                             foll. 2 a, 4 a and b, 9 a, 10 a, 11 a, 12 a, 20 a, 26 a, 27 b, 28 a, 31 b, 33 a, 35 a, 
+                                             43 b, 52 b, 54 b, 55 b, 57 b, 61 b, 76 b, and 78 b.
+                                          </p>
+                                          
+                                          <p>
+                                             <a href="/search.html?person=http://syriaca.org/person/573">Chrysostom</a>: 
+                                             foll. 2 b, 3 a and b, 5 b, 6 b, 7 a, 8 a and b, 9 a and b, 10 a, 11 a and b, 14 a, 17 a, 18 a, 20 b, 21 b,
+                                             22 a, 25 a, 29 a, 31 a, 40 a, 47 a, 48 b, 52 b, 55 a, 58 b, 59 a, 60 a, 61 b, 64 b,
+                                             73 b, 82 a.
+                                          </p>
+                                          
+                                          <p>
+                                             <a href="/search.html?person=http://syriaca.org/person/423">Clement of Rome</a>: fol. 16 a, <span class="tei-quote"><span xml:lang="syr" lang="syr" dir="rtl">ܕܩܕܝܫܐ ܩܠܡܝܣ ܬܠܡܝܕܐ ܕܦܛܪܘܣ ܫܠܝܚܐ ܡܢ ܡ܏ܐܡ
+                                                   ܩܕܡܝܐ.</span></span>
+                                             
+                                          </p>
+                                          
+                                          <p>
+                                             <a href="/search.html?person=http://syriaca.org/person/430">Cyril of Alexandria</a>: 
+                                             foll. 4 b, 6 a, 9 a, 12 a ( <span xml:lang="la" lang="la">Glaphyra</span>), 13 a (do.), 14 b
+                                             (do.), 18 b (<span class="tei-quote"><span xml:lang="syr" lang="syr" dir="rtl">ܡܢ ܟܬܒܐ ܕ܏ܒ ܕܦܘܫܩܐ ܕܐܘܪܝܬܐ</span></span>), 20 a, 21 b ( <span>comment. on Isaiah
+                                                </span>), 24 a
+                                             ( <span xml:lang="la" lang="la">Glaphyra</span>), 25 b, 34 a ( <span>comment. on Isaiah
+                                                </span>), 37 b ( <span xml:lang="la" lang="la">Glaphyra</span>), 40 b, 41 a, 43 a.
+                                          </p>
+                                          
+                                          <p>
+                                             <a href="/search.html?person=http://syriaca.org/person/452">Dionysius</a>: fol. 7 b, <span class="tei-quote"><span xml:lang="syr" lang="syr" dir="rtl">ܕܩܕܝܫܐ <span class="tei-sic">ܕܝܘܣܝܘܣ</span> ܡܢ ܦܘܫܩܐ ܕܐܫܥܝܐ</span></span>;
+                                             fol. 20 b, <span class="tei-quote"><span xml:lang="syr" lang="syr" dir="rtl">ܕܩܕܝܫܐ
+                                                   ܕܝܘܢܘܣܝܘܣ ܡܛܠ ܡ̈ܠܐܟܐ</span></span>.
+                                          </p> 
+                                          
+                                          <p>
+                                             <a href="/search.html?person=http://syriaca.org/person/13">Ephraim</a>: 
+                                             foll. 2 b, 3 a, 14 a, 15 a, 16 b, 23 a, 24 b
+                                             (<span class="tei-quote"><span xml:lang="syr" lang="syr" dir="rtl">ܡܢ ܦܢܩܝܬܐ ܕܢܨܝܒܝܢ</span></span> and <span class="tei-quote"><span xml:lang="syr" lang="syr" dir="rtl">ܡܢ ܡܐ܏ܡ ܕܠܘܩܒܠ ܒܪܕܝܨܢ</span></span>),
+                                             27 a and b, 28 b, 31 a and b, 32 b, 34 a, 36 a, 44 b (<span class="tei-quote"><span xml:lang="syr" lang="syr" dir="rtl">ܡܢ ܡܐ܏ܡ ܕ܏ܝܓ ܕܚܒ̈ܝܫܐ ܬܠ̈ܝܬܝܐ</span></span>), 48 b, 52 a.
+                                          </p>
+                                          
+                                          <p>
+                                             <a href="/search.html?person=http://syriaca.org/person/477">Epiphanius</a>: 
+                                             foll. 17 b
+                                             (<span class="tei-quote"><span xml:lang="syr" lang="syr" dir="rtl">ܡܢ ܟܬܒܐ ܕܠܘܩܒܠ ܗܪ̈ܣܝܣ</span></span>), 
+                                             36 a, 52 a.
+                                          </p>
+                                          
+                                          <p>
+                                             <a href="/search.html?person=http://syriaca.org/person/480">Eusebius</a>: fol. 51 b, <span class="tei-quote"><span xml:lang="syr" lang="syr" dir="rtl">ܕܩܕܝܫܐ ܐܘܣܒܝܣ ܦܡܦܝܠܘܣ
+                                                   ܡܢ ܟܬܒܐ ܕܫܪ̈ܒܬܐ</span></span>.; fol. 53 a (do.).
+                                          </p>
+                                          
+                                          <p>
+                                             <a href="/search.html?person=http://syriaca.org/person/483">Evagrius</a>: fol. 32 a.
+                                          </p>
+                                          
+                                          <p>
+                                             <a href="/search.html?person=http://syriaca.org/person/511">Gregory Nazianzen</a>: 
+                                             foll. 1 b, 3 a and b, 5 a, 8 a, 11 a, 30 b, 35 b, 40 a, 46 b, 79 a, 81 b.
+                                          </p>
+                                          
+                                          <p>
+                                             <a href="/search.html?person=http://syriaca.org/person/512">Gregory Nyssen</a>:
+                                             foll. 7 b, 8 a and b, 23 b, 30 b, 62 b, 77 b, 78 b.
+                                          </p>
+                                          
+                                          <p>
+                                             <a href="/search.html?person=http://syriaca.org/person/2510">Hesychius</a>: fol. 29 a, <span class="tei-quote"><span xml:lang="syr" lang="syr" dir="rtl">ܗܣܘܟܝܣ ܡܢ
+                                                   ܦܘܫܩܐ ܕܡܙܡܘܪ̈ܐ ܕ܏ܣܙ</span></span>.
+                                          </p>
+                                          
+                                          <p>
+                                             <a href="/search.html?person=http://syriaca.org/person/537">Hippolytus</a>: 
+                                             fol. 52 a, 
+                                             <span class="tei-quote"><span xml:lang="syr" lang="syr" dir="rtl">ܕܩܕܝܫܐ ܡܪܝ ܐܝܦܘܠܝܛܝܣ ܕܒܘܨܪܐ ܡܢ ܡܐ܏ܡ ܕܥܠ
+                                                   ܡܫܟܢܐ</span></span>.
+                                          </p>
+                                          
+                                          <p>
+                                             <a href="/search.html?person=http://syriaca.org/person/2463">Irenaeus</a>: fol. 43 a, <span class="tei-quote"><span xml:lang="syr" lang="syr" dir="rtl">ܡܢ ܦܘܫܩܐ ܕ܏ܚܙ ܕܫܐܪܬ ܫܐܪ̈ܝܢ</span></span>.
+                                          </p>
+                                          
+                                          <p>
+                                             <a href="/search.html?person=http://syriaca.org/person/33">Isaac of Antioch</a>: 
+                                             foll. 4 a and b, 5 a and b, 6 a, 14 b, 15 b, 18 a, 23 b, 24 a, 27 b, 29 b, 34 b, 40 b, 41 b,
+                                             50 b, 59 b, 60 b, 62 a and b, 63 b.
+                                          </p>
+                                          
+                                          <p>
+                                             <a href="/search.html?person=http://syriaca.org/person/564">Isidore of Pelusium</a>: fol. 21 a, 
+                                             <span class="tei-quote"><span xml:lang="syr" lang="syr" dir="rtl">ܕܩܕܝܫܐ ܐܝܣܘܕܪܐ
+                                                   ܕܦܝܠܘܣܝܢ ܡܢ ܐܓܪܬܐ ܕܡܐܐ ܘܚܕܐ</span></span>; fol. 38 b,
+                                             <span class="tei-quote"><span xml:lang="syr" lang="syr" dir="rtl">ܡܢ ܐܓܪܬܐ ܕܠܘܬ ܓܪܝܓܘܪ ܐܦ܏ܝܣ</span></span>.
+                                          </p>
+                                          
+                                          <p>
+                                             <a href="/search.html?person=http://syriaca.org/person/42">Jacob of Batnae</a>:
+                                             foll. 4 a, 6 a and b, 9 b, 10 b, 13 b, 15 a and b, 19 b, 20 b, 22 b, 24 a
+                                             (<span class="tei-quote"><span xml:lang="syr" lang="syr" dir="rtl">ܡܢ ܬܘܪܓܡܐ ܕܠܘܬ ܡܪܘܢ</span></span>), 32 a, 35 a, 36 b, 39 a, 41 a, 42 b, 44 a, 56 b, 
+                                             58 a, 61 a.
+                                          </p>
+                                          
+                                          <p>
+                                             John the monk: fol. 69 b.
+                                          </p>
+                                          
+                                          <p>
+                                             <a href="/search.html?person=http://syriaca.org/person/635">Methodius</a>: fol. 9 a, 
+                                             <span class="tei-quote"><span xml:lang="syr" lang="syr" dir="rtl">ܕܩܕܝܫܐ ܡܝܬܕܐܘܣ ܐܝܟ ܕܒܫܘܐܠܐ ܡܟܬܒ ܡܛܠ
+                                                   ܒܬܘܠܘܬܐ.</span></span>
+                                             
+                                          </p>
+                                          
+                                          <p>
+                                             
+                                             Palladius: fol. 18 b, 
+                                             <span class="tei-quote"><span xml:lang="syr" lang="syr" dir="rtl">ܡܢ ܬܫܥܝܬܐ ܕܩܕܝܫܐ ܦܠܕ ܐܦ܏ܝܣ <span class="tei-sic">ܕܠܢܐܦܠܝܣ</span> ܟܕ <span class="tei-sic">ܐܡܪܐ</span>
+                                                   ܡܛܠ ܡܠܟܝܙܕܩ</span></span>.
+                                          </p>
+                                          
+                                          <p>
+                                             Severianus of Gabala: 
+                                             fol. 6 b, <span class="tei-quote"><span xml:lang="syr" lang="syr" dir="rtl">ܕܩܕܝܫܐ ܣܘܪܝܢܐ ܐ܏ܦܝܣ ܕܓܒܠܐ ܡܢ
+                                                   ܡܐ܏ܡ ܕܠܘܩܒܠ ܗܪ̈ܣܝܘܛܐ</span></span>;
+                                             fol. 16 b, <span class="tei-quote"><span xml:lang="syr" lang="syr" dir="rtl">ܡܢ ܡܐ܏ܡ ܕܥܠ ܡܓܕܠܐ</span></span>;
+                                             fol. 77 b, <span class="tei-quote"><span xml:lang="syr" lang="syr" dir="rtl">ܡܢ ܡܐ܏ܡ ܕܥܠ ܐܘܣܝܐ
+                                                   ܘܩܢܘܡܐ ܘܦܪܨܘܦܐ</span></span>.
+                                          </p>
+                                          
+                                          <p>
+                                             Theophilus the monk: 
+                                             fol. 63 a, 
+                                             <span class="tei-quote"><span xml:lang="syr" lang="syr" dir="rtl">ܕܡܪܝ ܬܐܘܦܝܠܘܣ ܝܚܝܕܝܐ ܡܢ ܡܪܬܝܢܘܬܐ
+                                                   ܕܬܪ̈ܬܝܢ</span></span>; fol. 63 b, 
+                                             <span class="tei-quote"><span xml:lang="syr" lang="syr" dir="rtl">ܡܢ ܡܪܬܝ܏ܢܘ ܩܕܡܝܬܐ</span></span>.
+                                          </p>
+                                          
+                                          <p>
+                                             Timotheus: 
+                                             fol. 81 b, 
+                                             <span class="tei-quote"><span xml:lang="syr" lang="syr" dir="rtl">ܕܛܝܡܘܬܐܘܣ</span></span>.
+                                          </p>
+                                          
+                                       </div>
+                                       <div class="tei-msItem"><span class="inline-h4">Item 2 (Fol. 45a): </span>Sections regarding the Canon of Scripture, the different
+                                          Greek Versions, the Prophets whose prophecies were not written down, etc.
+                                          <div class="msItemChild"></div>
+                                       </div>
+                                       <div class="tei-msItem"><span class="inline-h4">Item 3 (Fol. 51a): </span>Jacob. Demonstration of the descent of the Virgin Mary from king
+                                          David, by one Jacob, who had been recently baptized by the
+                                          emperor Heraclius
+                                          
+                                          <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                   <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܬܚܘܝܬܐ ܕܝܥܩܘܒ ܕܥܡ̣ܕ ܚܕܬܐܝܬ ܡܢܗ ܕܗܪܩܠܐ ܡ̇ܠܟܐ ܕܡܚܘܐ ܥܠ ܡܪܝܡ ܕܡܢ
+                                                   ܙܪܥܗ ܗܝ ܕܕܘܝܕ ܘܡܢ ܫܒܛܐ ܕܝܗܘܕܐ ܕܐܦܩܗ ܡܢ ܣܦܪܐ ܚܕ ܪܒܐ ܕܡܠܦ ܗܘܐ ܢܡܘܣܐ ܒܛܒܪܝܐ.</span></span></div>
+                                       </div>
+                                       <div class="tei-msItem"><span class="inline-h4">Item 4 (Fol. 79a): </span>Sections regarding the principal Councils of the
+                                          Church
+                                          <div class="msItemChild">
+                                             <div class="msItem-notes"><span class="inline-h4">Note: </span>The dates are expressed on fol. 81 a both in Syriac and Greek letters.
+                                             </div>
+                                          </div>
+                                       </div>
+                                    </div>
+                                 </div>
+                                 </span></div>
+                        </div>
+                     </div>
+                  </div>
+                  <div xmlns:x="http://www.w3.org/1999/xhtml" xmlns:local="http://syriaca.org/ns" class="panel panel-default">
+                     <div class="panel-heading">
+                        <h2 class="panel-title" data-toggle="collapse" data-target="#Additions">Additions </h2>
+                     </div>
+                     <div id="Additions" class="panel-collapse collapse in">
+                        <div class="panel-body">
+                           <div class="msDesc">
+                              <div class="indent">
+                                 
+                                 <div class="tei-note"><span>N.B., items below may have been listed out of folio order in Wright's catalogue.</span></div>
+                                 
+                                 
+                                 <div class="tei-item"><span class="inline-h4">Addition 1</span><strong> (Fol. 82a)</strong>:
+                                    <span class="tei-p">The colophon, fol. 82 a, informs us that the manuscript was written by one
+                                       <span class="tei-persName">Ignatius of Mabug</span>, <span class="tei-date">A. Gr. 1197</span>, 
+                                       <span class="tei-date">A.D. 886</span>.
+                                       </span><span class="tei-p">
+                                       <span class="tei-quote" lang="syr">ܐܝܓܢܐܛܝ ܒܨܝܪܐ ܕܡܢ ܡܒܘܓ ܟܬܒ̣ ܫܢܬ ܐܠܦ ܘܩ܏ܨܙ: ܕܩܪܐ ܢܨ̇ܠܐ ܕܢܬܚ̣ܢܢ.</span>
+                                       </span></div>
+                                 
+                                 <div class="tei-item"><span class="inline-h4">Addition 2</span><strong> (Fol. 1a)</strong>:
+                                    <span class="tei-p">On fol. 1 a there are couple of lines of Greek, in slanting uncials, now
+                                       much effaced.</span></div>
+                                 
+                                 <div class="tei-item"><span class="inline-h4">Addition 3</span><strong> (Fol. 1a)</strong>:
+                                    <span class="tei-p">On fol. 1 a there is a Syriac note, written by one <span class="tei-persName">Elisha</span>, and dated 
+                                       <span class="tei-date">A. Gr. 1268</span>, <span class="tei-date">A.D. 957</span>:
+                                       </span><span class="tei-p">
+                                       <span class="tei-quote" lang="syr">ܐܢܐ ܐܠܝܫܥ ܡܫܡܫܢܐ ܕܡܢ ܐܬܪܐ ܕܐ . . . ܕܟܬܒܬ ܪܘܫܡܐ ܗܢܐ ܒܗܪܝܘܡـ .
+                                          . . ܒܫܢܬ ܐܠܦ ܘܡܐܬܝܢ ܘܫܬܝܢ ܘܬܡܢܐ . . . </span>
+                                       </span></div>
+                                 
+                                 <div class="tei-item"><span class="inline-h4">Addition 4</span><strong> (Fol. 82b)</strong>:
+                                    <span class="tei-p">On fol. 82 b there is a list of the bishops who consecrated 
+                                       <span class="tei-persName">Severus of Antioch</span>; 
+                                       and on fol. 83 a, a short biographical notice 
+                                       of that patriarch, These were copied by one <span class="tei-persName">Basil</span> 
+                                       "from an ancient manuscript," in 
+                                       <span class="tei-date">the year 1381</span>, <span class="tei-date">A.D. 1070</span>.
+                                       </span><span class="tei-p">
+                                       <span class="tei-quote" lang="syr">ܒܐܣܝܠܠܝܘܣ ܒܨܝܪܐ [ܟܬܒ] ܗܠܝܢ ܡܢ ܨܚܚܐ ܥܬܝܩܐ ܐܝܟ ܕܠܥܘܗܕܢܐ ܫ̇ܢܬ
+                                          ܐܫ܏ܦܐ. ܕܡܪܝܐ ܢܚ̇ܣܐ ܠܕܡܚ̇ܣܐ ܠܢ..</span>
+                                       </span></div>
+                                 
+                                 <div class="tei-item"><span class="inline-h4">Addition 5</span><strong> (Fol. 83b)</strong>:
+                                    <span class="tei-p">Fol. 83 b, which is much soiled and torn, contains an extract relative to fasting,
+                                       and another apparently
+                                       referring to the course of the sun.</span></div>
+                                 
+                                 
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+                  <div class="citationinfo">
+                     <h3>How to Cite This Entry</h3>
+                     <div id="citation-note" class="content-block indent"><span> William Wright</span> et al., “<span class="title-analytic">London, BL, Add. 17194</span>” in <span class="title-monographic">A Digital Catalogue of Syriac Manuscripts in the British Library</span>,  last modified April 21, 2023, <a href="https://bl.syriac.uk/ms/850">https://bl.syriac.uk/ms/850</a>.
+                        <div class="collapse" id="showcit">
+                           <div id="citation-bibliography">
+                              <h4>Bibliography:</h4><span class="editor">William Wright</span> et al., “<span class="title-analytic">London, BL, Add. 17194</span>.” In <span class="title-monographic">A Digital Catalogue of Syriac Manuscripts in the British Library</span>, edited by . Syriaca.org: The Syriac Reference Portal,
+                              2023.
+                               Entry published April 21, 2023. <a href="https://bl.syriac.uk/ms/850">https://bl.syriac.uk/ms/850</a>.
+                           </div>
+                           <div id="about">
+                              <h3>About this Entry</h3>
+                              <p><span class="heading-inline">Entry Title:</span> <span class="title-analytic">London, BL, Add. 17194</span></p>
+                              <div>
+                                 <h4>Authorial and Editorial Responsibility:</h4>
+                                 <ul>
+                                    <li><span> David A. Michelson</span>, general editor, Syriaca.org: The Syriac Reference Portal
+                                    </li>
+                                    <li>, editor, <span class="title-monographic">A Digital Catalogue of Syriac Manuscripts in the British Library</span></li>
+                                    <li>William Wright, David A. Michelson, Robert Aydin, Claire Chen, Justin Arnwine, and Justin Arnwine, entry contributors, “<span class="title-analytic">London, BL, Add. 17194</span>”
+                                    </li>
+                                 </ul>
+                              </div>
+                              <div>
+                                 <h4>Additional Credit:</h4>
+                                 <ul>
+                                    <li>Created by <span> Claire Chen</span></li>
+                                    <li>Based on the work of <span> William Wright</span></li>
+                                    <li>Edited by <span> Justin Arnwine</span></li>
+                                    <li>Syriac text entered by <span> Robert Aydin</span></li>
+                                    <li>Greek and coptic text entry and proofreading by <span> Ryan Stitt</span></li>
+                                    <li>Project management by <span> William L. Potter</span></li>
+                                    <li>English text entry and proofreading by <span> Syriac Research Group, University of Alabama</span></li>
+                                    <li>Syriaca.org URIs for authors edited by <span> Justin Arnwine</span></li>
+                                    <li>Syriaca.org URIs for authors checked by <span> Alexys Ahn</span><span> Joseph DAlfonso</span></li>
+                                    <li>Folio extent edited by <span> Kurt Urban</span></li>
+                                 </ul>
+                              </div>
+                           </div>
+                           <div id="license">
+                              <h3>Copyright and License for Reuse</h3>
+                              <div>Except otherwise noted, this page is © 2023.
+                                 
+                              </div><span class="tei-licence">
+                                 
+                                 <p>Distributed under a Creative Commons Attribution 3.0 Unported License</p>
+                                 </span></div>
+                        </div><a class="btn-sm btn-info togglelink pull-right" data-toggle="collapse" data-target="#showcit" data-text-swap="Hide citation">Show full citation information...</a></div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </body><script type="text/javascript" src="/resources/js/jquery.validate.min.js"></script><script type="text/javascript" src="/resources/js/require.min.js"></script><script type="text/javascript" src="/resources/js/srophe.js"></script><script data-template="app:google-analytics"></script></html>

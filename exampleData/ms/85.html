@@ -1,0 +1,411 @@
+<?xml version="1.0" encoding="UTF-8"?><html xmlns="http://www.w3.org/1999/xhtml" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:srophe="https://srophe.app">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <title>London, BL, Add. 14429</title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <meta name="DC.type" property="dc.type" content="Text" />
+      <meta name="DC.isPartOf" property="dc.ispartof" content="Syriaca.org: The Syriac Reference Portal" />
+      <link data-template="app:metadata" />
+      <link rel="shortcut icon" href="/resources/images/fav-icons/mss-favicon.ico" />
+      <link rel="stylesheet" type="text/css" href="/resources/bootstrap/css/bootstrap.min.css" />
+      <link rel="stylesheet" type="text/css" href="/resources/css/sm-core-css.css" />
+      <link rel="stylesheet" type="text/css" href="/resources/css/syr-icon-fonts.css" />
+      <link rel="stylesheet" type="text/css" href="/resources/css/style.css" />
+      <link rel="stylesheet" type="text/css" href="/resources/css/syriaca.css" />
+      <link rel="stylesheet" type="text/css" media="print" href="/resources/css/print.css" />
+      <link rel="stylesheet" href="/resources/leaflet/leaflet.css" />
+      <link rel="stylesheet" href="/resources/leaflet/leaflet.awesome-markers.css" />
+      <link href="/resources/jquery-ui/jquery-ui.min.css" rel="stylesheet" /><script type="text/javascript" src="/resources/js/jquery.min.js"></script><script type="text/javascript" src="/resources/jquery-ui/jquery-ui.min.js"></script><script type="text/javascript" src="/resources/js/jquery.smartmenus.min.js"></script><script type="text/javascript" src="/resources/js/clipboard.min.js"></script><script type="text/javascript" src="/resources/bootstrap/js/bootstrap.min.js"></script><script defer="defer" data-domain="bl.syriac.uk" src="https://plausible.io/js/script.js"></script><link href="/resources/keyboard/css/keyboard.min.css" rel="stylesheet" />
+      <link href="/resources/keyboard/css/keyboard-previewkeyset.min.css" rel="stylesheet" />
+      <link href="/resources/keyboard/syr/syr.css" rel="stylesheet" /><script type="text/javascript" src="/resources/keyboard/syr/jquery.keyboard.js"></script><script type="text/javascript" src="/resources/keyboard/js/jquery.keyboard.extension-mobile.min.js"></script><script type="text/javascript" src="/resources/keyboard/js/jquery.keyboard.extension-navigation.min.js"></script><script type="text/javascript" src="/resources/keyboard/syr/jquery.keyboard.extension-autocomplete.js"></script><script type="text/javascript" src="/resources/keyboard/syr/keyboardSupport.js"></script><script type="text/javascript" src="/resources/keyboard/syr/syr.js"></script><script type="text/javascript" src="/resources/keyboard/layouts/ms-Greek.min.js"></script><script type="text/javascript" src="/resources/keyboard/layouts/ms-Russian.min.js"></script><script type="text/javascript" src="/resources/keyboard/layouts/ms-Arabic.min.js"></script><script type="text/javascript">
+            $(document).ready(function () {
+                $('[data-toggle="tooltip"]').tooltip({ container: 'body' })
+
+                $('.keyboard').keyboard({
+                    openOn: null,
+                    stayOpen: false,
+                    alwaysOpen: false,
+                    autoAccept: true,
+                    usePreview: false,
+                    initialFocus: true,
+                    rtl : true,
+                    layout: 'syriac-phonetic',
+                    hidden: function(event, keyboard, el){
+                       //  keyboard.destroy();
+                     }
+                });
+
+                $('.keyboard-select').click(function () {
+                    var keyboardID = '#' + $(this).data("keyboard-id")
+                    var kb = $(keyboardID).getkeyboard();
+                    //var kb = $('#searchField').getkeyboard();
+                    // change layout based on link ID
+                    kb.options.layout = this.id
+                    // open keyboard if layout is different, or time from it last closing is &gt; 200 ms
+                    if (kb.last.layout !== kb.options.layout || (new Date().getTime() - kb.last.eventTime) &gt; 200) {
+                        kb.reveal();
+                    }
+                });
+                //Change fonts
+                $('.swap-font').on('click', function(){
+                    var selectedFont = $(this).data("font-id")
+                    $('.selectableFont').not('.syr').css('font-family', selectedFont);
+                    $("*:lang(syr)").css('font-family', selectedFont)
+                });
+
+            })
+        </script></head>
+   <body id="body">
+      <nav class="navbar navbar-default navbar-fixed-top" role="navigation" data-template="app:fix-links">
+         
+         <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse-1">
+               <span class="sr-only">Toggle navigation</span>
+               <span class="icon-bar"></span>
+               <span class="icon-bar"></span>
+               <span class="icon-bar"></span>
+               </button>
+            <a class="navbar-brand banner-container" href="/index.html">
+               <span class="syriaca-icon syriaca-mss banner-icon"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span>
+                  </span>
+               <span class="banner-text">Syriac Manuscripts in the British Library</span>
+               </a>
+            
+         </div>
+         
+         <div class="navbar-collapse collapse pull-right" id="navbar-collapse-1">
+            
+            <ul class="nav navbar-nav">
+               
+               <li>
+                  <a href="/browse.html" class="nav-text">Browse</a>
+                  
+               </li>
+               
+               <li data-template="app:shared-content" data-template-path="/templates/shared-links.html"></li>
+               
+               <li>
+                  <a href="/search.html" class="nav-text">Advanced Search</a>
+                  
+               </li>
+               
+               <li>
+                  
+                  <div id="search-wrapper">
+                     
+                     <form class="navbar-form navbar-right search-box" role="search" action="/search.html" method="get">
+                        
+                        <div class="form-group">
+                           <input type="text" class="form-control keyboard" placeholder="search" name="keyword" id="keywordNav" />
+                           <span data-template="app:keyboard-select-menu" data-template-input-id="keywordNav"></span>
+                           <button class="btn btn-default search-btn" id="searchbtn" type="submit" title="Search">
+                              <span class="glyphicon glyphicon-search"></span>
+                              </button>
+                           
+                        </div>
+                        
+                     </form>
+                     
+                  </div>
+                  
+               </li>
+               
+               <li data-template="app:shared-content" data-template-path="/templates/fontMenu.html"></li>
+               
+            </ul>
+            
+         </div>
+         
+      </nav>
+      <div class="main-content-block">
+         <div class="interior-content">
+            <div class="container otherFormats"><a href="mailto:bl.syriac.uk@gmail.com?subject=Shelf mark: Record URI: " type="button" class="btn btn-default btn-xs" data-toggle="tooltip" title="Click to report a correction via e-mail."><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span> Corrections
+                  </a> <a href="https://github.com/srophe/britishLibrary-data/issues/new?assignees=&amp;labels=community-submitted&amp;title=:" target="_blank" id="issueBtn" data-toggle="tooltip" class="btn btn-default btn-xs" title="Click to file a data issue on GitHub (requires login)."><span class="glyphicon glyphicon-record" aria-hidden="true"></span> Open
+                  </a> <a href="https://github.com/srophe/britishLibrary-data/blob/main/data/tei/85.xml" target="_blank" class="btn btn-default btn-xs" id="openBtn" data-toggle="tooltip" title="Click to view the TEI XML data for this record."><img src="/resources/images/github-mark.png" height="18px" /></a> <a href="javascript:window.print();" type="button" class="btn btn-default btn-xs" id="printBtn" data-toggle="tooltip" title="Click to send this page to the printer."><span class="glyphicon glyphicon-print" aria-hidden="true"></span> 
+                  </a> 
+            </div>
+            <div class="row">
+               <div class="col-md-12">
+                  <div xmlns:x="http://www.w3.org/1999/xhtml" xmlns:local="http://syriaca.org/ns" class="title">
+                     <h1>Add. 14,429</h1>
+                  </div>
+                  <div xmlns:x="http://www.w3.org/1999/xhtml" xmlns:local="http://syriaca.org/ns" class="tei-note">
+                     <div>URI: <span class="tei-idno">https://bl.syriac.uk/ms/85</span></div>
+                  </div>
+                  <div xmlns:x="http://www.w3.org/1999/xhtml" xmlns:local="http://syriaca.org/ns" class="header section">
+                     <div class="tei-note">
+                        <div>
+                           Description based on Wright
+                           <a href="#" data-toggle="tooltip" title="This entry number is from Wright's printed catalogue. Due to renumbering, Wright's entry numbers do not match the numbering used in this digital catalogue."><span class="tei-idno">LX</span></a>
+                           (<span class="tei-citedRange">1:37-39</span>)
+                           <a href="https://archive.org/details/catalogueofsyria01brituoft/page/37" target="_blank"><img src="/resources/images/ialogo.jpg" alt="Link to Archive.org Bibliographic record" height="18px" /></a></div>
+                        <div>
+                           Date: 
+                           AD 719 / AG 1030
+                        </div>
+                        <div>Estrangela script (multiple hands) ܀  Parchment Codex, 166 leaves.
+                           
+                        </div>
+                        <div></div>
+                        <div>
+                           Wright's Subject Classification:
+                           Old Testament
+                        </div>
+                     </div>
+                     <div class="tei-note"><span>This manuscript contains: . In total, including sub-sections, this manuscript contains
+                           9 items.</span></div>
+                  </div>
+                  <div xmlns:x="http://www.w3.org/1999/xhtml" xmlns:local="http://syriaca.org/ns" class="panel panel-default">
+                     <div class="panel-heading">
+                        <h2 class="panel-title" data-toggle="collapse" data-target="#Overview">Physical Description </h2>
+                     </div>
+                     <div id="Overview" class="panel-collapse collapse in">
+                        <div class="panel-body">
+                           <div class="msDesc">
+                              <div class="tei-physDesc">
+                                 <div class="indent">
+                                    <p>Vellum, about 10 1/8 in. by 6 7/8, consisting of 166 leaves, several of which are
+                                       much stained and torn, especially foll. 59, 65, 68, 70 and 128. The quires, signed
+                                       with letters, are 18 in number, the last having now only one leaf. Single leaves have
+                                       also been lost after foll. 76, 77 and 86. Each page has from 19 to 23 lines.
+                                    </p><span class="tei-handDesc">
+                                       
+                                       <div name="handNote1"><span class="inline-h4">Hand 1 (major, Estrangela script): </span>
+                                          This manuscript is written in a large, beautiful Estrangela, much resembling the handwriting
+                                          of <span class="tei-persName">Sābā of <span class="tei-placeName">Rās'ain</span>
+                                             </span> (see <span class="tei-bibl">Add. 12,135<span class="tei-ptr"></span>
+                                             </span>, and <span class="tei-bibl">14,428<span class="tei-ptr"></span>
+                                             </span>), and dates from about <span class="tei-date">A. Gr. 1030</span>, <span class="tei-date">A.D. 719</span>. <span class="tei-ref">See additions.</span>
+                                          
+                                       </div>
+                                       
+                                       <div name="handNote2"><span class="inline-h4">Hand 2 (minor, West Syriac script): </span>
+                                          <span class="tei-ref">See additions.</span>
+                                          
+                                       </div>
+                                       
+                                       <div name="handNote3"><span class="inline-h4">Hand 3 (minor, Unspecified Syriac script): </span>
+                                          A later hand in red ink.<span class="tei-ref">See additions.</span>
+                                          
+                                       </div>
+                                       
+                                       <div name="handNote4"><span class="inline-h4">Hand 4 (minor, Unspecified Greek script): </span>
+                                          Greek words in elegant characters.<span class="tei-ref">See additions.</span>
+                                          
+                                       </div>
+                                       
+                                       <div name="handNote5"><span class="inline-h4">Hand 5 (minor, Unspecified Syriac script): </span>
+                                          <span class="tei-ref">See additions.</span>
+                                          
+                                       </div>
+                                       
+                                       <div name="handNote6"><span class="inline-h4">Hand 6 (minor, Unspecified Syriac script): </span>
+                                          A monk of <span class="tei-placeName">Tagrīt</span>, who visited the <span class="tei-placeName">convent of S. Mary Deipara</span>. <span class="tei-ref">See additions.</span>
+                                          
+                                       </div>
+                                       
+                                       <div name="handNote7"><span class="inline-h4">Hand 7 (minor, Unspecified Syriac script): </span>
+                                          A more modern hand.<span class="tei-ref">See additions.</span>
+                                          
+                                       </div>
+                                       </span></div>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+                  <div xmlns:x="http://www.w3.org/1999/xhtml" xmlns:local="http://syriaca.org/ns" class="panel panel-default">
+                     <div class="panel-heading">
+                        <h2 class="panel-title" data-toggle="collapse" data-target="#Contents">Manuscript Contents</h2>
+                     </div>
+                     <div id="Contents" class="panel-collapse collapse in">
+                        <div class="panel-body">
+                           <div class="msContent"><span class="summary ident">Note: Item numbering updated in digital edition.</span><span class="tei-msContents">
+                                 
+                                 
+                                 <div class="tei-msItem"><span class="inline-h4">Item 1 (Fol. 1): </span> [defective]
+                                    <div class="msItemChild"><span class="tei-colophon"><span class="inline-h4"> 
+                                             Colophon: </span><span>
+                                             <a href="#addition5 #addition6 #addition10">See additions.</a>
+                                             </span></span><div class="tei-msItem"><span class="inline-h4">Item 2 (Fol. 2b): </span>Index to the lessons
+                                          <div class="msItemChild"></div>
+                                       </div>
+                                       <div class="tei-msItem"><span class="inline-h4">Item 3 (Fol. 3): </span>The two books of Samuel and a portion of the first book of Kings according to the
+                                          recension of Jacob of Edessa
+                                           [defective]
+                                          <div class="msItemChild">
+                                             <div class="msItem-notes"><span class="inline-h4">Note: </span>See Assemani, Bibl. Or., t. ii. p. 335-36;Ceriani, Monumenta Sacra et Profana, t. ii. fasc. i., pp. x., xi.; and his memoir, Le Edizioni e i Manoscritti etc., p. 27.
+                                                
+                                             </div>
+                                             <div class="tei-msItem"><span class="inline-h4">Item 4 (Fol. 3b): </span>Summary of the contents of the first book of Samuel
+                                                <div class="msItemChild">
+                                                   <div class="msItem-notes"><span class="inline-h4">Note: </span>This is not a translation from the Synopsis of Chrysostom.
+                                                   </div>
+                                                </div>
+                                             </div>
+                                             <div class="tei-msItem"><span class="inline-h4">Item 5 (Fol. 5a): </span>The first book of Samuel, according to the recension of Jacob of Edessa
+                                                 [defective]
+                                                <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                         <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܟܬܒܐ ܩܕܡܝܐ ܕܡܠܟܘ̈ܬܐ
+                                                         </span></span><span class="tei-rubric"><span class="inline-h4"> 
+                                                         <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">
+                                                         <span class="tei-fw">ܫܡܘܐܝܠ</span>
+                                                         </span></span><div class="msItem-notes"><span class="inline-h4">Notes:</span><ul>
+                                                         <li>It is divided into 15 chapters,<span class="tei-foreign" xml:lang="syr" lang="syr" dir="rtl">ܩ̈ܦܠܐܐ</span>
+                                                            
+                                                         </li>
+                                                         <li>The other missing portions of the text are: 1 Sam. 25:11—20, 29 — 39, and 30:2—13.</li>
+                                                      </ul>
+                                                   </div>
+                                                </div>
+                                             </div>
+                                             <div class="tei-msItem"><span class="inline-h4">Item 6 (Fol. 90b): </span>Summary of the contents of the second book of Samuel the portion of the first book
+                                                of Kings
+                                                <div class="msItemChild"></div>
+                                             </div>
+                                             <div class="tei-msItem"><span class="inline-h4">Item 7 (Fol. 91): </span>The second book of Samuel, including the first book of Kings, ch. 1:1—49, according
+                                                to the recension of Jacob of Edessa
+                                                 [defective]
+                                                <div class="msItemChild">
+                                                   <div class="msItem-notes"><span class="inline-h4">Note: </span>It is likewise divided into 15 chapters.
+                                                   </div>
+                                                   <div class="tei-msItem"><span class="inline-h4">Item 8 (Fol. 91): </span>The second book of Samuel, according to the recension of Jacob of Edessa
+                                                      
+                                                      <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                               <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܟܬܒܐ ܕܬܪ̈ܝܢ ܕܡ̈ܠܟܘܬܐ
+                                                               </span></span><span class="tei-rubric"><span class="inline-h4"> 
+                                                               <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">
+                                                               <span class="tei-fw">ܫܡܘܐܝܠ</span>
+                                                               </span></span></div>
+                                                   </div>
+                                                   <div class="tei-msItem"><span class="inline-h4">Item 9 (Fol. 162a): </span>The first book of Kings, ch. 1:1-49, according to the recension of Jacob of Edessa
+                                                       [defective]
+                                                      <div class="msItemChild">
+                                                         <div class="msItem-notes"><span class="inline-h4">Note: </span>The fifteenth chapter extended as far as 1 Kings, ch. 2:11:<span class="tei-foreign" xml:lang="syr" lang="syr" dir="rtl">܏ܝܗ ܥܠ ܗ̇ܝ ܕܟܕ ܣܐ̣ܒ ܕܘܝܕ ܠܐ ܫܚ̇ܢ ܗܘܐ ܒܠܒܘ̈ܫܐ܆ ܘܐܝܬ̣ܝܘ ܠܗ ܥܠܝܡܬܐ ܒܬܘܠܬܐ ܕܬܫܟ݂ܒ ܥܡܗ:
+                                                               ܘܥܠ ܪܘܪܒܗ ܕܐܘܪܢܝܐ ܒܪ ܚܐܓܝܬ ܠܘܬ ܗ̇ܝ ܕܢܡܠܟ̇ ܘܥܠ ܦܘܕܗ ܕܡܢ ܪܓܬܗ: ܘܥܠ ܡܠܟܘܬܗ ܕܫܠܘܡܘܢ ܘܥܠ
+                                                               ܗܠܝܢ ܕܦܩܕܗ ܐܒܘܗܝ ܩܕܡ ܕܢܡܘܬ܀</span>
+                                                            
+                                                         </div>
+                                                      </div>
+                                                   </div>
+                                                </div>
+                                             </div>
+                                          </div>
+                                       </div>
+                                    </div>
+                                 </div>
+                                 </span></div>
+                        </div>
+                     </div>
+                  </div>
+                  <div xmlns:x="http://www.w3.org/1999/xhtml" xmlns:local="http://syriaca.org/ns" class="panel panel-default">
+                     <div class="panel-heading">
+                        <h2 class="panel-title" data-toggle="collapse" data-target="#Additions">Additions </h2>
+                     </div>
+                     <div id="Additions" class="panel-collapse collapse in">
+                        <div class="panel-body">
+                           <div class="msDesc">
+                              <div class="indent">
+                                 
+                                 <div class="tei-note"><span>N.B., folio location may not be available for some items below.</span></div>
+                                 
+                                 
+                                 <div class="tei-item"><span class="inline-h4">Addition 1</span>:
+                                    <span class="tei-p">Greek vowels are rarely added; for example,<span class="tei-locus">fol. 5 a</span>, <span class="tei-foreign" lang="syr">ܦܶܐܢܰܐܢܰܐ</span>, <span class="tei-locus">fol. 88 b</span>, <span class="tei-foreign" lang="syr">ܕܒܣܐܦܝܡܘܬ</span>, <span class="tei-foreign" lang="syr">ܕܒܐܪܝܩܐܢ</span>,and <span class="tei-foreign" lang="syr">ܕܒܢܘܳܢܬܘܳܡ</span>.</span></div>
+                                 
+                                 <div class="tei-item"><span class="inline-h4">Addition 2</span>:
+                                    <span class="tei-p">The lessons (<span class="tei-foreign" lang="syr">ܩܪ̈ܝܢܐ</span>, abbreviated <span class="tei-foreign" lang="syr">ܩܪܝ</span> and <span class="tei-foreign" lang="syr">ܩ</span>) are indicated on the margins in red ink, sometimes by a later hand, the end of each
+                                       being usually marked by the letter <span class="tei-foreign" lang="syr">ܫ</span>.</span></div>
+                                 
+                                 <div class="tei-item"><span class="inline-h4">Addition 3</span>:
+                                    <span class="tei-p">A few Greek words are written on the margins in elegant characters, e.g. foll.<span class="tei-locus">5 a</span>, <span class="tei-locus">69 a</span>, <span class="tei-locus">71 a</span>, <span class="tei-locus">78 b</span>, and <span class="tei-locus">88 b</span>.</span></div>
+                                 
+                                 <div class="tei-item"><span class="inline-h4">Addition 4</span>:
+                                    <span class="tei-p">There are a considerable number of various readings and notes, some of the latter
+                                       being taken from the works of <span class="tei-persName">Severus of Antioch</span>(foll.<span class="tei-locus">36 a</span>, <span class="tei-locus">100 a</span>).</span></div>
+                                 
+                                 <div class="tei-item"><span class="inline-h4">Addition 5</span><strong> (Fol. 1a)</strong>:
+                                    <span class="tei-quote" lang="syr">ܫܢܬ ܏ܐܠ ܏ܒܝ ܒܢܝܣܢ ܫ̇ܪܝ ܒܟܬܒܐ ܗܢܐ ܠܥܙܪ ܘܥܐܕܝ ܒ. .</span><span class="tei-quote" lang="en">in the year <span class="tei-date">1030</span>(<span class="tei-date">A.D. 719</span>), on the tenth of Nīsān,<span class="tei-persName">Lazarus</span> and <span class="tei-persName">‘Adī</span> began in this book . . . .</span></div>
+                                 
+                                 <div class="tei-item"><span class="inline-h4">Addition 6</span><strong> (Fol. 1a)</strong>:
+                                    <span class="tei-p">Below <span class="tei-ref">this</span>, in the same hand, but smaller and less distinct, are the words</span><span class="tei-p">
+                                       <span class="tei-quote" lang="syr">ܩܨܝܪܝܢ ܘܟܬܝܒܝܢ</span>,</span><span class="tei-p">the meaning of which is not clear. It is, therefore, uncertain whether the manuscript
+                                       was written <span class="tei-date">A.D. 719</span> or a little earlier, as the above-named persons were probably the collators and correctors.</span></div>
+                                 
+                                 <div class="tei-item"><span class="inline-h4">Addition 7</span><strong> (Fol. 1b)</strong>:
+                                    <span class="tei-quote" lang="syr">:[ܐܢܐ ܚ]ܛܝܐ ܘܡܚܠ (sic) ܡܢ ܬܓܪܝܬ ܡܬܬܝܬ (sic) ܠܥܘܡܪܐ ܕܝܠ ܕܝܠܬ(sic) .ܐܠܗܐ ܕܒܡܕܒܪܐ</span></div>
+                                 
+                                 <div class="tei-item"><span class="inline-h4">Addition 8</span><strong> (Fol. 2a)</strong>:
+                                    <span class="tei-quote" lang="syr">ܒܒܥܘ ܡܛܠ ܡܪܢ ܨܠܘ ܥܠ ܚܛܝܐ ܕܣܪܛ</span></div>
+                                 
+                                 <div class="tei-item"><span class="inline-h4">Addition 9</span><strong> (Fol. 2a)</strong>:
+                                    <span class="tei-p">Just below <span class="tei-ref">this</span> stands the name of the <span class="tei-persName">abbat John of Beth-Severīna</span>(See <span class="tei-bibl">Assemani, Bilb. Orient., t. i. pp. 215, 216</span>):</span><span class="tei-p">
+                                       <span class="tei-quote" lang="syr">ܝܘܚܢܢ ܚܛܝܐ ܣܒܝܪܝܢܝܐ ܪܝܫܢܐ ܕܝܪܐ</span>(sic).</span></div>
+                                 
+                                 <div class="tei-item"><span class="inline-h4">Addition 10</span><strong> (Fol. 90a)</strong>:
+                                    <span class="tei-p">
+                                       <span class="tei-quote" lang="syr">ܐܬܬ݁ܪܨ ܟܬܒܐ ܗܢܐ ܩܕܡܝܐ ܕܡ̈ܠܟܘܬܐ: ܐܝܟ ܕܡܨܝܐ ܘܗܘܬ݀ ܘܣ̇ܓܝ ܥܣܩܐܝܬ: ܡܢ ܡܫܠܡ̈ܢܘܬܐ ܡܫܚ̈ܠܦܬܐ:
+                                          ܡܢ ܗ̇ܝ ܟܝܬ ܕܠܘܬ ܣܘܪ̈ܝܝܐ̇ ܘܡܢ ܗܠܝܢ ܕܠܘܬ ܝܘ̈ܢܝܐ̣. ܒܐܝ̈ܕܝ ܚܣܝܐ ܝܥܩܘܒ ܐܦܝܣܩܦܐ ܕܐܘܪܗܝ:
+                                          ܒܫܢܬ ܏ܐܝܘ ܕܡܢܝܢܐ ܕܝ̈ܘܢܝܐ ܐܘ ܟܝܬ ܕܣܠܘܩܘܣ ܡ̇ܠܟܐ: ܐܝܢܕܩܛܝܘܢܐ ܕܬܠܬܐ ܒܕܝܪܐ ܪܒܬܐ ܕܬܠܥܕܐ.</span>
+                                       </span><span class="tei-quote" lang="en">“This first book of Kings was corrected, so far as possible and with much labour,
+                                       from the different versions, viz. from that of the Syrians and from those of the Greeks,
+                                       by the hands of the pious <span class="tei-persName">Jacob, bishop of <span class="tei-placeName">Edessa</span></span>, in <span class="tei-date">the year 1016 of the Greeks or of <span class="tei-persName">king Seleucus</span>
+                                          </span>(<span class="tei-date">A.D. 705</span>), third indiction, in the great <span class="tei-placeName">convent of Tel-'Adā.</span></span></div>
+                                 
+                                 
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+                  <div class="citationinfo">
+                     <h3>How to Cite This Entry</h3>
+                     <div id="citation-note" class="content-block indent"><span> David A. Michelson</span> et al., “<span class="title">London, BL, Add. 14429</span>” in ,  last modified April 21, 2023, <a href="https://bl.syriac.uk/ms/85">https://bl.syriac.uk/ms/85</a>.
+                        <div class="collapse" id="showcit">
+                           <div id="citation-bibliography">
+                              <h4>Bibliography:</h4><span class="editor">David A. Michelson</span> et al., “<span class="title">London, BL, Add. 14429</span>.” In , edited by . Syriaca.org: The Syriac Reference Portal,
+                              2023.
+                               Entry published April 21, 2023. <a href="https://bl.syriac.uk/ms/85">https://bl.syriac.uk/ms/85</a>.
+                           </div>
+                           <div id="about">
+                              <h3>About this Entry</h3>
+                              <p><span class="heading-inline">Entry Title:</span> <span class="title">London, BL, Add. 14429</span></p>
+                              <div>
+                                 <h4>Authorial and Editorial Responsibility:</h4>
+                                 <ul>
+                                    <li><span> David A. Michelson</span>, general editor, Syriaca.org: The Syriac Reference Portal
+                                    </li>
+                                    <li>, editor, </li>
+                                    <li>David A. Michelson, Daniel J. Greeson, Tucker D. Hannah, and Robert Aydin, entry contributors, “”</li>
+                                 </ul>
+                              </div>
+                              <div>
+                                 <h4>Additional Credit:</h4>
+                                 <ul>
+                                    <li>Created by <span> Tucker D. Hannah</span></li>
+                                    <li>Edited by <span> Daniel J. Greeson</span></li>
+                                    <li>Syriac text entered by <span> Robert Aydin</span></li>
+                                    <li>Greek and coptic text entry and proofreading by <span> Ryan Stitt</span></li>
+                                    <li>Project management by <span> Elizabeth Walston</span></li>
+                                    <li>English text entry and proofreading by <span> Syriac Research Group, University of Alabama</span></li>
+                                    <li>Decoration information encoded by <span> Alexys Ahn</span></li>
+                                    <li>Decorations identified and categorized by <span> Beth Maczka</span></li>
+                                    <li>Folio extent edited by <span> Kurt Urban</span></li>
+                                 </ul>
+                              </div>
+                           </div>
+                           <div id="license">
+                              <h3>Copyright and License for Reuse</h3>
+                              <div>Except otherwise noted, this page is © 2023.
+                                 
+                              </div><span class="tei-licence">
+                                 
+                                 <p>Distributed under a Creative Commons Attribution 3.0 Unported License</p>
+                                 </span></div>
+                        </div><a class="btn-sm btn-info togglelink pull-right" data-toggle="collapse" data-target="#showcit" data-text-swap="Hide citation">Show full citation information...</a></div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </body><script type="text/javascript" src="/resources/js/jquery.validate.min.js"></script><script type="text/javascript" src="/resources/js/require.min.js"></script><script type="text/javascript" src="/resources/js/srophe.js"></script><script data-template="app:google-analytics"></script></html>

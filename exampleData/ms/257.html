@@ -1,0 +1,584 @@
+<?xml version="1.0" encoding="UTF-8"?><html xmlns="http://www.w3.org/1999/xhtml" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:srophe="https://srophe.app">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <title>London, BL, Add. 14530</title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <meta name="DC.type" property="dc.type" content="Text" />
+      <meta name="DC.isPartOf" property="dc.ispartof" content="Syriaca.org: The Syriac Reference Portal" />
+      <link data-template="app:metadata" />
+      <link rel="shortcut icon" href="/resources/images/fav-icons/mss-favicon.ico" />
+      <link rel="stylesheet" type="text/css" href="/resources/bootstrap/css/bootstrap.min.css" />
+      <link rel="stylesheet" type="text/css" href="/resources/css/sm-core-css.css" />
+      <link rel="stylesheet" type="text/css" href="/resources/css/syr-icon-fonts.css" />
+      <link rel="stylesheet" type="text/css" href="/resources/css/style.css" />
+      <link rel="stylesheet" type="text/css" href="/resources/css/syriaca.css" />
+      <link rel="stylesheet" type="text/css" media="print" href="/resources/css/print.css" />
+      <link rel="stylesheet" href="/resources/leaflet/leaflet.css" />
+      <link rel="stylesheet" href="/resources/leaflet/leaflet.awesome-markers.css" />
+      <link href="/resources/jquery-ui/jquery-ui.min.css" rel="stylesheet" /><script type="text/javascript" src="/resources/js/jquery.min.js"></script><script type="text/javascript" src="/resources/jquery-ui/jquery-ui.min.js"></script><script type="text/javascript" src="/resources/js/jquery.smartmenus.min.js"></script><script type="text/javascript" src="/resources/js/clipboard.min.js"></script><script type="text/javascript" src="/resources/bootstrap/js/bootstrap.min.js"></script><script defer="defer" data-domain="bl.syriac.uk" src="https://plausible.io/js/script.js"></script><link href="/resources/keyboard/css/keyboard.min.css" rel="stylesheet" />
+      <link href="/resources/keyboard/css/keyboard-previewkeyset.min.css" rel="stylesheet" />
+      <link href="/resources/keyboard/syr/syr.css" rel="stylesheet" /><script type="text/javascript" src="/resources/keyboard/syr/jquery.keyboard.js"></script><script type="text/javascript" src="/resources/keyboard/js/jquery.keyboard.extension-mobile.min.js"></script><script type="text/javascript" src="/resources/keyboard/js/jquery.keyboard.extension-navigation.min.js"></script><script type="text/javascript" src="/resources/keyboard/syr/jquery.keyboard.extension-autocomplete.js"></script><script type="text/javascript" src="/resources/keyboard/syr/keyboardSupport.js"></script><script type="text/javascript" src="/resources/keyboard/syr/syr.js"></script><script type="text/javascript" src="/resources/keyboard/layouts/ms-Greek.min.js"></script><script type="text/javascript" src="/resources/keyboard/layouts/ms-Russian.min.js"></script><script type="text/javascript" src="/resources/keyboard/layouts/ms-Arabic.min.js"></script><script type="text/javascript">
+            $(document).ready(function () {
+                $('[data-toggle="tooltip"]').tooltip({ container: 'body' })
+
+                $('.keyboard').keyboard({
+                    openOn: null,
+                    stayOpen: false,
+                    alwaysOpen: false,
+                    autoAccept: true,
+                    usePreview: false,
+                    initialFocus: true,
+                    rtl : true,
+                    layout: 'syriac-phonetic',
+                    hidden: function(event, keyboard, el){
+                       //  keyboard.destroy();
+                     }
+                });
+
+                $('.keyboard-select').click(function () {
+                    var keyboardID = '#' + $(this).data("keyboard-id")
+                    var kb = $(keyboardID).getkeyboard();
+                    //var kb = $('#searchField').getkeyboard();
+                    // change layout based on link ID
+                    kb.options.layout = this.id
+                    // open keyboard if layout is different, or time from it last closing is &gt; 200 ms
+                    if (kb.last.layout !== kb.options.layout || (new Date().getTime() - kb.last.eventTime) &gt; 200) {
+                        kb.reveal();
+                    }
+                });
+                //Change fonts
+                $('.swap-font').on('click', function(){
+                    var selectedFont = $(this).data("font-id")
+                    $('.selectableFont').not('.syr').css('font-family', selectedFont);
+                    $("*:lang(syr)").css('font-family', selectedFont)
+                });
+
+            })
+        </script></head>
+   <body id="body">
+      <nav class="navbar navbar-default navbar-fixed-top" role="navigation" data-template="app:fix-links">
+         
+         <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse-1">
+               <span class="sr-only">Toggle navigation</span>
+               <span class="icon-bar"></span>
+               <span class="icon-bar"></span>
+               <span class="icon-bar"></span>
+               </button>
+            <a class="navbar-brand banner-container" href="/index.html">
+               <span class="syriaca-icon syriaca-mss banner-icon"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span>
+                  </span>
+               <span class="banner-text">Syriac Manuscripts in the British Library</span>
+               </a>
+            
+         </div>
+         
+         <div class="navbar-collapse collapse pull-right" id="navbar-collapse-1">
+            
+            <ul class="nav navbar-nav">
+               
+               <li>
+                  <a href="/browse.html" class="nav-text">Browse</a>
+                  
+               </li>
+               
+               <li data-template="app:shared-content" data-template-path="/templates/shared-links.html"></li>
+               
+               <li>
+                  <a href="/search.html" class="nav-text">Advanced Search</a>
+                  
+               </li>
+               
+               <li>
+                  
+                  <div id="search-wrapper">
+                     
+                     <form class="navbar-form navbar-right search-box" role="search" action="/search.html" method="get">
+                        
+                        <div class="form-group">
+                           <input type="text" class="form-control keyboard" placeholder="search" name="keyword" id="keywordNav" />
+                           <span data-template="app:keyboard-select-menu" data-template-input-id="keywordNav"></span>
+                           <button class="btn btn-default search-btn" id="searchbtn" type="submit" title="Search">
+                              <span class="glyphicon glyphicon-search"></span>
+                              </button>
+                           
+                        </div>
+                        
+                     </form>
+                     
+                  </div>
+                  
+               </li>
+               
+               <li data-template="app:shared-content" data-template-path="/templates/fontMenu.html"></li>
+               
+            </ul>
+            
+         </div>
+         
+      </nav>
+      <div class="main-content-block">
+         <div class="interior-content">
+            <div class="container otherFormats"><a href="mailto:bl.syriac.uk@gmail.com?subject=Shelf mark: Record URI: " type="button" class="btn btn-default btn-xs" data-toggle="tooltip" title="Click to report a correction via e-mail."><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span> Corrections
+                  </a> <a href="https://github.com/srophe/britishLibrary-data/issues/new?assignees=&amp;labels=community-submitted&amp;title=:" target="_blank" id="issueBtn" data-toggle="tooltip" class="btn btn-default btn-xs" title="Click to file a data issue on GitHub (requires login)."><span class="glyphicon glyphicon-record" aria-hidden="true"></span> Open
+                  </a> <a href="https://github.com/srophe/britishLibrary-data/blob/main/data/tei/257.xml" target="_blank" class="btn btn-default btn-xs" id="openBtn" data-toggle="tooltip" title="Click to view the TEI XML data for this record."><img src="/resources/images/github-mark.png" height="18px" /></a> <a href="javascript:window.print();" type="button" class="btn btn-default btn-xs" id="printBtn" data-toggle="tooltip" title="Click to send this page to the printer."><span class="glyphicon glyphicon-print" aria-hidden="true"></span> 
+                  </a> 
+            </div>
+            <div class="row">
+               <div class="col-md-12">
+                  <div xmlns:x="http://www.w3.org/1999/xhtml" xmlns:local="http://syriaca.org/ns" class="title">
+                     <h1>Add. 14,530</h1>
+                  </div>
+                  <div xmlns:x="http://www.w3.org/1999/xhtml" xmlns:local="http://syriaca.org/ns" class="tei-note">
+                     <div>URI: <span class="tei-idno">https://bl.syriac.uk/ms/257</span></div>
+                  </div>
+                  <div xmlns:x="http://www.w3.org/1999/xhtml" xmlns:local="http://syriaca.org/ns" class="header section">
+                     <div class="tei-note">
+                        <div>
+                           Description based on Wright
+                           <a href="#" data-toggle="tooltip" title="This entry number is from Wright's printed catalogue. Due to renumbering, Wright's entry numbers do not match the numbering used in this digital catalogue."><span class="tei-idno">DCCCCV</span></a>
+                           (<span class="tei-citedRange">2:1027-1030</span>)
+                           <a href="https://archive.org/details/catalogueofsyria02brituoft/page/1027" target="_blank"><img src="/resources/images/ialogo.jpg" alt="Link to Archive.org Bibliographic record" height="18px" /></a></div>
+                        <div>
+                           Date: 
+                           AD 535 / AG 846
+                        </div>
+                        <div>Unspecified Syriac script ܀  Parchment Codex, 108 leaves.
+                           
+                        </div>
+                        <div></div>
+                        <div>
+                           Wright's Subject Classification:
+                           Councils of the Church and Ecclesiastical Canons
+                        </div>
+                     </div>
+                     <div class="tei-note"><span>This manuscript contains: The Acts of the Second Council of EphesusA small part of
+                           this volume has been edited by the Rev. S. G. F. Perry, under the title of "An Ancient
+                           Syriac Document, purporting to be the record, in its chief features, of the second
+                           Synod of Ephesus," etc., Oxford, 1867. In total, including sub-sections, this manuscript
+                           contains 36 items.</span></div>
+                  </div>
+                  <div xmlns:x="http://www.w3.org/1999/xhtml" xmlns:local="http://syriaca.org/ns" class="panel panel-default">
+                     <div class="panel-heading">
+                        <h2 class="panel-title" data-toggle="collapse" data-target="#Overview">Physical Description </h2>
+                     </div>
+                     <div id="Overview" class="panel-collapse collapse in">
+                        <div class="panel-body">
+                           <div class="msDesc">
+                              <div class="tei-physDesc">
+                                 <div class="indent">
+                                    <p>Vellum, about 8 7/8 in. by 5 5/8, consisting of 108 leaves, some of which,
+                                       particularly at the end, are much stained and slightly torn. The quires,
+                                       signed with letters, were originally 12 or 13 in number, but the last two or
+                                       three, from fol. 94 (<span class="tei-foreign" xml:lang="syr" lang="syr" dir="rtl">ܝܐ</span>) onwards, are imperfect, leaves being missing after
+                                       foll. 96, 98, 101, 105, and 106. There are from 27 to 34 lines in each page.
+                                       From the note on the margin of fol. 1 b, <span class="tei-quote"><span class="inline-h4"> 
+                                             Excerpt: </span><span xml:lang="syr" lang="syr" dir="rtl">ܦܘܫܩܐ ܕܐܘܢܓܠܝܘܢ . . .
+                                             </span></span>, it would appear that  <span xml:lang="en" lang="en" dir="ltr">a commentary on
+                                          one of the Gospels
+                                          </span> was once bound with this manuscript.
+                                    </p><span class="tei-handDesc">
+                                       
+                                       <div name="handNote1"><span class="inline-h4">Hand 1 (sole, Unspecified Syriac script): </span>
+                                          This volume is written in a fine, regular hand, and dated <span class="tei-date">A. Gr. 846</span>, <span class="tei-date">A.D.
+                                             535</span>.
+                                       </div>
+                                       </span></div>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+                  <div xmlns:x="http://www.w3.org/1999/xhtml" xmlns:local="http://syriaca.org/ns" class="panel panel-default">
+                     <div class="panel-heading">
+                        <h2 class="panel-title" data-toggle="collapse" data-target="#Contents">Manuscript Contents</h2>
+                     </div>
+                     <div id="Contents" class="panel-collapse collapse in">
+                        <div class="panel-body">
+                           <div class="msContent"><span class="summary ident">Note: Item numbering updated in digital edition.</span><span class="tei-msContents">
+                                 
+                                 
+                                 <div class="tei-msItem"><span class="inline-h4">Item 1 (Fol. 1b): </span>The Acts of the Second Council of Ephesus [defective]
+                                    <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                             <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܣܘܢܗܕܘܣ ܕܬܪ̈ܬܝܢ ܕܐܬܟܢܫܬ ܒܐܦܣܘܣ ܒܝ̈ܘܡܝ ܩܕܝܫܐ ܕܝܘܣܩܘܪܘܣ
+                                             ܐܦܣܩܦܐ.</span></span><span class="tei-finalRubric"><span class="inline-h4"> 
+                                             Subscription  (Fol. 108a): </span><span xml:lang="syr" lang="syr" dir="rtl">ܫܠܡܬ ܣܘܢܗܕܘܣ ܕܬܪ̈ܬܝܢ ܕܐܬܟܢܫܬ ܒܐܦܣܘܣ ܒܝܘ̈ܡܝ ܩܕܝܫܐ ܘܪܚ̇ܡ
+                                             ܐܠܗܐ ܕܝܘܣܩܘܪܘܣ ܐܦܣܩܦܐ ܕܐܠܟܣܢܕܪܝܐ̇. ܘܒܝ̈ܘܡܝ ܡ̈ܠܟܐ ܙܟ̈ܝܐ ܬܐܕܘܣܝܣ ܘܘܠܢܛܝܢܝܢܘܣ܀ ܫܘܒܚܐ
+                                             ܠܐܒܐ ܘܠܒܪܐ ܘܠܪܘܚܐ ܕܩܘܕܫܐ ܚܕ ܐܪܙܐ ܡܫܡܠܝܐ ܕܬܠܝܬܝܘܬܐ ܡܫܒܚܬܐ̣. ܠܥܠܡܝܢ ܐܡܝܢ܀
+                                             </span></span><div class="msItem-notes"><span class="inline-h4">Notes:</span><ul>
+                                             <li>*A small part of this volume has been edited by the Rev. S. G. F.
+                                                Perry, under the title of "An Ancient Syriac Document, purporting to be the record, in its chief features, of
+                                                the second Synod of Ephesus," etc., Oxford, 1867.
+                                                
+                                             </li>
+                                             <li>This is the so-called
+                                                <span class="tei-foreign" xml:lang="grc" lang="grc">ληστρικὴ σύνοδος</span> or "<span class="tei-foreign" xml:lang="la" lang="la">Latrocinium Ephesinum</span>" (see Labbe, Sacros. Concilia, ed. Coleti, t. iv., coll. 743, seqq., and compare also coll.
+                                                889—1189)—held <span class="tei-date">A.D. 449</span>, during the
+                                                reigns of <a href="/search.html?person=http://syriaca.org/person/1529">Theodosius</a> and Valentinian,
+                                                under the presidency of <a href="/search.html?person=http://syriaca.org/person/2432">Dioscorus of
+                                                   Alexandria
+                                                   </a>
+                                                
+                                             </li>
+                                             <li>*The proceedings in the case of <a href="/search.html?person=http://syriaca.org/person/482">Eutyches</a>, which occupied
+                                                the first session of the council, are passed over in this manuscript. See
+                                                <a href="https://bl.syriac.uk/ms/31">Add. 12,156<span class="tei-ptr"></span>, fol. <span class="tei-citedRange">51 b</span>
+                                                   </a>.
+                                             </li>
+                                          </ul>
+                                       </div>
+                                       <div class="tei-msItem"><span class="inline-h4">Item 2 (Fol. 1b): </span>Letter of the Emperors to
+                                          Dioscorus, convening the Council
+                                          <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                   <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܐܘܛܘܩܪܛܘܪܘܣ ܩܐܣܪ̈ܣ ܬܐܘܕܘܣܝܣ ܘܘܠܢܛܝܢܝܢܘܣ ܙܟ̈ܝܐ ܘܡ̈ܬܢܨܚ ܒܙܟ̈ܘܬܐ
+                                                   ܘܡܣ̈ܬܓܕܝ ܒܟܠܙܒܢ܆ ܐܓܘ̈ܣܛܘ ܠܕܝܘܣܩܘܪܘܣ</span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>See Labbe, coll. 869, seqq.
+                                                
+                                             </div>
+                                          </div>
+                                       </div>
+                                       <div class="tei-msItem"><span class="inline-h4">Item 3 (Fol. 2b): </span>Letter of the Emperors to
+                                          Dioscorus, regarding Theodoret of Cyrus
+                                          
+                                          <div class="msItemChild">
+                                             <div class="msItem-notes"><span class="inline-h4">Note: </span>See Labbe, coll. 881—3.
+                                                
+                                             </div>
+                                          </div>
+                                       </div>
+                                       <div class="tei-msItem"><span class="inline-h4">Item 4 (Fol. 3b): </span>Letter of the Emperors to the
+                                          Council, regarding Ibas of Edessa 
+                                          
+                                          <div class="msItemChild"></div>
+                                       </div>
+                                       <div class="tei-msItem"><span class="inline-h4">Item 5 (Fol. 4a): </span>List of the bishops and priests who were present at the
+                                          Council, concluding with the name of "Barsumas <span class="tei-foreign" lang="la">presbyter et
+                                             archimandrita</span>" 
+                                          <div class="msItemChild">
+                                             <div class="msItem-notes"><span class="inline-h4">Notes:</span><ul>
+                                                   <li>See Labbe, coll. 889—893.
+                                                      
+                                                   </li>
+                                                   <li>The names of Julian (the locum tenens of <a href="/search.html?person=http://syriaca.org/person/2299">Leo, bishop of Rome</a>), <a href="/search.html?person=http://syriaca.org/person/2264">Domnus of Antioch</a>, and
+                                                      <a href="/search.html?person=http://syriaca.org/person/2653">Flavian of Constantinople
+                                                         </a> are
+                                                      omitted.*                
+                                                      
+                                                   </li>
+                                                   <li>*The proceedings in the case of <a href="/search.html?person=http://syriaca.org/person/482">Eutyches</a>, which occupied
+                                                      the first session of the council, are passed over in this manuscript. See
+                                                      <a href="https://bl.syriac.uk/ms/31">Add. 12,156<span class="tei-ptr"></span>, fol. <span class="tei-citedRange">51 b</span>
+                                                         </a>.
+                                                   </li>
+                                                </ul>
+                                             </div>
+                                          </div>
+                                       </div>
+                                       <div class="tei-msItem"><span class="inline-h4">Item 6 (Fol. 5b): </span>Statements of deputations of the Council, regarding the
+                                          representatives of Leo (Julian and
+                                          Hilarius), who refused to be present at its meetings,
+                                          after the conclusion of the case of Eutyches; and regarding
+                                          Domnus of Antioch, who was sick or
+                                          pretended to be so
+                                          <div class="msItemChild">
+                                             <div class="msItem-notes"><span class="inline-h4">Note: </span>
+                                                <span class="tei-quote"><span xml:lang="syr" lang="syr" dir="rtl">ܐܠܐ ܘܡܢ ܒܬܪ ܗܢܐ ܥܢܝܢܐ̣. ܬܘܒ ܠܨܦܪܗ ܕܝܘܡܐ ܕܐܝܬܘܗܝ ܚܕ ܒܫܒܐ̣.
+                                                      ܐܙܠ̣ܢܢ ܠܬܡܢ. ܘܗܘ̣ܝܢܢ ܒܥܢܝܢܗ ܕܝܠܗ ܕܢܘܛܪܐ. ܘܐܡ̣ܪ ܕܠܐ ܡܫܟܚܐ ܕܢܬܟܢܫܘܢ ܥܡܗܘܢ̣. ܘܐܦܢ
+                                                      ܥܣܪ̈ ܙܒ̈ܢܝܢ ܬܫܕܪ ܗ̣ܝ ܩܕܝܫܬܐ ܣܘܢܗܕܘܣ. ܒܗ̇ܝ ܕܟܬܝܒ̈ܬܐ ܐܝܠܝܢ ܕܐܬܗܝܡܢܘ ܡܢ ܪܝܫܐ ܕܐܦܣ̈ܩܦܐ
+                                                      ܠܐܘܢ̇. ܕܡܫܡܗܬܐ ܘܡܠܟܬܐ ܪܗܘܡܐ̣. ܘܠܐ ܡܕܡ ܐܚܪܢܐ ܐܝܬ ܒܗܝـ̣ܢ. ܐܠܐ ܕܢܐܬܘܢ ܠܟܢܘܫܝܐ ܕܝܠܗ̇
+                                                      ܕܣܘܢܗܕܘܣ ܩܕܝܫܬܐ̣. ܥܕܡܐ ܕܫ̇ܪܝܐ ܣܘܥܪܢܐ ܕܕܚܠ ܠܐܠܗܐ ܩܫܝܫܐ ܘܪܫܕܝܪܐ ܐܘܛܘܟܐ
+                                                      </span></span>
+                                                
+                                             </div>
+                                          </div>
+                                       </div>
+                                       <div class="tei-msItem"><span class="inline-h4">Item 7 (Fol. 8a): </span>Action against Ibas, bishop of Edessa
+                                          
+                                          <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                   <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܗܘ̈ܦܡܢܡܛܐ ܕܗܘܘ ܠܘܩܒܠ ܗܝܒܐ ܐܦܝܣܩܘܦܐ ܕܐܘܪܗܝ ܡܕܝܢܬܐ</span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>This title is given on fol. 2 b, before the letter of the
+                                                Emperors regarding <a href="/search.html?person=http://syriaca.org/person/781">Theodoret</a>.
+                                                
+                                             </div>
+                                             <div class="tei-msItem"><span class="inline-h4">Item 8 (Fol. 8a): </span>Letter of the Emperors to the
+                                                Council, regarding the complaints against Ibas
+                                                
+                                                <div class="msItemChild">
+                                                   <div class="msItem-notes"><span class="inline-h4">Note: </span>See above, no. 4.
+                                                      
+                                                   </div>
+                                                </div>
+                                             </div>
+                                             <div class="tei-msItem"><span class="inline-h4">Item 9 (Fol. 8a): </span>Letter of the Emperors to various
+                                                monks of Edessa, brought to the Council by a deputation
+                                                of the monks
+                                                
+                                                <div class="msItemChild">
+                                                   <div class="msItem-notes"><span class="inline-h4">Note: </span>Compare the letters to <a href="/search.html?person=http://syriaca.org/person/2432">Dioscorus</a> and
+                                                      <a href="/search.html?person=http://syriaca.org/person/370">Barsumas</a> in Labbe, t. iv., coll. 876-77.
+                                                      
+                                                   </div>
+                                                </div>
+                                             </div>
+                                             <div class="tei-msItem"><span class="inline-h4">Item 10 (Fol. 10a): </span>Report of various proceedings of the people and clergy
+                                                at Edessa
+                                                
+                                                <div class="msItemChild">
+                                                   <div class="tei-msItem"><span class="inline-h4">Item 11 (Fol. 10a): </span>The
+                                                      outcries of the populace at the entry of the Comes Chaereas
+                                                      (ܟܐܪܐܐ, Χαιρέας) into the city
+                                                      <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                               <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܦܘ̈ܢܣ ܕܒ̈ܢܝ ܡܕܝܢܬܐ
+                                                               </span></span></div>
+                                                   </div>
+                                                   <div class="tei-msItem"><span class="inline-h4">Item 12 (Fol. 13b): </span>Relations or reports (<span class="tei-foreign" lang="grc">ἀναφοραί</span>) of
+                                                      Chaereas
+                                                      
+                                                      <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                               <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܐܢܦܘܪ̈ܣ</span></span></div>
+                                                   </div>
+                                                   <div class="tei-msItem"><span class="inline-h4">Item 13 (Fol. 34a): </span>Ibas. Letter of Ibas to Mārī
+                                                      the Persian 
+                                                      
+                                                      <div class="msItemChild">
+                                                         <div class="msItem-notes"><span class="inline-h4">Note: </span>See Labbe, t. iv., coll. 1573—80.
+                                                            
+                                                         </div>
+                                                      </div>
+                                                   </div>
+                                                </div>
+                                             </div>
+                                          </div>
+                                       </div>
+                                       <div class="tei-msItem"><span class="inline-h4">Item 14 (Fol. 47b): </span>Daniel, bishop of Harran. Deposition (<span class="tei-foreign" lang="grc">καθαίρεσις</span>) of Daniel, bishop of Harran
+                                          
+                                          <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                   <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܩܬܪܣܝܣ ܕܕܢܝܐܝܠ ܐܦܣܩܦܐ ܕܚܪܢ</span></span></div>
+                                       </div>
+                                       <div class="tei-msItem"><span class="inline-h4">Item 15 (Fol. 50b): </span>Irenaeus, bishop of Tyre. Deposition of Irenaeus, bishop of Tyre
+                                          
+                                          <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                   <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܩܬܪܣܝܣ ܕܐܝܪܝܢܐܘܣ ܐܦܣܩܦܐ ܕܛܘܪܘܣ</span></span></div>
+                                       </div>
+                                       <div class="tei-msItem"><span class="inline-h4">Item 16 (Fol. 52a): </span>Aquilinus, bishop of Byblos. Deposition of Aquilinus, bishop of Byblos
+                                          
+                                          <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                   <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܩܬܪܣܝܣ ܕܐܩܘܠܝܢܘܣ ܐܦܣܩܦܐ ܕܒܝܒܠܘܣ</span></span></div>
+                                       </div>
+                                       <div class="tei-msItem"><span class="inline-h4">Item 17 (Fol. 54a): </span>Action against Sophronius, bishop of Tellā or Constantina
+                                          
+                                          <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                   <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܗܘܦܡ̈ܢܡܛܐ ܕܐܣܬܥܪܘ ܥܠ ܣܘܦܪܘܢ ܐܦܝܣܩܘܦܐ ܕܬܠܠܐ ܡܕܝܢܬܐ</span></span></div>
+                                       </div>
+                                       <div class="tei-msItem"><span class="inline-h4">Item 18 (Fol. 57a): </span>Theodoret, bishop of Cyrus. Deposition of Theodoret, bishop of Cyrus
+                                          
+                                          <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                   <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl"> ܩܬܪܣܝܣ ܕܬܐܕܘܪܝܛܐ ܐܦܣܩܦܐ ܕܩܘܪܘܣ</span></span><div class="tei-msItem"><span class="inline-h4">Item 19 (Fol. 62a): </span>Theodoret. Letter written by Theodoret to
+                                                the monks, against Cyril and the (first) Council of
+                                                Ephesus
+                                                <div class="msItemChild"></div>
+                                             </div>
+                                             <div class="tei-msItem"><span class="inline-h4">Item 20 (Fol. 72b): </span>Theodoret. Extracts from his writings
+                                                <div class="msItemChild"></div>
+                                             </div>
+                                          </div>
+                                       </div>
+                                       <div class="tei-msItem"><span class="inline-h4">Item 21 (Fol. 78b): </span>Domnus, bishop of Antioch. Adherence of Domnus, bishop of Antioch, by message, to the above
+                                          decisions
+                                          <div class="msItemChild"></div>
+                                       </div>
+                                       <div class="tei-msItem"><span class="inline-h4">Item 22 (Fol. 79a): </span>The excommunication, laid on certain of the clergy by
+                                          Flavian of Constantinople, is
+                                          removed
+                                          <div class="msItemChild"></div>
+                                       </div>
+                                       <div class="tei-msItem"><span class="inline-h4">Item 23 (Fol. 79a): </span>Action against Domnus, bishop of Antioch
+                                           [defective]
+                                          <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                   <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܗܘܦܡ̈ܢܡܛܐ ܕܐܣܬܥܪܘ ܠܘܩܒܠ ܕܘܡܢܘܣ ܐܦܣܩܘܦܐ ܕܐܢܛܝܘܟܝܐ</span></span><div class="tei-msItem"><span class="inline-h4">Item 24 (Fol. 79b): </span>Libellus of Cyriacus the
+                                                priest
+                                                
+                                                <div class="msItemChild"></div>
+                                             </div>
+                                             <div class="tei-msItem"><span class="inline-h4">Item 25 (Fol. 83a): </span>Domnus. Letter of Domnus to
+                                                Flavian
+                                                
+                                                <div class="msItemChild"></div>
+                                             </div>
+                                             <div class="tei-msItem"><span class="inline-h4">Item 26 (Fol. 85b): </span>Libellus of the priest
+                                                Marcellus
+                                                
+                                                <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                         <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܠܝܒ̈ܠܘ</span></span></div>
+                                             </div>
+                                             <div class="tei-msItem"><span class="inline-h4">Item 27 (Fol. 87b): </span>Libellus of the deacon Heliodorus and
+                                                other monks
+                                                <div class="msItemChild"></div>
+                                             </div>
+                                             <div class="tei-msItem"><span class="inline-h4">Item 28 (Fol. 89a): </span>
+                                                <span class="tei-foreign" lang="grc">ἐξωμοσία</span> of the priest
+                                                Pelagius
+                                                
+                                                <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                         <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܐܟܣܘܡܘܣܝܐ ܕܦܠܓܝܣ ܩܫܝܫܐ</span></span></div>
+                                             </div>
+                                             <div class="tei-msItem"><span class="inline-h4">Item 29 (Fol. 92a): </span>Dioscorus of Alexandria. Letter of Dioscorus of Alexandria to
+                                                Domnus
+                                                
+                                                <div class="msItemChild"></div>
+                                             </div>
+                                             <div class="tei-msItem"><span class="inline-h4">Item 30 (Fol. 96a): </span>Domnus. Reply of Domnus
+                                                 [defective]
+                                                <div class="msItemChild"></div>
+                                             </div>
+                                             <div class="tei-msItem"><span class="inline-h4">Item 31 (Fol. 97a): </span>Dioscorus. Another letter of Dioscorus to
+                                                Domnus
+                                                 [defective]
+                                                <div class="msItemChild"></div>
+                                             </div>
+                                             <div class="tei-msItem"><span class="inline-h4">Item 32 (Fol. 99b): </span>Domnus. Reply of Domnus
+                                                
+                                                <div class="msItemChild"></div>
+                                             </div>
+                                          </div>
+                                       </div>
+                                       <div class="tei-msItem"><span class="inline-h4">Item 33 (Fol. 104a): </span>An imperial document, setting forth the reasons for
+                                          convening the second Council of Ephesus; chiefly on account of the machinations of
+                                          Flavian and Eusebius, and their
+                                          abettors, Domnus, Theodoret and
+                                          others
+                                          <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                   <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܦܘܫܩܐ</span></span><span class="tei-incipit"><span class="inline-h4"> 
+                                                   Incipit: </span><span xml:lang="syr" lang="syr" dir="rtl">ܢܡܘܣ̈ܐ ܐܝܠܝܢ ܕܚܠܦ ܝܘܬܪ̈ܢܐ ܕܓܘܐ ܡܬܟܪܙܝ̣ܢ. ܣܟ݂ ܠܐ ܡܬܛܦܝܣܝܢ ܚܢܢ
+                                                   ܕܠܛܘܥܝܝ ܢܫܬܠܡܘܢ̇ ܘܠܐ ܬܘܒ ܕܒ̈ܦܘܩܕܢܐ ܕܦܘܪܩܢܐ ܕܐܘܚܕܢܢ ܕܢܬܚܒܠܘܢ̇ ܒܡܪܚܘܬܐ ܕܚܪ̈ܢܐ. ܐܠܐ
+                                                   ܒܡܪܚܡܢܘܬܐ ܐܝ̇ܕܐ ܕܪܚܝܡܐ ܡܢܢ. ܣܘܥܪ̈ܢܐ ܕܡܪܚܘܬܐ ܕܢܬ̇ܪܨ ܚܦܝܛܝܢ ܚܢܢ. ܗܢܘ ܕܝ̣ܢ. ܣܛܪ ܡܢ
+                                                   ܡܣܡ ܒܪܫܐ ܕܕܡܐ. ܏ܘܫ.</span></span></div>
+                                       </div>
+                                       <div class="tei-msItem"><span class="inline-h4">Item 34 (Fol. 106a): </span>Part of an imperial letter to (Dioscorus of Alexandria)
+                                          <div class="msItemChild">
+                                             <div class="msItem-notes"><span class="inline-h4">Note: </span>It directs him to write encyclical letters (<span class="tei-quote"><span xml:lang="syr" lang="syr" dir="rtl">ܟܬܝ̈ܒܬܐ ܐܢܩ̈ܘܩܠܝܐ</span></span>) containing the
+                                                imperial decree (against the Nestorians, <span class="tei-quote"><span xml:lang="syr" lang="syr" dir="rtl">ܢܡܘܣܢ ܗܢܐ</span></span>), the Nicene Creed (
+                                                <span class="tei-quote"><span xml:lang="syr" lang="syr" dir="rtl">ܣܝܡܐ ܕܗܝܡܢܘܬܢ ܩܕܝܫܬܐ</span></span>), and the definition (<span class="tei-quote"><span xml:lang="syr" lang="syr" dir="rtl">ܬܚܘܡܐ</span></span>) of the two Councils (of <span class="tei-placeName"><a href="http://syriaca.org/place/623">Ephesus</a></span>), to
+                                                the metropolitan bishops of <span class="tei-placeName"><a href="http://syriaca.org/place/586">Constantinople</a></span>, <span class="tei-placeName"><a href="http://syriaca.org/place/104">Jerusalem</a></span>, etc. They are to affix their signatures, and those of their subordinates, to these
+                                                letters, and to read them publicly in their churches. Heretical writings,
+                                                especially Nestorian, are to be burnt.
+                                             </div>
+                                          </div>
+                                       </div>
+                                       <div class="tei-msItem"><span class="inline-h4">Item 35 (Fol. 106b): </span>Part of a letter of the emperor
+                                          Theodosius to Juvenalis, bishop of Jerusalem, to the same effect as no.
+                                          34
+                                          
+                                          <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                   <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܥܢܝܢܐ ܕܐܓܪܬܐ ܕܡܗܝܡܢܐ ܘܕܚ̇ܠ ܠܐܠܗܐ ܡ̇ܠܟܐ ܕܝܠܢ ܬܐܘܕܘܣܝܘܣ ܘܠܘܬ
+                                                   [ܕܠܘܬ] ܝܘܒܢܠܝܘܣ ܐܦܣܩܘܦܐ ܕܐܪܫܠܡ</span></span></div>
+                                       </div>
+                                       <div class="tei-msItem"><span class="inline-h4">Item 36 (Fol. 107a): </span>Part of a letter of Dioscorus of Alexandria to the various bishops, carrying
+                                          out the instructions contained in no. 34
+                                          
+                                          <div class="msItemChild">
+                                             <div class="msItem-notes"><span class="inline-h4">Note: </span>The following is the formula to be signed by the bishops and
+                                                clergy:
+                                                <span class="tei-quote"><span xml:lang="syr" lang="syr" dir="rtl">܏ܦܚܡܐ ܏ܕܐܪܡܝ ܏ܐܝܕܐ܀ ܦܠܢ ܐܦܣܩܘܦܐ ܕܦܠܢܝܬ ܡܕܝܢܬܐ ܐܪܡܝܬ ܐܝܕܐ ܒܐܝܠܝܢ ܕܟܬܝܒܢ ܡܢ
+                                                      ܠܥܠ ܒܢܡܘܣܐ ܗܢܐ̣. ܘܡܩܝܡ ܐܢܐ ܥܠ ܟܘܠܗܝܢ̣ ܘܫ̇ܠܡ ܐܢܐ ܕܟܠܡܕܡ ܐܛܪ ܕܟܬܝܒ ܒܗܕܐ ܐܓܪܬܐ̣. ܟܕܠܐ
+                                                      ܡܘܣܦ ܐܢܐ ܡܕܡ ܐܘ ܡܒܨܪ ܐܢܐ ܡܢ ܐܝܠܝܢ ܕܣܝܡܢ ܒܗ̇܀ </span></span>
+                                                
+                                             </div>
+                                          </div>
+                                       </div>
+                                    </div>
+                                 </div>
+                                 </span></div>
+                        </div>
+                     </div>
+                  </div>
+                  <div xmlns:x="http://www.w3.org/1999/xhtml" xmlns:local="http://syriaca.org/ns" class="panel panel-default">
+                     <div class="panel-heading">
+                        <h2 class="panel-title" data-toggle="collapse" data-target="#Additions">Additions </h2>
+                     </div>
+                     <div id="Additions" class="panel-collapse collapse in">
+                        <div class="panel-body">
+                           <div class="msDesc">
+                              <div class="indent">
+                                 
+                                 
+                                 <div class="tei-item"><span class="inline-h4">Addition 1</span><strong> (Fol. 108a)</strong>:
+                                    <span class="tei-p">On fol. 108 a and b is a long note, written in a small cursive character, in
+                                       parts almost illegible, stating that this book was transcribed in the year <span class="tei-date">846</span>,
+                                       <span class="tei-date">A.D. 535</span>, in <span class="tei-placeName">the convent of Eusebius</span> in the village called <span class="tei-placeName" lang="syr">ܟܦܪܐ ܕܒܪܬܐ</span>, for
+                                       the priest <span class="tei-persName">John</span>, abbat of the said convent, by a monk of
+                                       the convent, also named <span class="tei-persName">John</span>
+                                       </span><span class="tei-p">
+                                       <span class="tei-quote" lang="syr">ܐܫܬܠܡ ܟܬܒܐ ܗܢܐ ܒܫܢܬ ܬܡܢܡܐܐ ܘܐܪܒܥܝܢ ܘܫ̈ܬ ܒܡܢܝܢܐ ܕܐܠܟܣܢܕܪܘܣ
+                                          ܒܝܪܚ ܐܝܪ ܒܥܣܪܬܐ ܒܗ ܒܕܝܪܐ ܩܕܝܫܬܐ ܕܛܘܒܢܐ ܡܪܝ ܐܘܣܒ ܕܟܦܪܐ ܕܒܪܬܐ. ܒܝܘ̈ܡܝ ܡܝܬܪܐ
+                                          ܘܪܚ̇ܡ ܐܠܗܐ ܪܥܝܐ ܥܝܪܐ ܘܩܘܒܪܢܛܐ ܚܟܝܡܐ ܡܚܒܢܐ ܕܐܟ̈ܣܢܝܐ ܘܫܘܪܐ ܚܣܝܢܐ ܕܐܕܡܘܣ ܕܥܒܝܕ
+                                          ܠܡܪܥܝܬܗ ܕܠܐ ܢܥܘܠ ܚܕ ܡܢ ܕܐܒ̈ܐ ܣܪ̈ܘܚܐ ܘܢܟܐ ܠܚܕ ܡܢ ܐܡܪ̈ܐ ܒܪ̈ܝܪܐ ܕܒܓܘ ܛܝܪܗ ܡܫܝܢܐ
+                                          ܟܢܝܫܝܢ. ܡܪܝ ܩܫܝܫܐ ܘܪܫܕܝܪܐ ܝܘܚܢܢ ܕܝܠܗ̇ ܕܕܝܪܐ. ܕܐܠܗܐ ܗ̇ܘ ܕܡܛܠ ܫܡܗ ܐܬܚܦܛ ܘܩܢ̣ܐ
+                                          ܟܬܒܐ ܗܢܐ ܠܥܘܡܪܗ ܩܕܝܫܐ̣. ܏ܘܫ. ܐܬܟܬܒ ܕܝܢ ܟܬܒܐ ܗܢܐ ܒܝܘ̈ܝ ܪ̈ܚܡܝ ܐܠܗܐ ܠܡܦ̈ܝܕܐ
+                                          [ܕܥܕܬܐ] ܠܡ̈ܐܢܐ ܕܢܝܚܐ ܚܣ̈ܝܐ ܘܩ̈ܕܝܫܐ ܪ̈ܚܡܝ ܐܟ̈ܣܢܝܐ ܘܚ̈ܦܝܛܐ ܒܕܘܒܪ̈ܝܗܘܢ ܘܛܢ̈ܢܐ
+                                          ܒܗܝܡܢܘܬܐ ܬܪܝܨܬܐ ܏ܘܫ. ܡܪܝ ܩܫܝܫܐ ܐܒܪܗܡ ܘܦܪܢܣܐ ܕܝܠܗ̇ ܕܕܝܪܐ ܕܡܢ ܟܦܪܛܘܒ̈ـ[ܐ.] ܕܐܠܗܐ
+                                          ܗ̇ܘ ܕܡܛܠ ܫܡܗ ܠܐ̇ܝܢ ܘܥܡ̇ܠܝܢ ܒܥܘܡܪܗ ܩܕܝܫـ[ܐ] ܚܠܦ ܐ̈ܚܐ ܪ̈ܚܝܡܐ ܕܥܡܗܘܢ ܥܡܪܝܢ. ܗ̣ܘ
+                                          ܘܡܪܝ ܩܫܝܫܐ ܐܒܪܗܡ ܘܡܪܝ ܐܘܣܒ ܬܠܡܝܕܗ ܕܡܢ ܬܪ ܩܪܝܬܐ ܕܐ . . . ܐܦ ܗ̣ܘ ܒܝܬ ܓܙܐ ܕܟܬܒ̈ܐ
+                                          ܕܝܠܗ̇ ܕܕܝܪܐ̣. ܒܗ̇ܘ ܝܘܡܐ ܡܐ ܕܡܬܦܪܫܝܢ ܛܒ̈ܐ ܡܢ ܒܝ̈ܫܐ. ܓܕܝ̈ܐ ܡܢ ܐܡܪ̈ܐ. ܏ܘܫ. ܢܫܘܐ
+                                          ܐܢܘܢ ܠܓܢܘܢܗ ܕܠܐ ܦܛ̇ܪ. ܏ܘܫ. ܐܢܐ ܚܛܝܐ ܘܕܘܝܐ ܘܒܨܝܪܐ ܝܘܚܢܢ ܕܡܢ ܟܘܪܐ ܕܐܢܛܝ̈ܘܟܝܐ
+                                          ܕܥܡ̇ܪ ܒܝܬ ܡܪܝ ܐܘܣܒ ܕܟܦܪܐ ܕܒܪܬܐ ܟܬܒܬ ܟܬܒܐ ܗܢܐ. ܐܠܐ ܟܠ ܡ̇ܢ ܕܩܪܐ ܒܗ ܘܝ̇ܠܦ ܚܝܠܐ
+                                          ܕܗܝܡܢܘܬܐ ܬܪܝܨܬ݀ ܫܘܒܚܐ ܢܨܠܐ ܥܠ ܡܣܟܢܐ ܕܟܬܒ̣. ܏ܘܫ.</span>
+                                       </span></div>
+                                 
+                                 
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+                  <div class="citationinfo">
+                     <h3>How to Cite This Entry</h3>
+                     <div id="citation-note" class="content-block indent"><span> William Wright</span> et al., “<span class="title-analytic">London, BL, Add. 14530</span>” in <span class="title-monographic">A Digital Catalogue of Syriac Manuscripts in the British Library</span>,  last modified April 21, 2023, <a href="https://bl.syriac.uk/ms/257">https://bl.syriac.uk/ms/257</a>.
+                        <div class="collapse" id="showcit">
+                           <div id="citation-bibliography">
+                              <h4>Bibliography:</h4><span class="editor">William Wright</span> et al., “<span class="title-analytic">London, BL, Add. 14530</span>.” In <span class="title-monographic">A Digital Catalogue of Syriac Manuscripts in the British Library</span>, edited by . Syriaca.org: The Syriac Reference Portal,
+                              2023.
+                               Entry published April 21, 2023. <a href="https://bl.syriac.uk/ms/257">https://bl.syriac.uk/ms/257</a>.
+                           </div>
+                           <div id="about">
+                              <h3>About this Entry</h3>
+                              <p><span class="heading-inline">Entry Title:</span> <span class="title-analytic">London, BL, Add. 14530</span></p>
+                              <div>
+                                 <h4>Authorial and Editorial Responsibility:</h4>
+                                 <ul>
+                                    <li><span> David A. Michelson</span>, general editor, Syriaca.org: The Syriac Reference Portal
+                                    </li>
+                                    <li>, editor, <span class="title-monographic">A Digital Catalogue of Syriac Manuscripts in the British Library</span></li>
+                                    <li>William Wright, David A. Michelson, Robert Aydin, Joseph DAlfonso, Justin Arnwine, and Justin Arnwine, entry contributors, “<span class="title-analytic">London, BL, Add. 14530</span>”
+                                    </li>
+                                 </ul>
+                              </div>
+                              <div>
+                                 <h4>Additional Credit:</h4>
+                                 <ul>
+                                    <li>Created by <span> Joseph DAlfonso</span></li>
+                                    <li>Based on the work of <span> William Wright</span></li>
+                                    <li>Edited by <span> Justin Arnwine</span></li>
+                                    <li>Syriac text entered by <span> Robert Aydin</span></li>
+                                    <li>Greek and coptic text entry and proofreading by <span> Ryan Stitt</span></li>
+                                    <li>Project management by <span> William L. Potter</span></li>
+                                    <li>English text entry and proofreading by <span> Syriac Research Group, University of Alabama</span></li>
+                                    <li>Syriaca.org URIs for authors edited by <span> Justin Arnwine</span></li>
+                                    <li>Syriaca.org URIs for authors checked by <span> Alexys Ahn</span><span> Joseph DAlfonso</span></li>
+                                    <li>Folio extent edited by <span> Kurt Urban</span></li>
+                                 </ul>
+                              </div>
+                           </div>
+                           <div id="license">
+                              <h3>Copyright and License for Reuse</h3>
+                              <div>Except otherwise noted, this page is © 2023.
+                                 
+                              </div><span class="tei-licence">
+                                 
+                                 <p>Distributed under a Creative Commons Attribution 3.0 Unported License</p>
+                                 </span></div>
+                        </div><a class="btn-sm btn-info togglelink pull-right" data-toggle="collapse" data-target="#showcit" data-text-swap="Hide citation">Show full citation information...</a></div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </body><script type="text/javascript" src="/resources/js/jquery.validate.min.js"></script><script type="text/javascript" src="/resources/js/require.min.js"></script><script type="text/javascript" src="/resources/js/srophe.js"></script><script data-template="app:google-analytics"></script></html>

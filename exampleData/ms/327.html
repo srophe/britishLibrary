@@ -1,0 +1,761 @@
+<?xml version="1.0" encoding="UTF-8"?><html xmlns="http://www.w3.org/1999/xhtml" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:srophe="https://srophe.app">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <title>London, BL, Add. 14591</title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <meta name="DC.type" property="dc.type" content="Text" />
+      <meta name="DC.isPartOf" property="dc.ispartof" content="Syriaca.org: The Syriac Reference Portal" />
+      <link data-template="app:metadata" />
+      <link rel="shortcut icon" href="/resources/images/fav-icons/mss-favicon.ico" />
+      <link rel="stylesheet" type="text/css" href="/resources/bootstrap/css/bootstrap.min.css" />
+      <link rel="stylesheet" type="text/css" href="/resources/css/sm-core-css.css" />
+      <link rel="stylesheet" type="text/css" href="/resources/css/syr-icon-fonts.css" />
+      <link rel="stylesheet" type="text/css" href="/resources/css/style.css" />
+      <link rel="stylesheet" type="text/css" href="/resources/css/syriaca.css" />
+      <link rel="stylesheet" type="text/css" media="print" href="/resources/css/print.css" />
+      <link rel="stylesheet" href="/resources/leaflet/leaflet.css" />
+      <link rel="stylesheet" href="/resources/leaflet/leaflet.awesome-markers.css" />
+      <link href="/resources/jquery-ui/jquery-ui.min.css" rel="stylesheet" /><script type="text/javascript" src="/resources/js/jquery.min.js"></script><script type="text/javascript" src="/resources/jquery-ui/jquery-ui.min.js"></script><script type="text/javascript" src="/resources/js/jquery.smartmenus.min.js"></script><script type="text/javascript" src="/resources/js/clipboard.min.js"></script><script type="text/javascript" src="/resources/bootstrap/js/bootstrap.min.js"></script><script defer="defer" data-domain="bl.syriac.uk" src="https://plausible.io/js/script.js"></script><link href="/resources/keyboard/css/keyboard.min.css" rel="stylesheet" />
+      <link href="/resources/keyboard/css/keyboard-previewkeyset.min.css" rel="stylesheet" />
+      <link href="/resources/keyboard/syr/syr.css" rel="stylesheet" /><script type="text/javascript" src="/resources/keyboard/syr/jquery.keyboard.js"></script><script type="text/javascript" src="/resources/keyboard/js/jquery.keyboard.extension-mobile.min.js"></script><script type="text/javascript" src="/resources/keyboard/js/jquery.keyboard.extension-navigation.min.js"></script><script type="text/javascript" src="/resources/keyboard/syr/jquery.keyboard.extension-autocomplete.js"></script><script type="text/javascript" src="/resources/keyboard/syr/keyboardSupport.js"></script><script type="text/javascript" src="/resources/keyboard/syr/syr.js"></script><script type="text/javascript" src="/resources/keyboard/layouts/ms-Greek.min.js"></script><script type="text/javascript" src="/resources/keyboard/layouts/ms-Russian.min.js"></script><script type="text/javascript" src="/resources/keyboard/layouts/ms-Arabic.min.js"></script><script type="text/javascript">
+            $(document).ready(function () {
+                $('[data-toggle="tooltip"]').tooltip({ container: 'body' })
+
+                $('.keyboard').keyboard({
+                    openOn: null,
+                    stayOpen: false,
+                    alwaysOpen: false,
+                    autoAccept: true,
+                    usePreview: false,
+                    initialFocus: true,
+                    rtl : true,
+                    layout: 'syriac-phonetic',
+                    hidden: function(event, keyboard, el){
+                       //  keyboard.destroy();
+                     }
+                });
+
+                $('.keyboard-select').click(function () {
+                    var keyboardID = '#' + $(this).data("keyboard-id")
+                    var kb = $(keyboardID).getkeyboard();
+                    //var kb = $('#searchField').getkeyboard();
+                    // change layout based on link ID
+                    kb.options.layout = this.id
+                    // open keyboard if layout is different, or time from it last closing is &gt; 200 ms
+                    if (kb.last.layout !== kb.options.layout || (new Date().getTime() - kb.last.eventTime) &gt; 200) {
+                        kb.reveal();
+                    }
+                });
+                //Change fonts
+                $('.swap-font').on('click', function(){
+                    var selectedFont = $(this).data("font-id")
+                    $('.selectableFont').not('.syr').css('font-family', selectedFont);
+                    $("*:lang(syr)").css('font-family', selectedFont)
+                });
+
+            })
+        </script></head>
+   <body id="body">
+      <nav class="navbar navbar-default navbar-fixed-top" role="navigation" data-template="app:fix-links">
+         
+         <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse-1">
+               <span class="sr-only">Toggle navigation</span>
+               <span class="icon-bar"></span>
+               <span class="icon-bar"></span>
+               <span class="icon-bar"></span>
+               </button>
+            <a class="navbar-brand banner-container" href="/index.html">
+               <span class="syriaca-icon syriaca-mss banner-icon"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span>
+                  </span>
+               <span class="banner-text">Syriac Manuscripts in the British Library</span>
+               </a>
+            
+         </div>
+         
+         <div class="navbar-collapse collapse pull-right" id="navbar-collapse-1">
+            
+            <ul class="nav navbar-nav">
+               
+               <li>
+                  <a href="/browse.html" class="nav-text">Browse</a>
+                  
+               </li>
+               
+               <li data-template="app:shared-content" data-template-path="/templates/shared-links.html"></li>
+               
+               <li>
+                  <a href="/search.html" class="nav-text">Advanced Search</a>
+                  
+               </li>
+               
+               <li>
+                  
+                  <div id="search-wrapper">
+                     
+                     <form class="navbar-form navbar-right search-box" role="search" action="/search.html" method="get">
+                        
+                        <div class="form-group">
+                           <input type="text" class="form-control keyboard" placeholder="search" name="keyword" id="keywordNav" />
+                           <span data-template="app:keyboard-select-menu" data-template-input-id="keywordNav"></span>
+                           <button class="btn btn-default search-btn" id="searchbtn" type="submit" title="Search">
+                              <span class="glyphicon glyphicon-search"></span>
+                              </button>
+                           
+                        </div>
+                        
+                     </form>
+                     
+                  </div>
+                  
+               </li>
+               
+               <li data-template="app:shared-content" data-template-path="/templates/fontMenu.html"></li>
+               
+            </ul>
+            
+         </div>
+         
+      </nav>
+      <div class="main-content-block">
+         <div class="interior-content">
+            <div class="container otherFormats"><a href="mailto:bl.syriac.uk@gmail.com?subject=Shelf mark: Record URI: " type="button" class="btn btn-default btn-xs" data-toggle="tooltip" title="Click to report a correction via e-mail."><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span> Corrections
+                  </a> <a href="https://github.com/srophe/britishLibrary-data/issues/new?assignees=&amp;labels=community-submitted&amp;title=:" target="_blank" id="issueBtn" data-toggle="tooltip" class="btn btn-default btn-xs" title="Click to file a data issue on GitHub (requires login)."><span class="glyphicon glyphicon-record" aria-hidden="true"></span> Open
+                  </a> <a href="https://github.com/srophe/britishLibrary-data/blob/main/data/tei/327.xml" target="_blank" class="btn btn-default btn-xs" id="openBtn" data-toggle="tooltip" title="Click to view the TEI XML data for this record."><img src="/resources/images/github-mark.png" height="18px" /></a> <a href="javascript:window.print();" type="button" class="btn btn-default btn-xs" id="printBtn" data-toggle="tooltip" title="Click to send this page to the printer."><span class="glyphicon glyphicon-print" aria-hidden="true"></span> 
+                  </a> 
+            </div>
+            <div class="row">
+               <div class="col-md-12">
+                  <div xmlns:x="http://www.w3.org/1999/xhtml" xmlns:local="http://syriaca.org/ns" class="title">
+                     <h1>Add. 14,591</h1>
+                  </div>
+                  <div xmlns:x="http://www.w3.org/1999/xhtml" xmlns:local="http://syriaca.org/ns" class="tei-note">
+                     <div>URI: <span class="tei-idno">https://bl.syriac.uk/ms/327</span></div>
+                  </div>
+                  <div xmlns:x="http://www.w3.org/1999/xhtml" xmlns:local="http://syriaca.org/ns" class="header section">
+                     <div class="tei-note">
+                        <div>
+                           Description based on Wright
+                           <a href="#" data-toggle="tooltip" title="This entry number is from Wright's printed catalogue. Due to renumbering, Wright's entry numbers do not match the numbering used in this digital catalogue."><span class="tei-idno">DCCXL</span></a>
+                           (<span class="tei-citedRange">2:669-673</span>)
+                           <a href="https://archive.org/details/catalogueofsyria02brituoft/page/669" target="_blank"><img src="/resources/images/ialogo.jpg" alt="Link to Archive.org Bibliographic record" height="18px" /></a></div>
+                        <div>
+                           Date: 
+                           late 6th century
+                        </div>
+                        <div>Estrangela script (multiple hands) ܀  Parchment Codex, 151 leaves.
+                           
+                        </div>
+                        <div>
+                           Features: 
+                           
+                           Decoration
+                        </div>
+                        <div>
+                           Wright's Subject Classification:
+                           Collected Authors
+                        </div>
+                     </div>
+                     <div class="tei-note"><span>This manuscript contains: Isaac of Antioch. Metrical discourses of Isaac of Antioch;
+                           Cyrillona. A metrical discourse on the Lord's Supper; Isaac. A metrical discourse
+                           of Isaac on the Nativity of our Lord; Peter of Callinicus, patriarch of Antioch. A
+                           metrical discourse of Peter of Callinicus, patriarch of Antioch on the Crucifixion;
+                           ܩܘܪܝܠܘܟܐ, Cyrillona. Metrical writings of the above mentioned ܡܪܝ ܩܘܪܝܠܘܟܐ; .... In
+                           total, including sub-sections, this manuscript contains 61 items.</span></div>
+                  </div>
+                  <div xmlns:x="http://www.w3.org/1999/xhtml" xmlns:local="http://syriaca.org/ns" class="panel panel-default">
+                     <div class="panel-heading">
+                        <h2 class="panel-title" data-toggle="collapse" data-target="#Overview">Physical Description </h2>
+                     </div>
+                     <div id="Overview" class="panel-collapse collapse in">
+                        <div class="panel-body">
+                           <div class="msDesc">
+                              <div class="tei-physDesc">
+                                 <div class="indent">
+                                    <p>Vellum, about 9 1/2 in. by 6 1/8, consisting of 151 leaves, a few of which
+                                       are slightly stained and the first torn. The quires, signed with letters,
+                                       are 19 in number. A leaf is wanting after fol. 21. Each page is divided into
+                                       two columns, of from 25 to 31 lines.
+                                    </p><span class="tei-handDesc">
+                                       
+                                       <div name="handNote1"><span class="inline-h4">Hand 1 (major, Estrangela script): </span>
+                                          This volume is written in an elegant
+                                          Estrangělā, apparently of the <span class="tei-date">end of the vith cent.</span>
+                                          
+                                       </div>
+                                       
+                                       <div name="handNote2"><span class="inline-h4">Hand 2 (minor, Unspecified Syriac script): </span>
+                                          See additions.
+                                          
+                                       </div>
+                                       
+                                       <div name="handNote3"><span class="inline-h4">Hand 3 (minor, Unspecified Syriac script): </span>
+                                          See additions.
+                                          
+                                       </div>
+                                       </span><span class="tei-decoDesc">
+                                       
+                                       <div name=""><span class="msItem"><span class="inline-h4">Decoration (Ornamentation):</span>
+                                             On fol. <span class="tei-locus">151a</span>, at the foot of the page, there are some ornamental devices.
+                                             </span></div>
+                                       
+                                       <div name=""><span class="msItem"><span class="inline-h4">Decoration (Illustration):</span>
+                                             On fol. <span class="tei-locus">151b</span> there is an illuminated cross, with nimbus and border, drawn by a
+                                             person named <span class="tei-persName">Alexander</span>, not improbably the same who wrote
+                                             the manuscript: <span class="tei-quote" lang="syr">ܐܢܐ ܚܛܝܐ ܐܟܣܢܕܪܐ <span class="tei-sic">ܨܪܝܬ</span> ܗܕܐ ܨܘܪܬܐ ܒܟܬܒܐ ܗܢܐ. ܕܟܝܪܝܢ
+                                                ܐܚ̈ܐ ܕܒܡܫܝܚܐ ܐܝܢ ܘܐܡܝܢ.</span>
+                                             
+                                             </span></div>
+                                       
+                                       <div name=""><span class="msItem"><span class="inline-h4">Decoration (Rubrication):</span></span></div>
+                                       
+                                       <div name=""><span class="msItem"><span class="inline-h4">Decoration (Ornamentation):</span></span></div>
+                                       </span></div>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+                  <div xmlns:x="http://www.w3.org/1999/xhtml" xmlns:local="http://syriaca.org/ns" class="panel panel-default">
+                     <div class="panel-heading">
+                        <h2 class="panel-title" data-toggle="collapse" data-target="#Contents">Manuscript Contents</h2>
+                     </div>
+                     <div id="Contents" class="panel-collapse collapse in">
+                        <div class="panel-body">
+                           <div class="msContent"><span class="summary ident">Note: Item numbering updated in digital edition.</span><span class="tei-msContents">
+                                 
+                                 
+                                 <div class="tei-msItem"><span class="inline-h4">Item 1 (Fol. 1b): </span>Isaac of Antioch. Metrical discourses of Isaac of Antioch
+                                     [defective]
+                                    <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                             <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܡܪܝ ܐܝܣܚܩ ܛܘܒܢܐ</span></span><div class="tei-msItem"><span class="inline-h4">Item 2 (Fol. 1b): </span>Isaac of Antioch. On perfection
+                                          <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                   <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">[ܕܥܠ] ܓܡܝܪܘܬܐ</span></span><span class="tei-incipit"><span class="inline-h4"> 
+                                                   Incipit: </span><span xml:lang="syr" lang="syr" dir="rtl">ܐܝܢܐ ܕܣ̇ܘܚ ܕܢܨ̇ܠܐ: ܘܡܒ̇ܛܠ ܠܗ ܥܘܢܕܢܐ̣. ܠܐ ܒ̇ܛܠ ܐܦ ܠܐ ܒܫܝܘܠ܇
+                                                   ܐܓܪܐ ܘܥ̣ܡܠܐ ܕܨܠܘܬܗ.</span></span><span class="tei-finalRubric"><span class="inline-h4"> 
+                                                   Subscription  (Fol. 9a): </span><span xml:lang="syr" lang="syr" dir="rtl">ܫܠ̣ܡ ܠܡܟܬܒ ܡܐܡܪܐ ܕܐܡܝܪ ܠܡܪܝ ܐܝܣܚܩ ܛܘܒܢܐ: ܥܠ ܢܝܫܐ
+                                                   ܕܓܡܝܪܘܬܐ̣. ܘܕܠܐ ܐܢܫ ܢܗܘܐ ܡܬܚܬܪ ܒܫܦܝܪ̈ܬܗ̣. ܘܕܢܙܕܗܪ ܕܠܐ ܢܫܬܥܒܕ ܠܪ̈ܓܝܓܬܐ ܐܝܠܝܢ ܕܕܦܓܪܐ
+                                                   ܐ̈ܢܝܢ.
+                                                   </span></span></div>
+                                       </div>
+                                       <div class="tei-msItem"><span class="inline-h4">Item 3 (Fol. 9b): </span>Isaac of Antioch. Discourse
+                                          <div class="msItemChild"><span class="tei-incipit"><span class="inline-h4"> 
+                                                   Incipit: </span><span xml:lang="syr" lang="syr" dir="rtl">ܡܩܢܛ ܠܝ ܩܠܗ ܕܡܪܢ̇. ܗ̇ܘ ܕܐܡ̣ܪ ܗܘܐ ܒܕܘܡܪܐ̇. ܕܢܐܬܐ ܒܪܗ ܕܐܢܫܐ
+                                                   ܘܢܫܟܚ܇ ܗܝܡܢܘܬܐ ܥܠ ܐܪܥܐ (<a href="http://syriaca.org/work/9648">S. Luke, xviii. 8</a>) ܡ̇ܢ ܒܥܝܐ ܗܕ ܡܥܢܝܬܐ̣.
+                                                   ܕܐܫܐܠܗ̇ ܠܐ ܨܒ̇ܐ ܐܢܐ. ܚܘܫ̈ܒܝ ܨܐܕܝ ܩ̇ܦܣܬ݂. ܕܠܓܘ ܡܢܗ̇ ܠܐ ܢܕܝܩܘܢ. ܏ܘܫ.</span></span></div>
+                                       </div>
+                                       <div class="tei-msItem"><span class="inline-h4">Item 4 (Fol. 12b): </span>Isaac of Antioch. Of repentance
+                                          <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                   <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܕܬܝܒܘܬܐ</span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>See Assemani, Bibl. Or., t. i., p. 232, no. 86, serm. i. 
+                                             </div>
+                                          </div>
+                                       </div>
+                                       <div class="tei-msItem"><span class="inline-h4">Item 5 (Fol. 17a): </span>Isaac of Antioch. Part c
+                                          <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                   <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܬܪܝ̣ܢ ܕܬܝܒܘܐ</span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>See Assemani, no. 86, serm. ii.
+                                             </div>
+                                          </div>
+                                       </div>
+                                       <div class="tei-msItem"><span class="inline-h4">Item 6 (Fol. 21b): </span>Isaac of Antioch. On S.
+                                          Matthew, ch. xviii. 3
+                                           [defective]
+                                          <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                   <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܥܠ ܡܠܬܐ ܕܐܡ̣ܪ ܡܪܢ̇. ܕܐܠܐ ܬܬ݂ܗܦܟܘܢ ܘܬܗܘܘܢ ܐܝܟ ܗܠܝܢ
+                                                   ܛ̈ܠܝܐ</span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>See Assemani, no. 88, serm. i.
+                                             </div>
+                                          </div>
+                                       </div>
+                                       <div class="tei-msItem"><span class="inline-h4">Item 7 (Fol. 25a): </span>Isaac of Antioch. Part f
+                                          <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                   <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܕܬܪܝ̣ܢ ܥܠܘܗܝ ܕܫܪܒܐ</span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>See Assemani, no. 88, serm. ii.
+                                             </div>
+                                          </div>
+                                       </div>
+                                       <div class="tei-msItem"><span class="inline-h4">Item 8 (Fol. 29a): </span>Isaac of Antioch. Part g
+                                          <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                   <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܕܬܠܬܐ̣ ܥܠܘܗܝ ܕܫܪܒܐ</span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>See Assemani, no. 88, serm. iii.
+                                             </div>
+                                          </div>
+                                       </div>
+                                       <div class="tei-msItem"><span class="inline-h4">Item 9 (Fol. 33b): </span>Isaac of Antioch. On the vigils that were kept at
+                                          Antioch, and on the words, It is good to praise the Lord 
+                                          <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                   <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܕܥܠ ܫܗܪܐ ܕܗܘ̣ܐ ܒܐܢܛܝܘܟܝ̣. ܘܥܠ ܛܒ ܠܡܘܕܝܘ ܠܡܪܝܐ</span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>See Assemani, p. 233, no. 91.
+                                                
+                                             </div>
+                                          </div>
+                                       </div>
+                                       <div class="tei-msItem"><span class="inline-h4">Item 10 (Fol. 36b): </span>Isaac of Antioch. On perfection
+                                          <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                   <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܕܥܠ ܓܡܝܪܘܬܐ</span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>See Assemani, p. 233, no. 92.
+                                                
+                                             </div>
+                                          </div>
+                                       </div>
+                                       <div class="tei-msItem"><span class="inline-h4">Item 11 (Fol. 40a): </span>Isaac of Antioch. Against those who resort to soothsayers
+                                          <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                   <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܠܘܩܒܠ ܐܝܠܝܢ ܕܐܙܠܝܢ ܠܘܬ ܩܨܘ̈ܡܐ</span></span><span class="tei-incipit"><span class="inline-h4"> 
+                                                   Incipit: </span><span xml:lang="syr" lang="syr" dir="rtl"> ܐܝܢܐ ܕܡܫ̇ܬܥܐ ܟܐܒܗ܆ ܘܚܫܗ ܠܐܣܝܐ ܕܐܝܟܢܐ ܗܘܼ. ܠܐ ܐܝܬ ܠܗ <span class="tei-sic">ܗܦܬܐ</span>
+                                                   ܒܟܐܒܗ܇ ܕܡܟܝܢܐܝܬ ܢܫ̇ܬܥܝܘܗܝ. ܠܐ ܒܫܘܦܪܐ ܕܡܠܬܐ ܠܐ̇ܝܐ̣. ܘܠܐ ܕܢܟܝܢܗ̇ ܡܬܦܪܣ. ܫܪܪܐ
+                                                   ܡܡܠܠ ܠܫܢܗ̣. ܘܠܬܨܒܝܬܐ ܠܐ ܡ̇ܩܝܦ.</span></span></div>
+                                       </div>
+                                       <div class="tei-msItem"><span class="inline-h4">Item 12 (Fol. 44b): </span>Isaac of Antioch. Second discourse on the same subject
+                                          <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                   <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܕܬܪܝ̣ܢ ܥܠܘܗܝ ܕܫܪܒܐ</span></span><span class="tei-incipit"><span class="inline-h4"> 
+                                                   Incipit: </span><span xml:lang="syr" lang="syr" dir="rtl">ܡ̇ܢ ܕܡܪܒܐ ܠܒܪ ܡ̇ܠܟܐ: ܐܢ ܚ̇ܙܐ ܠܗ ܕܡܬܥ̇ܣܩ̣. ܠܘܬ ܐܒܘܗܝ ܗܘ ܡܪܗܛ
+                                                   ܠܗ̣. ܕܐܢ ܡܐܬ ܢܙܟܐ ܒܕܝܢ̣ܐ.</span></span></div>
+                                       </div>
+                                       <div class="tei-msItem"><span class="inline-h4">Item 13 (Fol. 48a): </span>Isaac of Antioch. On the deliverance of the Capital from the Huns
+                                          (<span class="tei-foreign" lang="syr">ܗ̈ܘܢܝܐ</span>)
+                                          <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                   <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܕܥܠ ܡܕܝܢܬ ܡܠܟܘܬܐ</span></span><span class="tei-incipit"><span class="inline-h4"> 
+                                                   Incipit: </span><span xml:lang="syr" lang="syr" dir="rtl">ܬܘܒ ܐܣܩܝ ܠܗ ܬܫܒܘܚܬܐ̇. ܠܚܝܠܐ ܕܦܨܝܟܝ ܡܢ ܚܪܒܐ. ܬܘܒ ܐܘܕܝ ܠܗ
+                                                   ܠܨܠܝܒܐ̣. ܕܬܘܒ ܢܣܘܓ ܠܟܝ ܬܘܪ̈ܥܬܟܝ.</span></span></div>
+                                       </div>
+                                       <div class="tei-msItem"><span class="inline-h4">Item 14 (Fol. 54a): </span>Isaac of Antioch. On the Crucifixion
+                                          <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                   <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܕܥܠ ܨܠܝܒܘܬܐ</span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>This discourse consists of three parts.
+                                             </div>
+                                             <div class="tei-msItem"><span class="inline-h4">Item 15 (Fol. 54a): </span>Isaac of Antioch. Part a
+                                                <div class="msItemChild"><span class="tei-incipit"><span class="inline-h4"> 
+                                                         Incipit: </span><span xml:lang="syr" lang="syr" dir="rtl">ܡܠܠ ܐܡܪܐ ܕܫܪܪܐ̣. ܥܡ ܐܟܘ̈ܠܘܗܝ ܒܚܕܘܬܐ. ܘܓܠ̣ܐ ܒܘܟܪܐ
+                                                         ܠܬܠܡ̈ܝܕܘܗܝ̣. ܥܠ ܦܨܚܐ ܕܒܥܠܝܬܐ.</span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>In heptasyllabic metre.
+                                                   </div>
+                                                </div>
+                                             </div>
+                                             <div class="tei-msItem"><span class="inline-h4">Item 16 (Fol. 55b): </span>Isaac of Antioch. Part b
+                                                <div class="msItemChild"><span class="tei-incipit"><span class="inline-h4"> 
+                                                         Incipit: </span><span xml:lang="syr" lang="syr" dir="rtl">ܟܕ ܡܫܘܝܐ ܘܡܬ݂ܩܢܐ̣. ܠܥܠܝܬܐ ܐܫܟܚܗ̇. ܠܗ ܓܝܪ ܡܣܟܝܐ ܗܘܬ݂. ܒܕܓܘܢ
+                                                         ܡܛܝܒܐ ܗܘܬ</span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>In pentasyllabic metre. On the margin a reader has written the words <span class="tei-quote"><span xml:lang="syr" lang="syr" dir="rtl">ܩܠܐ ܐܚܪܢܐ</span></span>, "another tune"; and
+                                                      another hand has prefixed, in red ink, the words <span class="tei-quote"><span xml:lang="syr" lang="syr" dir="rtl">ܕܡܪܝ ܒܠܝ</span></span>, "(in the metre) of
+                                                      Mār <a href="/search.html?person=http://syriaca.org/person/27">Balaeus</a>."
+                                                   </div>
+                                                </div>
+                                             </div>
+                                             <div class="tei-msItem"><span class="inline-h4">Item 17 (Fol. 57a): </span>Isaac of Antioch. Part c
+                                                <div class="msItemChild"><span class="tei-incipit"><span class="inline-h4"> 
+                                                         Incipit: </span><span xml:lang="syr" lang="syr" dir="rtl">ܢܦܩ ܗܘܐ ܝܗܘܕܐ ܒܥܕܢ ܪܡܫܐ ܡܢ ܥܠܝܬܐ̣. ܘܦܫܘ ܬܠܡ̈ܝܕܐ ܒܫܝܢܐ ܪܒܐ
+                                                         ܕܟܡܝܪܝܢ ܗܘܘ.</span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>In dodecasyllabic metre. Another hand has prefixed, in red ink, the words <span class="tei-quote"><span xml:lang="syr" lang="syr" dir="rtl">ܕܡܪܝ ܝܥܩܘܒ</span></span>, "(in the
+                                                      metre) of Mār <a href="/search.html?person=http://syriaca.org/person/42">Jacob</a>."
+                                                   </div>
+                                                </div>
+                                             </div>
+                                          </div>
+                                       </div>
+                                       <div class="tei-msItem"><span class="inline-h4">Item 18 (Fol. 59a): </span>Isaac of Antioch. Canticle appended to the above discourse
+                                          <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                   <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܣܘܓܝܬܐ ܕܝܠܗ ܕܡܐܡܪܐ</span></span><span class="tei-incipit"><span class="inline-h4"> 
+                                                   Incipit: </span><span xml:lang="syr" lang="syr" dir="rtl">ܠܬܪܥܣܪܬܗ ܡܪܢ ܕܒ̣ܪ̣. ܘܐܬ݂ܐ ܠܒܝܬܐ ܕܢܫ̣ܝܓ ܠܗܘܢ̇ ܐܣܡܟ ܐܢܘܢ ܐܝܟ
+                                                   ܝܪܬܐ̣. ܘܩܡ ܗ̣ܘ ܫܡܫ ܐܝܟ ܪܚ̇ܡܐ.</span></span></div>
+                                       </div>
+                                    </div>
+                                 </div>
+                                 
+                                 <div class="tei-msItem"><span class="inline-h4">Item 19 (Fol. 62a): </span>Cyrillona. A metrical discourse on the Lord's Supper
+                                    <div><span class="inline-h4">Author Name Variants [syr]: </span>ܡܪܝ ܩܘܪܠܘܟܐ
+                                    </div>
+                                    <div><span class="inline-h4">Author Name Variants [syr]: </span>ܩܘܪܝܠܘܟܐ
+                                    </div>
+                                    <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                             <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܡܐܡܪܐ ܕܥܠ ܦܨܚܐ ܕܡܪܢ</span></span><span class="tei-incipit"><span class="inline-h4"> 
+                                             Incipit: </span><span xml:lang="syr" lang="syr" dir="rtl">ܟܕ ܩ̇ܪܐ ܐܢܐ ܒܚ̇ܕܬܐ̣. ܚ̈ܕܬܬܐ ܢܒ̈ܥܝ ܠܝ ܡܢܗ̇. ܟܕ ܗܓܢܐ ܒܣܒܪܬܐ̣.
+                                             ܣܒܪܬܐ ܕܚ̈ܝܐ ܦܓܥ̣ܬ ܒܝ. ܟܪܘܙܘܬܗ ܕܝܘܚܢ̣ܢ. ܦܓ̣ܥܬ ܒܝ ܘܛܒ ܐܬܗܪܬܢ̇ ܝܘܚܢܢ ܘܟܢ̈ܘܬܗ̣. ܡ̈ܒܘܥܐ̣
+                                             ܗ̣ܘܘ ܕܒܪܝܬܐ.</span></span><div class="msItem-notes"><span class="inline-h4">Notes:</span><ul>
+                                             <li>This discourse is ascribed to a writer named <span class="tei-quote"><span xml:lang="syr" lang="syr" dir="rtl">ܩܘܪܠܘܟܐ</span></span> or <span class="tei-quote"><span xml:lang="syr" lang="syr" dir="rtl">ܩܘܪܝܠܘܟܐ
+                                                      </span></span>. *
+                                                
+                                             </li>
+                                             <li>*The name seems distinctly written, but it may possibly be a mistake for
+                                                <a href="/search.html?person=http://syriaca.org/person/20">ܩܘܪܝܠܘܢܐ</a>, a Syriac diminutive from Cyrillus, as <span class="tei-foreign" xml:lang="syr" lang="syr" dir="rtl">ܣܪܓܘܢܐ</span> and <span class="tei-foreign" xml:lang="syr" lang="syr" dir="rtl">ܐܘܣܒܘܢܐ</span> from Sergius and
+                                                Eusebius. See Dr. Bickell in the Literarischer Handweiser for 1869, no. 78, col. 150.
+                                             </li>
+                                             <li>It is composed in several different metres, the parts being distinguished by
+                                                rubrics or marginal notes, such as: fol. 62b, ܩܠܐ̣ ܐܚܪܢܐ, marg. ܕܚ̇ܐܢ ܠܚ̈ܛܝܐ; fol.
+                                                63a, ܬܘܒ ܒܩܠܐ ܕܣܕܪܐ; fol. 64b, marg. ܩܠܐ̣ ܕܡܘ̈ܫܚܬܐ; fol. 66a, marg. ܩܠܐ̣
+                                                ܐܚܪܢܐ..
+                                             </li>
+                                          </ul>
+                                       </div>
+                                    </div>
+                                 </div>
+                                 
+                                 <div class="tei-msItem"><span class="inline-h4">Item 20 (Fol. 67a): </span>Isaac. A metrical discourse of Isaac on the Nativity of our
+                                    Lord
+                                    <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                             <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܡܐܡܪܐ ܕܡܪܝ ܐܝܣܚܩ̣. ܕܥܠ ܒܝܬ ܝܠܕܗ ܕܡܪܢ</span></span><span class="tei-incipit"><span class="inline-h4"> 
+                                             Incipit: </span><span xml:lang="syr" lang="syr" dir="rtl">ܒܟܡܐ ܕܡ̈ܘܢ ܐܫܬܥܝܟ݂. ܒܟܡܐ ܓܝܪ ܐܫ̇ܬܥܝܟ. ܐܘ ܡܢܐ ܓܝܪ ܐ̇ܫܬܥܝܬ܇ ܡܢ
+                                             ܪܒܘܬܐ ܕܐܝܬܘܬܟ..</span></span></div>
+                                 </div>
+                                 
+                                 <div class="tei-msItem"><span class="inline-h4">Item 21 (Fol. 69b): </span>Peter of Callinicus, patriarch of
+                                    Antioch. A metrical discourse of Peter of Callinicus, patriarch of
+                                    Antioch on the Crucifixion
+                                    <div class="msItemChild"><span class="tei-incipit"><span class="inline-h4"> 
+                                             Incipit: </span><span xml:lang="syr" lang="syr" dir="rtl">ܝܘܡܢ ܬܪ̈ܥܐ ܡܬܦܬܚܝ̣ܢ. ܝܘܡܢ ܥܝܪ̈ܐ ܡܬܬܚܬܝܢ. ܝܘܡܢ ܩ̈ܠܐ ܡܫܬܡܥܝ̣ܢ.
+                                             ܝܘܡܢ ܪ̈ܗܛܢ ܣܒܪ̈ܬܐ.</span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>See Assemani, Bibl. Or., t. ii., pp. 69 and 332.
+                                          
+                                       </div>
+                                    </div>
+                                 </div>
+                                 
+                                 <div class="tei-msItem"><span class="inline-h4">Item 22 (Fol. 72a): </span>Cyrillona. Metrical writings of the above mentioned
+                                    ܡܪܝ ܩܘܪܝܠܘܟܐ
+                                    
+                                    <div><span class="inline-h4">Author Name Variants [syr]: </span>ܡܪܝ ܩܘܪܝܠܘܟܐ
+                                    </div>
+                                    <div class="msItemChild">
+                                       <div class="tei-msItem"><span class="inline-h4">Item 23 (Fol. 72a): </span>Cyrillona. Madrāshē on the locusts, and on (divine) chastisement,
+                                          and on the invasion of the Huns
+                                          <div><span class="inline-h4">Author Name Variants [syr]: </span>ܡܪܝ ܩܘܪܝܠܘܟܐ
+                                          </div>
+                                          <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                   <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܡܕܪ̈ܫܐ ܕܥܠ ܩܡܨܐ ܘܥܠ ܡܪܕܘܬܐ̣. ܘܥܠ ܩܪܒܐ ܕܗܘ̈ܢܝܐ̣
+                                                   ܕܩܘܪܝܠܘܟܐ</span></span><span class="tei-incipit"><span class="inline-h4"> 
+                                                   Incipit: </span><span xml:lang="syr" lang="syr" dir="rtl">ܐܩܪܐ ܠܚܒܝ̈ܒܝܟ ܕܗ̣ܢܘܢ ܢܦܝܣܘܢܟ݂ ܕܙܒܢܐ ܗܘ ܕܢܣܝܘܢܐ̣ ܢܐܬܘܢ
+                                                   ܢܪܥܘܢܟ. ܐܣܕܘܪ ܐܢܐ ܟܐ̈ܒܝ̣ ܘܗ̣ܢܘܢ ܨ̈ܠܘܬܐ. ܐܓܠܐ ܐܢܐ ܚܫ̈ܝ̣ ܘܗ̣ܢܘܢ ܫܪܪ̈ܝܗܘܢ. ܘܩܘܕܡܬ
+                                                   ܓܘ̈ܕܝܗܘܢ ܕܪ̈ܚܡ̇ܝܟ: ܐܦܝܣ ܠܪܒܘܬܟ ܕܬܟܠܐ ܠܟܐܢܘܬܟ݂. ܘܬܛܪ ܒܝܡܝܢܟ ܦܐܪ̈ܝ
+                                                   ܠܩܘܪܒܢܟ܀.</span></span></div>
+                                       </div>
+                                       <div class="tei-msItem"><span class="inline-h4">Item 24 (Fol. 77b): </span>Cyrillona. Canticle for the above discourse
+                                          <div><span class="inline-h4">Author Name Variants [syr]: </span>ܡܪܝ ܩܘܪܝܠܘܟܐ
+                                          </div>
+                                          <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                   <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܣܘܓܝܬܐ ܕܝܠܗ ܕܡܐܡܪܐ</span></span><span class="tei-incipit"><span class="inline-h4"> 
+                                                   Incipit: </span><span xml:lang="syr" lang="syr" dir="rtl">ܙܝܢ ܚܪܡܐ ܚܪܒܗ ܥܠܝ̣ܢ. ܘܣܝܦܗ ܡܚܘܐ ܕܢܕܚܠܢ. ܘܒܓܘ ܓܘܫ̈ܡܐ ܕܠܐ
+                                                   ܐܫ̣ܬܪܥܘܼ. ܐܝܟ ܩܪܘܬܐ ܦ̇ܫܪ ܒܗܘܢ܀.</span></span></div>
+                                       </div>
+                                       <div class="tei-msItem"><span class="inline-h4">Item 25 (Fol. 79a): </span>Cyrillona. On the grain of wheat
+                                          <div><span class="inline-h4">Author Name Variants [syr]: </span>ܡܪܝ ܩܘܪܝܠܘܟܐ
+                                          </div>
+                                          <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                   <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܡܐܡܪܐ ܕܥܠ ܚܛܗܐ</span></span><span class="tei-incipit"><span class="inline-h4"> 
+                                                   Incipit: </span><span xml:lang="syr" lang="syr" dir="rtl">ܚܛܬܐ ܢܦܠܐ ܒܚܛܘܛܐ̣. ܪܚܫܐ ܘܢܒܥܐ ܫܠܝܐܝܬ. ܕܠܐ ܡܠܦܢܐ ܘܐܘܡܢܐ̣.
+                                                   ܫܬܠܐ ܗ̣ܝ ܠܗ̇ ܥܠ ܥܦܪܐ.</span></span></div>
+                                       </div>
+                                       <div class="tei-msItem"><span class="inline-h4">Item 26 (Fol. 83a): </span>Cyrillona. On the Crucifixion
+                                          <div><span class="inline-h4">Author Name Variants [syr]: </span>ܡܪܝ ܩܘܪܝܠܘܟܐ
+                                          </div>
+                                          <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                   <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܡܐܡܪܐ ܕܥܠ ܨܠܝܒܘܬܐ</span></span><span class="tei-incipit"><span class="inline-h4"> 
+                                                   Incipit: </span><span xml:lang="syr" lang="syr" dir="rtl">ܝܠ̣ܕܬ ܡܪܝܡ ܒܪܬ ܓܢܣܢ. ܒܪ ܐܠܗܐ ܕܟܠ ܐܚܝ. ܗܠ̣ܟ ܒܐܪܥܐ ܘܐ݂ܬܒܪܟܬ݂.
+                                                   ܘܐܬܐܣܝܘ ܟܐ̈ܒܐ ܥܣܩ̈ܐ. ܪܕ݂ܐ ܘܗܠ̣ܟ ܒܝܢܬ ܐܢܫ̈ܐ̣. ܘܐܚܝ ܠܐܢܫܐ ܒ̈ܢܝ ܓܢܣܢ܀.</span></span></div>
+                                       </div>
+                                       <div class="tei-msItem"><span class="inline-h4">Item 27 (Fol. 87b): </span>Cyrillona. On perfection
+                                          <div><span class="inline-h4">Author Name Variants [syr]: </span>ܡܪܝ ܩܘܪܝܠܘܟܐ
+                                          </div>
+                                          <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                   <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܡܐܡܪܐ ܕܥܠ ܓܡܝܪܘܬܐ</span></span><span class="tei-incipit"><span class="inline-h4"> 
+                                                   Incipit: </span><span xml:lang="syr" lang="syr" dir="rtl">ܡܘ̈ܕܝܢܐ ܒܛܥܡܐ ܨܬܘܗ̇܇ ܠܗ̇ܝ ܡܠܬܐ ܕܐܡ̣ܪ ܡܪܢ. ܕܗܐ ܡܠܟܘܬܐ ܕܐܠܗܐ̣.
+                                                   ܠܓܘ ܡܢܟܘܢ ܐܝܟ ܡܐ ܕܟܬܝܒ. ܚܘܪܘ ܒܗ̇ ܒܛܘܦܣܐ ܕܥ̣ܘܠܐ̇ ܒܡܠܟܘܬܐ ܗ̇ܝ ܕܫܡܝܐ.</span></span></div>
+                                       </div>
+                                    </div>
+                                 </div>
+                                 
+                                 <div class="tei-msItem"><span class="inline-h4">Item 28 (Fol. 94a): </span>Isaac. Hymns of Isaac
+                                    
+                                    <div class="msItemChild">
+                                       <div class="tei-msItem"><span class="inline-h4">Item 29 (Fol. 94a): </span>Isaac. Vesper hymns
+                                          <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                   <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܬܫ̈ܒܚܬܐ ܕܪܡܫܐ</span></span><div class="tei-msItem"><span class="inline-h4">Item 30 (Fol. 94a): </span>Isaac. Part <span class="tei-foreign" lang="grc">α</span>
+                                                
+                                                <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                         <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܬܫܒܘܚܬܐ ܕܪܡܫܐ</span></span><span class="tei-incipit"><span class="inline-h4"> 
+                                                         Incipit: </span><span xml:lang="syr" lang="syr" dir="rtl">ܗܐ ܪܡܫܐ ܡܢܥ ܐܚ̈ܝ̣. ܢܛܦ̣ܐ ܟܠ ܐܢܫ ܪܥܝܢܗ. ܫܡܫܐ ܩ̇ܦܣ
+                                                         ܙܠܝܩ̈ܘܗܝ̣. ܢܟ݁ܢܫ ܗܘܢܐ ܚܘܫ̈ܒܘܗܝ.</span></span></div>
+                                             </div>
+                                             <div class="tei-msItem"><span class="inline-h4">Item 31 (Fol. 95b): </span>Isaac. Part <span class="tei-foreign" lang="grc">β</span>
+                                                
+                                                <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                         <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܕܬܪܬܝܢ ܕܪܡܫܐ</span></span><span class="tei-incipit"><span class="inline-h4"> 
+                                                         Incipit: </span><span xml:lang="syr" lang="syr" dir="rtl">ܗܐ ܠܠܝܐ ܣܟܪܗ̇ ܠܐܪܥܐ̣. ܐܝܟ ܕܢܒ̇ܛܠ ܬܓܪ̈ܐ. ܣܚܘܦ ܒܨܠܝܒܐ
+                                                         ܠܣܝܓܗ̣. ܘܪܕܝ ܒܐܘܪܚܐ ܕܬܓܘܪܬܟ.</span></span></div>
+                                             </div>
+                                             <div class="tei-msItem"><span class="inline-h4">Item 32 (Fol. 96b): </span>Isaac. Part <span class="tei-foreign" lang="grc">γ</span>
+                                                
+                                                <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                         <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܕܬܠܬ ܕܪܡܫܐ</span></span><span class="tei-incipit"><span class="inline-h4"> 
+                                                         Incipit: </span><span xml:lang="syr" lang="syr" dir="rtl">ܐܥ̇ܝܕܬ ܕܐܡܠܠ̣. ܠܟ ܕܝܢ ܡܡܠܠܝ ܝܘܬܪܢܐ ܗܘ. ܐܘ ܕܐܙܕܡܢ ܠܡܫܝܚܐ̣
+                                                         ܣܥܘܪ ܠܡܦܝܕܟ ܠܚܠܘܠܗ.</span></span></div>
+                                             </div>
+                                          </div>
+                                       </div>
+                                       <div class="tei-msItem"><span class="inline-h4">Item 33 (Fol. 98a): </span>Isaac. Nocturnal hymn
+                                          <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                   <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܬܫܒܘܚܬܐ̣ ܕܠܠܝܐ</span></span><span class="tei-incipit"><span class="inline-h4"> 
+                                                   Incipit: </span><span xml:lang="syr" lang="syr" dir="rtl">ܒܦܠܓܗ ܕܠܠܝܐ ܠܡ ܐܬ̇ܐ̣. ܚܬܢܐ ܥܠ ܡ̇ܢ ܐܬ̣ܐܡܪܬ܇ ܐܠܐ ܕܟܠ ܐܢܫ ܢܬ݂ܩܢ
+                                                   ܠܗ܇ ܠܡܦܕܐ ܕܒܗ ܐܪܥ ܠܗ.</span></span></div>
+                                       </div>
+                                       <div class="tei-msItem"><span class="inline-h4">Item 34 (Fol. 99b): </span>Isaac. Hymns to be sung before meals
+                                          <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                   <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܬܫ̈ܒܚܬܐ ܕܠܚܡ̣ܐ</span></span><div class="tei-msItem"><span class="inline-h4">Item 35 (Fol. 99b): </span>Isaac. Part <span class="tei-foreign" lang="grc">α</span>
+                                                
+                                                <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                         <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܬܫܒܘܚܬܐ̣ ܕܠܚܡ̣ܐ</span></span><span class="tei-incipit"><span class="inline-h4"> 
+                                                         Incipit: </span><span xml:lang="syr" lang="syr" dir="rtl">ܠܘ ܒܐ̈ܦܐ ܢܣ̣ܒ ܐܠܗܐ̇. ܕܪܚܡܗ ܠܒܝܬܐ ܕܐܒܪܗܡ. ܕܚܘܒܐ ܬܡܢ ܡܩ̇ܢ
+                                                         ܗܘܐ̣. ܚܣܡܐ ܒܪܘܚܩܐ ܩܐܡ ܗܘܐ.</span></span></div>
+                                             </div>
+                                             <div class="tei-msItem"><span class="inline-h4">Item 36 (Fol. 101a): </span>Isaac. Part <span class="tei-foreign" lang="grc">β</span>
+                                                
+                                                <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                         <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܕܬܪܬܝ̣ܢ ܕܠܚܡ̣ܐ</span></span><span class="tei-incipit"><span class="inline-h4"> 
+                                                         Incipit: </span><span xml:lang="syr" lang="syr" dir="rtl">ܗܐ ܦܬܘܪܢ ܐܝܟ ܕܒܪܐ̣. ܘܡܟܘܠܬܐ ܒܗ ܐܝܟ ܡܢܢܐ. ܐܣܛܘܡܟܐ ܒܕܡܘܬ
+                                                         ܟܝܠܐ̣. ܘܡܪܬ ܢܦܫܗ̇ ܚܐܪܘܬܐ.</span></span></div>
+                                             </div>
+                                             <div class="tei-msItem"><span class="inline-h4">Item 37 (Fol. 103a): </span>Isaac. Part <span class="tei-foreign" lang="grc">γ</span>
+                                                
+                                                <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                         <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܕܬ̈ܠܬ݂ ܕܠܚܡ̣ܐ</span></span><span class="tei-incipit"><span class="inline-h4"> 
+                                                         Incipit: </span><span xml:lang="syr" lang="syr" dir="rtl">ܚܘܪ ܥܬܝܪܐ ܒܐܒܪܗܡ̣. ܘܠܝܬ ܠܟ ܚܘܪܐ ܐܟܘܬܗ. ܢܗܘܐ ܠܟ ܓܫܪܐ ܫܪܒܗ̣.
+                                                         ܕܡܢ ܦܚܬܐ ܠܪܘܡܐ ܬܫܘܪ.</span></span></div>
+                                             </div>
+                                          </div>
+                                       </div>
+                                       <div class="tei-msItem"><span class="inline-h4">Item 38 (Fol. 105a): </span>Isaac. Sixteen madrāshē, entitled "new madrāshē, to the tune of
+                                          <span class="tei-foreign" lang="syr">ܟܠܬ ܡܠܟܐ</span> (the bride of the King), against those who do not receive the holy
+                                          Eucharist except at long intervals"
+                                          <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                   <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܡܕܪ̈ܫܐ ܚ̈ܕܬܐ ܥܠ ܩܠܐ ܕܟܠܬ ܡ̇ܠܟܐ̣. ܠܘܬ ܐܝܠܝܢ ܕܠܐ ܢܣܒܝܢ ܩܘܪܒܢܐ̇.
+                                                   ܐܠܐ ܠܙܒܢܐ ܣܓܝܐܐ. ܕܐܡܝܪܝ̣ܢ ܠܡܪܝ ܐܝܣܚܩ ܛܘܒܢܐ</span></span><div class="tei-msItem"><span class="inline-h4">Item 39 (Fol. 105a): </span>Isaac. Part <span class="tei-foreign" lang="grc">α</span>
+                                                
+                                                <div class="msItemChild"><span class="tei-incipit"><span class="inline-h4"> 
+                                                         Incipit: </span><span xml:lang="syr" lang="syr" dir="rtl">ܒܚܕ ܡܙܡܘܪܐ ܐܟ݂ܪܙܬ̇܇ ܪܘܚܐ ܒܕܘܝܕ ܥܠ ܒܪ ܕܘܝܕ</span></span></div>
+                                             </div>
+                                             <div class="tei-msItem"><span class="inline-h4">Item 40 (Fol. 106b): </span>Isaac. Part <span class="tei-foreign" lang="grc">β</span>
+                                                
+                                                <div class="msItemChild"><span class="tei-incipit"><span class="inline-h4"> 
+                                                         Incipit: </span><span xml:lang="syr" lang="syr" dir="rtl">ܐܝܟ ܬܠܡܝܕܐ ܕܣ̇ܦܪ̈ܐ ܘܕܚܟܝܡ̈ܐ̣. ܗܘܝ ܡܣ̇ܬܟܠ ܡܢܐ ܫܦܝܪ̣ ܘܠܗ
+                                                         ܪܚ̣ܡ</span></span></div>
+                                             </div>
+                                             <div class="tei-msItem"><span class="inline-h4">Item 41 (Fol. 108b): </span>Isaac. Part <span class="tei-foreign" lang="grc">γ</span>
+                                                
+                                                <div class="msItemChild"><span class="tei-incipit"><span class="inline-h4"> 
+                                                         Incipit: </span><span xml:lang="syr" lang="syr" dir="rtl">ܐܘ ܡܠܘܟܐ ܕܒܝܫ̣ܬܐ ܟܕ ܓܒ̇ܒ ܠܢ ܒܟܠ ܐܣܟܡ̈ܝܢ</span></span></div>
+                                             </div>
+                                             <div class="tei-msItem"><span class="inline-h4">Item 42 (Fol. 110a): </span>Isaac. Part <span class="tei-foreign" lang="grc">δ</span>
+                                                
+                                                <div class="msItemChild"><span class="tei-incipit"><span class="inline-h4"> 
+                                                         Incipit: </span><span xml:lang="syr" lang="syr" dir="rtl">ܗܪܘܕܝܐ̣ ܫܐܠܬܐ ܕܡܘܬܐ ܫܐ̣ܠܬ̇ ܥܠ ܦܬܘܪܐ ܠܗ̇ܘ ܗܪܘܕܣ܇ ܕܐܠ̣ܙܬ
+                                                         ܙܒ̈ܢܐ ܣܘܓܐܐ ܘܟܠ̣ܐ ܡܢܗ̇</span></span></div>
+                                             </div>
+                                             <div class="tei-msItem"><span class="inline-h4">Item 43 (Fol. 111b): </span>Isaac. Part <span class="tei-foreign" lang="grc">ε</span>
+                                                
+                                                <div class="msItemChild"><span class="tei-incipit"><span class="inline-h4"> 
+                                                         Incipit: </span><span xml:lang="syr" lang="syr" dir="rtl">ܬܩܠܢ ܛ̇ܒܐ̣. ܕܠܝܬ ܠܢ ܙܒܢܐ ܕܢܫ̣ܘܐ ܘܢܫܩܘܠ ܦܓܪܗ</span></span></div>
+                                             </div>
+                                             <div class="tei-msItem"><span class="inline-h4">Item 44 (Fol. 113b): </span>Isaac. Part <span class="tei-foreign" lang="grc">ς</span>
+                                                
+                                                <div class="msItemChild"><span class="tei-incipit"><span class="inline-h4"> 
+                                                         Incipit: </span><span xml:lang="syr" lang="syr" dir="rtl">ܐܘ ܒ̈ܢܝ ܐܢܫܐ ܕܐܬ̣ܩܪܝܘ ܠܚܠܘܠ ܪܡܐ ܐܝܟ ܚܒܝ̈ܒܐ: ܥܡܝܪܐ ܘܥܘܪܐ
+                                                         ܕܐܫܬܘܝ ܠܗܕ ܡܘܗܒܬܐ ܕܡܢ ܟܠ ܪܒܐ̣. ܬܘ ܬܘܫܘ ܘܐܟܘܠܘ ܫܠܗܒܝܬܐ̣. ܘܗ̣ܝ ܬܥܒܕܟܘܢ ܡܠܐ̈ܟܐ
+                                                         ܕܢܘܪܐ</span></span></div>
+                                             </div>
+                                             <div class="tei-msItem"><span class="inline-h4">Item 45 (Fol. 115b): </span>Isaac. Part <span class="tei-foreign" lang="grc">ζ</span>
+                                                
+                                                <div class="msItemChild"><span class="tei-incipit"><span class="inline-h4"> 
+                                                         Incipit: </span><span xml:lang="syr" lang="syr" dir="rtl">ܪܫܘܡ ܚ̈ܝܐ ܐܫ̣ܬܠܚ ܕܡ̇ܠܟܐ ܒܘܟܪܐ̣ ܕܢܛܒܘܥ ܚܝܠܐ</span></span></div>
+                                             </div>
+                                             <div class="tei-msItem"><span class="inline-h4">Item 46 (Fol. 117b): </span>Isaac. Part <span class="tei-foreign" lang="grc">η</span>
+                                                
+                                                <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                         <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܫܐܘܠ ܡ̇ܠܟܐ ܐܣܡܟܗ ܠܕܘܝܕ ܛܠܝܐ̣ ܥܠ ܦܬܘܪܗ. ܘܚܕ ܝܘܡ ܕܗܘ̣ܐ
+                                                         ܘܐܬ̣ܟܠܝ ܦܩܕܗ̣ ܘܒܥܝܗܝ</span></span></div>
+                                             </div>
+                                             <div class="tei-msItem"><span class="inline-h4">Item 47 (Fol. 120a): </span>Isaac. Part <span class="tei-foreign" lang="grc">θ</span>
+                                                
+                                                <div class="msItemChild"><span class="tei-incipit"><span class="inline-h4"> 
+                                                         Incipit: </span><span xml:lang="syr" lang="syr" dir="rtl">ܥܣܪ ܙܒܢ̈ܬܐ ܕܢܬܥ̣ܨܒ ܐܝܢܐ ܕܟܪܝܗ̣ ܠܐ ܡܐܢܐ ܠܗ</span></span></div>
+                                             </div>
+                                             <div class="tei-msItem"><span class="inline-h4">Item 48 (Fol. 121b): </span>Isaac. Part <span class="tei-foreign" lang="grc">ι</span>
+                                                
+                                                <div class="msItemChild"><span class="tei-incipit"><span class="inline-h4"> 
+                                                         Incipit: </span><span xml:lang="syr" lang="syr" dir="rtl">ܚܛ̇ܝܬܐ ܬܘܒ ܕܐܚ̣ܨܦܬ ܘܠܒܝܬ ܫܡܥܘܢ ܦܪܝܫܐ ܥ̣ܠܬ݂. ܐܠܘ ܚ̣ܪܬ
+                                                         ܡܚܝܠܬܐ ܒܚܛ̇ܝܘܬܗ̣̇ ܠܐ ܐܬܚ̣ܣܝܬ</span></span></div>
+                                             </div>
+                                             <div class="tei-msItem"><span class="inline-h4">Item 49 (Fol. 123a): </span>Isaac. Part <span class="tei-foreign" lang="grc">ια</span>
+                                                
+                                                <div class="msItemChild"><span class="tei-incipit"><span class="inline-h4"> 
+                                                         Incipit: </span><span xml:lang="syr" lang="syr" dir="rtl">ܟܕ ܒܟܝܐ ܗܘܬ ܘܓܥܝܐ̣. ܣܒ̣ܪܘ ܫ̈ܬܝܐ̣ ܕܡܫܬܐ ܫܬ̣ܝܐ</span></span></div>
+                                             </div>
+                                             <div class="tei-msItem"><span class="inline-h4">Item 50 (Fol. 125b): </span>Isaac. Part <span class="tei-foreign" lang="grc">ιβ</span>
+                                                
+                                                <div class="msItemChild"><span class="tei-incipit"><span class="inline-h4"> 
+                                                         Incipit: </span><span xml:lang="syr" lang="syr" dir="rtl">ܐܩܝܡ ܪ̈ܓܠܝ ܒܗ̇ܘ ܫܡܐ ܕܗܝܡܢܘܬܟ ܕܪܚ̇ܡ ܐܢܐ ܠܗ</span></span></div>
+                                             </div>
+                                             <div class="tei-msItem"><span class="inline-h4">Item 51 (Fol. 127b): </span>Isaac. Part <span class="tei-foreign" lang="grc">ιγ</span>
+                                                
+                                                <div class="msItemChild"><span class="tei-incipit"><span class="inline-h4"> 
+                                                         Incipit: </span><span xml:lang="syr" lang="syr" dir="rtl">ܣ̇ܓܝ ܡܚܝܠܐ ܫܐܠܬܟ݂ ܛܠܝܐ ܫܒܪܐ. ܕܗܒܐ ܒܥ̇ܐ ܐܢܬ̣. ܡ̇ܢܘ ܚܝܠܗ ܬܐ
+                                                         ܬܲܢܝ̣ ܘܡ̇ܢ ܒܗ ܫܦ̣ܪ ܠܟ</span></span></div>
+                                             </div>
+                                             <div class="tei-msItem"><span class="inline-h4">Item 52 (Fol. 129b): </span>Isaac. Part <span class="tei-foreign" lang="grc">ιδ</span>
+                                                
+                                                <div class="msItemChild"><span class="tei-incipit"><span class="inline-h4"> 
+                                                         Incipit: </span><span xml:lang="syr" lang="syr" dir="rtl">ܢܘܢܐ ܕܣ̇ܠܩ ܡܢ ܬܗܘܡ ܠܐܪܥܐ ܡܐܬ݂. ܕܢܦܫܗ̣ ܡ̈ܝܐ ܗܝ</span></span></div>
+                                             </div>
+                                             <div class="tei-msItem"><span class="inline-h4">Item 53 (Fol. 131a): </span>Isaac. Part <span class="tei-foreign" lang="grc">ιε</span>
+                                                
+                                                <div class="msItemChild"><span class="tei-incipit"><span class="inline-h4"> 
+                                                         Incipit: </span><span xml:lang="syr" lang="syr" dir="rtl">ܕܠܡܐ ܥܒ̣̈ܕܐ ܫܢܬܐ ܡܝܬܝܢ ܡܚ̇ܝܠܝܢ ܥܠ ܡܪ̈ܝܗܘܢ</span></span></div>
+                                             </div>
+                                             <div class="tei-msItem"><span class="inline-h4">Item 54 (Fol. 133a): </span>Isaac. Part <span class="tei-foreign" lang="grc">ις</span>
+                                                
+                                                <div class="msItemChild"><span class="tei-incipit"><span class="inline-h4"> 
+                                                         Incipit: </span><span xml:lang="syr" lang="syr" dir="rtl">ܙܥܘܪ ܗܘ ܩܠܦܐ ܕܐܟܬܒܗ ܠܟܠܗ ܚܫܐ ܕܥܘܬܪܐ ܡܩܢܐ̣. ܘܠܐ ܡܣܬܝܟ
+                                                         ܒܛܘܡܣܐ ܕܪܒܘ ܐܡ̈ܝܢ ܘܝܐ ܕܡ̇ܠ̣ܐ</span></span></div>
+                                             </div>
+                                          </div>
+                                       </div>
+                                       <div class="tei-msItem"><span class="inline-h4">Item 55 (Fol. 134a): </span>Isaac. Three madrāshē, entitled "madrāshē on the Coming of our
+                                          Lord, to the tune of <span class="tei-foreign" lang="syr">ܟܢܫܐ ܥܠܝܐ</span> (the supernal assembly)."
+                                          <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                   <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܡܕܪ̈ܫܐ ܕܥܠ ܡܬܝܬܗ ܕܡܪܢ ܥܠ ܩܠܐ ܕܟܢܫܐ ܥܠܝܐ̣. ܕܐܡܝܪܝ̣ܢ ܠܛܘܒܢܐ ܡܪܝ
+                                                   ܐܝܣܚܩ</span></span><div class="tei-msItem"><span class="inline-h4">Item 56 (Fol. 134a): </span>Isaac. Part <span class="tei-foreign" lang="grc">α</span>
+                                                
+                                                <div class="msItemChild"><span class="tei-incipit"><span class="inline-h4"> 
+                                                         Incipit: </span><span xml:lang="syr" lang="syr" dir="rtl">ܡܝܟܐܝܠ ܕܒܪܗ̇ ܟܢܘܫܬܗ ܘܩ̇ܪܒ ܠܟ݂. ܕܟܢܪ̈ܝ ܫܘܒܚܐ ܢܙܡܪܘܢ
+                                                         ܠܡܠܟܘܬܟ. ܘܓܒܪܝܐܝܠ̣ ܐܒܪܟ ܩܕܡܝܟ ܡܫܪܝܬܗ</span></span></div>
+                                             </div>
+                                             <div class="tei-msItem"><span class="inline-h4">Item 57 (Fol. 135b): </span>Isaac. Part <span class="tei-foreign" lang="grc">β</span>
+                                                
+                                                <div class="msItemChild"><span class="tei-incipit"><span class="inline-h4"> 
+                                                         Incipit: </span><span xml:lang="syr" lang="syr" dir="rtl">ܬܘ ܢܫ̣ܘܐ ܘܢܣܩ ܟܠܝܠܐ ܕܬܫܒܘܚܬܐ̇. ܕܡ̇ܓ̣ܕܠ ܟܠܗ ܒܩ̈ܠܐ
+                                                         ܘܩܝܢܬܐ.</span></span></div>
+                                             </div>
+                                             <div class="tei-msItem"><span class="inline-h4">Item 58 (Fol. 137a): </span>Isaac. Part <span class="tei-foreign" lang="grc">γ</span>
+                                                
+                                                <div class="msItemChild"><span class="tei-incipit"><span class="inline-h4"> 
+                                                         Incipit: </span><span xml:lang="syr" lang="syr" dir="rtl">ܒܪ ܡܪܐ ܥܢܐ ܐܫܬ̣ܠܚ ܠܘܬ ܥܢܐ. ܪ̈ܥܘܬܐ ܘܟ̈ܠܒܐ ܕܡܝ̇ܘܗܝ̣
+                                                         ܠܢܘܟܪܝܐ</span></span></div>
+                                             </div>
+                                          </div>
+                                       </div>
+                                    </div>
+                                 </div>
+                                 
+                                 <div class="tei-msItem"><span class="inline-h4">Item 59 (Fol. 139a): </span>Balaeus. Hymns of Balaeus
+                                    
+                                    <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                             <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܡܪܝ ܒܠܝ</span></span><div class="tei-msItem"><span class="inline-h4">Item 60 (Fol. 139a): </span>Balaeus. Madrāshē, entitled madrāshē of Mār Balaeus the
+                                          chorepiscopus, on the dedication of the church that was newly built in the city of
+                                          Kenneshrīn (Kinnesrīn)."
+                                          <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                   <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܡܕܪ̈ܫܐ ܕܡܪܝ ܒܠܝ ܟܘܪ ܐܦܣܩܘܦܐ̣. ܥܠ ܚܘܕܬܐ ܕܥܕܬܐ ܕܐܬ݂ܒܢܝܬ ܚܕܬܝܬ
+                                                   ܒܩܢܫܪܝܢ ܡܕܝܢܬܐ</span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>See Overbeck, S. Ephraemi Syri etc. Opera Selecta, p. 251.
+                                             </div>
+                                          </div>
+                                       </div>
+                                       <div class="tei-msItem"><span class="inline-h4">Item 61 (Fol. 143b): </span>Balaeus. Five Madrāshē, entitled , "madrāshē of Mār Balaeus,
+                                          composed by him on the blessed bishop Acacius, to the tune of
+                                          <span class="tei-foreign" lang="syr">ܐܘ ܡܪܝ ܒܓܢܝ̈ܟ</span> (O Lord, to Thee we appeal)." 
+                                          <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                   <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܡܕܪ̈ܫܐ ܕܡܪܝ ܒܠܝ ܕܐܡܝܪܝܢ ܠܗ̣. ܥܠ ܡܪܝ ܐܩܩ ܛܘܒܢܐ ܐܦܣܩܘܦܐ. ܥܠ
+                                                   ܩܠܐ̣ ܕܐܘ ܡܪܝ ܒܓܢܝ̈ܟ</span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>See Overbeck, p. 259.
+                                             </div>
+                                          </div>
+                                       </div>
+                                    </div>
+                                 </div>
+                                 </span></div>
+                        </div>
+                     </div>
+                  </div>
+                  <div xmlns:x="http://www.w3.org/1999/xhtml" xmlns:local="http://syriaca.org/ns" class="panel panel-default">
+                     <div class="panel-heading">
+                        <h2 class="panel-title" data-toggle="collapse" data-target="#Additions">Additions </h2>
+                     </div>
+                     <div id="Additions" class="panel-collapse collapse in">
+                        <div class="panel-body">
+                           <div class="msDesc">
+                              <div class="indent">
+                                 
+                                 <div class="tei-note"><span>N.B., items below may have been listed out of folio order in Wright's catalogue.</span></div>
+                                 
+                                 
+                                 <div class="tei-item"><span class="inline-h4">Addition 1</span><strong> (Fol. 150b)</strong>:
+                                    <span class="tei-p">Two notes, the one in black, the other in red ink, foll. 150b and 151a, inform
+                                       us that this manuscript was written at the expense of the priest
+                                       <span class="tei-persName">Bassus</span>, the son of <span class="tei-persName">Mārā</span>, from the village of
+                                       <span class="tei-placeName">Kafr-sandal</span> (<span class="tei-placeName" lang="syr">ܟܦܪܨܢܕܠ</span>), for the great convent
+                                       of <span class="tei-placeName">Teleda</span> (<span class="tei-placeName" lang="syr">ܬܠܥܕܐ</span>), when <span class="tei-persName">Eusebius</span> was its
+                                       abbat.</span><span class="tei-p">
+                                       <span class="tei-quote" lang="syr">ܥܒ̣ܕ ܕܝܢ ܦܢܩܝܬܐ ܗܕܐ ܕܡܐܡܪ̈ܐ ܡ̈ܓܒܝܐ ܕܡܪܝ ܐܝܣܚܩ ܛܘܒܢܐ. ܡܪܝ ܩܫܝܫܐ ܒܣ ܒܪܗ ܕܡܪܐ ܕܡܢ
+                                          ܟܦܪܨܢܕܠ ܩܪܝܬܐ. ܠܕܝܪܐ ܪܒܬܐ ܕܬܠܥܕܐ ܕܪ̈ܒܢܘܗܝ ܠܥܘܗܕܢܐ ܘܠܕܘܟܪܢܐ ܕܢܦܫܗ. ܕܒܝܬ ܐ̈ܚܘܗܝ
+                                          ܦ̣ܪܫ ܘܥܒܕ ܠܗ ܕܘܟܪܢܐ ܗܢܐ ܫܦܝܪܐ ܒܝܬ <span class="tei-sic">ܩܕܝܫ̈ܘܗ</span> ܕܐܠܗܐ ܢܬܠ ܠܗ ܕܒܫܡܐ ܫܦܝܪܐ
+                                          ܘܒܥ̈ܒܕܐ ܕܙܕܝܩܘܬܐ ܢܦܫܪ ܠܡܪܗ ܏ܘܫ. ܐܫܬܕܪܬ ܕܝܢ ܦܢܩܝܬܐ ܗܕܐ ܠܥܘܡܪܐ ܩܕܝܫܐ ܕܐܠܗܐ ܕܕܝܪܐ
+                                          ܪܒܬܐ. ܒܝܘ̈ܡܝ ܟܗܢܘܬܗ ܘܡܕܒܪܢܘܬܗ ܕܡܪܝ ܩܫܝܫܐ ܘܪܝܫܕܝܪܐ ܐܘܣܒ ܕܝܠܗ̇ ܕܕܝܪܐ ܪܫܐ ܕܓ̈ܘܕܐ
+                                          ܕܡ̈ܗܝܡܢܐ ܘܙܗ̈ܝܐ ܘܪܒܐ ܕܣܕܪ̈ܐ ܕܩ̈ܕܝܫܐ. ܕܒܨ̈ܠܘܬܗ ܘܕܟܠܗܘܢ ܩܕܝ̈ܫܐ ܕܥܘܡܪܗ ܒܪܝܟܐ.
+                                          ܕܫܟܝ̈ܒܝܢ ܘܕܚ̈ܝܝܢ. ܢܥܒܕ ܐܠܗܐ ܪ̈ܚܡܐ ܥܠ ܟܘܠܗ̇ ܒܪܝܬܐ. ܘܢܣܓܐ ܫܝܢܗ ܘܢܡܠܟ ܫܠܡܗ ܒܥܕ̈ܬܗ
+                                          ܩܕܝ̈ܫܬܐ ܘܒܟܠܗܘܢ ܥܘܡܪ̈ܐ ܕܝܬܝܒܝܢ ܥܠ ܣܒܪܗ. ܘܬܬܩܝܡ ܗܝܡܢܘܬܐ ܫܪܝܪܬܐ ܕܡܪ̈ܝܢ ܘܐܒ̈ܗܝܢ
+                                          ܩܕܝ̈ܫܐ ܫ̈ܠܝܚܐ ܡܣܒܪ̈ܢܐ ܘܢܒ̈ܝܐ ܡܒܕ̈ܩܢܘܗܝ ܕܫܪܪܐ ܘܣ̈ܗܕܐ ܛܘܒ̈ܢܐ ܕܐܫܬܦܥ ܕܡܗܘܢ ܥܠ
+                                          ܐ̈ܦܝ ܐܘܪܬܘܕܘܟܣܝܐ ܫܪܝܪܬܐ ܥܕܡܐ ܠܚܪܬܐ. ܐܝܢ ܘܐܡܝܢ. ܘܬܫܒܘܚܬܐ ܘܬܘܕܝܬܐ ܘܣܓܕܬܐ ܢܣܩ
+                                          ܠܐܒܐ ܘܠܒܪܐ ܘܠܪܘܚܐ ܕܩܘܕܫܐ ܐܪܙܐ ܬܠܝܬܝܐ ܗܫܐ ܘܒܟܠܙܒܢ ܘܠܥܠܡ ܥܠܡܝܢ ܐܡܝܢ.</span>
+                                       </span></div>
+                                 
+                                 <div class="tei-item"><span class="inline-h4">Addition 2</span><strong> (Fol. 1a)</strong>:
+                                    <span class="tei-p">On fol. 1a stands the following note, referring to no. 6, d (item 38 above).</span><span class="tei-p">
+                                       <span class="tei-quote" lang="syr">ܐܝܢܐ ܕܩ̇ܪܐ ܒܟܬܒܐ ܗܢܐ ܕ . . . ܘܨ̇ܒܐ ܕܢܫ̣ܟܚ ܪ̈ܚ̣ܡܐ̣. ܢܫܟܚ
+                                          ܡܐܡܪܐ ܕܥܠ ܗ̇ܢܘܢ ܕܠܐ ܢܣ̇ܒܝܢ ܩܘܪܒܢܐ ܟܠܝܘܡ̣. ܘܢܩܪܝܘܗܝ ܢܗܝܪܐ(ܝܬ) ܘܢܬܬ̣ܦܝܣ ܠܡܠܦܢܐ
+                                          ܘܢܫܬܘܬܦ ܟܠ ܝܘܡ̇. ܘܢܫ̣ܟܚ ܪ̈ܚܡܐ ܕܠܐ ܦܘܠܓ. ܐܚܘܢ ܒܚܘܼܒܐ ܨ̇ܠܝ ܥܠܝ ܚܲܛܝܐ.</span>
+                                       </span></div>
+                                 
+                                 
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+                  <div class="citationinfo">
+                     <h3>How to Cite This Entry</h3>
+                     <div id="citation-note" class="content-block indent"><span> William Wright</span> et al., “<span class="title-analytic">London, BL, Add. 14591</span>” in <span class="title-monographic">A Digital Catalogue of Syriac Manuscripts in the British Library</span>,  last modified April 21, 2023, <a href="https://bl.syriac.uk/ms/327">https://bl.syriac.uk/ms/327</a>.
+                        <div class="collapse" id="showcit">
+                           <div id="citation-bibliography">
+                              <h4>Bibliography:</h4><span class="editor">William Wright</span> et al., “<span class="title-analytic">London, BL, Add. 14591</span>.” In <span class="title-monographic">A Digital Catalogue of Syriac Manuscripts in the British Library</span>, edited by . Syriaca.org: The Syriac Reference Portal,
+                              2023.
+                               Entry published April 21, 2023. <a href="https://bl.syriac.uk/ms/327">https://bl.syriac.uk/ms/327</a>.
+                           </div>
+                           <div id="about">
+                              <h3>About this Entry</h3>
+                              <p><span class="heading-inline">Entry Title:</span> <span class="title-analytic">London, BL, Add. 14591</span></p>
+                              <div>
+                                 <h4>Authorial and Editorial Responsibility:</h4>
+                                 <ul>
+                                    <li><span> David A. Michelson</span>, general editor, Syriaca.org: The Syriac Reference Portal
+                                    </li>
+                                    <li>, editor, <span class="title-monographic">A Digital Catalogue of Syriac Manuscripts in the British Library</span></li>
+                                    <li>William Wright, David A. Michelson, Robert Aydin, Claire Chen, Justin Arnwine, and Justin Arnwine, entry contributors, “<span class="title-analytic">London, BL, Add. 14591</span>”
+                                    </li>
+                                 </ul>
+                              </div>
+                              <div>
+                                 <h4>Additional Credit:</h4>
+                                 <ul>
+                                    <li>Created by <span> Claire Chen</span></li>
+                                    <li>Based on the work of <span> William Wright</span></li>
+                                    <li>Edited by <span> Justin Arnwine</span></li>
+                                    <li>Syriac text entered by <span> Robert Aydin</span></li>
+                                    <li>Greek and coptic text entry and proofreading by <span> Ryan Stitt</span></li>
+                                    <li>Project management by <span> William L. Potter</span></li>
+                                    <li>English text entry and proofreading by <span> Syriac Research Group, University of Alabama</span></li>
+                                    <li>Decoration information encoded by <span> Alexys Ahn</span></li>
+                                    <li>Decorations identified and categorized by <span> Beth Maczka</span></li>
+                                    <li>Syriaca.org URIs for authors edited by <span> Justin Arnwine</span></li>
+                                    <li>Syriaca.org URIs for authors checked by <span> Alexys Ahn</span><span> Joseph DAlfonso</span></li>
+                                    <li>Folio extent edited by <span> Kurt Urban</span></li>
+                                 </ul>
+                              </div>
+                           </div>
+                           <div id="license">
+                              <h3>Copyright and License for Reuse</h3>
+                              <div>Except otherwise noted, this page is © 2023.
+                                 
+                              </div><span class="tei-licence">
+                                 
+                                 <p>Distributed under a Creative Commons Attribution 3.0 Unported License</p>
+                                 </span></div>
+                        </div><a class="btn-sm btn-info togglelink pull-right" data-toggle="collapse" data-target="#showcit" data-text-swap="Hide citation">Show full citation information...</a></div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </body><script type="text/javascript" src="/resources/js/jquery.validate.min.js"></script><script type="text/javascript" src="/resources/js/require.min.js"></script><script type="text/javascript" src="/resources/js/srophe.js"></script><script data-template="app:google-analytics"></script></html>
