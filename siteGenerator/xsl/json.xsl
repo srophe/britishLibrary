@@ -29,9 +29,9 @@
     
     <xsl:output method="text" encoding="utf-8"/>
     
-    <xsl:param name="applicationPath" select="'/Users/wsalesky/syriaca/syriaca/Gaddel'"/>
-    <xsl:param name="staticSitePath" select="'/Users/wsalesky/syriaca/syriaca/Gaddel'"/>
-    <xsl:param name="dataPath" select="'/Users/wsalesky/syriaca/syriaca/syriaca-data/data/'"/>
+    <xsl:param name="applicationPath" select="'/Users/wsalesky/syriaca/BritishLibrary/britishLibrary'"/>
+    <xsl:param name="staticSitePath" select="'/Users/wsalesky/syriaca/BritishLibrary/britishLibrary-temp'"/>
+    <xsl:param name="dataPath" select="'/Users/wsalesky/syriaca/BritishLibrary/britishLibrary-data'"/>
     <xsl:param name="configPath" select="concat($staticSitePath, '/siteGenerator/components/repo-config.xml')"/>
     <xsl:variable name="config">
         <xsl:if test="doc-available(xs:anyURI($configPath))">
