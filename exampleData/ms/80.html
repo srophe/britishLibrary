@@ -1,0 +1,997 @@
+<?xml version="1.0" encoding="UTF-8"?><html xmlns="http://www.w3.org/1999/xhtml" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:srophe="https://srophe.app">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <title>London, BL, Add. 12181</title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <meta name="DC.type" property="dc.type" content="Text" />
+      <meta name="DC.isPartOf" property="dc.ispartof" content="Syriaca.org: The Syriac Reference Portal" />
+      <link data-template="app:metadata" />
+      <link rel="shortcut icon" href="/resources/images/fav-icons/mss-favicon.ico" />
+      <link rel="stylesheet" type="text/css" href="/resources/bootstrap/css/bootstrap.min.css" />
+      <link rel="stylesheet" type="text/css" href="/resources/css/sm-core-css.css" />
+      <link rel="stylesheet" type="text/css" href="/resources/css/syr-icon-fonts.css" />
+      <link rel="stylesheet" type="text/css" href="/resources/css/style.css" />
+      <link rel="stylesheet" type="text/css" href="/resources/css/syriaca.css" />
+      <link rel="stylesheet" type="text/css" media="print" href="/resources/css/print.css" />
+      <link rel="stylesheet" href="/resources/leaflet/leaflet.css" />
+      <link rel="stylesheet" href="/resources/leaflet/leaflet.awesome-markers.css" />
+      <link href="/resources/jquery-ui/jquery-ui.min.css" rel="stylesheet" /><script type="text/javascript" src="/resources/js/jquery.min.js"></script><script type="text/javascript" src="/resources/jquery-ui/jquery-ui.min.js"></script><script type="text/javascript" src="/resources/js/jquery.smartmenus.min.js"></script><script type="text/javascript" src="/resources/js/clipboard.min.js"></script><script type="text/javascript" src="/resources/bootstrap/js/bootstrap.min.js"></script><script defer="defer" data-domain="bl.syriac.uk" src="https://plausible.io/js/script.js"></script><link href="/resources/keyboard/css/keyboard.min.css" rel="stylesheet" />
+      <link href="/resources/keyboard/css/keyboard-previewkeyset.min.css" rel="stylesheet" />
+      <link href="/resources/keyboard/syr/syr.css" rel="stylesheet" /><script type="text/javascript" src="/resources/keyboard/syr/jquery.keyboard.js"></script><script type="text/javascript" src="/resources/keyboard/js/jquery.keyboard.extension-mobile.min.js"></script><script type="text/javascript" src="/resources/keyboard/js/jquery.keyboard.extension-navigation.min.js"></script><script type="text/javascript" src="/resources/keyboard/syr/jquery.keyboard.extension-autocomplete.js"></script><script type="text/javascript" src="/resources/keyboard/syr/keyboardSupport.js"></script><script type="text/javascript" src="/resources/keyboard/syr/syr.js"></script><script type="text/javascript" src="/resources/keyboard/layouts/ms-Greek.min.js"></script><script type="text/javascript" src="/resources/keyboard/layouts/ms-Russian.min.js"></script><script type="text/javascript" src="/resources/keyboard/layouts/ms-Arabic.min.js"></script><script type="text/javascript">
+            $(document).ready(function () {
+                $('[data-toggle="tooltip"]').tooltip({ container: 'body' })
+
+                $('.keyboard').keyboard({
+                    openOn: null,
+                    stayOpen: false,
+                    alwaysOpen: false,
+                    autoAccept: true,
+                    usePreview: false,
+                    initialFocus: true,
+                    rtl : true,
+                    layout: 'syriac-phonetic',
+                    hidden: function(event, keyboard, el){
+                       //  keyboard.destroy();
+                     }
+                });
+
+                $('.keyboard-select').click(function () {
+                    var keyboardID = '#' + $(this).data("keyboard-id")
+                    var kb = $(keyboardID).getkeyboard();
+                    //var kb = $('#searchField').getkeyboard();
+                    // change layout based on link ID
+                    kb.options.layout = this.id
+                    // open keyboard if layout is different, or time from it last closing is &gt; 200 ms
+                    if (kb.last.layout !== kb.options.layout || (new Date().getTime() - kb.last.eventTime) &gt; 200) {
+                        kb.reveal();
+                    }
+                });
+                //Change fonts
+                $('.swap-font').on('click', function(){
+                    var selectedFont = $(this).data("font-id")
+                    $('.selectableFont').not('.syr').css('font-family', selectedFont);
+                    $("*:lang(syr)").css('font-family', selectedFont)
+                });
+
+            })
+        </script></head>
+   <body id="body">
+      <nav class="navbar navbar-default navbar-fixed-top" role="navigation" data-template="app:fix-links">
+         
+         <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse-1">
+               <span class="sr-only">Toggle navigation</span>
+               <span class="icon-bar"></span>
+               <span class="icon-bar"></span>
+               <span class="icon-bar"></span>
+               </button>
+            <a class="navbar-brand banner-container" href="/index.html">
+               <span class="syriaca-icon syriaca-mss banner-icon"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span>
+                  </span>
+               <span class="banner-text">Syriac Manuscripts in the British Library</span>
+               </a>
+            
+         </div>
+         
+         <div class="navbar-collapse collapse pull-right" id="navbar-collapse-1">
+            
+            <ul class="nav navbar-nav">
+               
+               <li>
+                  <a href="/browse.html" class="nav-text">Browse</a>
+                  
+               </li>
+               
+               <li data-template="app:shared-content" data-template-path="/templates/shared-links.html"></li>
+               
+               <li>
+                  <a href="/search.html" class="nav-text">Advanced Search</a>
+                  
+               </li>
+               
+               <li>
+                  
+                  <div id="search-wrapper">
+                     
+                     <form class="navbar-form navbar-right search-box" role="search" action="/search.html" method="get">
+                        
+                        <div class="form-group">
+                           <input type="text" class="form-control keyboard" placeholder="search" name="keyword" id="keywordNav" />
+                           <span data-template="app:keyboard-select-menu" data-template-input-id="keywordNav"></span>
+                           <button class="btn btn-default search-btn" id="searchbtn" type="submit" title="Search">
+                              <span class="glyphicon glyphicon-search"></span>
+                              </button>
+                           
+                        </div>
+                        
+                     </form>
+                     
+                  </div>
+                  
+               </li>
+               
+               <li data-template="app:shared-content" data-template-path="/templates/fontMenu.html"></li>
+               
+            </ul>
+            
+         </div>
+         
+      </nav>
+      <div class="main-content-block">
+         <div class="interior-content">
+            <div class="container otherFormats"><a href="mailto:bl.syriac.uk@gmail.com?subject=Shelf mark: Record URI: " type="button" class="btn btn-default btn-xs" data-toggle="tooltip" title="Click to report a correction via e-mail."><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span> Corrections
+                  </a> <a href="https://github.com/srophe/britishLibrary-data/issues/new?assignees=&amp;labels=community-submitted&amp;title=:" target="_blank" id="issueBtn" data-toggle="tooltip" class="btn btn-default btn-xs" title="Click to file a data issue on GitHub (requires login)."><span class="glyphicon glyphicon-record" aria-hidden="true"></span> Open
+                  </a> <a href="https://github.com/srophe/britishLibrary-data/blob/main/data/tei/80.xml" target="_blank" class="btn btn-default btn-xs" id="openBtn" data-toggle="tooltip" title="Click to view the TEI XML data for this record."><img src="/resources/images/github-mark.png" height="18px" /></a> <a href="javascript:window.print();" type="button" class="btn btn-default btn-xs" id="printBtn" data-toggle="tooltip" title="Click to send this page to the printer."><span class="glyphicon glyphicon-print" aria-hidden="true"></span> 
+                  </a> 
+            </div>
+            <div class="row">
+               <div class="col-md-12">
+                  <div xmlns:x="http://www.w3.org/1999/xhtml" xmlns:local="http://syriaca.org/ns" class="title">
+                     <h1>Add. 12,181</h1>
+                  </div>
+                  <div xmlns:x="http://www.w3.org/1999/xhtml" xmlns:local="http://syriaca.org/ns" class="tei-note">
+                     <div>URI: <span class="tei-idno">https://bl.syriac.uk/ms/80</span></div>
+                  </div>
+                  <div xmlns:x="http://www.w3.org/1999/xhtml" xmlns:local="http://syriaca.org/ns" class="header section">
+                     <div class="tei-note">
+                        <div>
+                           Description based on Wright
+                           <a href="#" data-toggle="tooltip" title="This entry number is from Wright's printed catalogue. Due to renumbering, Wright's entry numbers do not match the numbering used in this digital catalogue."><span class="tei-idno">DCXCII</span></a>
+                           (<span class="tei-citedRange">2:558-564</span>)
+                           <a href="https://archive.org/details/catalogueofsyria02brituoft/page/558" target="_blank"><img src="/resources/images/ialogo.jpg" alt="Link to Archive.org Bibliographic record" height="18px" /></a></div>
+                        <div>
+                           Date: 
+                           8th century
+                        </div>
+                        <div>Estrangela script ܀  Parchment Codex, 103 leaves.
+                           
+                        </div>
+                        <div></div>
+                        <div>
+                           Wright's Subject Classification:
+                           Individual Authors
+                        </div>
+                     </div>
+                     <div class="tei-note"><span>This manuscript contains: Severus of Antioch. The sixth book of the select epistles
+                           of Severus of Antioch, translated from the Greek by the priest Athanasius of Nisibis
+                           , A. Gr. 980, A.D. 669. In total, including sub-sections, this manuscript contains
+                           88 items.</span></div>
+                  </div>
+                  <div xmlns:x="http://www.w3.org/1999/xhtml" xmlns:local="http://syriaca.org/ns" class="panel panel-default">
+                     <div class="panel-heading">
+                        <h2 class="panel-title" data-toggle="collapse" data-target="#Overview">Physical Description </h2>
+                     </div>
+                     <div id="Overview" class="panel-collapse collapse in">
+                        <div class="panel-body">
+                           <div class="msDesc">
+                              <div class="tei-physDesc">
+                                 <div class="indent">
+                                    <p>Vellum, about 11 1/8 in. by 7 1/2, consisting of 103 leaves,
+                                       some of which are much stained and torn, especially foll. 1, 2,
+                                       7, 8, 48, 58, 102 and 103. The quires, now only 11 in number,
+                                       are signed with letters. Two quires are missing after fol. 58,
+                                       and several after fol. 98. Each page is divided into two
+                                       columns, of from 35 to 38 lines. Many Greek proper names and
+                                       other words are expressed on the margins in Greek letters. 
+                                    </p><span class="tei-handDesc">
+                                       
+                                       <div name="handNote1"><span class="inline-h4">Hand 1 (major, Estrangela script): </span>
+                                          This volume is written in a good, regular Estrangělā of the viiith
+                                          cent.
+                                       </div>
+                                       </span></div>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+                  <div xmlns:x="http://www.w3.org/1999/xhtml" xmlns:local="http://syriaca.org/ns" class="panel panel-default">
+                     <div class="panel-heading">
+                        <h2 class="panel-title" data-toggle="collapse" data-target="#Contents">Manuscript Contents</h2>
+                     </div>
+                     <div id="Contents" class="panel-collapse collapse in">
+                        <div class="panel-body">
+                           <div class="msContent"><span class="summary ident">Note: Item numbering updated in digital edition.</span><span class="tei-msContents">
+                                 
+                                 
+                                 <div class="tei-msItem"><span class="inline-h4">Item 1 (Fol. 1): </span>Severus of Antioch. The sixth book of the select epistles of Severus of Antioch, translated from the Greek
+                                    by the priest Athanasius of Nisibis, A.Gr. 980, A.D. 669.  [defective]
+                                    <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                             <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܟܬܒܐ ܕܫܬܐ ܕܐܓܪ̈ܬܐ ܗܩ̈ܠܘܓܐ ܐܘܟܝܬ ܡ̈ܓܒܝܬܐ̣. ܕܡܢ
+                                             ܐܓܪ̈ܬܗ ܕܩܕܝܫܐ ܣܐܘܪܐ ܦܛܪܝܪܟܝܣ ܕܐܢܛܝܘܟܝܐ ܕܣܘܪܝܐ</span></span><div class="tei-msItem"><span class="inline-h4">Item 2 (Fol. 1b): </span> [defective]
+                                          <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                   <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܙܕ̇ܩ ܠܗ ܠܡܕܥ ܠܗ̇ܘ ܕܦ̇ܓܥ ܒܗܢܐ ܟܬܒܐ̣. ܕܠܘ ܒܠܚܘܕ ܩ̈ܦܠܐܐ
+                                                   ܐܝܠܝܢ ܕܡܫܬܘܕܥܝܢ ܒܝܕ ܛܝ̈ܛܠܘ ܚܒ̈ܫܢ ܐܓܪ̈ܬܐ ܐܝܠܝܢ ܕܣܝ̈ܡܢ ܬܚܝܬ ܗܠܝ̣ܢ. ܐܠܐ
+                                                   ܕܣܘܓܐܗܝ̣ܢ ܐܦ ܡܛܠ ܡܕܡ ܡܕܡ ܐܚܪ̈ܢܐ ܢ̇ܣܒ̈ܢ ܐܘܟܝܬ ܡܨܚ̈ܢ. ܒܪܡ ܕܝ̣ܢ ܡܢ ܡܨܚܢܘܬܐ
+                                                   ܝܬܝܪܬܐ ܗ̇ܝ ܕܐܝܬ ܒܗܝ̇ܢ. ܐܬܬܣܝܡܝܢ ܬܚܝܬ ܟܠ ܚܕ ܡܢ ܛܝ̈ܛܠܘ .. ܛܝ̈ܛܠܘ ܕܟܬܒܐ ܕܫܬܐ
+                                                   ܕܐܓܪ̈ܬܐ ܗܩܠܘ̈ܓܐ ܐܘܟܝܬ ܡ̈ܓܒܝܬܐ ܕܡܢ ܐܓܪ̈ܬܗ ܕܡܛܠ ܕܘܓܡ̈ܛܐ ܘܡ̈ܠܐ ܟܬܒ̈ܝܬܐ̇.
+                                                   ܕܛܘܒܬܢܐ ܣܐܘܪܐ ܦܛܪܝܪܟܝܣ ܕܐܢܛܝܘܟܝܐ ܕܣܘܪܝܐ܀.</span></span><div class="msItem-notes"><span class="inline-h4">Notes:</span><ul>
+                                                   <li>Prefixed to the volume is an index of the eleven <span class="tei-foreign" xml:lang="grc" lang="grc">τἱτλοι</span>, or heads, under which the epistles
+                                                      are arrangeds.
+                                                   </li>
+                                                   <li>This index is very imperfect, owing to the lower half of fol. 1 having
+                                                      been torn away.
+                                                   </li>
+                                                </ul>
+                                             </div>
+                                             <div class="tei-msItem"><span class="inline-h4">Item 3 (Fol. 1b): </span>First section, concerning bishops and the
+                                                clergy, and their ordination. [defective]
+                                                <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                         <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܡܛܠ ܐܦܝ̈ܣܩܘܦܐ ܘܩܠܝܪ̈ܝܩܘ ܘܟܝܪܘܛܘܢܝܐ
+                                                         ܕܝܠܗܘܢ.</span></span><div class="tei-msItem"><span class="inline-h4">Item 4 (Fol. 1b): </span>To the bishop Constantine.
+                                                      <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                               <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܠܘܬ ܩܘܣܛܢܛܝܢܘܣ ܐܦܝܣܩܘܦܐ. </span></span><span class="tei-quote"><span class="inline-h4"> 
+                                                               Excerpt: </span><span xml:lang="syr" lang="syr" dir="rtl">ܡܢ ܗܠܝܢ ܕܩܕܡ ܐܦܝܣܩܘܦܘܬܐ ܡܢ ܟܬܒܐ ܕܬܪܝܢ ܗ̇ܝ
+                                                               ܕܬܪܬܥܣܪ̈ܐ.
+                                                               </span></span></div>
+                                                   </div>
+                                                   <div class="tei-msItem"><span class="inline-h4">Item 5 (Fol. 4b): </span>To Solon, bishop and metropolitan of Seleucia in Isauria.
+                                                      <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                               <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܠܘܬ ܣܘܠܘܢ ܐܦܝܣܩܘܦܐ (marg. <span class="tei-foreign" xml:lang="grc" lang="grc">ⲤΟΛⲰΝ</span>) ܘܡܝܛܪܦܘܠܝܛܝܣ.</span></span><span class="tei-quote"><span class="inline-h4"> 
+                                                               Excerpt: </span><span xml:lang="syr" lang="syr" dir="rtl">ܡܢ ܗܠܝܢ ܕܩܕܡ ܏ܐܦܝܣ ܡܢ ܟܬܒܐ ܏ܕ ܗ̇ܝ ܕ܏ܩܗ
+                                                               ܏ܕܩܘ..
+                                                               </span></span></div>
+                                                   </div>
+                                                   <div class="tei-msItem"><span class="inline-h4">Item 6 (Fol. 6b): </span>To the same.
+                                                      <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                               <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܠܘܬܗ ܟܕ ܠܘܬܗ ܕܣܘܠܘܢ̇. ܐܦܝܣܩܘܦܐ ܘܡܝܛܪ܏ܦܘܠܝ
+                                                               ܕܣܠܘܩܝܐ ܕܐܝܣܘܪܝܐ. </span></span><span class="tei-quote"><span class="inline-h4"> 
+                                                               Excerpt: </span><span xml:lang="syr" lang="syr" dir="rtl">ܡܢ ܗܠܝܢ ܕܒܐܦܝܣܩܘܦܘܬܐ ܡܢ ܟܬܒܐ ܏ܕܒ ܗ̇ܝ ܏ܕܟܕ.
+                                                               </span></span></div>
+                                                   </div>
+                                                   <div class="tei-msItem"><span class="inline-h4">Item 7 (Fol. 9a): </span>To the same.
+                                                      <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                               <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܠܘܬܗ ܟܕ ܠܘܬܗ ܕܣܘܠܘܢ ܐܦܝܣܩܦܐ. </span></span><span class="tei-quote"><span class="inline-h4"> 
+                                                               Excerpt: </span><span xml:lang="syr" lang="syr" dir="rtl">ܡܢ ܗܠܝܢ ܕܒܐܦܝܣܩܘܦܘܬܐ ܡܢ ܟܬܒܐ ܕ܏ܒ ܗ̇ܝ ܏ܕܡܒ
+                                                               ܏ܕܢ.
+                                                               </span></span></div>
+                                                   </div>
+                                                   <div class="tei-msItem"><span class="inline-h4">Item 8 (Fol. 13a): </span>To Peter, bishop of Apamea.
+                                                      <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                               <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܠܘܬ ܦܛܪܘܣ ܐܦܝ܏ܣ ܕܐܦܡܝܐ. </span></span><span class="tei-quote"><span class="inline-h4"> 
+                                                               Excerpt: </span><span xml:lang="syr" lang="syr" dir="rtl">ܡܢ ܗܠܝܢ ܕܒܐܦܝܣܩܘܦܘܬܐ ܡܢ ܟܬܒܐ ܏ܕܓ ܗ̇ܝ ܕܚܡܫ.
+                                                               </span></span></div>
+                                                   </div>
+                                                   <div class="tei-msItem"><span class="inline-h4">Item 9 (Fol. 14b): </span>To the bishop Nicias.
+                                                      <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                               <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܠܘܬ ܢܝܩܝܐ ܐܦܝܣܩܘܦܐ. </span></span><span class="tei-quote"><span class="inline-h4"> 
+                                                               Excerpt: </span><span xml:lang="syr" lang="syr" dir="rtl">ܡܢ ܗܠܝܢ ܕܒܐܦܝܣܩܘܦܘܬܐ. ܡܢ ܟܬܒܐ ܏ܕܓ ܗ̇ܝ
+                                                               ܕ܏ܩܥܐ.
+                                                               </span></span></div>
+                                                   </div>
+                                                   <div class="tei-msItem"><span class="inline-h4">Item 10 (Fol. 15a): </span>To Castor, bishop of Perge.
+                                                      <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                               <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܠܘܬ ܩܐܣܛܘܪ ܐܦܝܣܩܘܦܐ ܕܦܪܓܐ. </span></span><span class="tei-quote"><span class="inline-h4"> 
+                                                               Excerpt: </span><span xml:lang="syr" lang="syr" dir="rtl">ܡܢ ܗܠܝܢ ܕܒܐܦܝܣܩܘܦܘܬܐ. ܡܢ ܟܬܒܐ ܏ܕܓ ܗ̇ܝ
+                                                               ܕܪ܏ܠܒ.
+                                                               </span></span></div>
+                                                   </div>
+                                                   <div class="tei-msItem"><span class="inline-h4">Item 11 (Fol. 15b): </span>To the dux (<span class="tei-foreign" lang="grc">δούξ</span>) Timostratus.
+                                                      <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                               <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܠܘܬ ܛܝܡܘܣܛܪܐܛܘܣ ܕܘܟܣ</span></span><span class="tei-quote"><span class="inline-h4"> 
+                                                               Excerpt: </span><span xml:lang="syr" lang="syr" dir="rtl">ܡܢ ܗܠܝܢ ܕܒܐܦܝܣܩܘܦܘܬܐ ܡܢ ܟܬܒܐ ܏ܕܓ ܗ̇ܝ ܕܪܢ܏ܘ.
+                                                               ܕܪ܏ܢܚ.. 
+                                                               </span></span></div>
+                                                   </div>
+                                                   <div class="tei-msItem"><span class="inline-h4">Item 12 (Fol. 16b): </span>To Stephen, bishop of Tripolis.
+                                                      <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                               <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܠܘܬ ܣܛܦܢܘܣ ܐܦܝܣܩܘܦܐ ܕܛܪܝܦܘܠܝܣ.</span></span><span class="tei-quote"><span class="inline-h4"> 
+                                                               Excerpt: </span><span xml:lang="syr" lang="syr" dir="rtl">ܡܢ ܗܠܝܢ ܕܒܐܦܝܣܩܘܦܘܬܐ ܡܢ ܟܬܒܐ ܏ܕܚ ܗ̇ܝ ܕܪܥ܏ܘ.
+                                                               ܕܪ܏ܥܙ.
+                                                               </span></span></div>
+                                                   </div>
+                                                   <div class="tei-msItem"><span class="inline-h4">Item 13 (Fol. 17b): </span>To the bishop Eucharius.
+                                                      <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                               <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܠܘܬ ܐܦܝܣܩܘܦܐ <span class="tei-foreign" xml:lang="grc" lang="grc">ΕΥΧΑΡΙΟⲤ</span>) ܐܘܟܐܪܝܘܣ.</span></span><span class="tei-quote"><span class="inline-h4"> 
+                                                               Excerpt: </span><span xml:lang="syr" lang="syr" dir="rtl">ܡܢ ܗܠܝܢ ܕܒܐܦܝܣܩܘܦܘܬܐ ܡܢ ܟܬܒܐ (sic) ܗ̇ܝ
+                                                               ܕ܏ܩܡܒ ܕ܏ܫܡܓ.
+                                                               </span></span></div>
+                                                   </div>
+                                                   <div class="tei-msItem"><span class="inline-h4">Item 14 (Fol. 17b): </span>To the abbat of the convent of Bassus.
+                                                      <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                               <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܠܘܬ ܪܝܫ ܕܝܪܐ ܕܕܝܪܐ ܕܒܣܘܣ. </span></span><span class="tei-quote"><span class="inline-h4"> 
+                                                               Excerpt: </span><span xml:lang="syr" lang="syr" dir="rtl">ܡܢ ܗܠܝܢ ܕܒܐܦܝܣܩܘܦܘܬܐ ܡܢ ܟܬܒܐ ܏ܕܓ ܗ̇ܝ
+                                                               ܕܫ܏ܡܗ.
+                                                               </span></span></div>
+                                                   </div>
+                                                   <div class="tei-msItem"><span class="inline-h4">Item 15 (Fol. 19b): </span>To the priests Cosmas, Polyeuctus and
+                                                      Zeno
+                                                      .
+                                                      <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                               <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܠܘܬ ܩܘܣܡܐ ܘܦܘܠܘܐܝܩܛܘܣ ܩܫܝ̈ܫܐ (<span class="tei-foreign" xml:lang="grc" lang="grc">ΖΗΝΟΝ</span>) ܘܙܝܢܘܢ (<span class="tei-foreign" xml:lang="grc" lang="grc">ΠΟΛΥΕΥΚΤΟⲤ</span>).</span></span><span class="tei-quote"><span class="inline-h4"> 
+                                                               Excerpt: </span><span xml:lang="syr" lang="syr" dir="rtl">ܡܢ ܗܠܝܢ ܕܒܐܦܝܣܩܘܦܘܬܐ ܡܢ ܟܬܒܐ ܏ܕܓ ܗ̇ܝ
+                                                               ܏ܕܫܢܕ.
+                                                               </span></span></div>
+                                                   </div>
+                                                   <div class="tei-msItem"><span class="inline-h4">Item 16 (Fol. 19b): </span>To  Entrechius (<span class="tei-foreign" lang="grc">᾿Εντρέχιος</span>), bishop of Anazarbus.
+                                                      <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                               <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܠܘܬ ܐܢܛܪܟܝܘܣ ܐܦܝܣܩܘܦܐ ܕܐܢܙܪܒܐ.</span></span><span class="tei-quote"><span class="inline-h4"> 
+                                                               Excerpt: </span><span xml:lang="syr" lang="syr" dir="rtl">ܡܢ ܗܠܝܢ ܕܒܐܦܝܣܩܘܦܘܬܐ ܡܢ ܟܬܒܐ ܕ܏ܓ. ܗ̇ܝ
+                                                               ܏ܕܫܨܙ. ܕ܏ܫܨܚ.
+                                                               </span></span></div>
+                                                   </div>
+                                                   <div class="tei-msItem"><span class="inline-h4">Item 17 (Fol. 21a): </span>To Antonine, bishop of Aleppo.
+                                                      <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                               <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܠܘܬ ܐܢܛܘܢܝܢܘܣ ܐܦܝܣܩܘܦܐ ܕܚܠܒ.</span></span><span class="tei-quote"><span class="inline-h4"> 
+                                                               Excerpt: </span><span xml:lang="syr" lang="syr" dir="rtl">ܡܢ ܗܠܝܢ ܕܒܐܦܝܣܩܘܦܘܬܐ ܡܢ ܟܬܒܐ ܏ܕ ܗ̇ܝ
+                                                               ܕ܏ܣܗ.
+                                                               </span></span></div>
+                                                   </div>
+                                                   <div class="tei-msItem"><span class="inline-h4">Item 18 (Fol. 22a): </span>To the same. 
+                                                      <div class="msItemChild"><span class="tei-quote"><span class="inline-h4"> 
+                                                               Excerpt: </span><span xml:lang="syr" lang="syr" dir="rtl">ܡܢ ܗܠܝܢ ܕܒܐܦܝܣܩܘܦܘܬܐ ܡܢ ܟܬܒܐ ܏ܕ ܗ̇ܝ
+                                                               ܏ܕܥܒ.
+                                                               </span></span></div>
+                                                   </div>
+                                                   <div class="tei-msItem"><span class="inline-h4">Item 19 (Fol. 22b): </span>To the same. 
+                                                      <div class="msItemChild"><span class="tei-quote"><span class="inline-h4"> 
+                                                               Excerpt: </span><span xml:lang="syr" lang="syr" dir="rtl">ܡܢ ܗܠܝܢ ܕܒܐܦܝܣܩܘܦܘܬܐ ܡܢ ܟܬܒܐ ܏ܕ ܗ̇ܝ
+                                                               ܕ܏ܩܐ.
+                                                               </span></span></div>
+                                                   </div>
+                                                   <div class="tei-msItem"><span class="inline-h4">Item 20 (Fol. 23b): </span>To the chamberlain (<span class="tei-foreign" lang="grc">κουβικουλάριος, κουβουκλάριος</span>)
+                                                      Mishael (Michael, or Misael ?).
+                                                      <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                               <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܠܘܬ ܡܝܫܐܝܠ ܩܘܒܘܩܠܪܐ. </span></span><span class="tei-quote"><span class="inline-h4"> 
+                                                               Excerpt: </span><span xml:lang="syr" lang="syr" dir="rtl">ܡܢ ܗܠܝܢ ܕܒܐܦܝܣܩܘܦܘܬܐ ܡܢ ܟܬܒܐ ܏ܕ ܗ̇ܝ
+                                                               ܕ܏ܩܓ.
+                                                               </span></span></div>
+                                                   </div>
+                                                   <div class="tei-msItem"><span class="inline-h4">Item 21 (Fol. 24b): </span>To Entrechius, bishop of Anazarbus.
+                                                      <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                               <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܠܘܬ ܐܢܛܪܟܝܘܣ ܐܦܝܣܩܦܐ. </span></span><span class="tei-quote"><span class="inline-h4"> 
+                                                               Excerpt: </span><span xml:lang="syr" lang="syr" dir="rtl">ܡܢ ܗܠܝܢ ܕܒܐܦܝܣܩܘܦܘܬܐ ܡܢ ܟܬܒܐ ܏ܕ ܗ̇ܝ
+                                                               ܏ܕܩܟܓ.
+                                                               </span></span></div>
+                                                   </div>
+                                                   <div class="tei-msItem"><span class="inline-h4">Item 22 (Fol. 25a): </span>To Solon, bishop of Seleucia in Isauria.
+                                                      <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                               <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܠܘܬ ܣܘܠܘܢ ܐܦܝ܏ܣ ܕܣܠܘܩܝܐ ܕܐܝܣܘܪܝܐ. </span></span><span class="tei-quote"><span class="inline-h4"> 
+                                                               Excerpt: </span><span xml:lang="syr" lang="syr" dir="rtl">ܡܢ ܗܠܝܢ ܕܒܐܦܝܣܩܘܦܘܬܐ ܡܢ ܟܬܒܐ ܏ܕ ܗ̇ܝ
+                                                               ܕ܏ܩܡܛ.
+                                                               </span></span></div>
+                                                   </div>
+                                                   <div class="tei-msItem"><span class="inline-h4">Item 23 (Fol. 26a): </span>Letter, in the name of the synod of
+                                                      Antioch, to the bishops under
+                                                      (Peter) the metropolitan of Apamea.
+                                                      <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                               <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܩܪܘܝܬܐ ܐܝܟ ܕܡܢ ܣܘܢܕܘܣ ܠܘܬ ܐܦܝ̈ܣܩܘܦܐ ܗ̇ܢܘܢ
+                                                               ܕܬܚܝܬ ܐܦܡܝܐ ܡܝܛܪܘܦܘܠܝܣ</span></span><span class="tei-quote"><span class="inline-h4"> 
+                                                               Excerpt: </span><span xml:lang="syr" lang="syr" dir="rtl">ܡܢ ܗܠܝܢ ܕܒܐܦܝܣܩܘܦܘܬܐ ܡܢ ܟܬܒܐ ܏ܕ ܗ̇ܝ
+                                                               ܏ܕܩܦܙ.
+                                                               </span></span></div>
+                                                   </div>
+                                                   <div class="tei-msItem"><span class="inline-h4">Item 24 (Fol. 27a): </span>To a Magister (<span class="tei-foreign" lang="grc">Μάγιστρος</span>).
+                                                      <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                               <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܠܘܬ ܡܐܝܓܝܣܛܪܘܣ</span></span><span class="tei-quote"><span class="inline-h4"> 
+                                                               Excerpt: </span><span xml:lang="syr" lang="syr" dir="rtl">ܡܢ ܗܠܝܢ ܕܒܐܦܝܣܩܘܦܘܬܐ ܡܢ ܟܬܒܐ ܏ܕ ܗ̇ܝ
+                                                               ܕ܏ܩܦܛ.
+                                                               </span></span></div>
+                                                   </div>
+                                                   <div class="tei-msItem"><span class="inline-h4">Item 25 (Fol. 27b): </span>To the Fathers.
+                                                      <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                               <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܠܘܬ ܐܒܗ̈ܬܐ.</span></span><span class="tei-quote"><span class="inline-h4"> 
+                                                               Excerpt: </span><span xml:lang="syr" lang="syr" dir="rtl">ܡܢ ܗܠܝܢ ܕܒܐܦܝܣ܏ܩܘ ܡܢ ܟܬܒܐ ܏ܕ ܗ̇ܝ
+                                                               ܕ܏ܪܠܐ..
+                                                               </span></span></div>
+                                                   </div>
+                                                   <div class="tei-msItem"><span class="inline-h4">Item 26 (Fol. 29b): </span>To Solon, bishop of Seleucia in Isauria.
+                                                      <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                               <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܠܘܬ ܣܘܠܘܢ ܐܦܝܣܩܘܦܐ ܕܣܠܘܩܝܐ ܕܐܝܣܘܪܝܐ. </span></span><span class="tei-quote"><span class="inline-h4"> 
+                                                               Excerpt: </span><span xml:lang="syr" lang="syr" dir="rtl">ܡܢ ܗܠܝܢ ܕܒܐܦܝܣܩܘܦܘܬܐ ܡܢ ܟܬܒܐ ܏ܕ ܗ̇ܝ
+                                                               ܏ܕܪܥ.
+                                                               </span></span></div>
+                                                   </div>
+                                                   <div class="tei-msItem"><span class="inline-h4">Item 27 (Fol. 30b): </span>To Theotecnus the archiater.
+                                                      <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                               <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܠܘܬ ܬܐܘܛܩܢܘܣ (<span class="tei-foreign" xml:lang="grc" lang="grc">ΘΕΟΤΕΚΝΟⲤ</span>) ܐܪܟܝܛܐܛܪܘܣ ܐܘܟܝܬ ܪܝܫ ܐܣܘ̈ܬܐ</span></span><span class="tei-quote"><span class="inline-h4"> 
+                                                               Excerpt: </span><span xml:lang="syr" lang="syr" dir="rtl">ܡܢ ܗܠܝܢ ܕܒܐܦܝܣ܏ܩܘ ܡܢ ܟܬܒܐ ܏ܕ ܗ̇ܝ ܕܪ܏ܨܓ. </span></span></div>
+                                                   </div>
+                                                   <div class="tei-msItem"><span class="inline-h4">Item 28 (Fol. 31a): </span>To Dionysius, bishop of Tarsus.
+                                                      <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                               <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܠܘܬ ܕܝܘܢܘܣܝܘܣ ܐܦܝܣܩܘܦܐ ܕܛܐܪܣܘܣ. </span></span><span class="tei-quote"><span class="inline-h4"> 
+                                                               Excerpt: </span><span xml:lang="syr" lang="syr" dir="rtl">ܗܠܝܢ ܕܒܐܦܝܣܩܘܦܘܬܐ ܡܢ ܟܬܒܐ ܏ܕ ܗ̇ܝ
+                                                               ܕܫ܏ܠܐ.
+                                                               </span></span></div>
+                                                   </div>
+                                                   <div class="tei-msItem"><span class="inline-h4">Item 29 (Fol. 31b): </span>To Solon, bishop of Selcucia in Isauria.
+                                                      <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                               <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܠܘܬ ܣܘܠܘܢ ܐܦܝܣܩܘܦܐ ܕܣܠܘܩܝܐ ܕܐܝܣܘܪܝܐ. </span></span><span class="tei-quote"><span class="inline-h4"> 
+                                                               Excerpt: </span><span xml:lang="syr" lang="syr" dir="rtl">ܡܢ ܗܠܝܢ ܕܒܐܦܝܣܩܘܦܘܬܐ ܡܢ ܟܬܒܐ ܏ܕ ܗ̇ܝ
+                                                               ܕܫ܏ܠܚ.
+                                                               </span></span></div>
+                                                   </div>
+                                                   <div class="tei-msItem"><span class="inline-h4">Item 30 (Fol. 32a): </span>To Musonius
+                                                       and Alexander, vindices
+                                                      (<span class="tei-foreign" lang="grc">βίνδικες</span>) of Anazarbus.
+                                                      <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                               <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܠܘܬ ܡܘܣܘܢܝܘܣ (<span class="tei-foreign" xml:lang="grc" lang="grc">ΜΟΥⲤⲰΝΙΟⲤ</span>) ܘܐܠܟܣܢܕܪܘܣ ܒܝܢܕܝܩܐܣ ܕܐܢܐܙܪܒܐ(<span class="tei-foreign" xml:lang="grc" lang="grc">ΒΙΝΔΙΚΕⲤ</span>).</span></span><span class="tei-quote"><span class="inline-h4"> 
+                                                               Excerpt: </span><span xml:lang="syr" lang="syr" dir="rtl">ܡܢ ܗܠܝܢ ܕܒܐܦܝܣܩܘܦܘܐ ܡܢ ܟܬܒܐ ܕ܏ܗ ܗ̇ܝ ܏ܕܢܕ.
+                                                               </span></span></div>
+                                                   </div>
+                                                   <div class="tei-msItem"><span class="inline-h4">Item 31 (Fol. 32b): </span>To Philoxenus, bishop of Doliche.
+                                                      <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                               <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܠܘܬ ܦܝܠܘܟܣܝܢܘܣ ܐܦܝܣܩܦܐ ܕܕܠܝܟ. </span></span><span class="tei-quote"><span class="inline-h4"> 
+                                                               Excerpt: </span><span xml:lang="syr" lang="syr" dir="rtl">ܡܢ ܗܠܝܢ ܕܒܐܦܝܣܩܘܦܘܬܐ ܡܢ ܟܬܒܐ ܏ܗ ܗ̇ܝ
+                                                               ܏ܕܣܘ.
+                                                               </span></span></div>
+                                                   </div>
+                                                   <div class="tei-msItem"><span class="inline-h4">Item 32 (Fol. 33a): </span>To the monks of the convent of Mār Isaac.
+                                                      <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                               <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܠܘܬ ܕܝܪ̈ܝܐ ܢܟ̈ܦܐ ܕܛܘܒܢܐ ܡܪܝ ܐܝܣܚܩ. </span></span><span class="tei-quote"><span class="inline-h4"> 
+                                                               Excerpt: </span><span xml:lang="syr" lang="syr" dir="rtl">ܡܢ ܗܠܝܢ ܕܒܐܦܝܣܩܘܦܘܬܐ ܡܢ ܟܬܒܐ ܕ܏ܗ ܗ̇ܝ
+                                                               ܕ܏ܨܙ.
+                                                               </span></span></div>
+                                                   </div>
+                                                   <div class="tei-msItem"><span class="inline-h4">Item 33 (Fol. 33b): </span>To the clergy of Apamea.
+                                                      <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                               <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܠܘܬ ܩܠܝܪܘܣ ܕܐܦܡܝܐ ܡܝܛܪܘܦܘܠܝܣ</span></span><span class="tei-quote"><span class="inline-h4"> 
+                                                               Excerpt: </span><span xml:lang="syr" lang="syr" dir="rtl">ܡܢ ܗܠܝܢ ܕܒܐܦܝܣܩܘ܏ܦܘ ܡܢ ܟܬܒܐ ܕ܏ܗ ܗ̇ܝ
+                                                               ܕ܏ܩܠܗ.
+                                                               </span></span></div>
+                                                   </div>
+                                                   <div class="tei-msItem"><span class="inline-h4">Item 34 (Fol. 35a): </span>Commonitorium to the bishops of Phoenicia.
+                                                      <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                               <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܗܘܦܡܢܣܛܝܩܘܢ ܠܘܬ ܐܦܝܣܩܦܐ ܕܦܘܢܝܩܐ</span></span><span class="tei-quote"><span class="inline-h4"> 
+                                                               Excerpt: </span><span xml:lang="syr" lang="syr" dir="rtl">ܡܢ ܗܠܝܢ ܕܒܐܦܝܣܩܘܦܘܬܐ ܡܢ ܟܬܒܐ ܏ܕܗ ܗ̇ܝ ܕܪ܏ܠܘ
+                                                               ܕ܏ܠܙ
+                                                               </span></span></div>
+                                                   </div>
+                                                   <div class="tei-msItem"><span class="inline-h4">Item 35 (Fol. 36a): </span>To John, bishop of Alexandria the less (Alexandretta or Scandarūn).
+                                                      <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                               <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܠܘܬ ܝܘܚܢܢ ܐܦܝܣܩܦܐ ܕܐܠܟܣܢܕܪܝܐ
+                                                               ܙܥܘܪܬܐ.</span></span><span class="tei-quote"><span class="inline-h4"> 
+                                                               Excerpt: </span><span xml:lang="syr" lang="syr" dir="rtl">ܡܢ ܗܠܝܢ ܕܒܐܦܝܣܩܘܦܘܬܐ ܡܢ ܟܬܒܐ ܕ܏ܘ ܗ̇ܝ
+                                                               ܕ܏ܩܢܕ.
+                                                               </span></span></div>
+                                                   </div>
+                                                   <div class="tei-msItem"><span class="inline-h4">Item 36 (Fol. 36b): </span>To Dionysius, bishop of Tarsus.
+                                                      <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                               <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܠܘܬ ܕܝܘܢܘܣܝܘܣ ܐܦܝܣܩܘܦܐ ܕܛܐܪܣܘܣ</span></span><span class="tei-quote"><span class="inline-h4"> 
+                                                               Excerpt: </span><span xml:lang="syr" lang="syr" dir="rtl">ܡܢ ܗܠܝܢ ܕܒܐܦܝܣܩܘܦܘܬܐ ܡܢ ܟܬܒܐ ܕ܏ܘ ܗ̇ܝ
+                                                               ܕ܏ܩܦܘ.
+                                                               </span></span></div>
+                                                   </div>
+                                                   <div class="tei-msItem"><span class="inline-h4">Item 37 (Fol. 36b): </span>To the bishops under the metropolitan of
+                                                      Apamea.
+                                                      <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                               <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܩܪܘܝܬܐ̣ ܠܘܬ ܐܦܝ̈ܣܩܘܦܐ ܗ̇ܢܘܢ ܕܐܬܚܝܬ
+                                                               ܐܦܡܝܐ</span></span><span class="tei-quote"><span class="inline-h4"> 
+                                                               Excerpt: </span><span xml:lang="syr" lang="syr" dir="rtl">ܡܢ ܗܠܝܢ ܕܒܐܦܝܣܩܘܦܘܬܐ ܡܢ ܟܬܒܐ ܏ܕܙ ܗ̇ܝ
+                                                               ܕ܏ܩܟܙ
+                                                               </span></span></div>
+                                                   </div>
+                                                   <div class="tei-msItem"><span class="inline-h4">Item 38 (Fol. 37a): </span>To the priest Eustathius.
+                                                      <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                               <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܠܘܬ ܐܘܣܛܬܝܘܣ ܩܫܝܫܐ</span></span><span class="tei-quote"><span class="inline-h4"> 
+                                                               Excerpt: </span><span xml:lang="syr" lang="syr" dir="rtl">ܡܢ ܗܠܝܢ ܕܒܐܦܝܣܩܘܦܘܬܐ ܡܢ ܟܬܒܐ ܏ܕܙ ܗ̇ܝ ܕ܏ܩܡ.
+                                                               ܕ܏ܩܡܒ. 
+                                                               </span></span></div>
+                                                   </div>
+                                                   <div class="tei-msItem"><span class="inline-h4">Item 39 (Fol. 37b): </span>To the deacon Eusebius of Apamea.
+                                                      <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                               <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܠܘܬ ܐܘܣܒܝܘܣ ܡܫܡܫܢܐ ܕܒܐܦܡܝܐ</span></span><span class="tei-quote"><span class="inline-h4"> 
+                                                               Excerpt: </span><span xml:lang="syr" lang="syr" dir="rtl">ܡܢ ܗܠܝܢ ܕܒܐܦܝܣܩܘܦܘܬܐ ܡܢ ܟܬܒܐ ܏ܕܙ ܗ̇ܝ ܕܪ܏ܝܚ
+                                                               </span></span></div>
+                                                   </div>
+                                                   <div class="tei-msItem"><span class="inline-h4">Item 40 (Fol. 37b): </span>To Simeon, bishop of Kinnesrīn.
+                                                      <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                               <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܠܘܬ ܫܡܥܘܢ ܐܦ܏ܝܣ ܕܩܢܫܪܝܢ</span></span><span class="tei-quote"><span class="inline-h4"> 
+                                                               Excerpt: </span><span xml:lang="syr" lang="syr" dir="rtl">ܡܢ ܗܠܝܢ ܕܒܐܦ܏ܝܣܩܘܦܘ ܡܢ ܟܬܒܐ ܏ܕܙ ܗ̇ܝ ܕܪ܏ܠܚ
+                                                               ܕ܏ܪܡ.
+                                                               </span></span></div>
+                                                   </div>
+                                                   <div class="tei-msItem"><span class="inline-h4">Item 41 (Fol. 38b): </span>To the same. 
+                                                      <div class="msItemChild"><span class="tei-quote"><span class="inline-h4"> 
+                                                               Excerpt: </span><span xml:lang="syr" lang="syr" dir="rtl">ܡܢ ܗܠܝܢ ܕܒܐܦܝܣܩܘ܏ܦܘ ܡܢ ܟܬܒܐ ܏ܕܙ ܗ̇ܝ ܕ܏ܪܣܙ
+                                                               ܕܪ܏ܣܛ
+                                                               </span></span></div>
+                                                   </div>
+                                                   <div class="tei-msItem"><span class="inline-h4">Item 42 (Fol. 40a): </span>To the clergy and magistracy of Apamea.
+                                                      <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                               <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܠܘܬ ܩܠܝܪܘܣ ܘܪ̈ܝܫܢܐ ܕܐܦܡܝܐ</span></span><span class="tei-quote"><span class="inline-h4"> 
+                                                               Excerpt: </span><span xml:lang="syr" lang="syr" dir="rtl">ܡܢ ܗܠܝܢ ܕܒܐܦܝܣܩܘܦܘܬܐ ܡܢ ܟܬܒܐ ܏ܕܙ ܗ̇ܝ
+                                                               ܕܪ܏ܦܛ.
+                                                               </span></span></div>
+                                                   </div>
+                                                   <div class="tei-msItem"><span class="inline-h4">Item 43 (Fol. 40b): </span>To the general (<span class="tei-foreign" lang="grc">στρατηλάτης</span>)
+                                                      Hypatius.
+                                                      <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                               <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܠܘܬ ܗܘܦܛܝܘܣ ܣܛܪܛܝܠܐܛܝܣ</span></span><span class="tei-quote"><span class="inline-h4"> 
+                                                               Excerpt: </span><span xml:lang="syr" lang="syr" dir="rtl">ܡܢ ܗܠܝܢ ܕܒܐܦܝܣܩܘܦܘܬܐ ܡܢ ܟܬܒܐ ܏ܕܙ ܗ̇ܝ ܕܬ܏ܢܚ.
+                                                               ܕܬ܏ܣܗ.
+                                                               </span></span></div>
+                                                   </div>
+                                                   <div class="tei-msItem"><span class="inline-h4">Item 44 (Fol. 41b): </span>To Solon, bishop of Seleucia in Isauria.
+                                                      <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                               <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܠܘܬ ܣܘܠܘܢ ܐܦܝܣܩܘܦܐ</span></span><span class="tei-quote"><span class="inline-h4"> 
+                                                               Excerpt: </span><span xml:lang="syr" lang="syr" dir="rtl">ܡܢ ܗܠܝܢ ܕܒܐܦܝܣܩܘܦܘܬܐ ܡܢ ܟܬܒܐ ܏ܕܙ ܗ̇ܝ ܕ܏ܢܐ.
+                                                               ܕ܏ܡܒ.
+                                                               </span></span></div>
+                                                   </div>
+                                                   <div class="tei-msItem"><span class="inline-h4">Item 45 (Fol. 42b): </span>To the Fathers.
+                                                      <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                               <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܠܘܬ ܐܒ̈ܗܬܐ</span></span><span class="tei-quote"><span class="inline-h4"> 
+                                                               Excerpt: </span><span xml:lang="syr" lang="syr" dir="rtl">ܡܢ ܗܠܝܢ ܕܒܐܦܝܣ܏ܩܘ ܡܢ ܟܬܒܐ ܏ܕ ܗ̇ܝ
+                                                               ܕ܏ܣܕ.
+                                                               </span></span></div>
+                                                   </div>
+                                                   <div class="tei-msItem"><span class="inline-h4">Item 46 (Fol. 43b): </span>To the abbat of the convent of Mār Simeon.
+                                                      <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                               <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܠܘܬ ܪܝܫ ܕܝܪܐ ܕܕܝܪܗ ܕܩܕܝܫܐ ܡܪܝ
+                                                               ܫܡܥܘܢ</span></span><span class="tei-quote"><span class="inline-h4"> 
+                                                               Excerpt: </span><span xml:lang="syr" lang="syr" dir="rtl">ܡܢ ܗܠܝܢ ܕܒܐܦܝܣܩܘܦܘܬܐ ܡܢ ܟܬܒܐ ܏ܕܚ ܗ̇ܝ
+                                                               ܕ܏ܩܠܕ
+                                                               </span></span></div>
+                                                   </div>
+                                                   <div class="tei-msItem"><span class="inline-h4">Item 47 (Fol. 44b): </span>To Eutychianus, magistrate of Apamea.
+                                                      <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                               <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">(<span class="tei-foreign" xml:lang="grc" lang="grc">ΕΥΤΥΧΙΑΝΟⲤ</span>) ܠܘܬ ܐܘܛܘܟܝܢܘܣ ܪܝܫܐ ܕܐܦܡܝܐ</span></span><span class="tei-quote"><span class="inline-h4"> 
+                                                               Excerpt: </span><span xml:lang="syr" lang="syr" dir="rtl">ܡܢ ܗܠܝܢ ܕܒܐܦܝܣܩܘܦܘܬܐ ܡܢ ܟܬܒܐ ܏ܕܚ ܗ̇ܝ
+                                                               ܕ܏ܩܨ
+                                                               </span></span></div>
+                                                   </div>
+                                                   <div class="tei-msItem"><span class="inline-h4">Item 48 (Fol. 45a): </span>To Conon, the chief officer of police.
+                                                      <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                               <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܠܘܬ ܩܘܢܘܢ ܪܕ̇ܦ ܠܣ̈ܛܝܐ</span></span><span class="tei-quote"><span class="inline-h4"> 
+                                                               Excerpt: </span><span xml:lang="syr" lang="syr" dir="rtl">ܡܢ ܗܠܝܢ ܕܒܐܦܝܣܩܘܦܘܬܐ ܡܢ ܟܬܒܐ ܏ܕܚ ܗ̇ܝ
+                                                               ܕ܏ܪܠܙ.
+                                                               </span></span></div>
+                                                   </div>
+                                                   <div class="tei-msItem"><span class="inline-h4">Item 49 (Fol. 45b): </span>To the clergy of Antaradus.
+                                                      <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                               <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܠܘܬ ܩܠܝܪ̈ܝܩܘ ܕܐܢܛܐܪܐܕܘܣ</span></span><span class="tei-quote"><span class="inline-h4"> 
+                                                               Excerpt: </span><span xml:lang="syr" lang="syr" dir="rtl">ܡܢ ܗܠܝܢ ܕܒܐܦܝܣܩܘܦܘܬܐ ܡܢ ܟܬܒܐ ܏ܕܚ ܗ̇ܝ ܕ܏ܪܣܕ.
+                                                               ܕ܏ܪܣܗ.
+                                                               </span></span></div>
+                                                   </div>
+                                                   <div class="tei-msItem"><span class="inline-h4">Item 50 (Fol. 46b): </span>To Cassianus, bishop of Bostra.
+                                                      <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                               <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܠܘܬ ܩܣܝܢܐ ܐܦܝܣܩܘܦܐ ܕܒܘܨܛܪܐ</span></span><span class="tei-quote"><span class="inline-h4"> 
+                                                               Excerpt: </span><span xml:lang="syr" lang="syr" dir="rtl">ܡܢ ܗܠܝܢ ܕܒܐܦܝܣܩܘܦܘܬܐ ܡܢ ܟܬܒܐ ܏ܕܚ ܗ̇ܝ
+                                                               ܕ܏ܪܦܚ.
+                                                               </span></span></div>
+                                                   </div>
+                                                   <div class="tei-msItem"><span class="inline-h4">Item 51 (Fol. 47a): </span>To Philoxenus, bishop of Mabūg.
+                                                      <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                               <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܠܘܬ ܦܝܠܘܟܣܝܢܘܣ ܐܦܝܣܩܘܦܐ ܕܡܒܘܓ</span></span><span class="tei-quote"><span class="inline-h4"> 
+                                                               Excerpt: </span><span xml:lang="syr" lang="syr" dir="rtl">ܡܢ ܗܠܝܢ ܕܒܐܦܝܣܩܦܘܬܐ ܡܢ ܟܬܒܐ ܏ܕܝ ܗ̇ܝ
+                                                               ܕܪ܏ܨܗ.
+                                                               </span></span></div>
+                                                   </div>
+                                                   <div class="tei-msItem"><span class="inline-h4">Item 52 (Fol. 47b): </span>To the priests and abbats
+                                                      John and John, and
+                                                      others.
+                                                      <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                               <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܠܘܬ ܝܘܚܢܢ ܘܝܘܚܢܢ ܩܫ̈ܝܫܐ ܘܪ̈ܝܫܝ ܕܝܪ̈ܬܐ
+                                                               ܘܗ̇ܢܘܢ ܕܫܪܟܐ</span></span><span class="tei-quote"><span class="inline-h4"> 
+                                                               Excerpt: </span><span xml:lang="syr" lang="syr" dir="rtl">ܡܢ ܗܠܝܢ ܕܒܬܪ ܪܕܘܦܝܐ ܡܢ ܟܬܒܐ ܩܕܡܝܐ ܗ̇ܝ ܏ܕܢܗ
+                                                               ܕ܏ܢܓ
+                                                               </span></span></div>
+                                                   </div>
+                                                   <div class="tei-msItem"><span class="inline-h4">Item 53 (Fol. 50b): </span>To the same. 
+                                                      <div class="msItemChild"><span class="tei-quote"><span class="inline-h4"> 
+                                                               Excerpt: </span><span xml:lang="syr" lang="syr" dir="rtl">ܡܢ ܗܠܝܢ ܕܒܬܪ ܪܕܘܦܝܐ ܡܢ ܟܬܒܐ ܩܕܡܝܐ ܗ̇ܝ
+                                                               ܏ܕܝܘ.
+                                                               </span></span></div>
+                                                   </div>
+                                                   <div class="tei-msItem"><span class="inline-h4">Item 54 (Fol. 52b): </span>To the priest Philip.
+                                                      <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                               <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܠܘܬ ܦܝܠܝܦܘܣ ܩܫܝܫܐ</span></span><span class="tei-quote"><span class="inline-h4"> 
+                                                               Excerpt: </span><span xml:lang="syr" lang="syr" dir="rtl">ܡܢ ܗܠܝܢ ܕܒܬܪ ܪܕܘܦܝܐ ܡܢ ܟܬܒܐ ܏ܕܒ ܗ̇ܝ
+                                                               ܕ܏ܡ.
+                                                               </span></span></div>
+                                                   </div>
+                                                   <div class="tei-msItem"><span class="inline-h4">Item 55 (Fol. 53b): </span>To the priests John
+                                                      and John, and others.
+                                                      <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                               <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܠܘܬ ܝܘܚܢܢ ܘܝܘܚܢܢ ܩܫܝ̈ܫܐ ܘܗ̇ܢܘܢ
+                                                               ܕܫܪܟܐ</span></span><span class="tei-quote"><span class="inline-h4"> 
+                                                               Excerpt: </span><span xml:lang="syr" lang="syr" dir="rtl">ܡܢ ܗܠܝܢ ܕܒܬܪ ܪܕܘܦܝܐ ܡܢ ܟܬܒܐ ܏ܕܒ ܗ̇ܝ
+                                                               ܕ܏ܡܒ
+                                                               </span></span></div>
+                                                   </div>
+                                                   <div class="tei-msItem"><span class="inline-h4">Item 56 (Fol. 54b): </span> To the bishops from Syria, residing
+                                                      at Alexandria (Cassianus,
+                                                      Constantine, Antonine,
+                                                      and others). [defective]
+                                                      <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                               <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܠܘܬܐ ܐܦܝ̈ܣܩܦܐ ܕܡܢ ܣܘܪܝܐ ܗ̇ܢܘܢ
+                                                               ܕܒܐܠܟܣܢܕܪܝܐ</span></span><span class="tei-quote"><span class="inline-h4"> 
+                                                               Excerpt: </span><span xml:lang="syr" lang="syr" dir="rtl">ܡܢ ܗܠܝܢ ܕܒܬܪ ܪܕܘܦܝܐ ܡܢ ܟܬܒܐ ܏ܕܒ ܗ̇ܝ
+                                                               ܕ܏ܣܕ
+                                                               </span></span></div>
+                                                   </div>
+                                                </div>
+                                             </div>
+                                             <div class="tei-msItem"><span class="inline-h4">Item 57 (Fol. 59b): </span>Second section: concerning his own
+                                                ordination, prior to his being made bishop; and concerning the
+                                                precedence (<span class="tei-foreign" lang="grc">προεδρία</span>) of bishops, and
+                                                another doubtful point; also concerning those who proclaim themselves
+                                                bishops and perform the act of ordination, and concerning the proper
+                                                ordination of bishops.
+                                                <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                         <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܛܝܛܠܘܣ ܕܬܪܝܢ܀ ܡܛܠ ܟܝܪܘܛܘܢܝܐ ܕܝܠܗ ܗ̇ܝ ܕܩܕܡ
+                                                         ܐܦܝܣܩܘܦܘܬܐ̣. ܘܡܛܠ ܩܕܝܡܘܬ ܡܘܬܒܐ ܕܐܦܝ̈ܣܩܦܐ ܘܦܘܫܟܗܘܢ ܐܚܪܢܐ̣. ܘܡܛܠ ܗ̇ܢܘܢ
+                                                         ܕܡܛܒܒܝܢ ܢܦܫܗܘܢ ܐܦܝ̈ܣܩܦܐ ܘܟܝܪܘܛܘܢܝܣܐ ܥܒ̇ܕܝܢ܆ ܘܡܛܠ ܟܝܪܘܛܘܢܝܐ ܕܒܘܿܠܝܬܐ
+                                                         ܕܐܦܝ̈ܣܩܘܦܐ</span></span><div class="tei-msItem"><span class="inline-h4">Item 58 (Fol. 59b): </span>To the Patricians.
+                                                      <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                               <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܠܘܬ ܦܛܪ̈ܝܩܝܘ</span></span><span class="tei-quote"><span class="inline-h4"> 
+                                                               Excerpt: </span><span xml:lang="syr" lang="syr" dir="rtl">ܡܢ ܗܠܝܢ ܕܩܕܡ ܐܦ܏ܝܣ ܡܢ ܟܬܒܐ ܏ܕܓ ܗ̇ܝ
+                                                               ܏ܕܗ.
+                                                               </span></span></div>
+                                                   </div>
+                                                   <div class="tei-msItem"><span class="inline-h4">Item 59 (Fol. 61a): </span>To the priests John
+                                                      and John.
+                                                      <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                               <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܠܘܬ ܝܘܚܢܢ ܘܝܘܚܢܢ ܩܫܝ̈ܫܐ</span></span><span class="tei-quote"><span class="inline-h4"> 
+                                                               Excerpt: </span><span xml:lang="syr" lang="syr" dir="rtl">ܡܢ ܗܠܝܢ ܕܒܬܪ ܪܕܘܦܝܐ. ܡܢ ܟܬܒܐ ܏ܐ. ܗ̇ܝ
+                                                               ܏ܕܘ.
+                                                               </span></span></div>
+                                                   </div>
+                                                   <div class="tei-msItem"><span class="inline-h4">Item 60 (Fol. 62b): </span>To the orthodox laity of Emesa.
+                                                      <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                               <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܠܘܬ ܐܘܪ̈ܬܘܕܘܟܣܘ ܗ̇ܢܘܢ ܕܒܚܡܨ</span></span><span class="tei-quote"><span class="inline-h4"> 
+                                                               Excerpt: </span><span xml:lang="syr" lang="syr" dir="rtl">ܡܢ ܗܠܝܢ ܕܒܬܪ ܪܕܘܦܝܐ ܡܢ ܟܬܒܐ ܏ܕܒ. ܗ̇ܝ
+                                                               ܏ܕܨܓ.
+                                                               </span></span></div>
+                                                   </div>
+                                                </div>
+                                             </div>
+                                             <div class="tei-msItem"><span class="inline-h4">Item 61 (Fol. 71a): </span>Third section: that it is not becoming for
+                                                anyone to trouble himself about the private life of priests, but that
+                                                he should merely inquire whether they are orthodox.
+                                                <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                         <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܛܝܛܠܘܣ ܕܬܠܬܐ܀ ܕܠܐ ܘ̇ܠܐ ܕܢܬ̇ܦܫܟ ܐܢܫ ܡܛܠ ܦܘܠܝܛܐ
+                                                         ܐܘܟܝܬ ܕܘܒܪܐ ܕܟܗ̈ܢܐ̣. ܢܒܥܐ ܕܝܢ ܒܠܚܘܕ ܐܢ ܐܘܪ̈ܬܘܕܘܟܣܐ ܐܘ ܟܝܬ ܬܪ̈ܝܨܝ ܫܘܒܚܐ
+                                                         ܐܢܘܢ</span></span><div class="tei-msItem"><span class="inline-h4">Item 62 (Fol. 71a): </span>To the Comes Anastasius, the son of Sergius.
+                                                      <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                               <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܠܘܬ ܐܢܣܛܐܣܝܣ ܩܘܡܝܣ ܒܪܗ ܕܣܪܓܝܣ</span></span><span class="tei-quote"><span class="inline-h4"> 
+                                                               Excerpt: </span><span xml:lang="syr" lang="syr" dir="rtl">
+                                                               ܡܢ ܗܠܝܢ ܕܒܐܦܝܣܩܦܘܬܐ.
+                                                               ܡܢ ܟܬܒܐ ܏ܕܙ. ܗ̇ܝ ܏ܕܬܘ.</span></span></div>
+                                                   </div>
+                                                   <div class="tei-msItem"><span class="inline-h4">Item 63 (Fol. 71b): </span>To Ammianus and
+                                                      Epagathus.
+                                                      <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                               <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܠܘܬ ܐܡܝܐܢܘܣ ܘܗܦܐܓܐܬܘܣ</span></span><span class="tei-quote"><span class="inline-h4"> 
+                                                               Excerpt: </span><span xml:lang="syr" lang="syr" dir="rtl">ܡܢ ܗܠܝܢ ܕܒܬܪ ܪܕܘܦܝܐ ܡܢ ܟܬܒܐ ܏ܕܙ. ܗ̇ܝ
+                                                               ܏ܕܟܛ.
+                                                               </span></span></div>
+                                                   </div>
+                                                   <div class="tei-msItem"><span class="inline-h4">Item 64 (Fol. 72b): </span>To the deacon Mishael.
+                                                      <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                               <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܠܘܬ ܡܝܫܐܝܠ ܡܫܡܫܢܐ</span></span><span class="tei-quote"><span class="inline-h4"> 
+                                                               Excerpt: </span><span xml:lang="syr" lang="syr" dir="rtl">ܡܢ ܗܠܝܢ ܕܒܬܪ ܪܕܘܦܝܐ ܡܢ ܟܬܒܐ ܏ܕܙ. ܗ̇ܝ
+                                                               ܏ܕܠ.
+                                                               </span></span></div>
+                                                   </div>
+                                                   <div class="tei-msItem"><span class="inline-h4">Item 65 (Fol. 75b): </span>To the patrician lady
+                                                      Caesaria.
+                                                      <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                               <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܠܘܬ ܩܣܪܝܐ ܦܛܪܝܩܝܐ</span></span><span class="tei-quote"><span class="inline-h4"> 
+                                                               Excerpt: </span><span xml:lang="syr" lang="syr" dir="rtl">ܡܢ ܗܠܝܢ ܕܒܬܪ ܪܕܘܦܝܐ ܡܢ ܟܬܒܐ ܕ܏ܚ. ܗ̇ܝ
+                                                               ܏ܕܢܕ.
+                                                               </span></span></div>
+                                                   </div>
+                                                </div>
+                                             </div>
+                                             <div class="tei-msItem"><span class="inline-h4">Item 66 (Fol. 78b): </span>Fourth section: that we should not hold
+                                                communion with heretics indifferently or without examination; and how
+                                                we should guard against being with them when they pray.
+                                                <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                         <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܛܝܛܠܘܣ ܕܐܪܒܥܐ܀ ܕܠܐ ܙܕܩ̇ ܕܠܐ ܡܫܚܠܦܐܝܬ ܐܘܟܝܬ
+                                                         ܕܠܐ ܥܘܩܒ ܢܫܬܘܬܦ ܐܢܫ ܥܡ ܐܪ̈ܛܝܩܘܼ. ܘܕܐܝܟܢܐ ܘ̇ܠܐ ܠܡܙܕܗܪܘ ܡܢ ܕܠܡܗ̣ܘܐ ܥܡܗܘܢ
+                                                         ܡܐ ܕܡܨ̇ܠܝܢ</span></span><div class="tei-msItem"><span class="inline-h4">Item 67 (Fol. 78b): </span>To Zachariah of Pelusium.
+                                                      <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                               <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܠܘܬ ܙܟܪܝܐ ܗ̇ܘ ܕܒܦܝܠܘܣܝܘܢ</span></span><span class="tei-quote"><span class="inline-h4"> 
+                                                               Excerpt: </span><span xml:lang="syr" lang="syr" dir="rtl">ܡܢ ܗܠܝܢ ܕܒܐܦܝܣܩܦܘܬܐ. ܡܢ ܟܬܒܐ ܏ܐ. ܗ̇ܝ ܕ܏ܪܚ.
+                                                               ܪ܏ܛ.
+                                                               </span></span></div>
+                                                   </div>
+                                                   <div class="tei-msItem"><span class="inline-h4">Item 68 (Fol. 80a): </span>To the priest Ammonius, of Alexandria, concerning the naming of
+                                                      Peter (Mongus), who was bishop of
+                                                      Alexandrias.
+                                                      <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                               <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܠܘܬ ܐܡܘܢܝܘܣ ܩܫܝܫܐ ܕܐܠܟܣܢܕܪܝܐ ܕܒܗ̇ ܫܘܕܥܗ̣
+                                                               ܡܛܠ ܟܘܢܝܗ ܕܦܛܪܘܣ ܗ̇ܘ ܕܗ̣ܘܐ ܐܦܝܣܩܘܦܐ ܕܐܠܟܣܢܕܪܝܐ</span></span><span class="tei-quote"><span class="inline-h4"> 
+                                                               Excerpt: </span><span xml:lang="syr" lang="syr" dir="rtl">ܡܢ ܗܠܝܢ ܕܒܐܦܝܣܩܦܘܬܐ ܡܢ ܟܬܒܐ ܏ܐ. ܗ̇ܝ ܕ܏ܟܒ
+                                                               </span></span></div>
+                                                   </div>
+                                                   <div class="tei-msItem"><span class="inline-h4">Item 69 (Fol. 81b): </span>To Dioscorus (II.),
+                                                      archbishop of Alexandria.
+                                                      <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                               <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܠܘܬ ܕܝܘܣܩܘܪܘܣ ܪܝܫ ܏ܐܦܝ̈ܣ
+                                                               ܕܐܠܟܣܢܕܪܝܐ</span></span><span class="tei-quote"><span class="inline-h4"> 
+                                                               Excerpt: </span><span xml:lang="syr" lang="syr" dir="rtl">ܡܢ ܗܠܝܢ ܕܒܐܦܝܣܩܘܦܘܬܐ ܡܢ ܟܬܒܐ ܏ܐ. ܗ̇ܝ
+                                                               ܕ܏ܩܝܗ.
+                                                               </span></span></div>
+                                                   </div>
+                                                   <div class="tei-msItem"><span class="inline-h4">Item 70 (Fol. 82b): </span>To Dionysius, bishop of Tarsus.
+                                                      <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                               <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܠܘܬ ܕܝܢܘܣܝܘܣ ܐܦܝܣܩܘܦܐ ܕܛܐܪܣܘܣ</span></span><span class="tei-quote"><span class="inline-h4"> 
+                                                               Excerpt: </span><span xml:lang="syr" lang="syr" dir="rtl">ܡܢ ܗܠܝܢ ܕܒܐܦܝܣܩܦܘܬܐ ܡܢ ܟܬܒܐ ܏ܕܒ. ܗ̇ܝ
+                                                               ܏ܕ.
+                                                               </span></span></div>
+                                                   </div>
+                                                   <div class="tei-msItem"><span class="inline-h4">Item 71 (Fol. 83a): </span>To Cosmas, abbat of the convent of Cyrus (?).
+                                                      <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                               <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܠܘܬ ܩܘܣܡܐ ܪܝܫܕܝܪܐ ܕܕܝܪܗ ܕܛܘܒܢܐ ܩܘܪܘܣ ܐܘܟܝܬ
+                                                               ܟܘܪܝܫ</span></span><span class="tei-quote"><span class="inline-h4"> 
+                                                               Excerpt: </span><span xml:lang="syr" lang="syr" dir="rtl">ܡܢ ܗܠܝܢ ܕܒܐܦܝܣܩܦܘܬܐ ܡܢ ܟܬܒܐ ܏ܕܒ. ܗ̇ܝ
+                                                               ܕ܏ܝܘ.
+                                                               </span></span></div>
+                                                   </div>
+                                                   <div class="tei-msItem"><span class="inline-h4">Item 72 (Fol. 83b): </span>To the Comes John of Antaradus.
+                                                      <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                               <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܠܘܬ ܝܘܚܢܢ ܩܘܡܝܣ ܕܡܢ ܐܢܛܐܪܕܘܣ</span></span><span class="tei-quote"><span class="inline-h4"> 
+                                                               Excerpt: </span><span xml:lang="syr" lang="syr" dir="rtl">ܡܢ ܗܠܝܢ ܕܒܐܦܝܣܩܦܘܬܐ ܡܢ ܟܬܒܐ ܏ܕܓ. ܗ̇ܝ
+                                                               ܕ܏ܫܨ.
+                                                               </span></span></div>
+                                                   </div>
+                                                   <div class="tei-msItem"><span class="inline-h4">Item 73 (Fol. 85a): </span>To the abbat John.
+                                                      <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                               <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܠܘܬ ܐܒܐ ܝܘܚܢܢ ܗ̇ܘ ܩܢܘܦܛܝܣ(?).</span></span><span class="tei-quote"><span class="inline-h4"> 
+                                                               Excerpt: </span><span xml:lang="syr" lang="syr" dir="rtl">ܡܢ ܗܠܝܢ ܕܐܫܬܟܚ ܠܒܪ ܡܢ ܏ܟܓ ܟܬܒ̈ܐ. ܗ̇ܝ
+                                                               ܏ܕ.
+                                                               </span></span></div>
+                                                   </div>
+                                                   <div class="tei-msItem"><span class="inline-h4">Item 74 (Fol. 85b): </span>To the faithful in Antioch.
+                                                      <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                               <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܠܘܬ ܡܗ̈ܝܡܢܐ ܕܒܐܢܛܝܘܟܝܐ</span></span><span class="tei-quote"><span class="inline-h4"> 
+                                                               Excerpt: </span><span xml:lang="syr" lang="syr" dir="rtl">ܡܢ ܗܠܝܢ ܕܒܬܪ ܪܕܘܦܝܐ ܡܢ ܟܬܒܐ ܏ܕܒ. ܗ̇ܝ
+                                                               ܕ܏ܛ.
+                                                               </span></span></div>
+                                                   </div>
+                                                   <div class="tei-msItem"><span class="inline-h4">Item 75 (Fol. 86b): </span>To Andrew the reader (<span class="tei-foreign" lang="grc">ἀναγνώστης</span>) and notary (<span class="tei-foreign" lang="grc">νοτάριος</span>).
+                                                      <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                               <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܠܘܬ ܐܢܕܪܐܐ ܩܪܘܝܐ ܘܢܘܿܛܪܐ</span></span><span class="tei-quote"><span class="inline-h4"> 
+                                                               Excerpt: </span><span xml:lang="syr" lang="syr" dir="rtl">ܡܢ ܗܠܝܢ ܕܒܬܪ ܪܕܘܦܝܐ. ܡܢ ܟܬܒܐ ܏ܕܛ. ܗ̇ܝ
+                                                               ܏ܕܣܒ.
+                                                               </span></span></div>
+                                                   </div>
+                                                   <div class="tei-msItem"><span class="inline-h4">Item 76 (Fol. 87a): </span>To the patrician lady
+                                                      Caesaria.
+                                                      <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                               <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܠܘܬ ܩܣܪܝܐ ܦܛܪܝܩܝܐ</span></span><span class="tei-quote"><span class="inline-h4"> 
+                                                               Excerpt: </span><span xml:lang="syr" lang="syr" dir="rtl">ܡܢ ܐܝܠܝܢ ܕܐܫ̈ܬܟܚܝܢ ܠܒܪ ܡܢ ܗ̇ܢܘܢ ܏ܟܓ
+                                                               ܟܬܒ̈ܐ.
+                                                               </span></span></div>
+                                                   </div>
+                                                </div>
+                                             </div>
+                                             <div class="tei-msItem"><span class="inline-h4">Item 77 (Fol. 88a): </span>Fifth section: concerning clergy or lay
+                                                persons, who return from heresies to the church. [defective]
+                                                <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                         <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܛܝܛܠܘܣ ܕܚܡܫܐ܀ ܡܛܠ ܩܠܝܪ̈ܝܩܘ ܐܘ ܥܠܡ̈ܝܐ ܐܝܠܝܢ
+                                                         ܕܦ̇ܢܝܢ ܡܢ ܗܪ̈ܣܝܣ.</span></span><div class="tei-msItem"><span class="inline-h4">Item 78 (Fol. 88a): </span>To the tribune (<span class="tei-foreign" lang="grc">τριβοῦνος</span>) John, in the name
+                                                      of the abbat Leontius.
+                                                      <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                               <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܠܘܬ ܝܘܚܢܢ ܛܪܝܒܘܢܐ̣. ܐܝܟ ܕܡܢ ܐܒܐ
+                                                               ܠܐܘܢܛܝܘܣ</span></span><span class="tei-quote"><span class="inline-h4"> 
+                                                               Excerpt: </span><span xml:lang="syr" lang="syr" dir="rtl">ܡܢ ܗܠܝܢ ܕܩܕܡ ܐܦܝܣܩܦܘܬܐ ܡܢ ܟܬܒܐ ܏ܕ. ܗ̇ܝ
+                                                               ܏ܕܒ.
+                                                               </span></span></div>
+                                                   </div>
+                                                   <div class="tei-msItem"><span class="inline-h4">Item 79 (Fol. 91a): </span>To the bishop Nicias.
+                                                      <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                               <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܠܘܬ ܢܝܩܝܐ ܐܦܝܣܩܘܦܐ.</span></span><span class="tei-quote"><span class="inline-h4"> 
+                                                               Excerpt: </span><span xml:lang="syr" lang="syr" dir="rtl">ܡܢ ܗܠܝܢ ܕܒܐܦܝܣܩܦܘܬܐ ܡܢ ܟܬܒܐ ܏ܕܓ ܗ̇ܝ
+                                                               ܕ܏ܫܟܓ.
+                                                               </span></span></div>
+                                                   </div>
+                                                   <div class="tei-msItem"><span class="inline-h4">Item 80 (Fol. 91a): </span>To the convent at Tagae.
+                                                      <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                               <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܠܘܬ ܕܝܪܐ ܕܒܛܐܓܐܝܣ (<span class="tei-foreign" xml:lang="grc" lang="grc">ΤΑΓΑΙⲤ</span>). </span></span><span class="tei-quote"><span class="inline-h4"> 
+                                                               Excerpt: </span><span xml:lang="syr" lang="syr" dir="rtl">ܡܢ ܗܠܝܢ ܕܒܐܦܝܣܩܦܘܬܐ ܡܢ ܟܬܒܐ ܏ܕ. ܗ̇ܝ
+                                                               ܕܪ܏ܡܚ.
+                                                               </span></span></div>
+                                                   </div>
+                                                   <div class="tei-msItem"><span class="inline-h4">Item 81 (Fol. 92a): </span>To Theotecnus, the priest and archiater.
+                                                      <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                               <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܠܘܬ ܬܐܘܛܩܢܘܣ ܩܫܝܫܐ ܘܐܪܟܝܐܛܪܘܣ</span></span><span class="tei-quote"><span class="inline-h4"> 
+                                                               Excerpt: </span><span xml:lang="syr" lang="syr" dir="rtl">ܡܢ ܗܠܝܢ ܕܒܐܦܝܣܩܦܘܬܐ ܡܢ ܟܬܒܐ ܕ܏ܘ. ܗ̇ܝ
+                                                               ܕ܏ܩܣܐ.
+                                                               </span></span></div>
+                                                   </div>
+                                                   <div class="tei-msItem"><span class="inline-h4">Item 82 (Fol. 93b): </span>To Dionysius, bishop of Tarsus.
+                                                      <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                               <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܠܘܬ ܕܝܘܢܘܣܝܘܣ ܐܦܝܣܩܦܐ ܕܛܐܪܣܘܣ</span></span><span class="tei-quote"><span class="inline-h4"> 
+                                                               Excerpt: </span><span xml:lang="syr" lang="syr" dir="rtl">ܡܢ ܗܠܝܢ ܕܒܐܦܝܣܩܦܘܬܐ ܡܢ ܟܬܒܐ ܕ܏ܘ. ܗ̇ܝ
+                                                               ܕ܏ܩܥܚ.
+                                                               </span></span></div>
+                                                   </div>
+                                                   <div class="tei-msItem"><span class="inline-h4">Item 83 (Fol. ): </span>To those who say that it is necessary that
+                                                      persons who have participated in the doctrines of the council of
+                                                      Chalcedon, but who repent and anathematize the
+                                                      upholders of the doctrine of the two natures in our Lord Jesus Christ after the ineffable
+                                                      union, and run after the
+                                                      orthodox faith, should be anointed (baptised) afresh. [defective]
+                                                      <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                               <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܠܘܬ ܗ̇ܢܘܢ ܕܐܡܪܝܢ ܕܙܕܩ̇ ܕܢܬܡܫܚܘܢ ܡܢܕܪܝܫ
+                                                               ܐܝܠܝܢ ܕܐܫܬܘܬܦܘ ܠܣܘܢܕܘܣ ܗ̇ܝ ܕܒܟܠܩܝܕܘܢܐ̇. ܘܡܬܬܘܝܢ ܘܡܚܪܡܝܢ ܠܐܝܠܝܢ
+                                                               ܕܐܡ̇ܪܝܢ ܠܗ ܬܪ̈ܝܢ ܟܝ̈ܢܐ ܡܢ ܒܬܪ ܚܕܝܘܬܐ ܠܐ ܡܬܡܠܠܢܝܬܐ̇. ܠܗ̇ܘ ܚܕ ܡܪܢ
+                                                               ܘܐܠܗܢ ܝܫܘܥ ܡܫܝܚܐ̇. ܘܪܗ̇ܛܝܢ ܠܘܬ ܗܝܡܢܘܬܐ ܐܝܨܬ ܫܘܒܚܐ.</span></span><span class="tei-quote"><span class="inline-h4"> 
+                                                               Excerpt: </span><span xml:lang="syr" lang="syr" dir="rtl">ܡܢ ܗܠܝܢ ܕܒܐܦܝܣܩܦܘܬܐ ܡܢ ܟܬܒܐ ܏ܕܛ ܗ̇ܝ
+                                                               ܏ܐ.
+                                                               </span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>The remaining letters of this section, nos. 7—15, have been
+                                                            lost, as well as the whole of the sixth, seventh, eighth and ninth
+                                                            tituli, and all but a very small portion of the last letter of the
+                                                            tenth (see Add. 14,600, fol. 85 seqq.).
+                                                         </div>
+                                                      </div>
+                                                   </div>
+                                                </div>
+                                             </div>
+                                             <div class="tei-msItem"><span class="inline-h4">Item 84 (Fol. 99a): </span>Eleventh section: that one should not become
+                                                a monk, who can be of use to the orthodox faith in the public life of
+                                                a citizen.
+                                                <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                         <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܛܝܛܠܘܣ ܕܚܕܥܣܪ܀ ܕܠܐ ܙܕܩ̇ ܠܗ ܕܢܗܘܐ ܕܝܪܝܐ ܠܐܝܢܐ
+                                                         ܕܡ̣ܨܐ ܠܡܥܕܪܘ ܐܘ ܠܡܣܝܥܘ ܟܕ ܐܝܬܘܗܝ ܒܣܘܥܪ̈ܢܐ ܦܘ̈ܠܝܛܝܩܝܐ ܠܬܘܕܝܬܐ
+                                                         ܬܪܝܨܬܐ.</span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>It consists of only one letter.
+                                                   </div>
+                                                   <div class="tei-msItem"><span class="inline-h4">Item 85 (Fol. 99a): </span>To the chamberlain Mishael.
+                                                      <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                               <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܠܘܬ ܡܝܫܐܝܠ ܩܘܒܘܩܠܪܐ.</span></span><span class="tei-quote"><span class="inline-h4"> 
+                                                               Excerpt: </span><span xml:lang="syr" lang="syr" dir="rtl">ܡܢ ܗܠܝܢ ܕܒܐ܏ܦܝܣܩܦܘ ܡܢ ܟܬܒܐ ܏ܕ ܗ̇ܝ
+                                                               ܏ܕܩ.
+                                                               </span></span></div>
+                                                   </div>
+                                                </div>
+                                             </div>
+                                             <div class="tei-msItem"><span class="inline-h4">Item 86 (Fol. ): </span>To fill up the remaining leaves, the scribe
+                                                has added some extracts from the writings of John Chrysostom. [defective]
+                                                <div class="msItemChild">
+                                                   <div class="tei-msItem"><span class="inline-h4">Item 87 (Fol. 100b): </span>From the eleventh homily on the epistle of
+                                                      S.
+                                                      Paul to the Ephesians.
+                                                      <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                               <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܬܘܒ ܡܪܬܝܢܘܬܐ ܡܢ ܡܐܡܪܐ ܕܚܕܥܣܪ ܕܦܘܫܩܐ ܕܐܓܪܬܐ
+                                                               ܕܠܘܬ ܐ̈ܦܣܝܐ ܕܩܕܝܫܐ ܡܪܝ ܝܘܐܢܝܣ.</span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>See Opera, t. xi., p. 98 B, <span class="tei-foreign" xml:lang="grc" lang="grc">Εἰ τοίνυν
+                                                               Βουλόμεθα τοῦ πνεύματος ἀπολαύειν κ.τ.λ.</span>; and p. 100
+                                                            E, <span class="tei-foreign" xml:lang="grc" lang="grc">'Αλγῶ μὲν γὰρ καὶ κόπτομαι
+                                                               κ.τ.λ.</span>
+                                                            
+                                                         </div>
+                                                      </div>
+                                                   </div>
+                                                   <div class="tei-msItem"><span class="inline-h4">Item 88 (Fol. ): </span>From the first homily on the Gospel
+                                                      according to S.
+                                                      Matthew. [defective]
+                                                      <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                               <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܡܢ ܡܐܡܪܐ ܕܩܕܝܫܐ ܝܘܚܢܢ ܐ܏ܦܝܣ ܕ܏ܩܘܣܛܢܛܝܢܘ.
+                                                               ܥܠ ܗ̇ܝ ܕܙܕܩ̇ ܕܡܢ ܢܦܫܢ ܘܡܢ ܟܬܒ̈ܐ ܢܐܠܦ ܠܡܬ̇ܕܒܪܘ ܫܦܝܪ.</span></span><span class="tei-quote"><span class="inline-h4"> 
+                                                               Excerpt: </span><span xml:lang="syr" lang="syr" dir="rtl">ܩܕܡܝܐ ܕܦܘܫܩܐ ܕܡܬܝ ܐܘܢܓܠܣܛܐ.
+                                                               </span></span><span class="tei-finalRubric"><span class="inline-h4"> 
+                                                               Subscription  (Fol. 102a): </span><span xml:lang="syr" lang="syr" dir="rtl">ܫܠܡ ܟܬܒܐ ܕܫܬܐ ܕܐܓܪ̈ܬܐ ܗܩ̈ܠܘܓܐ ܐܘܟܝܬ
+                                                               ܡܓ̈ܒܝܬܐ ܕܡܢ ܐܓܪ̈ܬܗ ܕܩܕܝܫܐ ܣܐܘܪܐ ܦܛܪܝܪܟܝܣ ܕܐܢܛܝܘܟܝܐ ܕܣܘܪܝܐ. 
+                                                               </span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>See Opera, t. vii., p. i.
+                                                         </div>
+                                                      </div>
+                                                   </div>
+                                                </div>
+                                             </div>
+                                          </div>
+                                       </div>
+                                    </div>
+                                 </div>
+                                 </span></div>
+                        </div>
+                     </div>
+                  </div>
+                  <div xmlns:x="http://www.w3.org/1999/xhtml" xmlns:local="http://syriaca.org/ns" class="panel panel-default">
+                     <div class="panel-heading">
+                        <h2 class="panel-title" data-toggle="collapse" data-target="#Additions">Additions </h2>
+                     </div>
+                     <div id="Additions" class="panel-collapse collapse in">
+                        <div class="panel-body">
+                           <div class="msDesc">
+                              <div class="indent">
+                                 
+                                 <div class="tei-note"><span>N.B., folio location may not be available for some items below.</span></div>
+                                 
+                                 
+                                 <div class="tei-item"><span class="inline-h4">Addition 1</span><strong> (Fol. 58)</strong>:
+                                    <span class="tei-p">Two quires are missing after fol. 58, which contained the remainder of
+                                       no. 53, nos. 54— 62, and a part of no. 63, which last letter is
+                                       addressed to the <span class="tei-persName">deacon Mishael (Michael, or
+                                          Misael?)</span>. Some of the missing letters are extant in Add.
+                                       14,600, foll. 56—66.</span><span class="tei-p">
+                                       <span class="tei-quote" lang="syr">ܠܘܬ ܡܝܫܐܝܠ ܡܫܡܫܢܐ</span>
+                                       </span></div>
+                                 
+                                 <div class="tei-item"><span class="inline-h4">Addition 2</span>:
+                                    <span class="tei-p">A subsequent note, in the handwriting of the scribe, informs us that
+                                       this volume was written for <span class="tei-persName">Elisha, metropolitan of
+                                          <span class="tei-placeName">Nisibis</span></span>.</span><span class="tei-p">
+                                       <span class="tei-quote" lang="syr-Syre"></span>ܠܬܫܒܘܚܬܐ ܘܠܐܝܩܪܐ ܕܬܠܝܬܝܘܬܐ ܩܕܝܫܬܐ ܐܬܚ̇ܦܛ
+                                       ܘܩܢܗ̇ ܠܣܝܡܬܐ ܗܕܐ ܪܘܚܢܝܬ̣ܐ. ܚܣܝܐ ܡܪܝ ܐܠܝܫ݊ܥ ܡܝܛܪܘܦܘܠܝܛܝܣ ܕܢܨܝܒܝܢ ܡܕܝܢܬܐ
+                                       ܪܚ̇ܡܬ ܠܡܫܝܚܐ. ܐܝܟ ܕܠܝܘܬܪܢܐ ܕܢܦܫܗ ܘܕܟܠܗܘܢ ܪ̈ܚܡܝ ܐܠܗܐ. ܐܠܐ ܟܠ ܕܫ̇ܐܠ ܠܗ
+                                       ܠܟܬܒܐ ܗܢܐ ܕܢܩܪܐ ܒܗ ܏ܘܫ..</span></div>
+                                 
+                                 <div class="tei-item"><span class="inline-h4">Addition 3</span>:
+                                    <span class="tei-p">Another note on the same page states that these letters were
+                                       translated from the Greek by the <span class="tei-persName">priest Athanasius of
+                                          <span class="tei-placeName">Nisibis</span></span>, who dictated them to the
+                                       <span class="tei-persName">priest Severus</span>, at the request of <span class="tei-persName">Matthew, bishop of <span class="tei-placeName">Aleppo</span></span>,
+                                       [Matthew I. See Le Quien, Or. Christ., t. ii., col. 1409.] and
+                                       <span class="tei-persName">Daniel, bishop of <span class="tei-placeName">Edessa</span></span>,
+                                       A. Gr. 980, A.D. 669. This was probably the same Athanasius who
+                                       afterwards became patriarch of the Jacobites (A. Gr. 995). Sec
+                                       Assemani, Bibl. Or., t. i., p. 493, t. ii., p. 335; Lo Quien, Or.
+                                       Christ., t. ii., col. 1364.</span><span class="tei-p">
+                                       <span class="tei-quote" lang="syr-Syre"></span>ܡܦܫ̣ܩ ܡܢ ܝܘܢܝܐ ܠܣܘܪܝܝܐ̣. ܠܕܚ̇ܠ ܐܠܗܐ ܩܫܝܫܐ
+                                       ܐܬܢܣܝ ܢܨܝܒܢܝܐ. ܟܕ ܡܩܒܠ ܡܢܗ ܢܟܦܐ ܩܫܝܫܐ ܣܐܘܪܐ. ܒܝܨܝܦܘܬܐ ܕܚ̈ܣܝܐ ܐ̈ܦ܏ܝܣ.
+                                       ܡܬܝ ܕܚܠܒ ܘܕܢܝܐܝܠ ܕܐܘܪܗܝ ܡ̈ܕܝܢܬܐ̣. ܒܫܢܬ ܬܫܥܡܐܐ ܘܬܡܢܐܝܢ ܕܝܘ̈ܢܝܐ. ܐܠܐ ܡܛܠ
+                                       ܡܪܢ ܟܠ ܕܩ̇ܪܐ ܢܨ̇ܠܐ ܥܠܝܗܘܢ܀.</span></div>
+                                 
+                                 <div class="tei-item"><span class="inline-h4">Addition 4</span>:
+                                    <span class="tei-p">A third note on the same page is too much stained and torn to admit of
+                                       transcription. Underneath this last is the anathema.</span><span class="tei-p">
+                                       <span class="tei-quote" lang="syr"></span>
+                                       </span></div>
+                                 
+                                 <div class="tei-item"><span class="inline-h4">Addition 5</span>:
+                                    <span class="tei-p">Underneath this last is the anathema.</span><span class="tei-p">
+                                       <span class="tei-quote" lang="syr-Syre"></span>ܡ̇ܢ ܕܠܐ ܪܚ̇ܡ ܠܡܪܢ ܝܫܘܥ ܡܫܝܚܐ ܢܗܘܐ ܪܚܡ.</span></div>
+                                 
+                                 
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+                  <div class="citationinfo">
+                     <h3>How to Cite This Entry</h3>
+                     <div id="citation-note" class="content-block indent"><span> William Wright</span> et al., “<span class="title-analytic">London, BL, Add. 12181</span>” in <span class="title-monographic">A Digital Catalogue of Syriac Manuscripts in the British Library</span>,  last modified April 21, 2023, <a href="https://bl.syriac.uk/ms/80">https://bl.syriac.uk/ms/80</a>.
+                        <div class="collapse" id="showcit">
+                           <div id="citation-bibliography">
+                              <h4>Bibliography:</h4><span class="editor">William Wright</span> et al., “<span class="title-analytic">London, BL, Add. 12181</span>.” In <span class="title-monographic">A Digital Catalogue of Syriac Manuscripts in the British Library</span>, edited by . Syriaca.org: The Syriac Reference Portal,
+                              2023.
+                               Entry published April 21, 2023. <a href="https://bl.syriac.uk/ms/80">https://bl.syriac.uk/ms/80</a>.
+                           </div>
+                           <div id="about">
+                              <h3>About this Entry</h3>
+                              <p><span class="heading-inline">Entry Title:</span> <span class="title-analytic">London, BL, Add. 12181</span></p>
+                              <div>
+                                 <h4>Authorial and Editorial Responsibility:</h4>
+                                 <ul>
+                                    <li><span> David A. Michelson</span>, general editor, Syriaca.org: The Syriac Reference Portal
+                                    </li>
+                                    <li>, editor, <span class="title-monographic">A Digital Catalogue of Syriac Manuscripts in the British Library</span></li>
+                                    <li>William Wright, David A. Michelson, Daniel J. Greeson, Tucker D. Hannah, Robert Aydin, Jessica Pagan, and Justin Arnwine, entry contributors, “<span class="title-analytic">London, BL, Add. 12181</span>”
+                                    </li>
+                                 </ul>
+                              </div>
+                              <div>
+                                 <h4>Additional Credit:</h4>
+                                 <ul>
+                                    <li>Created by <span> Jessica Pagan</span></li>
+                                    <li>Based on the work of <span> William Wright</span></li>
+                                    <li>Edited by <span> Anna Kelly</span></li>
+                                    <li>Syriac text entered by <span> Robert Aydin</span></li>
+                                    <li>Greek and coptic text entry and proofreading by <span> Ryan Stitt</span></li>
+                                    <li>Project management by <span> William L. Potter</span></li>
+                                    <li>English text entry and proofreading by <span> Syriac Research Group, University of Alabama</span></li>
+                                    <li>Syriaca.org URIs for authors edited by <span> Justin Arnwine</span></li>
+                                    <li>Syriaca.org URIs for authors checked by <span> Alexys Ahn</span><span> Joseph DAlfonso</span></li>
+                                    <li>Folio extent edited by <span> Kurt Urban</span></li>
+                                 </ul>
+                              </div>
+                           </div>
+                           <div id="license">
+                              <h3>Copyright and License for Reuse</h3>
+                              <div>Except otherwise noted, this page is © 2023.
+                                 
+                              </div><span class="tei-licence">
+                                 
+                                 <p>Distributed under a Creative Commons Attribution 3.0 Unported License</p>
+                                 </span></div>
+                        </div><a class="btn-sm btn-info togglelink pull-right" data-toggle="collapse" data-target="#showcit" data-text-swap="Hide citation">Show full citation information...</a></div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </body><script type="text/javascript" src="/resources/js/jquery.validate.min.js"></script><script type="text/javascript" src="/resources/js/require.min.js"></script><script type="text/javascript" src="/resources/js/srophe.js"></script><script data-template="app:google-analytics"></script></html>

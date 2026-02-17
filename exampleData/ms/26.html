@@ -1,0 +1,491 @@
+<?xml version="1.0" encoding="UTF-8"?><html xmlns="http://www.w3.org/1999/xhtml" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:srophe="https://srophe.app">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <title>London, BL, Add. 12151</title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <meta name="DC.type" property="dc.type" content="Text" />
+      <meta name="DC.isPartOf" property="dc.ispartof" content="Syriaca.org: The Syriac Reference Portal" />
+      <link data-template="app:metadata" />
+      <link rel="shortcut icon" href="/resources/images/fav-icons/mss-favicon.ico" />
+      <link rel="stylesheet" type="text/css" href="/resources/bootstrap/css/bootstrap.min.css" />
+      <link rel="stylesheet" type="text/css" href="/resources/css/sm-core-css.css" />
+      <link rel="stylesheet" type="text/css" href="/resources/css/syr-icon-fonts.css" />
+      <link rel="stylesheet" type="text/css" href="/resources/css/style.css" />
+      <link rel="stylesheet" type="text/css" href="/resources/css/syriaca.css" />
+      <link rel="stylesheet" type="text/css" media="print" href="/resources/css/print.css" />
+      <link rel="stylesheet" href="/resources/leaflet/leaflet.css" />
+      <link rel="stylesheet" href="/resources/leaflet/leaflet.awesome-markers.css" />
+      <link href="/resources/jquery-ui/jquery-ui.min.css" rel="stylesheet" /><script type="text/javascript" src="/resources/js/jquery.min.js"></script><script type="text/javascript" src="/resources/jquery-ui/jquery-ui.min.js"></script><script type="text/javascript" src="/resources/js/jquery.smartmenus.min.js"></script><script type="text/javascript" src="/resources/js/clipboard.min.js"></script><script type="text/javascript" src="/resources/bootstrap/js/bootstrap.min.js"></script><script defer="defer" data-domain="bl.syriac.uk" src="https://plausible.io/js/script.js"></script><link href="/resources/keyboard/css/keyboard.min.css" rel="stylesheet" />
+      <link href="/resources/keyboard/css/keyboard-previewkeyset.min.css" rel="stylesheet" />
+      <link href="/resources/keyboard/syr/syr.css" rel="stylesheet" /><script type="text/javascript" src="/resources/keyboard/syr/jquery.keyboard.js"></script><script type="text/javascript" src="/resources/keyboard/js/jquery.keyboard.extension-mobile.min.js"></script><script type="text/javascript" src="/resources/keyboard/js/jquery.keyboard.extension-navigation.min.js"></script><script type="text/javascript" src="/resources/keyboard/syr/jquery.keyboard.extension-autocomplete.js"></script><script type="text/javascript" src="/resources/keyboard/syr/keyboardSupport.js"></script><script type="text/javascript" src="/resources/keyboard/syr/syr.js"></script><script type="text/javascript" src="/resources/keyboard/layouts/ms-Greek.min.js"></script><script type="text/javascript" src="/resources/keyboard/layouts/ms-Russian.min.js"></script><script type="text/javascript" src="/resources/keyboard/layouts/ms-Arabic.min.js"></script><script type="text/javascript">
+            $(document).ready(function () {
+                $('[data-toggle="tooltip"]').tooltip({ container: 'body' })
+
+                $('.keyboard').keyboard({
+                    openOn: null,
+                    stayOpen: false,
+                    alwaysOpen: false,
+                    autoAccept: true,
+                    usePreview: false,
+                    initialFocus: true,
+                    rtl : true,
+                    layout: 'syriac-phonetic',
+                    hidden: function(event, keyboard, el){
+                       //  keyboard.destroy();
+                     }
+                });
+
+                $('.keyboard-select').click(function () {
+                    var keyboardID = '#' + $(this).data("keyboard-id")
+                    var kb = $(keyboardID).getkeyboard();
+                    //var kb = $('#searchField').getkeyboard();
+                    // change layout based on link ID
+                    kb.options.layout = this.id
+                    // open keyboard if layout is different, or time from it last closing is &gt; 200 ms
+                    if (kb.last.layout !== kb.options.layout || (new Date().getTime() - kb.last.eventTime) &gt; 200) {
+                        kb.reveal();
+                    }
+                });
+                //Change fonts
+                $('.swap-font').on('click', function(){
+                    var selectedFont = $(this).data("font-id")
+                    $('.selectableFont').not('.syr').css('font-family', selectedFont);
+                    $("*:lang(syr)").css('font-family', selectedFont)
+                });
+
+            })
+        </script></head>
+   <body id="body">
+      <nav class="navbar navbar-default navbar-fixed-top" role="navigation" data-template="app:fix-links">
+         
+         <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse-1">
+               <span class="sr-only">Toggle navigation</span>
+               <span class="icon-bar"></span>
+               <span class="icon-bar"></span>
+               <span class="icon-bar"></span>
+               </button>
+            <a class="navbar-brand banner-container" href="/index.html">
+               <span class="syriaca-icon syriaca-mss banner-icon"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span>
+                  </span>
+               <span class="banner-text">Syriac Manuscripts in the British Library</span>
+               </a>
+            
+         </div>
+         
+         <div class="navbar-collapse collapse pull-right" id="navbar-collapse-1">
+            
+            <ul class="nav navbar-nav">
+               
+               <li>
+                  <a href="/browse.html" class="nav-text">Browse</a>
+                  
+               </li>
+               
+               <li data-template="app:shared-content" data-template-path="/templates/shared-links.html"></li>
+               
+               <li>
+                  <a href="/search.html" class="nav-text">Advanced Search</a>
+                  
+               </li>
+               
+               <li>
+                  
+                  <div id="search-wrapper">
+                     
+                     <form class="navbar-form navbar-right search-box" role="search" action="/search.html" method="get">
+                        
+                        <div class="form-group">
+                           <input type="text" class="form-control keyboard" placeholder="search" name="keyword" id="keywordNav" />
+                           <span data-template="app:keyboard-select-menu" data-template-input-id="keywordNav"></span>
+                           <button class="btn btn-default search-btn" id="searchbtn" type="submit" title="Search">
+                              <span class="glyphicon glyphicon-search"></span>
+                              </button>
+                           
+                        </div>
+                        
+                     </form>
+                     
+                  </div>
+                  
+               </li>
+               
+               <li data-template="app:shared-content" data-template-path="/templates/fontMenu.html"></li>
+               
+            </ul>
+            
+         </div>
+         
+      </nav>
+      <div class="main-content-block">
+         <div class="interior-content">
+            <div class="container otherFormats"><a href="mailto:bl.syriac.uk@gmail.com?subject=Shelf mark: Record URI: " type="button" class="btn btn-default btn-xs" data-toggle="tooltip" title="Click to report a correction via e-mail."><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span> Corrections
+                  </a> <a href="https://github.com/srophe/britishLibrary-data/issues/new?assignees=&amp;labels=community-submitted&amp;title=:" target="_blank" id="issueBtn" data-toggle="tooltip" class="btn btn-default btn-xs" title="Click to file a data issue on GitHub (requires login)."><span class="glyphicon glyphicon-record" aria-hidden="true"></span> Open
+                  </a> <a href="https://github.com/srophe/britishLibrary-data/blob/main/data/tei/26.xml" target="_blank" class="btn btn-default btn-xs" id="openBtn" data-toggle="tooltip" title="Click to view the TEI XML data for this record."><img src="/resources/images/github-mark.png" height="18px" /></a> <a href="javascript:window.print();" type="button" class="btn btn-default btn-xs" id="printBtn" data-toggle="tooltip" title="Click to send this page to the printer."><span class="glyphicon glyphicon-print" aria-hidden="true"></span> 
+                  </a> 
+            </div>
+            <div class="row">
+               <div class="col-md-12">
+                  <div xmlns:x="http://www.w3.org/1999/xhtml" xmlns:local="http://syriaca.org/ns" class="title">
+                     <h1>Add. 12,151</h1>
+                  </div>
+                  <div xmlns:x="http://www.w3.org/1999/xhtml" xmlns:local="http://syriaca.org/ns" class="tei-note">
+                     <div>URI: <span class="tei-idno">https://bl.syriac.uk/ms/26</span></div>
+                  </div>
+                  <div xmlns:x="http://www.w3.org/1999/xhtml" xmlns:local="http://syriaca.org/ns" class="header section">
+                     <div class="tei-note">
+                        <div>
+                           Description based on Wright
+                           <a href="#" data-toggle="tooltip" title="This entry number is from Wright's printed catalogue. Due to renumbering, Wright's entry numbers do not match the numbering used in this digital catalogue."><span class="tei-idno">DCXXV</span></a>
+                           (<span class="tei-citedRange">2:493-497</span>)
+                           <a href="https://archive.org/details/catalogueofsyria02brituoft/page/493" target="_blank"><img src="/resources/images/ialogo.jpg" alt="Link to Archive.org Bibliographic record" height="18px" /></a></div>
+                        <div>
+                           Date: 
+                           AD 804 / AG 1115
+                        </div>
+                        <div>Estrangela script (multiple hands) ܀  Parchment Codex, 177 leaves.
+                           
+                        </div>
+                        <div></div>
+                        <div>
+                           Wright's Subject Classification:
+                           
+                        </div>
+                     </div>
+                     <div class="tei-note"><span>This manuscript contains: Phocas of Edessa. The works commonly, though erroneously,
+                           ascribed toDionysius the Areopagite, with an introduction and notes byPhocas bar Sergius
+                           of Edessaand other writers. In total, including sub-sections, this manuscript contains
+                           13 items.</span></div>
+                  </div>
+                  <div xmlns:x="http://www.w3.org/1999/xhtml" xmlns:local="http://syriaca.org/ns" class="panel panel-default">
+                     <div class="panel-heading">
+                        <h2 class="panel-title" data-toggle="collapse" data-target="#Overview">Physical Description </h2>
+                     </div>
+                     <div id="Overview" class="panel-collapse collapse in">
+                        <div class="panel-body">
+                           <div class="msDesc">
+                              <div class="tei-physDesc">
+                                 <div class="indent">
+                                    <p>Vellum, about 10 3/4 in. by 7 3/8 leaves, one of which (fol. 29) is much stained and
+                                       torn. The quires are signed with letters. From fol. 91 b to the end, the pages are
+                                       divided into two columns. There are from 30 to 35 lines in each full page or column.
+                                       The writing of the text is a fine regular Estrangělā, but the notes are in a smaller,
+                                       cursive character. Leaves are wanting after foll. 31, 32, and 33. This volume is dated
+                                       A. Gr. 1115, A.D. 804
+                                    </p><span class="tei-handDesc">
+                                       
+                                       <div name="handNote1"><span class="inline-h4">Hand 1 (major, Estrangela script): </span>
+                                          The writing of the text is a fine regular Estrangělā.<span class="tei-ref">See the works of <span class="tei-persName">Dionysius the Areopagite</span> and the additions.</span>
+                                          
+                                       </div>
+                                       
+                                       <div name="handNote2"><span class="inline-h4">Hand 2 (minor, Unspecified Syriac script): </span>
+                                          The notes are in a smaller, cursive character.<span class="tei-ref">See the introduction by <span class="tei-persName">Phocas</span> and the additions.</span>
+                                          
+                                       </div>
+                                       
+                                       <div name="handNote3"><span class="inline-h4">Hand 3 (minor, Unspecified Syriac script): </span>
+                                          <span class="tei-ref">See additions.</span>
+                                          
+                                       </div>
+                                       
+                                       <div name="handNote4"><span class="inline-h4">Hand 4 (minor, Unspecified Syriac script): </span>
+                                          <span class="tei-ref">See additions.</span>
+                                          
+                                       </div>
+                                       
+                                       <div name="handNote5"><span class="inline-h4">Hand 5 (minor, Unspecified Syriac script): </span>
+                                          <span class="tei-ref">See additions.</span>
+                                          
+                                       </div>
+                                       </span></div>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+                  <div xmlns:x="http://www.w3.org/1999/xhtml" xmlns:local="http://syriaca.org/ns" class="panel panel-default">
+                     <div class="panel-heading">
+                        <h2 class="panel-title" data-toggle="collapse" data-target="#Contents">Manuscript Contents</h2>
+                     </div>
+                     <div id="Contents" class="panel-collapse collapse in">
+                        <div class="panel-body">
+                           <div class="msContent"><span class="summary ident">Note: Item numbering updated in digital edition.</span><span class="tei-msContents">
+                                 
+                                 
+                                 <div class="tei-msItem"><span class="inline-h4">Item 1 (Fol. 1b): </span>Phocas of Edessa. The works commonly, though erroneously, ascribed to Dionysius the Areopagite, with
+                                    an introduction and notes by Phocas bar Sergius of Edessa and other writers [defective]
+                                    <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                             <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܥܠ ܚܝܠܗ ܕܡܪܢ ܝܫܘܥ ܡܫܝܚܐ ܡܫܪܝܢܢ ܕܢܟܬܘܒ ܟܬܒܐ ܗܢ̣. ܕܕܝܢܘܣܝܘܣ ܕܡܢ ܕ̇ܝ̈ܢܐ ܕܐܪܝܘܣ. ܐܦܝܣܩܘܦܐ̣
+                                             ܕܐܬܝܢܣ. ܩܕܡܐܝܬ̣ ܫܘܪܝ ܡܡܠܠܐ ܕܥܒ̣ܝܕ ܠܦܘܩܐ ܒܪ ܣܪܓܝܣ ܐܘܪܗܝܐ ܡܛܠ ܦ̇ܘܫܩܐ ܘܢܘ̇ܗܪܐ ܕܣܟ̈ܘܠܝܐ
+                                             ܕܐܫܟܚ ܗܘܐ ܠܡܟܬܒܢܘܬܐ ܕܕܝܢܘܣܝܘܣ. ܗ̇ܘ ܕܡܢ ܕ̇ܝ̈ܢܐ ܕܐܪܝܘܣ ܦܓܘܣ.
+                                             </span></span><span class="tei-colophon"><span class="inline-h4"> 
+                                             Colophon: </span><span>
+                                             <a href="#addition1 #addition2 #addition3">See additions.</a>
+                                             </span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>See Assemani, Bibl. Orient., t. i., p. 468. <a href="http://syriaca.org/person/130">He</a> flourished in the <span class="tei-date">eighth cent.</span>, as appears from his mention of Athanasius II., and <a href="/search.html?person=http://syriaca.org/person/113">Jacob of Edessa</a>.
+                                       </div>
+                                       <div class="tei-msItem"><span class="inline-h4">Item 2 (Fol. 1b): </span>Phocas of Edessa. An introduction and notes by Phocas bar Sergius of Edessa and other writers
+                                          <div class="msItemChild"><span class="tei-quote"><span class="inline-h4"> 
+                                                   Excerpt: </span><span xml:lang="syr" lang="syr" dir="rtl">ܗܠܝܢ ܐ̇ܡܪܬ ܒܦܣ̈ܝܩܬܐ̣. ܟܕ ܐ̇ܬܒܩܝܬ ܒܡܟܬܒܢܘܬܐ ܗܕܐ ܕܩܕܡ ܐ̈ܝܕܝ̇ܢ. ܕܩܕܝܫܐ ܕܝܢܘܣܝܘܣ ܗ̇ܘ ܕܡܢ
+                                                   ܐܪܝܘܣ ܦܓܘܣ. ܐܝ̇ܕܐ ܕܡܦܫܩܐ ܗܘܬ ܡܢ ܙܒܢܐ ܢܓܝܪܐ ܡܢ ܠܫܢܐ ܝܘܢܝܐ ܠܒܪܬ ܩܠܐ ܕܣܘ̈ܪܝܝܐ̣. ܠܢܟܦܐ
+                                                   ܘܡܗܝܪܐ ܣܪܓܝܣ ܩܫܝܫܐ ܘܐܪܟܝܛܪܣ ܒܗ̇ܝ ܕܟܠܢ ܣܘܪ̈ܝܝܐ ܕܩ̇ܪܝܢ ܗܘܝܢ ܒܗ̇܆ ܛܒ ܡܬܕܡܪܝܢ ܘܗܝܢ ܘܡܩܠܣܝܢ̇.
+                                                   ܡܛܠ ܡܥܠܝܘܬܐ ܕܣ̈ܘܟܠܝܗ̇ ܟܬܝ ܘܐܠܗܝܘܬܗ̇܇ ܗ̇ܝ ܕܐܝܟ ܕܒܫܪܪܐ ܫ̇ܘܝܐ ܠܕܘܡܪܐ.
+                                                   </span></span><span class="tei-quote"><span class="inline-h4"> 
+                                                   Excerpt: </span><span xml:lang="syr" lang="syr" dir="rtl">ܟܕ ܕܝܢ ܗܫܐ ܝܟ ܡܐ ܕܐ̇ܡܪܐܬ: ܕܡܢ ܒܥܬܐ ܘܗܪ̈ܓܐ ܕܒܟ̈ܬܒܐ ܩ̈ܕܝܫܐ: ܢܘܗ̣ܪܐ ܚ̣ܕܬܐ ܢܒ̇ܥ ܟܠܝܘܡ
+                                                   ܠܕܗܡ̇ܣܝܢ ܒܗܘܢ: ܡܢ ܒܛܝܠܘܬܐ ܐܠܗܝܬܐ̣. ܐܬ̣ܐ ܠܐܝ̈ܕܝܐ ܕܒܨܝܪܘܬܝ̇. ܗ̣ܘ ܗܢܐ ܟܬܒܐ ܩܕܝܫܐ ܕܐܡܝܪ:
+                                                   ܕܟܬܝܒ ܡ̇ܢ ܒܟܬ̈ܝܒܬܐ ܝܘ̈ܢܝܬܐ: ܐܝܬ ܒܗ ܕܝܢ ܣܟ̈ܘܠܝܐ ܐܘܟܝܬ ܢܘܗܪ̈ܐ ܬܡ̈ܝܗܐ ܕܡ̈ܠܐ ܗܠܝܢ ܕܥܣ̣ܩ
+                                                   ܣܘܟܠܗܝܢ ܐܝܟ ܕܐܡܕܢܢ ܠܡܐܡܪ.<span class="tei-sic">ܕܥܒ̇ܕܝܢ</span>ܠܐܢܫ ܬܪܝܨ ܫܘܒܚܐ. ܫ̇ܘܐ ܠܕܘܟܪܢܐ ܛ̇ܒܐ: ܣܟܠܣܛܝܩܐ ܡ̇ܢ ܒܐܡܢܐ: ܝܘܚܢܢ ܕܝܢ ܒܫܡܐ: ܡܢ ܡܕܝܢܬܐ
+                                                   ܕܝܢ ܒ̇ܝܫܢ̣ܢ. ܐܬܚ̇ܦܛܬ ܐܝܟ ܠܐ ܣܦܩܐ ܡ̇ܢ: ܕܡܬܝܐ̇ܒ ܕܝܢ ܕܢܫܬܘܬܦ ܐܝܟ ܚܝܠܗ ܒܝܘܬܪܢܐ ܓܘ̇ܢܝܐ
+                                                   ܕܐܝܟ ܗܢܐ̣. ܠܡܦܫܩܘܬܗܘܢ ܠܗܘܢ ܠܣ̈ܟܘܠܝܐ. ܡܢ ܠܫܢܐ ܝܘܢܝܐ ܠܣܘܪܝܝܐ. ܒܦܘܫܩܐ ܕܝܢ ܐܦ ܠܐܝܠܝܢ ܕܐ̇ܫܟܚܬ
+                                                   ܒܗ ܒܦܘܫܩܐ ܕܣܪܓܝܣ ܕܩܕܝܡ̇. ܕܠܐ ܗܘܐ ܥܡ ܚܬܝܬܘܬܐ ܡܦܫ̈ܩܢ.
+                                                   </span></span><span class="tei-quote"><span class="inline-h4"> 
+                                                   Excerpt: </span><span xml:lang="syr" lang="syr" dir="rtl">ܘܗܕܐ̣. ܠܐ ܗܘܐ ܐܝܟ ܡ̇ܢ ܕܠܡܬܚܙܘܙܝܘ ܒܕܐܝܟ ܗܠܝܢ ܝܨ̇ܦ ܐܢܐ: ܐܘ ܠܪܕܝܘܬܗ ܕܗ̇ܘ ܠܡܩܛܪܓܘ: ܠܐ
+                                                   ܬܗܘܐ̣. ܐܠܐ ܕܐ̇ܚܘܐ ܢܗܝܪܐܝܬ݂. ܕܐ̇ܘ ܥܕ ܡܬܢܚ̇ܬ ܥܡ ܠܫܢܐ ܣܘܪܝܝܐ: ܘܒܟܠܡܕܡ ܡܬܚ̇ܦܛ ܕܢܣ̇ܟܠܝܘܗܝ
+                                                   ܐܝܠܝܢ ܕܡܬܐܡܪ̈ܢ: ܫܚܡܗ̇ ܒܕܘܟ ܕܘܟ ܠܡܠܬܗ: ܕܐܠܐ ܟܕ ܡܢܗ ܕܫܘܪܝ ܫܡܥܗ̇ ܕܡܟܬܒܢܘܬܐ ܘܐܝܟ ܕܠܡܐܡܪ
+                                                   ܡܢ ܦܓܥ̣ܐ ܩܕܡܝܐ: ܢܓ̣ܗܪ ܗܘܐ ܗܘܢܗ ܝܘܬܪܢܐ ܢܫܬܟܚ ܠܗ ܩܪܝܢܗܝ̣ܢ. ܐ̇ܘ ܟܒܪ ܐܝܟ ܕܡܣ̣ܬܒܪܐ ܠܝ̇.
+                                                   ܕܐܦ ܡܛܠ ܕܠܐ ܗܘܐ ܦܬܝܐܝܬ ܥܕܟܝܠ܇ ܐܬܕܪܫܘ ܗܘܘ ܣܓ̈ܝܐܐ ܒܐܘܡܢܘܬܐ ܗܕܐ ܕܦܘܫܩܐ ܕܡܢ ܠܫܢܐ ܝܘܢܝܐ
+                                                   ܒܗ̇ܘ ܙܒܢܐ̇. ܥܕܡܐ ܕܟܕ ܡܫܬܘܫܛ ܗܘܐ ܙܒܢܐ̇. ܘܒܝ̈ܘܒܠܘܗܝ ܠܐܚܪ̈ܢܐ ܪ̈ܚܡܝ ܥܡܠ̣ܐ ܡ̇ܝܬܐ ܗܘܐ̇.
+                                                   ܐܟܙܢܐ ܕܩ̈ܕܝܫܐ ܘܛܒ̈ܝܒܐ̇. ܐܬܢܣܝܘ ܦܛܪܝܪܟܐ ܕܐܢܟܝܘܟܝܐ̇. ܘܝܥܩܘܒ ܐܦܝܣܩܘܦܐ ܕܐܘܪܗܝ̇. ܗ̇ܢܘܢ
+                                                   ܕܒܣܦܩܘܬܗܘܢ ܢܩ̇ܠܘܗ̇ ܠܐܘܪܚܐ ܗܕܐ ܐܝܟ ܕܡܨܝܐ̇. ܘܗܘ̣ܘ ܒܙܢܐ ܡܕܡ ܡ̈ܙܘܓܢܐ ܕܬܪ̈ܝܗܘܢ ܠܫ̈ܢܐ̇.
+                                                   ܘܡܢ ܢܩ̣ܦܗܘܢ ܐܘܠܕܘ ܦܐܪ̈ܐ ܡܘܬܪ̈ܢܐ̇. ܥܡ ܐܚܪ̈ܢܐ ܬܘܒ ܠܐ ܡܫ̈ܡܗܐ ܕܩܕܡܝܗܘܢ̣. ܘܗܝܕܝܢ ܡܬܡܪܩܐ
+                                                   ܘܡܬܢܗܪܐ ܐܘܡܢܘܬܐ̇. ܘܡܩ̣ܢܝܢ ܒܚܦܝܛܘܬܗܘܢ ܡܢ ܚܬܝܬܘܬܗ ܕܝܘܢܝܐ ܩ̇ܪ̈ܝܬܐ ܠܐ ܡ̈ܥܝܕܬܐ ܠܣܘܪ̈ܝܝܐ.
+                                                   </span></span><span class="tei-quote"><span class="inline-h4"> 
+                                                   Excerpt: </span><span xml:lang="syr" lang="syr" dir="rtl">ܣ̇ܡܬ ܕܝܢ ܬܘ ܒܬܪ ܫܘܪܝ ܡܡܠܠܐ ܗܢܐ: ܘܩܕܡ ܡܟܬܒܢܘܬܐ ܩܕܝܫܬܐ ܕܐܡܝܪܐ̣ ܐܦ ܡܡܠܠܐ ܡܕܡ ܚܫ̇ܚܐ. ܕܥܒ̣ܝܕ
+                                                   ܠܗ ܠܕܚ̇ܠ ܐܠܗܐ ܝܘܚܢܢ ܣܟܠܣܬܝܩܐ ܕܩ̇ܕܡ ܐܫܬܡܗ̇. ܗ̇ܘ ܕܐܦ ܣܟ̈ܘܠܝܐ ܗܠܝܢ ܥܒ̣ܕ ܕܝܠܗ̇ ܕܡܟܬܒܢܘܬܐ.
+                                                   ܘܒܬܪܗ ܬܘܒ̣ ܕܐܢܫ ܐܚܪܢܐ ܡܢܗ̇ ܕܒܝ̇ܫܢ ܢܟܦܐ ܘܬܪܝܨ ܫܘܒܚܐ ܓܐܘܪܓܝ ܩܫܝܫܐ.
+                                                   </span></span><div class="msItem-notes"><span class="inline-h4">Notes:</span><ul>
+                                                   <li>From the introduction of <a href="/search.html?person=http://syriaca.org/person/130">Phocas</a> it appears that the translation of these works into Syriac was executed by the famous
+                                                      physician (<span class="tei-foreign" xml:lang="grc" lang="grc">ἀρχίατρος</span>)Sergius of Rās'ain. See Assemani, Bibl. Orient., t. ii., pp. 315, 323; and Assemani, Bibl. Orient., t. iii., pars 1, p. 87.
+                                                   </li>
+                                                   <li>The scholia are in great part a translation of the <span class="tei-foreign" xml:lang="grc" lang="grc">παραθέσεις</span> of Joannes Scholasticus of ܒܝ̇ܫܢ, 
+                                                      
+                                                      , or Scythopolis
+                                                      
+                                                      
+                                                   </li>
+                                                   <li>On Syriac translations from the Greek, and on his own method,<a href="/search.html?person=http://syriaca.org/person/130">Phocas</a> makes the following observations:
+                                                   </li>
+                                                   <li>
+                                                      Athanasius II.; See Assemani, Bibl. Orient., t. ii, p. 335.
+                                                      
+                                                   </li>
+                                                   <li>After some farther explanations regarding the arrangement of the scholia,<a href="/search.html?person=http://syriaca.org/person/130">Phocas</a> concludes his own preface with the following words, introducing two lengthy extracts
+                                                      from the prefaces of the above-mentioned John of Scythopolis and of George, also of Scythopolis, a priest of the Great Church of <span class="tei-placeName"><a href="http://syriaca.org/place/586">Constantinople</a></span>, in defence of the authenticity of <a href="#b2">these works</a>.
+                                                   </li>
+                                                </ul>
+                                             </div>
+                                             <div class="tei-msItem"><span class="inline-h4">Item 3 (Fol. 2b): </span>John of Scythopolis. In defence of the authenticity of these works
+                                                
+                                                <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                         <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܬܘܒ ܫܘܪܝ ܡܡܠܠܐ ܕܡܦܩ ܒܪܘܚܐ̣. ܕܝܘܚܢܢ ܣܟܠܣܛܝܩܐ ܕܡܢ ܒܝ̇ܫܢ. ܕܚܠܦ ܦܪܓܡܛܝܐ ܗܕܐ ܕܩܝ̇ܡܐ̣ ܕܕܡܢ̣ܘ
+                                                         ܐܝܬܝܗ̇. ܕܗ̇ܘ ܕܐܝܬܝܗܘܢ̣. ܐܦ ܣܟ̈ܘܠܝܐ ܕܒܗ̇
+                                                         </span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>The original Greek may be found, under the name of Maximus, in <a href="">the works of Dionysius,</a> edited by Lansselius and Corderius, Venet. 1755—56, t. ii., pp. ix.-xiii., as far as <span class="tei-foreign" xml:lang="grc" lang="grc">ους τέως εἰς τὰς ἐμὰς ἐλθεῖν συμβέβηκε χεῖρας</span>, or in Migne, Patrol. Gr., t. iv., coll. 15-21.
+                                                   </div>
+                                                </div>
+                                             </div>
+                                             <div class="tei-msItem"><span class="inline-h4">Item 4 (Fol. 4b): </span>George of Scythopolis. In defence of the authenticity of these works
+                                                
+                                                <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                         <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܬܘܒ ܡܦܩ ܒܪܘܚܐ ܐܚܪܢܐ ܕܡܛܠܬܗܝܢ ܕܡܟ̈ܬܒܢܘܬܐ ܗܠܝܢ ܕܛܘܒܢܐ ܕܝܢܘܣܝܘܣ. ܕܐܬܐܡܪ ܡܢ ܓܐܘܪܓܝ ܩܫܝܫܐ
+                                                         ܕܥܕܬܐ ܪܒܬܐ ܕܩܘܣܛܢܛܝܢܦܘܠܝܣ܇ ܘܐܝܬܘܗܝ ܡܢ ܒܝ̇ܫܢ ܡܕܝܢܬܐ̇. ܘܐܬܬ̣ܣܝܡ ܐܝܟ ܕܒܬܘܣܦܬܐ ܒܬܪ ܡܐܡܪܐ̇
+                                                         ܕܩܕܝܡ ܣܝ̣ܡ ܕܡܦܩ ܒܪܘܚܐ ܕܝܘܚܢܢ ܣܟܘܠܣܛܝܩܐ̇. ܡܛܘܠ ܡܟܬܒ̈ܢܘܬܐ ܗܠܝܢ ܐܠܗ̈ܝܬܐ ܕܡܬܩܛܪ̈ܓܢ ܡܢ
+                                                         ܐ̈ܢܫܝܢ ܦܛܥ̈ܐ̇. ܐܝܟ ܡ̇ܢ ܕܠܐ ܐܝܬܝܗܝܢ ܕܝܠܗ ܕܡܠܦܢܐ ܪܒܐ̇. ܐܠܐ ܕܐܢܫ ܡܢ ܗܪ̈ܛܝܩܘ ܕܐܦܠܝܢܐܪܝܘܣ
+                                                         ܐܡ̇ܪ ܐ̇ܡܪ ܐܢܐ̇. ܘܕܐܚܪܢܐ ܡܢ ܗ̇ܢܘܢ ܚ̣̈ܕܬܐ ܘܕܠܐ ܝܕܝܥܝܢ
+                                                         </span></span><div class="tei-msItem"><span class="inline-h4">Item 5 (Fol. 5a): </span>Dionysius of Alexandria. Extracts from a letter of Dionysius, bishop of Alexandria, to Xystus, pope of Rome,
+                                                      in which the testimony of Dionysius the Areopagite is used
+                                                      <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                               <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܕܕܝܢܘܣܝܘܣ ܐܦܝܣܩܘܦܐ ܕܐܠܟܣܢܕܪܝܐ̣. ܡܢ ܐܓܪܬܐ ܕܠܘܬ ܟܣܘܣܛܘܣ ܦܦܐ ܕܪܘܡܐ. ܗ̇ܝ ܕܐܝܬܘܗܝ ܫܘܪܝܗ̇
+                                                               ܩ̇ܒܠܬ ܠܐܓܪܬܐ ܕܝܠܟܘܢ.
+                                                               </span></span></div>
+                                                   </div>
+                                                </div>
+                                             </div>
+                                          </div>
+                                       </div>
+                                       <div class="tei-msItem"><span class="inline-h4">Item 6 (Fol. 8a): </span>Pseudo-Dionysius the Areopagite. The works of Dionysius the Areopagite [defective]
+                                          <div class="msItemChild">
+                                             <div class="msItem-notes"><span class="inline-h4">Note: </span>Each of the works of Dionysius the Areopagite is preceded by an index of chapters,<span class="tei-foreign" xml:lang="syr" lang="syr" dir="rtl">ܩ̈ܦܠܐܐ</span>.
+                                             </div>
+                                             <div class="tei-msItem"><span class="inline-h4">Item 7 (Fol. 8a): </span>
+                                                <span class="tei-foreign" lang="grc">περὶ τῆς οὐρανίας ἱεραρχίας</span>, in 15 chapters [defective]
+                                                <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                         <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܥܠ ܪܝܫܘܬ ܟܗܢܘܬܐ ܫ̇ܡܝܢܝܬܐ
+                                                         </span></span></div>
+                                             </div>
+                                             <div class="tei-msItem"><span class="inline-h4">Item 8 (Fol. 38a): </span>
+                                                <span class="tei-foreign" lang="grc">περὶ τῆς 'εκκλησιαστικῆς ἱεραρχίας</span>, in 7 chapters
+                                                <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                         <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܥܠ ܪܝܫܘܬ ܟܗܢܘܬܐ ܥܕܬܢܝܬܐ
+                                                         </span></span></div>
+                                             </div>
+                                             <div class="tei-msItem"><span class="inline-h4">Item 9 (Fol. 79a): </span>
+                                                <span class="tei-foreign" lang="grc">περὶ θείων ὀνομάτων</span>, in 13 chapters
+                                                <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                         <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܥܠ ܫܘܡ̈ܗܐ ܐܠܗ̈ܝܐ
+                                                         </span></span></div>
+                                             </div>
+                                             <div class="tei-msItem"><span class="inline-h4">Item 10 (Fol. 151b): </span>
+                                                <span class="tei-foreign" lang="grc">περὶ μυστικῆς θεολογίας</span>, in 5 chapters
+                                                <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                         <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܥܠ ܬܐܘܠܘܓܝܐ ܪܐܙܢܝܬܐ
+                                                         </span></span></div>
+                                             </div>
+                                             <div class="tei-msItem"><span class="inline-h4">Item 11 (Fol. 156a): </span>The ten Epistles
+                                                <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                         <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܐܓܪ̈ܬܐ ܡ̈ܫܚܠܦܬܐ ܥܣܪ̈
+                                                         </span></span></div>
+                                             </div>
+                                             <div class="tei-msItem"><span class="inline-h4">Item 12 (Fol. 172b): </span>A table of contents
+                                                <div class="msItemChild"></div>
+                                             </div>
+                                          </div>
+                                       </div>
+                                       <div class="tei-msItem"><span class="inline-h4">Item 13 (Fol. 173a): </span>The narrative of Dionysius the Areopagite, concerning the vision which he saw at Heliopolis
+                                          in Egypt
+                                          
+                                          <div class="msItemChild"><span class="tei-incipit"><span class="inline-h4"> 
+                                                   Incipit: </span><span xml:lang="syr" lang="syr" dir="rtl">ܬܘܒ ܏ܬܫܥܝܬܐ ܏ܕܝܠܗ ܏ܕܩܕܝܫܐ ܏ܕܝܘܢܘܣܝܘܣ ܏ܗ̇ܘ ܕ܏ܡܢ ܏ܕ̇ܝ̈ܢܐ ܕ܏ܐܪܢܘܣ ܏ܦܐܓܘܣ. ܐܢܐ ܐܘ  ܪ̈ܚ̇ܡܝ
+                                                   ܝܘܠܦܢܐ ܕܚܟܡܬܐ ܡܢ ܟܪܣܗ̇ ܕܐܡܝ ܐ̇ܬܢܕܪܬ ܕܐ̇ܗܘܐ ܕܒܚ̣ܐ ܠܐܪܟܘܢܛܐ ܕܫܐ̈ܕܐ. ܏ܘܫ.
+                                                   </span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>Cf. <a href="https://bl.syriac.uk/ms/409">Add. 14,645, no. 3<span class="tei-ptr"></span>
+                                                   </a></div>
+                                          </div>
+                                       </div>
+                                    </div>
+                                 </div>
+                                 </span></div>
+                        </div>
+                     </div>
+                  </div>
+                  <div xmlns:x="http://www.w3.org/1999/xhtml" xmlns:local="http://syriaca.org/ns" class="panel panel-default">
+                     <div class="panel-heading">
+                        <h2 class="panel-title" data-toggle="collapse" data-target="#Additions">Additions </h2>
+                     </div>
+                     <div id="Additions" class="panel-collapse collapse in">
+                        <div class="panel-body">
+                           <div class="msDesc">
+                              <div class="indent">
+                                 
+                                 <div class="tei-note"><span>N.B., items below may have been listed out of folio order in Wright's catalogue.</span></div>
+                                 
+                                 
+                                 <div class="tei-item"><span class="inline-h4">Addition 1</span><strong> (Fol. 172b)</strong>:
+                                    <span class="tei-p">At the end of the last epistle, fol. 172b, after a doxology and table of contents,
+                                       we read the following note, giving the date of the manuscript and the name of the
+                                       scribe,<span class="tei-persName">George</span> the deacon.</span><span class="tei-p">
+                                       <span class="tei-quote" lang="syr">ܐܫܬܠܡ ܟܬܒܐ ܗܢܐ ܫܢܬ ܐܠܦܐ ܘܡܐܐ ܘܚܡܫܥܣܪܐ ܐܝܟ ܡܢܝܢܐ ܕܝܘ̈ܢܝܐ ܒܐܝܪܚ ܢܝܣܢ ܒܥܣܪܝܢ ܒܗ ــ .
+                                          ܡܪܢ ܝܫܘܥ ܡܫܝܚܐ ܚܘܢ ܒܪ̈ܚܡܝܟ ܣܓ̈ܝܐܐ ܠܚܛܝܐ ܓܝܪܓܐ ܡܫܡܫܢܐ ܕܟܬ̣ܒ. ܟܠ ܕܩ̇ܪܐ ܢܨ̇ܠܐ. ܐܡܝܢ.</span>
+                                       </span></div>
+                                 
+                                 <div class="tei-item"><span class="inline-h4">Addition 2</span><strong> (Fol. 173a)</strong>:
+                                    <span class="tei-p">On fol. 173a there is another note by the commentator,<span class="tei-persName">Phocas of Edessa</span>, stating that he finished and copied out this work in the space of a year, without
+                                       help of any kind from any person.</span><span class="tei-p">
+                                       <span class="tei-quote" lang="syr">ܐܢܐ ܦܘܩܐ ܒܨܝܪܐ ܘܚ̇ܛܝܐ ܩܦܪܒܬ ܠܐܝܩܪܐ ܕܠܬܠܝܬܝܘܬܐ ܡܪܡܪܡܬܐ ܘܘܣܓܝܕܬ ܡܢ ܟܠ ܘܕܪܚܝܡܐ ܠܗ̇ ܗ̇ܝ
+                                          ܕܐܝܟ ܚܝܠܐ̣. ܥܡ̣ܠܐ ܗܢܐ ܕܝܠܝ. ܗ̇ܘ ܕܐܦܢ ܗ̇ܝ ܕܫܘܝܐ ܠܪܒܘܬܐ ܕܝܠܗ̇ ܠܐ ܐܝܬ ܠܗ̣. ܐܠܐ ܒܪܡ ܡܢ
+                                          ܚܝܠܐ ܕܝܠܝ̣ ܠܐ ܒܨ̣ܝܪ. ܗ̇ܘ ܕܡܛܠ ܢܘ̈ܬܦܐ ܣ̈ܒܝܣܐ ܕܣܘܥܪ̈ܢܐ ܥܠܡ̈ܢܝܐ̣. ܒܡܬ̣ܚܐ ܚܕܐ ܕܫܢܬܐ ܟܠܗ̇
+                                          ܐܫܬ݀ܡܠܝ. ܟܕ ܣܟ ܠܐ ܬܐܥ̇ܕܪܬ ܡܢ ܐܢܫ. ܠܐ ܒܠܟܣܝܣ̣ ܘܠܐ ܒܟܬܒܐ. ܐܠܐ ܒܝܕ ܫܩܠܛܥܢܐ ܕܡܬܚ̇ܝܠ ܡܢ
+                                          ܐܠܗܐ. ܡܫܟܢܢܐ ܕܛܒ̈ܬܐ̣. ܛ̇ܥܢܬ ܝܘܩܪܐ ܕܦܘܫܩܗ ܕܓܘܫܡܐ. ܘܕܣܟ̈ܘܠܝܐ ܕܝܠܗ. ܘܕܣܪܛܗܘܢ ܕܥܠ ܠܘܚ̈ܐ̣.
+                                          ܘܕܡܣܩܗܘܢ ܕܥܠ ܩ̈ܠܦܐ. ܐܠܐ ܟܠ ܕܡܬܒ̇ܣܡ ܡܢ ܡ̈ܠܐ ܐܠܗ̈ܝܬܐ ܕܒܗ̣. ܡܛܠ ܚܘܒܗ ܕܡܪܢ. ܢܨ̇ܠܐ ܐܦ ܥܠܝ̣.
+                                          ܕܐܫ̇ܟܚ ܪ̈ܚ̣ܡܐ ܡܢ ܛܝܒܘܬܗ̇ ܕܐܠܗܘܬܐ ܒܝܘܡ ܕܝܢ̣ܐ ܕܟܐܢܘܬܗ̇ ܐܡܝܢ .. .. ..</span>
+                                       </span></div>
+                                 
+                                 <div class="tei-item"><span class="inline-h4">Addition 3</span><strong> (Fol. 176b)</strong>:
+                                    <span class="tei-p">On fol. 176b is a note in the handwriting of the scribe <span class="tei-persName">George</span>, from which it appears that this volume was written for <span class="tei-persName">John</span> and <span class="tei-persName">Elisha</span>, the sons of one <span class="tei-persName">Mahīr of <span class="tei-placeName">Tagrīt</span></span>, at the expense of their father.</span><span class="tei-p">
+                                       <span class="tei-quote" lang="syr">ܐܬܚܦܛܘ ܘܩ̣݅ܢܘ ܠܟܬܒܐ ܗܢܐ ܐܝܘܐܢܢܝܣ ܘܐܠܝܫܥ ܕܝܪ̈ܝܐ ܒܢ̈ܝܐ ܕܡܗܝܪ ܬܓܪܝܬܢܝܐ. ܡܛܠ ܝܘܬܪܢܐ ܕܝܠܗܘܢ
+                                          ܘܕܐܚܪ̈ܢܐ܇ ܗ̇ܘ ܕܒܗ ܘܡܢܗ ܐܝܬܘܗܝ ܘܡܬܟܐܪ. ܗ̇ܢܘܢ ܟܝܬ ܕܐܦ ܝܬܝܪ ܚܦܝܛܐܝܬ ܫܐ̇ܠܝܢ: ܡܢ ܟܠ ܡ̇ܢ
+                                          ܕܢܝܫܐ ܕܫܦܝܪܘܬ ܕܚܠܬܐ ܐܝܬ ܠܗ܆ ܕܨ̈ܠܘܬܐ ܥܠ ܐܒܐ ܕܝܠܗܘܢ ܘܥܠܝܗܘܢ ܢܣܪܚ. ܘܥܠ ܗ̇ܘ ܡ̇ܢ܆ ܡܛܠ ܕܡܢ
+                                          ܕܝܠܗ. ܥܠܝܗܘܢ ܕܝܢ܆ ܐܝܟ ܡ̇ܢ ܕܚܦܝܛܘܬܐ ܕܠܐ ܙܥܘܪܝܐ ܐܥ̣ܠܘ ܠܐܚܪ̈ܢܐ ܕܝܢ ܕܠܘ ܗܟܢܐ: ܐܫܠܡ̣ܘ ܠܕܝܢ̣ܐ
+                                          ܕܬܐܪܬܐ ܕܝܠܗܘܢ܆ ܐܢ ܟܝܬ ܣ̇ܥܝܢ ܕܢܥܕܘܢ ܠܟܬܒܐ ܗܢܐ܇ ܘܟܕ ܬܟܝܠܝܢ ܕܐܦܢ ܗ̇ܘ ܕܚ̇ܙܐ ܠܗܢܐ ܐܝܬ ܠܗܘܢ̇.
+                                          ܠܪܘܚܩܐ ܡܩ̣ܝܡ ܡܢ ܗ̇ܝ ܐܝܟ ܟܐܢܘܬܐ ܕܗ̇ܘ ܕܡܬ݂ܚܙܐ.</span>
+                                       </span></div>
+                                 
+                                 <div class="tei-item"><span class="inline-h4">Addition 4</span><strong> (Fol. 176b)</strong>:
+                                    <span class="tei-p">Another note on the same page, of somewhat later date, states that this volume was
+                                       purchased by three brothers, the priest <span class="tei-persName">Tābā</span>, <span class="tei-persName">Basil, bishop of <span class="tei-placeName">Bagdad</span></span>, (probably <span class="tei-persName">Lazarus bar Sābtā</span>, or <span class="tei-persName">Philoxenus</span>, who was deposed <span class="tei-date">A. Gr. 1140</span>, <span class="tei-date">A.D. 829</span>; See <span class="tei-bibl">Assemani, Bibl. Or., t. ii., pp. 123, 346</span>;<span class="tei-bibl">Le QUIEN, Or. Christ., t. ii., col. 1571</span>) and <span class="tei-persName">Paul</span>, and their sister's son the priest <span class="tei-persName">Mark</span>, who gave it and other books in a present (<span class="tei-foreign" lang="syr">ܒܘܪܟܬܐ</span>) to <span class="tei-placeName">the convent of Mār John of <span class="tei-foreign" lang="syr">ܩܘܪܕܝܣ</span>
+                                          at <span class="tei-placeName">Dara</span>
+                                          </span>. This note was written by one <span class="tei-persName">Timothy</span>, probably abbat or librarian of the said convent.</span><span class="tei-p">
+                                       <span class="tei-quote" lang="syr">ܐܬܚܦܛܘ ܘܩ̣ܢܘ ܠܟܬܒܐ ܕܕܝܢܘܣܝܘܣ. ܛܒܐ ܕܝܪܝܐ ܩܫܝܫܐ ܩܒܐܣܝܠ܏ܘ ܐܦ܏ܝܣ ܕܒܓܕܕ ܘܦܘܠܘܣ ܐܚ̈ܐ. ܘܡܪܩܘܣ
+                                          ܕܝܪܝܐ ܩܫܝܫܐ ܒܪ ܚܬܐ ܕܝܠܗܘܢ. ܒܫܩܠܛܥܢܐ ܣܓܝܐܐ. ܐܝܟ ܕܠܝܘܬܪܢܐ ܕܩܢܘܡܗܘܢ. ܘܠܥܘܗܕܢܐ ܫܦܝܪܐ ܘܠܚܘܣܝܐ
+                                          ܕܢܦܫ̈ܬܗܘܢ. ܘܠܝܘܬܪܢܐ ܘܗܓܝܢܐ ܕܚ̈ܝܐ ܪ̈ܘܚܢܝܐ ܕܐܝܠܝܢ ܕܦܓܥܝܢ. ܘܒ̈ܚܝܝܗܘܢ ܘܟܕ ܚܠܝܡܝܢ ܘܢܛܝܪܝܢ
+                                          ܒܢܦܫܐ ܘܒܦܓܪܐ ܘܒܗܘܢܐ. ܫܟܢܘ ܐܢܘܢ ܠܥܘܡܪܐ ܪܒܐ ܘܛܒܝܒܐ ܕܝܠܗܘܢ ܕܡܪܝ ܝܘܚܢܢ ܕܩܘܪܕܝܣ ܕܕܐܪܐ.
+                                          ܒܘܪܟܬܐ ܠܗܢܐ ܟܬܒܐ ܘܠܐܚܪ̈ܢܐ ܪ̈ܝܫܐ ܕܡ̈ܠܦܢܐ. ܗܠܝܢ ܕܡܢ ܥܘܗܕܢܗܘܢ ܡܬܝܕܥܝܢ܀ ܕܐܠܗܐ ܗ̇ܘ ܕܡܛܠ
+                                          ܚܘܒܗ ܦܪܫ̣ܘ ܘܫ̣ܟܢܘ ܘܝܗ̣ܒܘ̣. ܗܘ ܢܗ̇ܘܐ ܠܗܘܢ ܡܚܣܝܢܐ ܏ܘܫ. ܘܥܠ ܡܚܝܠܐ ܘܚܛܝܐ ܛܝܡܬܐܘܣ ܕܣܪܛ̣.
+                                          ܢܗܘܘܢ ܪ̈ܚܡܐ ܐܡܝܢ.</span>
+                                       </span></div>
+                                 
+                                 <div class="tei-item"><span class="inline-h4">Addition 5</span><strong> (Fol. 177a)</strong>:
+                                    <span class="tei-p">On fol. 177a there is a third note, recording that this book belonged to a priest
+                                       named <span class="tei-persName">George</span>, who had it in a present from the niece of the deceased <span class="tei-persName">Abraham, patriarch of Egypt</span>. As <span class="tei-persName">Ephraim</span> or <span class="tei-persName">Abraham, patriarch of Alexandria</span>, was consecrated <span class="tei-date">A.D. 977</span>, and died between three and four years after (See <span class="tei-bibl">Le Quien, Or. Christ., t. ii., col. 479</span>;<span class="tei-bibl">Renaudot, Hist. Patr. Alexandr. Jacob., p. 366</span>), this note was probably written about <span class="tei-date">A.D. 982 or 983</span>.</span><span class="tei-p">
+                                       <span class="tei-quote" lang="syr">ܐܝܬܘܗܝ ܕܝܢ ܟܬܒܐ ܗܢܐ ܕܕܝܢܘܣܝܘܣ ܕܓܐܘܪܓܝܣ ܩܫܝܫܐ ܘܕܝܪܝܐ ܕܫܟܢܬܗ ܠܗ ܒܪܬ ܚܬܐ ܕܡܪܝ ܐܒ݊ܪܗ݊ܡ݊
+                                          ܦܐܛܪܝܐܪܟܐ ܕܡܨܪܝܢ ܗ̇ܘ ܕܥܘܗܕܢܗ ܥܡ ܩܕܝ̈ܫܐ ܐܝܟ ܕܢܩܪܐ ܒܗ ܘܢܬܥܗܕ ܠܡܪ̈ܘܗܝ ܗܠܝܢ ܕܐܡܝܪܝܢ ܘܠܐ
+                                          ܫܠܝܛ ܠܚܕ ܡܢ ܒܢܝ̈ܢܫܐ ܕܢܟܘܡ ܥܠܘܗܝ ܏ܘܫ.</span>
+                                       </span></div>
+                                 
+                                 <div class="tei-item"><span class="inline-h4">Addition 6</span><strong> (Fol. 176a)</strong>:
+                                    <span class="tei-p">Lastly, on fol. 176a, there is a note, dated <span class="tei-date">A. Gr. 1505</span>, <span class="tei-date">A.D. 1194</span>, from which we learn that this volume and about a hundred others were repaired and
+                                       bound by a certain monk (name erased), who came to the desert of <span class="tei-placeName">Scete</span> in that year:</span><span class="tei-p">
+                                       <span class="tei-quote" lang="syr">ܒܫܢܬ ܕܐܠܦ ܏ܘܫܪܗ ܐܬ݂ܐ ܠܕܝܪܐ ܗܕܐ ܕܒܡܕܒܪܐ ܕܐܝܣܩܝܛܝܣ ܕܝܪܝܐ ܚܕ ܥܡ ܚܒ̈ܪܘܗܝ ܣ̈ܓܝܐܐ ܡـ . .
+                                          . ܒܕܘܒܪ̈ܘܗܝ ܢܟܦ̈ܐ ܗܢܐ ܫܘܐ ܒܙܕܩܐ ܠܕܘܟܪܢܐ ܛܒܐ ܟܕ ܥܡܠܐ ܪܒܐ ܫܩ̣ܠ ܥܠܘܗܝ ܒܚܘܕܬܐ ܘܬܘܩܢܐ ܕܗܠܝܢ
+                                          ܟ̈ܬܒܐ ܣܓܝ̈ܐܐ ܕܐܬܦܣܩ ܗܘܘ ܘܐܬܩܛܥܘ. ܡܢ ܥܠܬ ܥܬܝܩܬܐ ܘܬܫܡܫܬܐ ܕܐܚ̈ܐ. ܗ̣ܘ ܕܝܢ ܗܢܐ ܐܚܐ ܕܐܡ̣ܪܢܢ
+                                          ܡܢ ܥܡܠܐ ܕܐܝ̈ܕܘܗܝ ܡܩܝܡ ܗܘܐ ܠܗܢܐ ܚܘܣܪܢܐ ܘܐܝܟ  ܡܐܐ ܟܬܒ̈ܐ ܕܡܦܣܩܝܢ ܘܡܒܕܪܝܢ ܣܘܓܐܐ ܕܩ̈ܠܦܝܗܘܢ
+                                          ܟܘܢܫܐ ܡܬܩܢܐ ܘܐܣܪܐ ܠܟܠܗܘܢ ܥܒܕ ܗܘܐ. ܘܗܢܐ ܥܒܕܐ ܪܒܐ ܕܥܒܕ ܗܘܐ ܠܐ ܐܬܡܨܝ ܐܢܫ ܡܢ ܐܝܠܝܢ ܕܠܗܪܟܐ
+                                          ܐܬ̣ܐ ܕܢܥܒܕܝܘܗܝ. ܘܗܠܝܢ ܡ̇ܢ ܣܘܪ̈ܛܐ . . . ܡܛܠ ܢܝܫܐ ܥܕܝܠܐ ܐܬܟܬܒ ܥܠܘܗܝ ܘܕܠܐ ܦܘܕܐ ܘܐܠܗܐ
+                                          ܣܗܕܐ ܢܗܘܐ.</span>
+                                       </span></div>
+                                 
+                                 
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+                  <div class="citationinfo">
+                     <h3>How to Cite This Entry</h3>
+                     <div id="citation-note" class="content-block indent"><span> William Wright</span> et al., “<span class="title">London, BL, Add. 12151</span>” in ,  last modified April 21, 2023, <a href="https://bl.syriac.uk/ms/26">https://bl.syriac.uk/ms/26</a>.
+                        <div class="collapse" id="showcit">
+                           <div id="citation-bibliography">
+                              <h4>Bibliography:</h4><span class="editor">William Wright</span> et al., “<span class="title">London, BL, Add. 12151</span>.” In , edited by . Syriaca.org: The Syriac Reference Portal,
+                              2023.
+                               Entry published April 21, 2023. <a href="https://bl.syriac.uk/ms/26">https://bl.syriac.uk/ms/26</a>.
+                           </div>
+                           <div id="about">
+                              <h3>About this Entry</h3>
+                              <p><span class="heading-inline">Entry Title:</span> <span class="title">London, BL, Add. 12151</span></p>
+                              <div>
+                                 <h4>Authorial and Editorial Responsibility:</h4>
+                                 <ul>
+                                    <li><span> David A. Michelson</span>, general editor, Syriaca.org: The Syriac Reference Portal
+                                    </li>
+                                    <li>, editor, </li>
+                                    <li>William Wright, David A. Michelson, Justin A. Arnwine, Robert Aydin, and Justin Arnwine, entry contributors, “”</li>
+                                 </ul>
+                              </div>
+                              <div>
+                                 <h4>Additional Credit:</h4>
+                                 <ul>
+                                    <li>Created by <span> Justin A. Arnwine</span></li>
+                                    <li>Based on the work of <span> William Wright</span></li>
+                                    <li>Syriac text entered by <span> Robert Aydin</span></li>
+                                    <li>Greek and coptic text entry and proofreading by <span> Ryan Stitt</span></li>
+                                    <li>Project management by <span> Elizabeth Walston</span></li>
+                                    <li>English text entry and proofreading by <span> Syriac Research Group, University of Alabama</span></li>
+                                    <li>Syriaca.org URIs for authors edited by <span> Justin Arnwine</span></li>
+                                    <li>Syriaca.org URIs for authors checked by <span> Alexys Ahn</span><span> Joseph DAlfonso</span></li>
+                                    <li>Folio extent edited by <span> Kurt Urban</span></li>
+                                 </ul>
+                              </div>
+                           </div>
+                           <div id="license">
+                              <h3>Copyright and License for Reuse</h3>
+                              <div>Except otherwise noted, this page is © 2023.
+                                 
+                              </div><span class="tei-licence">
+                                 
+                                 <p>Distributed under a Creative Commons Attribution 3.0 Unported License</p>
+                                 </span></div>
+                        </div><a class="btn-sm btn-info togglelink pull-right" data-toggle="collapse" data-target="#showcit" data-text-swap="Hide citation">Show full citation information...</a></div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </body><script type="text/javascript" src="/resources/js/jquery.validate.min.js"></script><script type="text/javascript" src="/resources/js/require.min.js"></script><script type="text/javascript" src="/resources/js/srophe.js"></script><script data-template="app:google-analytics"></script></html>

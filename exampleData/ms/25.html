@@ -1,0 +1,521 @@
+<?xml version="1.0" encoding="UTF-8"?><html xmlns="http://www.w3.org/1999/xhtml" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:srophe="https://srophe.app">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <title>London, BL, Add. 12150</title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <meta name="DC.type" property="dc.type" content="Text" />
+      <meta name="DC.isPartOf" property="dc.ispartof" content="Syriaca.org: The Syriac Reference Portal" />
+      <link data-template="app:metadata" />
+      <link rel="shortcut icon" href="/resources/images/fav-icons/mss-favicon.ico" />
+      <link rel="stylesheet" type="text/css" href="/resources/bootstrap/css/bootstrap.min.css" />
+      <link rel="stylesheet" type="text/css" href="/resources/css/sm-core-css.css" />
+      <link rel="stylesheet" type="text/css" href="/resources/css/syr-icon-fonts.css" />
+      <link rel="stylesheet" type="text/css" href="/resources/css/style.css" />
+      <link rel="stylesheet" type="text/css" href="/resources/css/syriaca.css" />
+      <link rel="stylesheet" type="text/css" media="print" href="/resources/css/print.css" />
+      <link rel="stylesheet" href="/resources/leaflet/leaflet.css" />
+      <link rel="stylesheet" href="/resources/leaflet/leaflet.awesome-markers.css" />
+      <link href="/resources/jquery-ui/jquery-ui.min.css" rel="stylesheet" /><script type="text/javascript" src="/resources/js/jquery.min.js"></script><script type="text/javascript" src="/resources/jquery-ui/jquery-ui.min.js"></script><script type="text/javascript" src="/resources/js/jquery.smartmenus.min.js"></script><script type="text/javascript" src="/resources/js/clipboard.min.js"></script><script type="text/javascript" src="/resources/bootstrap/js/bootstrap.min.js"></script><script defer="defer" data-domain="bl.syriac.uk" src="https://plausible.io/js/script.js"></script><link href="/resources/keyboard/css/keyboard.min.css" rel="stylesheet" />
+      <link href="/resources/keyboard/css/keyboard-previewkeyset.min.css" rel="stylesheet" />
+      <link href="/resources/keyboard/syr/syr.css" rel="stylesheet" /><script type="text/javascript" src="/resources/keyboard/syr/jquery.keyboard.js"></script><script type="text/javascript" src="/resources/keyboard/js/jquery.keyboard.extension-mobile.min.js"></script><script type="text/javascript" src="/resources/keyboard/js/jquery.keyboard.extension-navigation.min.js"></script><script type="text/javascript" src="/resources/keyboard/syr/jquery.keyboard.extension-autocomplete.js"></script><script type="text/javascript" src="/resources/keyboard/syr/keyboardSupport.js"></script><script type="text/javascript" src="/resources/keyboard/syr/syr.js"></script><script type="text/javascript" src="/resources/keyboard/layouts/ms-Greek.min.js"></script><script type="text/javascript" src="/resources/keyboard/layouts/ms-Russian.min.js"></script><script type="text/javascript" src="/resources/keyboard/layouts/ms-Arabic.min.js"></script><script type="text/javascript">
+            $(document).ready(function () {
+                $('[data-toggle="tooltip"]').tooltip({ container: 'body' })
+
+                $('.keyboard').keyboard({
+                    openOn: null,
+                    stayOpen: false,
+                    alwaysOpen: false,
+                    autoAccept: true,
+                    usePreview: false,
+                    initialFocus: true,
+                    rtl : true,
+                    layout: 'syriac-phonetic',
+                    hidden: function(event, keyboard, el){
+                       //  keyboard.destroy();
+                     }
+                });
+
+                $('.keyboard-select').click(function () {
+                    var keyboardID = '#' + $(this).data("keyboard-id")
+                    var kb = $(keyboardID).getkeyboard();
+                    //var kb = $('#searchField').getkeyboard();
+                    // change layout based on link ID
+                    kb.options.layout = this.id
+                    // open keyboard if layout is different, or time from it last closing is &gt; 200 ms
+                    if (kb.last.layout !== kb.options.layout || (new Date().getTime() - kb.last.eventTime) &gt; 200) {
+                        kb.reveal();
+                    }
+                });
+                //Change fonts
+                $('.swap-font').on('click', function(){
+                    var selectedFont = $(this).data("font-id")
+                    $('.selectableFont').not('.syr').css('font-family', selectedFont);
+                    $("*:lang(syr)").css('font-family', selectedFont)
+                });
+
+            })
+        </script></head>
+   <body id="body">
+      <nav class="navbar navbar-default navbar-fixed-top" role="navigation" data-template="app:fix-links">
+         
+         <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse-1">
+               <span class="sr-only">Toggle navigation</span>
+               <span class="icon-bar"></span>
+               <span class="icon-bar"></span>
+               <span class="icon-bar"></span>
+               </button>
+            <a class="navbar-brand banner-container" href="/index.html">
+               <span class="syriaca-icon syriaca-mss banner-icon"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span>
+                  </span>
+               <span class="banner-text">Syriac Manuscripts in the British Library</span>
+               </a>
+            
+         </div>
+         
+         <div class="navbar-collapse collapse pull-right" id="navbar-collapse-1">
+            
+            <ul class="nav navbar-nav">
+               
+               <li>
+                  <a href="/browse.html" class="nav-text">Browse</a>
+                  
+               </li>
+               
+               <li data-template="app:shared-content" data-template-path="/templates/shared-links.html"></li>
+               
+               <li>
+                  <a href="/search.html" class="nav-text">Advanced Search</a>
+                  
+               </li>
+               
+               <li>
+                  
+                  <div id="search-wrapper">
+                     
+                     <form class="navbar-form navbar-right search-box" role="search" action="/search.html" method="get">
+                        
+                        <div class="form-group">
+                           <input type="text" class="form-control keyboard" placeholder="search" name="keyword" id="keywordNav" />
+                           <span data-template="app:keyboard-select-menu" data-template-input-id="keywordNav"></span>
+                           <button class="btn btn-default search-btn" id="searchbtn" type="submit" title="Search">
+                              <span class="glyphicon glyphicon-search"></span>
+                              </button>
+                           
+                        </div>
+                        
+                     </form>
+                     
+                  </div>
+                  
+               </li>
+               
+               <li data-template="app:shared-content" data-template-path="/templates/fontMenu.html"></li>
+               
+            </ul>
+            
+         </div>
+         
+      </nav>
+      <div class="main-content-block">
+         <div class="interior-content">
+            <div class="container otherFormats"><a href="mailto:bl.syriac.uk@gmail.com?subject=Shelf mark: Record URI: " type="button" class="btn btn-default btn-xs" data-toggle="tooltip" title="Click to report a correction via e-mail."><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span> Corrections
+                  </a> <a href="https://github.com/srophe/britishLibrary-data/issues/new?assignees=&amp;labels=community-submitted&amp;title=:" target="_blank" id="issueBtn" data-toggle="tooltip" class="btn btn-default btn-xs" title="Click to file a data issue on GitHub (requires login)."><span class="glyphicon glyphicon-record" aria-hidden="true"></span> Open
+                  </a> <a href="https://github.com/srophe/britishLibrary-data/blob/main/data/tei/25.xml" target="_blank" class="btn btn-default btn-xs" id="openBtn" data-toggle="tooltip" title="Click to view the TEI XML data for this record."><img src="/resources/images/github-mark.png" height="18px" /></a> <a href="javascript:window.print();" type="button" class="btn btn-default btn-xs" id="printBtn" data-toggle="tooltip" title="Click to send this page to the printer."><span class="glyphicon glyphicon-print" aria-hidden="true"></span> 
+                  </a> 
+            </div>
+            <div class="row">
+               <div class="col-md-12">
+                  <div xmlns:x="http://www.w3.org/1999/xhtml" xmlns:local="http://syriaca.org/ns" class="title">
+                     <h1>Add. 12,150</h1>
+                  </div>
+                  <div xmlns:x="http://www.w3.org/1999/xhtml" xmlns:local="http://syriaca.org/ns" class="tei-note">
+                     <div>URI: <span class="tei-idno">https://bl.syriac.uk/ms/25</span></div>
+                  </div>
+                  <div xmlns:x="http://www.w3.org/1999/xhtml" xmlns:local="http://syriaca.org/ns" class="header section">
+                     <div class="tei-note">
+                        <div>
+                           Description based on Wright
+                           <a href="#" data-toggle="tooltip" title="This entry number is from Wright's printed catalogue. Due to renumbering, Wright's entry numbers do not match the numbering used in this digital catalogue."><span class="tei-idno">DCCXXVI</span></a>
+                           (<span class="tei-citedRange">2:631-633</span>)
+                           <a href="https://archive.org/details/catalogueofsyria02brituoft/page/631" target="_blank"><img src="/resources/images/ialogo.jpg" alt="Link to Archive.org Bibliographic record" height="18px" /></a></div>
+                        <div>
+                           Date: 
+                           AD 412 / AG 723
+                        </div>
+                        <div>
+                           Origin: <a href="/search.html?ref=http://syriaca.org/place/78">
+                              Edessa
+                              </a></div>
+                        <div>Estrangela script (multiple hands) ܀  Parchment Codex, 255 leaves.
+                           
+                        </div>
+                        <div>
+                           Features: 
+                           
+                           Decoration
+                        </div>
+                        <div>
+                           Wright's Subject Classification:
+                           Collected Authors
+                        </div>
+                     </div>
+                     <div class="tei-note"><span>This manuscript contains: Titus, and Clemens, and the Caesarean [Eusebius]. In total,
+                           including sub-sections, this manuscript contains 21 items.</span></div>
+                  </div>
+                  <div xmlns:x="http://www.w3.org/1999/xhtml" xmlns:local="http://syriaca.org/ns" class="panel panel-default">
+                     <div class="panel-heading">
+                        <h2 class="panel-title" data-toggle="collapse" data-target="#Overview">Physical Description </h2>
+                     </div>
+                     <div id="Overview" class="panel-collapse collapse in">
+                        <div class="panel-body">
+                           <div class="msDesc">
+                              <div class="tei-physDesc">
+                                 <div class="indent">
+                                    <p> Vellum, about 14 5/8 in. by 11 1/8, consisting of 255 leaves, many of which are slightly
+                                       stained by water and oil, and a few much torn, especially foll. 8 and 253—5. Originally
+                                       the quires were signed with letters, from ܐ to ܬ and again from ܐ to ܕ (see foll.
+                                       78 a, ܛ; 179 a, ܩ; 199 a,  ܫ ; 229 a,  ܒ ; 239 a, ܓ). A later hand has numbered them
+                                       consecutively from ܐ to ܟܘ. Each page is divided into three columns, a full column
+                                       having from 38 to 43 lines. This volume is written throughout in a beautiful Edessene
+                                       character, and dated A. Gr. 723, A.D. 412. [It is consequently believed to be the
+                                       oldest dated volume extant; and yet the vellum is in many places as white, and the
+                                       ink as black, as if it were only a; few years old. The next dated book in point of
+                                       antiquity seems to be the MS. of the Ecclesiastical History of Eusebius in the Imperial
+                                       Public Library at St. Petersburg, written A.D. 462; and the third, in the British
+                                       Museum, Add.14,425, A.D. 464 (see above, p. 3, no. III).]
+                                    </p><span class="tei-handDesc">
+                                       
+                                       <div name="handNote1"><span class="inline-h4">Hand 1 (major, Estrangela script): </span>
+                                          This volume is written throughout in a beautiful Edessene character, and dated <span class="tei-date">A. Gr. 723</span>, <span class="tei-date">A.D. 412</span>. <span class="tei-ref">See additions.</span>
+                                          
+                                       </div>
+                                       
+                                       <div name="handNote2"><span class="inline-h4">Hand 2 (minor, Unspecified Syriac script): </span>
+                                          <span class="tei-ref">See additions.</span>
+                                          
+                                       </div>
+                                       
+                                       <div name="handNote3"><span class="inline-h4">Hand 3 (minor, Unspecified Syriac script): </span>
+                                          <span class="tei-ref">See additions.</span>
+                                          
+                                       </div>
+                                       
+                                       <div name="handNote4"><span class="inline-h4">Hand 4 (minor, Unspecified Arabic script): </span>
+                                          <span class="tei-ref">See additions.</span>
+                                          
+                                       </div>
+                                       
+                                       <div name="handNote5"><span class="inline-h4">Hand 5 (minor, Unspecified Syriac script): </span>
+                                          <span class="tei-ref">See additions.</span>
+                                          
+                                       </div>
+                                       </span><span class="tei-decoDesc">
+                                       
+                                       <div name=""><span class="msItem"><span class="inline-h4">Decoration (Rubrication):</span></span></div>
+                                       </span></div>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+                  <div xmlns:x="http://www.w3.org/1999/xhtml" xmlns:local="http://syriaca.org/ns" class="panel panel-default">
+                     <div class="panel-heading">
+                        <h2 class="panel-title" data-toggle="collapse" data-target="#Contents">Manuscript Contents</h2>
+                     </div>
+                     <div id="Contents" class="panel-collapse collapse in">
+                        <div class="panel-body">
+                           <div class="msContent"><span class="summary ident">Note: Item numbering updated in digital edition.</span><span class="tei-msContents">
+                                 
+                                 
+                                 <div class="tei-msItem"><span class="inline-h4">Item 1 (Fol. 1): </span>Titus, and Clemens, and the Caesarean [Eusebius] [defective]
+                                    <div class="msItemChild"><span class="tei-finalRubric"><span class="inline-h4"> 
+                                             Subscription : </span><span xml:lang="syr" lang="syr" dir="rtl">[ܐܫ]ܬܠܡܘ ܒܦܢܩܝܬܐ ܗܕܐ ܟ̈ܬܒܐ ܬ̈ܠܬܐ ܛܛܘܣ ܘܩܠܡܣ ܘܩܣܪܝܐ</span></span><span class="tei-finalRubric"><span class="inline-h4"> 
+                                             Subscription : </span><span xml:lang="en" lang="en" dir="ltr">There are completed in this volume three books,Titus, and Clemens, and the Caesarean.</span></span><span class="tei-colophon"><span class="inline-h4"> 
+                                             Colophon: </span><span>
+                                             <a href="#addition1">See additions.</a>
+                                             </span></span><div class="tei-msItem"><span class="inline-h4">Item 2 (Fol. 1b): </span>Clement of Rome. The Recognitions of Clement of Rome, the disciple of S. Peter
+                                           [defective]
+                                          <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                   <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">
+                                                   <span class="tei-fw">ܩܠܡܣ</span>
+                                                   </span></span><span class="tei-finalRubric"><span class="inline-h4"> 
+                                                   Subscription  (Fol. 72): </span><span xml:lang="syr" lang="syr" dir="rtl">ܫܠܡ ܠܡܟܬܒ ܡܡܠܠܐ ܕܩܠܡܣ
+                                                   </span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>The title has been cut away. In <a href="https://bl.syriac.uk/ms/347">Add. 14,609, fol. 123a<span class="tei-ptr"></span>
+                                                   </a>, the title is <span class="tei-quote"><span xml:lang="syr" lang="syr" dir="rtl">ܬܫܥܝܬܐ ܕܩܠܝܡܝܣ ܐܝܢܐ ܕܢܩܝܦ ܗܘܐ ܠܫܡܥܘܢ ܟܐܦܐ</span></span>, <span class="tei-quote"><span xml:lang="en" lang="en" dir="ltr">the history of Clement, who was attached to Simon Peter.</span></span>
+                                                
+                                             </div>
+                                             <div class="tei-msItem"><span class="inline-h4">Item 3 (Fol. 1b): </span>
+                                                <span class="tei-quote" lang="en">The first discourse</span>, comprising the first three books of the Latin version of Rufinus, and the first
+                                                chapter of the fourth book, as far as the words <span class="tei-foreign" lang="la">apud Tripolim nobis hiemandiun denunciavimus</span>. [defective]
+                                                <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                         <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܡܡܠܠܐ ܩܕܡܝܐ
+                                                         </span></span><span class="tei-finalRubric"><span class="inline-h4"> 
+                                                         Subscription  (Fol. 53): </span><span xml:lang="syr" lang="syr" dir="rtl">ܫܠܡ ܠܡܟܬܒ ܡܡܠܠܐ ܩܕܡܝܐ ܕܩܠܡܣ
+                                                         </span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>Cf. Gersdorf, Bibliotheca Patruni Ecclesiast. Latin., t. i., pp. 3-115; Cotelerius, SS. Patrum qui temporibus Apostolicis floruerunt Opera, ed. Clericus (Amstel.,
+                                                      1724), t. i., pp. 493-539
+                                                      
+                                                   </div>
+                                                </div>
+                                             </div>
+                                             <div class="tei-msItem"><span class="inline-h4">Item 4 (Fol. 53a): </span>
+                                                <span class="tei-quote" lang="en">The third (discourse), against the heathens</span>, corresponding to the tenth homily of the original Greek
+                                                <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                         <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܕܬ̈ܠܬܐ ܕܠܘܩܒܠ ܚܢ̈ܦܐ
+                                                         </span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>Cf. Cotelerius, t. i., p. 692; De Lagarde, Clementina (Leipzig, 1865), p. 100
+                                                      
+                                                   </div>
+                                                </div>
+                                             </div>
+                                             <div class="tei-msItem"><span class="inline-h4">Item 5 (Fol. 57a): </span>
+                                                <span class="tei-quote" lang="en">The fourth (discourse)</span>, corresponding to the eleventh homily of the Greek
+                                                <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                         <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܕܐܪ̈ܒܥܐ
+                                                         </span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>Cf. Cotelerius, t. i., p. 698; De Lagarde, Clementina (Leipzig, 1865), p. 108
+                                                      
+                                                   </div>
+                                                </div>
+                                             </div>
+                                             <div class="tei-msItem"><span class="inline-h4">Item 6 (Fol. 63b): </span>
+                                                <span class="tei-quote" lang="en">From Tripolis in Phoenicia
+                                                   </span>, corresponding to the twelfth homily of the Greek, from the beginning to the end
+                                                of § 25, and the thirteenth homily
+                                                <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                         <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܕܡܢ ܛܪܝܦܘܠܣ ܕܦܝܢܝܩܐ
+                                                         </span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>Cf. Cotelerius, t. i., p. 707-714, 717; De Lagarde, Clementina (Leipzig, 1865), p. 120-129, 133
+                                                      
+                                                   </div>
+                                                </div>
+                                             </div>
+                                             <div class="tei-msItem"><span class="inline-h4">Item 7 (Fol. 70b): </span>
+                                                <span class="tei-quote" lang="en">The fourteenth discourse</span>, corresponding to the fourteenth homily of the Greek
+                                                <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                         <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܡܐܡܪܐ ܕܐܪܒܬܥܣܪ
+                                                         </span></span><div class="msItem-notes"><span class="inline-h4">Notes:</span><ul>
+                                                         <li>This work has been edited from the two Nitrian MSS. [manuscripts]  by Dr. de Lagarde, under the title of Clementis Romani Recognitiones Syriace,1861.</li>
+                                                         <li>Cf. Cotelerius, t. i., p. 723; De Lagarde, p. 140
+                                                            
+                                                         </li>
+                                                      </ul>
+                                                   </div>
+                                                </div>
+                                             </div>
+                                          </div>
+                                       </div>
+                                       <div class="tei-msItem"><span class="inline-h4">Item 8 (Fol. 72b): </span>Titus of Bostra. The Discourses of Titus, bishop of Bosra, or Bostra, against the Manichaeans
+                                          
+                                          <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                   <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܡܐܡܪ̈ܐ ܕܛܛܘܣ ܕܠܘܩܒܠ ܡܢܝ̈ܢܝܐ
+                                                   </span></span><span class="tei-finalRubric"><span class="inline-h4"> 
+                                                   Subscription  (Fol. 156a): </span><span xml:lang="syr" lang="syr" dir="rtl">ܫܠܡ ܡ̈ܐܡܪܐ ܐܪ̈ܒܥܐ ܕܛܛܘܣ ܕܠܘܩܒܠ ܡܢܝ̈ܢܝܐ ܕܡܦܩܝܢ ܡܢ ܝܘܿܢܝܐ ܠܐܪܡܝܐ
+                                                   </span></span><span class="tei-finalRubric"><span class="inline-h4"> 
+                                                   Subscription  (Fol. 156a): </span><span xml:lang="en" lang="en" dir="ltr">
+                                                   <span class="tei-supplied">Here ends the four discourses of Titus of Bostra against the Manichaeans, translated
+                                                      from Greek into Aramaic.</span>
+                                                   
+                                                   </span></span><div class="msItem-notes"><span class="inline-h4">Notes:</span><ul>
+                                                   <li>This work has been edited by De Lagarde, under the title of 
+                                                      "Titi Bostreni contra Manicliaeos libri quatuor Syriace", 1859, 
+                                                      as also in Greek, according to the Codex Hamburgensis, 1859.
+                                                   </li>
+                                                   <li>Cf. Gallandii Bibl. Vett. Patrum, t. v., pp. 269-356
+                                                      
+                                                   </li>
+                                                </ul>
+                                             </div>
+                                             <div class="tei-msItem"><span class="inline-h4">Item 9 (Fol. 72b): </span>Titus of Bostra. The first discourse
+                                                <div class="msItemChild"></div>
+                                             </div>
+                                             <div class="tei-msItem"><span class="inline-h4">Item 10 (Fol. 86b): </span>Titus of Bostra. The second discourse
+                                                <div class="msItemChild"></div>
+                                             </div>
+                                             <div class="tei-msItem"><span class="inline-h4">Item 11 (Fol. 86b): </span>Titus of Bostra. The third discourse
+                                                <div class="msItemChild"></div>
+                                             </div>
+                                             <div class="tei-msItem"><span class="inline-h4">Item 12 (Fol. 86b): </span>Titus of Bostra. The fourth discourse
+                                                <div class="msItemChild"></div>
+                                             </div>
+                                          </div>
+                                       </div>
+                                       <div class="tei-msItem"><span class="inline-h4">Item 13 (Fol. 156a): </span>Eusebius of Caesarea. The Treatise of Eusebius of Caesarea on the Theophania (<span class="tei-foreign" lang="grc">περὶ θεοφανεἰας</span>) or Divine Manifestation of our Lord, in five books
+                                          <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                   <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܕܐܘܣܒܣ ܩܣܪܝܐ ܕܥܠ ܕܢܚܐ ܐܠܗܝܐ
+                                                   </span></span><span class="tei-finalRubric"><span class="inline-h4"> 
+                                                   Subscription  (Fol. 235b): </span><span xml:lang="syr" lang="syr" dir="rtl">ܫܠܡ ܠܡܟܬܒ ܚܡ̈ܫܐ ܣܦܪ̈ܝܢ ܕܐܘܣܒܣ ܩܣܪܝܐ ܕܡܬܩܪܝܢ ܕܕܢܚܐ ܐܠܗܝܐ.
+                                                   </span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>This work has been edited by Dr. S. Lee for the Society for the Publication of Oriental Texts, 1842; and in 1843 the same scholar published an English translation of it, with preface, preliminary dissertation and notes.
+                                             </div>
+                                             <div class="tei-msItem"><span class="inline-h4">Item 14 (Fol. 156a): </span>Eusebius of Caesarea. The first book
+                                                <div class="msItemChild"></div>
+                                             </div>
+                                             <div class="tei-msItem"><span class="inline-h4">Item 15 (Fol. 171b): </span>Eusebius of Caesarea. The second book with the special title <span class="tei-quote" lang="en">against the Philosophers</span>
+                                                
+                                                <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                         <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܕܠܘܩܒܠ ܦܝ̈ܠܘܣܦܐ
+                                                         </span></span></div>
+                                             </div>
+                                             <div class="tei-msItem"><span class="inline-h4">Item 16 (Fol. 188a): </span>Eusebius of Caesarea. The third book
+                                                <div class="msItemChild"></div>
+                                             </div>
+                                             <div class="tei-msItem"><span class="inline-h4">Item 17 (Fol. 202a): </span>Eusebius of Caesarea. The fourth book
+                                                <div class="msItemChild"></div>
+                                             </div>
+                                             <div class="tei-msItem"><span class="inline-h4">Item 18 (Fol. 221a): </span>Eusebius of Caesarea. The fifth book
+                                                <div class="msItemChild"></div>
+                                             </div>
+                                          </div>
+                                       </div>
+                                       <div class="tei-msItem"><span class="inline-h4">Item 19 (Fol. 235b): </span>Eusebius of Caesarea. The History of the Confessors, or Martyrs, in Palestine by Eusebius of Caesarea
+                                          <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                   <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܕܥܠ ܡܘܕܝ̈ܢܐ ܕܒܦܠܣܛܝܢܐ ܕܐܡܝܪ ܠܐܘܣܒܣ ܩܣܪܝܐ
+                                                   </span></span><span class="tei-finalRubric"><span class="inline-h4"> 
+                                                   Subscription  (Fol. 251a): </span><span xml:lang="syr" lang="syr" dir="rtl">ܫܠܡܘ ܫ̈ܪܒܐ ܕܬܫ̈ܥܝܬܐ ܕܢܨܚ̈ܢܝܗܘܢ ܕܡܘ̈ܕܝܢܐ ܩ̈ܕܝܫܐ ܕܒܦܠܣܛܝܢܐ.
+                                                   </span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>It has been edited and translated into English, with notes, by Dr. Cureton, 1861
+                                                
+                                             </div>
+                                          </div>
+                                       </div>
+                                       <div class="tei-msItem"><span class="inline-h4">Item 20 (Fol. 251a): </span>Eusebius of Caesarea. A Panegyric on the Christian Martyrs by Eusebius
+                                          <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                   <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܡܐܡܪܐ ܕܩܘ̈ܠܣܐ ܕܡܝܬܪܘܬܗܘܢ.
+                                                   </span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>It has been published in the Journal of Sacred Literature, 4th Series, vol. v., p. 403, and translated by Air.
+                                                B. H. Cowper in the same periodical, t. vi., p. 129.
+                                             </div>
+                                          </div>
+                                       </div>
+                                       <div class="tei-msItem"><span class="inline-h4">Item 21 (Fol. 252b): </span>A Martyrology, the greater part of which, relating to the western martyrs, is arranged
+                                          according to the order of the Syrian months, from the first Kānūn to the second Teshrī
+                                          <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                   <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܫܡ̈ܗܐ ܕܡܪ̈ܝܢ ܡܘܕܝ̈ܢܐ ܘܙܟ̈ܝܐ. ܘܝܘܡ̈ܝܗܘܢ ܕܫܩܠܘ ܒܗܘܿܢ ܟ̈ܠܝܠܐ.
+                                                   </span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>The names of the Eastern or Persian martyrs are given on foll.254b and 255a, arranged according to their clerical rank. This martyrology has likewise been published
+                                                in the Journal of Sacred Literature, 4th Series, t. viii., p. 45, with an English translation,
+                                                p. 423. See the Acta Sanctorum for October, t. xii., pp. 183-5.
+                                             </div>
+                                          </div>
+                                       </div>
+                                    </div>
+                                 </div>
+                                 </span></div>
+                        </div>
+                     </div>
+                  </div>
+                  <div xmlns:x="http://www.w3.org/1999/xhtml" xmlns:local="http://syriaca.org/ns" class="panel panel-default">
+                     <div class="panel-heading">
+                        <h2 class="panel-title" data-toggle="collapse" data-target="#Additions">Additions </h2>
+                     </div>
+                     <div id="Additions" class="panel-collapse collapse in">
+                        <div class="panel-body">
+                           <div class="msDesc">
+                              <div class="indent">
+                                 
+                                 <div class="tei-note"><span>N.B., folio location may not be available for some items below.</span></div>
+                                 
+                                 <div class="tei-note"><span>N.B., items below may have been listed out of folio order in Wright's catalogue.</span></div>
+                                 
+                                 
+                                 <div class="tei-item"><span class="inline-h4">Addition 1</span><strong> (Fol. 254a)</strong>:
+                                    <span class="tei-p">On fol. 254a, 3rd col., we read the colophon, written with green paint (see also fol.<span class="tei-locus">227b</span>):</span><span class="tei-p">
+                                       <span class="tei-quote" lang="syr">[ܐܫ]ܬܠܡܘ ܒܦܢܩܝܬܐ ܗܕܐ ܟ̈ܬܒܐ ܬ̈ܠܬܐ ܛܛܘܣ ܘܩܠܡܣ ܘܩܣܪܝܐ</span>
+                                       </span><span class="tei-p">
+                                       <span class="tei-quote" lang="en">There are completed in this volume three books,<span class="tei-persName">Titus</span>, and <span class="tei-persName">Clemens</span>, and the <span class="tei-persName">Caesarean</span>.</span>
+                                       </span><span class="tei-p">This is followed by the doxology (written with yellow paint, see also fol.<span class="tei-locus">229b</span>), and by the note:</span><span class="tei-p">
+                                       <span class="tei-quote" lang="syr">ܐܫܬܠܡܬ ܦܢܩܝܕܬܐ$ ܗܕܐ ܒܝܪܚ ܬܫܪܝ ܫܢܬ ܫܒ[ܥܡـ]ܐܐ [ܘܥ]ܣܪܝܢ ܘܬܠܬ ܒ[ܐ]ܘܪܗܝ [ܡܕܝܢܬܐ ܕ]ܒܝܬ [ܢܗ]ܪܝܢ
+                                          . . .</span>
+                                       <span class="tei-note">ܦܢܩܝܬܐ is the oldest form of the word, from <span class="tei-foreign" lang="grc">πινακίδὶον</span>. It usually becomes, by assimiliation, ܦܢܩܝܬܐ; and is sometimes corrupted into ܦܢܩܝܢܬܐ,
+                                          according to the analogy of ܡܕܝܢܬܐ  ,ܣܦܝܢܬܐ, etc.</span>
+                                       </span><span class="tei-p">
+                                       <span class="tei-quote" lang="en">This volume was finished in the month of the latter Teshrī, in the year <span class="tei-date">723</span>(<span class="tei-date">A.D. 412</span>), at
+                                          <span class="tei-placeName">Urhāi (Edessa)</span>
+                                          , a city of <span class="tei-placeName">Beth-Nahrīn (Mesopotamia)</span>……….</span>
+                                       </span></div>
+                                 
+                                 <div class="tei-item"><span class="inline-h4">Addition 2</span>:
+                                    <span class="tei-p">A later hand has numbered the quires consecutively from <span class="tei-foreign" lang="syr">ܐ</span> to <span class="tei-foreign" lang="syr">ܟܘ</span>.</span><span class="tei-p">
+                                       <span class="tei-quote" lang="syr"></span>
+                                       </span></div>
+                                 
+                                 <div class="tei-item"><span class="inline-h4">Addition 3</span><strong> (Fol. 239b)</strong>:
+                                    <span class="tei-p">On the margin of fol. 239b, some careful student and admirer of antiquity has written
+                                       these words:</span><span class="tei-p">
+                                       <span class="tei-quote" lang="syr">ܚܙܘ ܐܚ̈ܝ ܐܢܗ̣ܘ ܕܡܬܦܣܩܐ ܚܪܬܗ ܕܟܬܒܐ ܗܢܐ ܥܬܝܩܐ ܘܐܒܕܐ ܥܡ ܗ̇ܘ ܡܕܡ ܕܚܬ݂ܡ ܘܐܫܠܡ ܒܗ ܟܬܘܒܗ.
+                                          ܗܟܢܐ ܟܬܝܒ ܗܘܐ ܒܗ̇ ܒܚܪܬܗ ܕܐܬܟܬ݂ܒ ܠܡ ܟܬܒܐ ܗܢܐ ܒܐܘܪܗܝ ܡܕܝܢܬܐ ܕܒܝܬ ܢܗܪܝܢ ܒܐܝܕ̈ܝ ܐܢܫ ܕܡܬܩܪܐ
+                                          ܝܥܩܘܒ ܒܫܢܬ ܫܒܥܡܐܐ ܘܥܣܪܝܢ ܘܬܠܬ ܒܐܝܪܚ ܬܫܪܝܢ ܐܚܪܝ ܐܫܬܠܡ. ܘܐܝܟ ܡܕܡ ܕܟܬܝܒ ܗܘܐ ܬܡܢ ܟܬܒ݁ܬ
+                                          ܐܦ ܗܪܟܐ ܕܠܐ ܬܘܣܦܬܐ܀ ܘܗܠܝܢ ܕܗܪܟܐ ܟܬܒ݁ܬ ܐܢܝ̈ܢ ܒܫܢܬ ܐܠܦ ܘ܏ܫܨܚ ܒܕܝܘ̈ܢܝܐ..</span>
+                                       </span><span class="tei-p">
+                                       <span class="tei-quote" lang="en">See, my brethren; if the latter part of this ancient book be cut off, and perish,
+                                          along with that wherewith its writer closed and completed it, there was this inscription
+                                          at the end of it: 'This book was written in Edessa, a city of Mesopotamia, by the
+                                          hand of a man called Jacob, in the year 723; in the month of the second Teshrīn it
+                                          was completed.</span>
+                                       <span class="tei-note">Or perhaps the word $ܐܫܬܠܡ, like the Arabic %, may merely signify that the quotation
+                                          is ended.</span>
+                                       <span class="tei-quote" lang="en">And just according as was written there, have I written also here, without any addition.
+                                          And the things which are here I wrote in the year <span class="tei-date">1398</span> of the Greeks (<span class="tei-date">A.D. 1087</span>).</span>
+                                       </span></div>
+                                 
+                                 <div class="tei-item"><span class="inline-h4">Addition 4</span><strong> (Fol. 1a)</strong>:
+                                    <span class="tei-p">On fol. 1a there is some Arabic and Syriac writing of different dates, but of no importance;
+                                       e.g.</span><span class="tei-p">
+                                       <span class="tei-quote" lang="ar">
+                                          
+                                          </span>
+                                       </span></div>
+                                 
+                                 
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+                  <div class="citationinfo">
+                     <h3>How to Cite This Entry</h3>
+                     <div id="citation-note" class="content-block indent"><span> William Wright</span> et al., “<span class="title">London, BL, Add. 12150</span>” in ,  last modified April 21, 2023, <a href="https://bl.syriac.uk/ms/25">https://bl.syriac.uk/ms/25</a>.
+                        <div class="collapse" id="showcit">
+                           <div id="citation-bibliography">
+                              <h4>Bibliography:</h4><span class="editor">William Wright</span> et al., “<span class="title">London, BL, Add. 12150</span>.” In , edited by . Syriaca.org: The Syriac Reference Portal,
+                              2023.
+                               Entry published April 21, 2023. <a href="https://bl.syriac.uk/ms/25">https://bl.syriac.uk/ms/25</a>.
+                           </div>
+                           <div id="about">
+                              <h3>About this Entry</h3>
+                              <p><span class="heading-inline">Entry Title:</span> <span class="title">London, BL, Add. 12150</span></p>
+                              <div>
+                                 <h4>Authorial and Editorial Responsibility:</h4>
+                                 <ul>
+                                    <li><span> David A. Michelson</span>, general editor, Syriaca.org: The Syriac Reference Portal
+                                    </li>
+                                    <li>, editor, </li>
+                                    <li>William Wright, David A. Michelson, Daniel J. Greeson, Tucker D. Hannah, Robert Aydin, and Justin Arnwine, entry contributors, “”</li>
+                                 </ul>
+                              </div>
+                              <div>
+                                 <h4>Additional Credit:</h4>
+                                 <ul>
+                                    <li>Created by <span> Justin A. Arnwine</span></li>
+                                    <li>Based on the work of <span> William Wright</span></li>
+                                    <li>Syriac text entered by <span> Robert Aydin</span></li>
+                                    <li>Greek and coptic text entry and proofreading by <span> Ryan Stitt</span></li>
+                                    <li>Project management by <span> Elizabeth Walston</span></li>
+                                    <li>English text entry and proofreading by <span> Syriac Research Group, University of Alabama</span></li>
+                                    <li>Decoration information encoded by <span> Alexys Ahn</span></li>
+                                    <li>Decorations identified and categorized by <span> Beth Maczka</span></li>
+                                    <li>Syriaca.org URIs for authors edited by <span> Justin Arnwine</span></li>
+                                    <li>Syriaca.org URIs for authors checked by <span> Alexys Ahn</span><span> Joseph DAlfonso</span></li>
+                                    <li>Folio extent edited by <span> Kurt Urban</span></li>
+                                 </ul>
+                              </div>
+                           </div>
+                           <div id="license">
+                              <h3>Copyright and License for Reuse</h3>
+                              <div>Except otherwise noted, this page is © 2023.
+                                 
+                              </div><span class="tei-licence">
+                                 
+                                 <p>Distributed under a Creative Commons Attribution 3.0 Unported License</p>
+                                 </span></div>
+                        </div><a class="btn-sm btn-info togglelink pull-right" data-toggle="collapse" data-target="#showcit" data-text-swap="Hide citation">Show full citation information...</a></div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </body><script type="text/javascript" src="/resources/js/jquery.validate.min.js"></script><script type="text/javascript" src="/resources/js/require.min.js"></script><script type="text/javascript" src="/resources/js/srophe.js"></script><script data-template="app:google-analytics"></script></html>

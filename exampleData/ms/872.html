@@ -1,0 +1,998 @@
+<?xml version="1.0" encoding="UTF-8"?><html xmlns="http://www.w3.org/1999/xhtml" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:srophe="https://srophe.app">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <title>London, BL, Add. 17210</title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <meta name="DC.type" property="dc.type" content="Text" />
+      <meta name="DC.isPartOf" property="dc.ispartof" content="Syriaca.org: The Syriac Reference Portal" />
+      <link data-template="app:metadata" />
+      <link rel="shortcut icon" href="/resources/images/fav-icons/mss-favicon.ico" />
+      <link rel="stylesheet" type="text/css" href="/resources/bootstrap/css/bootstrap.min.css" />
+      <link rel="stylesheet" type="text/css" href="/resources/css/sm-core-css.css" />
+      <link rel="stylesheet" type="text/css" href="/resources/css/syr-icon-fonts.css" />
+      <link rel="stylesheet" type="text/css" href="/resources/css/style.css" />
+      <link rel="stylesheet" type="text/css" href="/resources/css/syriaca.css" />
+      <link rel="stylesheet" type="text/css" media="print" href="/resources/css/print.css" />
+      <link rel="stylesheet" href="/resources/leaflet/leaflet.css" />
+      <link rel="stylesheet" href="/resources/leaflet/leaflet.awesome-markers.css" />
+      <link href="/resources/jquery-ui/jquery-ui.min.css" rel="stylesheet" /><script type="text/javascript" src="/resources/js/jquery.min.js"></script><script type="text/javascript" src="/resources/jquery-ui/jquery-ui.min.js"></script><script type="text/javascript" src="/resources/js/jquery.smartmenus.min.js"></script><script type="text/javascript" src="/resources/js/clipboard.min.js"></script><script type="text/javascript" src="/resources/bootstrap/js/bootstrap.min.js"></script><script defer="defer" data-domain="bl.syriac.uk" src="https://plausible.io/js/script.js"></script><link href="/resources/keyboard/css/keyboard.min.css" rel="stylesheet" />
+      <link href="/resources/keyboard/css/keyboard-previewkeyset.min.css" rel="stylesheet" />
+      <link href="/resources/keyboard/syr/syr.css" rel="stylesheet" /><script type="text/javascript" src="/resources/keyboard/syr/jquery.keyboard.js"></script><script type="text/javascript" src="/resources/keyboard/js/jquery.keyboard.extension-mobile.min.js"></script><script type="text/javascript" src="/resources/keyboard/js/jquery.keyboard.extension-navigation.min.js"></script><script type="text/javascript" src="/resources/keyboard/syr/jquery.keyboard.extension-autocomplete.js"></script><script type="text/javascript" src="/resources/keyboard/syr/keyboardSupport.js"></script><script type="text/javascript" src="/resources/keyboard/syr/syr.js"></script><script type="text/javascript" src="/resources/keyboard/layouts/ms-Greek.min.js"></script><script type="text/javascript" src="/resources/keyboard/layouts/ms-Russian.min.js"></script><script type="text/javascript" src="/resources/keyboard/layouts/ms-Arabic.min.js"></script><script type="text/javascript">
+            $(document).ready(function () {
+                $('[data-toggle="tooltip"]').tooltip({ container: 'body' })
+
+                $('.keyboard').keyboard({
+                    openOn: null,
+                    stayOpen: false,
+                    alwaysOpen: false,
+                    autoAccept: true,
+                    usePreview: false,
+                    initialFocus: true,
+                    rtl : true,
+                    layout: 'syriac-phonetic',
+                    hidden: function(event, keyboard, el){
+                       //  keyboard.destroy();
+                     }
+                });
+
+                $('.keyboard-select').click(function () {
+                    var keyboardID = '#' + $(this).data("keyboard-id")
+                    var kb = $(keyboardID).getkeyboard();
+                    //var kb = $('#searchField').getkeyboard();
+                    // change layout based on link ID
+                    kb.options.layout = this.id
+                    // open keyboard if layout is different, or time from it last closing is &gt; 200 ms
+                    if (kb.last.layout !== kb.options.layout || (new Date().getTime() - kb.last.eventTime) &gt; 200) {
+                        kb.reveal();
+                    }
+                });
+                //Change fonts
+                $('.swap-font').on('click', function(){
+                    var selectedFont = $(this).data("font-id")
+                    $('.selectableFont').not('.syr').css('font-family', selectedFont);
+                    $("*:lang(syr)").css('font-family', selectedFont)
+                });
+
+            })
+        </script></head>
+   <body id="body">
+      <nav class="navbar navbar-default navbar-fixed-top" role="navigation" data-template="app:fix-links">
+         
+         <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse-1">
+               <span class="sr-only">Toggle navigation</span>
+               <span class="icon-bar"></span>
+               <span class="icon-bar"></span>
+               <span class="icon-bar"></span>
+               </button>
+            <a class="navbar-brand banner-container" href="/index.html">
+               <span class="syriaca-icon syriaca-mss banner-icon"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span>
+                  </span>
+               <span class="banner-text">Syriac Manuscripts in the British Library</span>
+               </a>
+            
+         </div>
+         
+         <div class="navbar-collapse collapse pull-right" id="navbar-collapse-1">
+            
+            <ul class="nav navbar-nav">
+               
+               <li>
+                  <a href="/browse.html" class="nav-text">Browse</a>
+                  
+               </li>
+               
+               <li data-template="app:shared-content" data-template-path="/templates/shared-links.html"></li>
+               
+               <li>
+                  <a href="/search.html" class="nav-text">Advanced Search</a>
+                  
+               </li>
+               
+               <li>
+                  
+                  <div id="search-wrapper">
+                     
+                     <form class="navbar-form navbar-right search-box" role="search" action="/search.html" method="get">
+                        
+                        <div class="form-group">
+                           <input type="text" class="form-control keyboard" placeholder="search" name="keyword" id="keywordNav" />
+                           <span data-template="app:keyboard-select-menu" data-template-input-id="keywordNav"></span>
+                           <button class="btn btn-default search-btn" id="searchbtn" type="submit" title="Search">
+                              <span class="glyphicon glyphicon-search"></span>
+                              </button>
+                           
+                        </div>
+                        
+                     </form>
+                     
+                  </div>
+                  
+               </li>
+               
+               <li data-template="app:shared-content" data-template-path="/templates/fontMenu.html"></li>
+               
+            </ul>
+            
+         </div>
+         
+      </nav>
+      <div class="main-content-block">
+         <div class="interior-content">
+            <div class="container otherFormats"><a href="mailto:bl.syriac.uk@gmail.com?subject=Shelf mark: Record URI: " type="button" class="btn btn-default btn-xs" data-toggle="tooltip" title="Click to report a correction via e-mail."><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span> Corrections
+                  </a> <a href="https://github.com/srophe/britishLibrary-data/issues/new?assignees=&amp;labels=community-submitted&amp;title=:" target="_blank" id="issueBtn" data-toggle="tooltip" class="btn btn-default btn-xs" title="Click to file a data issue on GitHub (requires login)."><span class="glyphicon glyphicon-record" aria-hidden="true"></span> Open
+                  </a> <a href="https://github.com/srophe/britishLibrary-data/blob/main/data/tei/872.xml" target="_blank" class="btn btn-default btn-xs" id="openBtn" data-toggle="tooltip" title="Click to view the TEI XML data for this record."><img src="/resources/images/github-mark.png" height="18px" /></a> <a href="javascript:window.print();" type="button" class="btn btn-default btn-xs" id="printBtn" data-toggle="tooltip" title="Click to send this page to the printer."><span class="glyphicon glyphicon-print" aria-hidden="true"></span> 
+                  </a> 
+            </div>
+            <div class="row">
+               <div class="col-md-12">
+                  <div xmlns:x="http://www.w3.org/1999/xhtml" xmlns:local="http://syriaca.org/ns" class="title">
+                     <h1>Add. 17,211</h1>
+                  </div>
+                  <div xmlns:x="http://www.w3.org/1999/xhtml" xmlns:local="http://syriaca.org/ns" class="tei-note">
+                     <div>URI: <span class="tei-idno">https://bl.syriac.uk/ms/872</span></div>
+                  </div>
+                  <div xmlns:x="http://www.w3.org/1999/xhtml" xmlns:local="http://syriaca.org/ns" id="msTOC" class="mstoc">
+                     <ul>
+                        <li><a href="#msPart1">1. Add. 17,211
+                              (800 - 850 CE) 
+                              
+                              [https://bl.syriac.uk/ms/1466]
+                              </a></li>
+                        <li><a href="#msPart2">2. Add. 17,210, lower text
+                              (400 - 500 CE) 
+                              
+                              [https://bl.syriac.uk/ms/1463]
+                              </a></li>
+                        <li><a href="#msPart3">3. Add. 17,211, lower text
+                              [https://bl.syriac.uk/ms/1567]
+                              </a><ul>
+                              <li><a href="#msPart3.1">3.1. Add. 17,211, foll. 1–48, lower text
+                                    (500 - 600 CE) 
+                                    
+                                    [https://bl.syriac.uk/ms/1464]
+                                    </a><ul>
+                                    <li><a href="#msPart3.1.1">3.1.1. Add. 17,111, foll. 49–53, lower text
+                                          (650 - 750 CE) 
+                                          
+                                          [https://bl.syriac.uk/ms/1465]
+                                          </a></li>
+                                 </ul>
+                              </li>
+                           </ul>
+                        </li>
+                     </ul>
+                  </div>
+                  <div xmlns:x="http://www.w3.org/1999/xhtml" xmlns:local="http://syriaca.org/ns" class="header section">
+                     <div class="tei-note">
+                        <div></div>
+                     </div>
+                     <div class="tei-note"><span>This manuscript record does not have a summary list of contents. For composite manuscripts,
+                           the list of contents can be found under each individual part.</span></div>
+                  </div>
+                  <div xmlns:x="http://www.w3.org/1999/xhtml" xmlns:local="http://syriaca.org/ns" id="msPart1" class="msContent">
+                     <div class="panel-group">
+                        <div class="panel panel-default">
+                           <div class="panel-heading">
+                              <h2 class="panel-title" data-toggle="collapse" data-target="#panelmsPartPart1"><span class="anchor" id="msPartPart1"></span><span class="shelfmark"><span class="tei-idno">Add. 17,211</span></span></h2>
+                           </div>
+                           <div id="panelmsPartPart1" class="panel-collapse collapse in">
+                              <div class="panel-body">
+                                 <div class="msDesc">
+                                    <div class="header section">
+                                       <div class="tei-note">
+                                          <div>URI: <span class="tei-idno">https://bl.syriac.uk/ms/1466</span></div>
+                                          <div>
+                                             Description based on Wright
+                                             <a href="#" data-toggle="tooltip" title="This entry number is from Wright's printed catalogue. Due to renumbering, Wright's entry numbers do not match the numbering used in this digital catalogue."><span class="tei-idno">DCLXXXVII. C</span></a>
+                                             (<span class="tei-citedRange">2: 549-550</span>)
+                                             <a href="https://archive.org/details/catalogueofsyria02brituoft/page/549" target="_blank"><img src="/resources/images/ialogo.jpg" alt="Link to Archive.org Bibliographic record" height="18px" /></a></div>
+                                          <div>
+                                             Date: 
+                                             early 9th century
+                                          </div>
+                                          <div>
+                                             Origin: The convent of Mār Simeon of Kartamīn
+                                          </div>
+                                          <div>Unspecified Syriac script (multiple hands) ܀  Parchment Codex, 223 leaves.
+                                             
+                                          </div>
+                                          <div></div>
+                                          <div>
+                                             Wright's Subject Classification:
+                                             Individual Authors
+                                          </div>
+                                       </div>
+                                       <div class="tei-note"><span>This manuscript contains: Severus of Antioch. The first half of the second book of
+                                             the treatise of Severus of Antioch against Joannes Grammaticus of Caesarea. In total,
+                                             including sub-sections, this manuscript contains 21 items.</span></div>
+                                    </div>
+                                 </div>
+                                 <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                       <h2 class="panel-title" data-toggle="collapse" data-target="#msPartPart1PhysDesc">Physical Description </h2>
+                                    </div>
+                                    <div id="msPartPart1PhysDesc" class="panel-collapse collapse in">
+                                       <div class="panel-body">
+                                          <div class="msDesc">
+                                             <div class="tei-physDesc">
+                                                <div class="indent">
+                                                   <p>Vellum, about 9 3/8 in. by 6, consisting of 223 leaves, some of which are
+                                                      much stained and torn. The quires, signed with letters, were originally 23
+                                                      in number, but the greater part of the first has been lost. Of these the
+                                                      first ten, and the last, are bound up in Add. 17,211; the remaining twelve
+                                                      in Add. 17,210. There are from 19 to 25 lines in each page.
+                                                   </p><span class="tei-handDesc">
+                                                      
+                                                      <div name="p1handNote1"><span class="inline-h4">Hand 1 (major, Unspecified Syriac script): </span>
+                                                         This manuscript
+                                                         is written in a good, regular hand, of <span class="tei-date">the beginning of the ninth
+                                                            century.</span>
+                                                         
+                                                      </div>
+                                                      
+                                                      <div name="p1handNote2"><span class="inline-h4">Hand 2 (minor, Unspecified Syriac script): </span>
+                                                         See additions
+                                                         
+                                                      </div>
+                                                      </span></div>
+                                             </div>
+                                          </div>
+                                       </div>
+                                    </div>
+                                 </div>
+                                 <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                       <h2 class="panel-title" data-toggle="collapse" data-target="#msPartPart1Contents">Contents</h2>
+                                    </div>
+                                    <div id="msPartPart1Contents" class="panel-collapse collapse in">
+                                       <div class="panel-body">
+                                          <div class="msContent">
+                                             <p class="summary indent">This manuscript contains 21 item(s) including nested subsections. N.B. Items were re-numbered for this online catalog and may not reflect William
+                                                Wright's previous numeration.
+                                             </p>
+                                             <div class="indent"><span class="tei-msContents">
+                                                   
+                                                   
+                                                   <div class="tei-msItem"><span class="inline-h4">Item 1 (Fol. 17211_47a): </span>Severus of Antioch. The first half of the second book of the treatise of Severus of Antioch against Joannes
+                                                      Grammaticus of Caesarea
+                                                      
+                                                      <div class="msItemChild"><span class="tei-finalRubric"><span class="inline-h4"> 
+                                                               Subscription  (Fol. 53b): </span><span xml:lang="syr" lang="syr" dir="rtl">ܫܠ̣ܡ ܠܡܟܬܒ ܦܠܓܘܬܐ ܩܕܡܝܬܐ ܕܟܬܒܐ ܕܬܪ̈ܝܢ ܕܩܕܝܫܐ ܡܪܝ ܣܐܘܪܐ ܦܛܪܝܪܟܐ ܕܠܘܩܒܠ ܓܪܡܛܝܩܘܣ܀
+                                                               </span></span><div class="msItem-notes"><span class="inline-h4">Notes:</span><ul>
+                                                               <li>See Add. 12,157.</li>
+                                                               <li>The principal authorities cited are: Alexander of Mabūg, Add. 17,210, foll. 25 b, 29 a, 58 a; <a href="/search.html?person=http://syriaca.org/person/963">Ambrose of Milan</a>, Add. 17,210, foll. 54 b, 60 a (a forgery); Andrew of Samosata, Add. 17,210, foll. 20 a, 24 b, 29 b; <a href="/search.html?person=http://syriaca.org/person/354">Athanasius</a>, Add. 17,210, foll. 10 b, 15 a, 40 b, 47 a, 49 a, 59 a (a forgery); <a href="/search.html?person=http://syriaca.org/person/376">Basil</a>; <a href="/search.html?person=http://syriaca.org/person/430">Cyril of Alexandria</a>; Diodorus, Add. 17,210, foll. 2 b, 35 a and b; <a href="/search.html?person=http://syriaca.org/person/511">Gregory Nazianzen</a>; <a href="/search.html?person=http://syriaca.org/person/573">John Chrysostom</a>; <a href="/search.html?person=http://syriaca.org/person/2163">Julius of Rome</a>, Add. 17,210, foll. 16 a, 23 b, 51 b, 55 b, Add. 17,211, fol. 20 b; <a href="/search.html?person=http://syriaca.org/person/2299">Leo of Rome</a>, Add. 17,210, foll. 4 a, 24 a, 34 a, 47 b, Add. 17,211, foll. 12 a, 26 a, 33 b, 38 a; Macedonius of Constantinople,  Add. 17,210, fol. 42 b; <a href="/search.html?person=http://syriaca.org/person/655">Nestorius</a>, Add. 17,210, foll. 11 b, 21 b, 23 a, 25 b, 30 a, 44  a, 45 b, 52 a and b, 53 a and
+                                                                  b, 57 a, Add. 17,211, foll. 4 a, 6 a, 27 a, 28 b, 30 a and b, 33 a, 34 a, 37 a, 38 a and b; <a href="/search.html?person=http://syriaca.org/person/780">Theodore of Mopsuestia</a>, Add. 17,210, foll. 2 a, 23 b; <a href="/search.html?person=http://syriaca.org/person/781">Theodoret</a>, Add. 17,210, foll. 13 b, 25 b, 26 b, 44 a, 55 b, Add. 17,211, foll. 10 a and b, 17 b, 20 a and b, 22 a, 23 a and b, 24 a, 26 b, 29
+                                                                  b, 33 a, 36 a, 38 a and b, 46 b; <a href="/search.html?person=http://syriaca.org/person/786">Theodotus of Ancyra</a>, Add. 17,210, foll. 27 a and b, 28 b.
+                                                               </li>
+                                                               <li>Citations from orthodox writers are usually indicated by the marginal mark %, from
+                                                                  heterodox by %. Double citations occur, marked %. The same distinction may be found
+                                                                  in some other manuscripts.
+                                                               </li>
+                                                               <li>It is divided into 21 chapters, the titles of which may now be found at the following
+                                                                  places.
+                                                               </li>
+                                                            </ul>
+                                                         </div>
+                                                         <div class="tei-msItem"><span class="inline-h4">Item 2 (Fol. 17211_47a): </span>Chap. ii.
+                                                            <div class="msItemChild"></div>
+                                                         </div>
+                                                         <div class="tei-msItem"><span class="inline-h4">Item 3 (Fol. 17211_15b): </span>Chap. iii.
+                                                            <div class="msItemChild"></div>
+                                                         </div>
+                                                         <div class="tei-msItem"><span class="inline-h4">Item 4 (Fol. 17211_3b): </span>Chap. iv.
+                                                            <div class="msItemChild"></div>
+                                                         </div>
+                                                         <div class="tei-msItem"><span class="inline-h4">Item 5 (Fol. 17211_23a): </span>Chap. v.
+                                                            <div class="msItemChild"></div>
+                                                         </div>
+                                                         <div class="tei-msItem"><span class="inline-h4">Item 6 (Fol. 17211_20a): </span>Chap. vi.
+                                                            <div class="msItemChild"></div>
+                                                         </div>
+                                                         <div class="tei-msItem"><span class="inline-h4">Item 7 (Fol. 17211_40b): </span>Chap. vii.
+                                                            <div class="msItemChild"></div>
+                                                         </div>
+                                                         <div class="tei-msItem"><span class="inline-h4">Item 8 (Fol. 17211_32a): </span>Chap. viii.
+                                                            <div class="msItemChild"></div>
+                                                         </div>
+                                                         <div class="tei-msItem"><span class="inline-h4">Item 9 (Fol. 17210_3a): </span>Chap. ix.
+                                                            <div class="msItemChild"></div>
+                                                         </div>
+                                                         <div class="tei-msItem"><span class="inline-h4">Item 10 (Fol. 17210_48b): </span>Chap. x.
+                                                            <div class="msItemChild"></div>
+                                                         </div>
+                                                         <div class="tei-msItem"><span class="inline-h4">Item 11 (Fol. 17210_33b): </span>Chap. xi.
+                                                            <div class="msItemChild"></div>
+                                                         </div>
+                                                         <div class="tei-msItem"><span class="inline-h4">Item 12 (Fol. 17210_1b): </span>Chap. xii.
+                                                            <div class="msItemChild"></div>
+                                                         </div>
+                                                         <div class="tei-msItem"><span class="inline-h4">Item 13 (Fol. 17210_43b): </span>Chap. xiii.
+                                                            <div class="msItemChild"></div>
+                                                         </div>
+                                                         <div class="tei-msItem"><span class="inline-h4">Item 14 (Fol. 17210_29a): </span>Chap. xiv.
+                                                            <div class="msItemChild"></div>
+                                                         </div>
+                                                         <div class="tei-msItem"><span class="inline-h4">Item 15 (Fol. 17210_56a): </span>Chap. xv.
+                                                            <div class="msItemChild"></div>
+                                                         </div>
+                                                         <div class="tei-msItem"><span class="inline-h4">Item 16 (Fol. 17210_25b): </span>Chap. xvi.
+                                                            <div class="msItemChild"></div>
+                                                         </div>
+                                                         <div class="tei-msItem"><span class="inline-h4">Item 17 (Fol. 17210_51b): </span>Chap. xvii.
+                                                            <div class="msItemChild"></div>
+                                                         </div>
+                                                         <div class="tei-msItem"><span class="inline-h4">Item 18 (Fol. 17210_16a): </span>Chap. xviii.
+                                                            <div class="msItemChild"></div>
+                                                         </div>
+                                                         <div class="tei-msItem"><span class="inline-h4">Item 19 (Fol. 17210_27a): </span>Chap. xix.
+                                                            <div class="msItemChild"></div>
+                                                         </div>
+                                                         <div class="tei-msItem"><span class="inline-h4">Item 20 (Fol. 17210_32a): </span>Chap. xx.
+                                                            <div class="msItemChild"></div>
+                                                         </div>
+                                                         <div class="tei-msItem"><span class="inline-h4">Item 21 (Fol. 17211_52a): </span>Chap. xxi.
+                                                            <div class="msItemChild"></div>
+                                                         </div>
+                                                      </div>
+                                                   </div>
+                                                   </span></div>
+                                          </div>
+                                       </div>
+                                    </div>
+                                 </div>
+                                 <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                       <h2 class="panel-title" data-toggle="collapse" data-target="#msPartPart1Additions">Additions </h2>
+                                    </div>
+                                    <div id="msPartPart1Additions" class="panel-collapse collapse in">
+                                       <div class="panel-body">
+                                          <div class="msDesc">
+                                             <div class="indent">
+                                                
+                                                <div class="tei-note"><span>N.B., items below may have been listed out of folio order in Wright's catalogue.</span></div>
+                                                
+                                                
+                                                <div class="tei-item"><span class="inline-h4">Addition 1</span>:
+                                                   <span class="tei-p">In Add. 17,211, fol. 53 a, lower half, there is a note, stating that this hook
+                                                      was written by one <span class="tei-persName">Simeon</span>, a recluse of <span class="tei-placeName">the
+                                                         convent of Mār Simeon of Kartamīn</span>, for
+                                                      <span class="tei-persName">Daniel, periodeutes of the district of
+                                                         <span class="tei-placeName">Amid</span>
+                                                         </span>
+                                                      </span><span class="tei-p">
+                                                      <span class="tei-quote" lang="syr">ܐܝܬܘܗܝ ܟܬܒܐ ܗܢܐ ܕܕܢܝܐܝܠ ܒܪܝܐ ܩܫܝܫܐ ܘܣܥܘܪܐ ܕܫܘܠܛܢܐ ܐܡܕܝܐ. ܕܐܬܚܦܛ ܘܩܢܝܗܝ ܡܛܠܘܠ ܝܘܬܪܢܐ
+                                                         ܕܢܦܫܗ ܘܕܐܝܠܝܢ ܕܩܪܒܝܢ ܨܐܕܘܗ̇ܝ̇. ܕܗ̣ܘ ܢܝܫܐ ܕܪܚܡܬ ܝܘܠܦܢܐ ܐܠܗܝܐ ܩܢ̣ܝܢ܇ ܘܨܒ̇ܝܢ ܕܢܐܬܪܘܢ
+                                                         ܚܝ̈ܝܗܘܢ ܒܫܪܪܐ ܕܡܢܗ. ܣܪܛܗ ܕܝܢ ܫܡܥܘܢ ܒܨܝܪܐ ܩܫܝܫܐ ܘܚܒܝܫܐ ܕܐܝܬ ܒܥܘܡܪܐ ܩܕܝܫܐ ܕܒܝܬ ܡܪܝ ܫܡܥܘܢ
+                                                         ܕܩܪܬܡܝܢ. ܟܠ ܕܝܢ ܕܫܐܠ ܠܗ ܕܢܩܪܐ ܒܗ ܐܘ ܕܢܟܬܘܒ ܡܢܗ܆ ܏ܘܫ.</span>
+                                                      </span></div>
+                                                
+                                                <div class="tei-item"><span class="inline-h4">Addition 2</span>:
+                                                   <span class="tei-p">In the same manuscript, on fol. 49 a, lower half, there is a note in a
+                                                      different hand, informing us that the book belonged to <span class="tei-persName">Daniel,
+                                                         bishop of <span class="tei-placeName">Edessa</span></span>, who acquired it whilst
+                                                      he was periodeutes of the district of <span class="tei-placeName">Amid</span> (see the
+                                                      previous note)</span><span class="tei-p">
+                                                      <span class="tei-quote" lang="syr">ܐܝܬܝܗ̇ ܦܢܩܝܬܐ ܗܕܐ ܕܡܪܝ ܣܐܘܪܐ̣. ܕܚܣܝܐ ܘܩܕܝܫܐ ܡܪܝ ܕܢܝܐܝ݊ܠ ܐܦܝܣܩܘܦܐ ܕܫܘܠܛܢܐ ܐܘܪܗܝܐ .
+                                                         . ܕܩܢܗ̇ ܡܢ ܙܝܢܬܐ ܕܐܠܗ̣. ܟܕ ܐܝܬܘܗܝ ܗܘܐ ܣܥܘܪܐ ܒܫܘܠܛܢܐ ܕܐܡܕ ܡܕܝܢܬܐ. ܠܝܘܬܪܢܐ ܕܝܠܗ ܘܕܟܠ
+                                                         ܕ[ܩܪ]ܐ ܒܗ̇. ܐܠܐ ܬܚܝܬ ܡܠܬܐ ܘܚܪܡܐ ܕܐܠܗܐ ܐܝܬܘܗܝ ܗ̇ܘ ܕܓܢܒ̇ ܠܗ̇ ܐܘ ܡܛܫܐ ܐܘ ܡܫܓܢܐ ܠܗ̇ ܡܢܗ
+                                                         ܒܚܝ̈ܘܗܝ܇ ܐܘ ܦܣܩ̇ ܐܘ ܠܚ̇ܐ ܐܘ ܓܪܕ ܥܘܗܕܢܐ ܗܢܐ ܡܢܗ̇ ܠܥܠܡ. ܏ܘܫ. </span>
+                                                      </span></div>
+                                                
+                                                <div class="tei-item"><span class="inline-h4">Addition 3</span>:
+                                                   <span class="tei-p">A third note, on the same page, in another hand, records that the said
+                                                      <span class="tei-persName">Daniel</span> bequeathed it at his death to <span class="tei-placeName">the
+                                                         convent of Mār Silas at Sarūg</span>.</span><span class="tei-p">
+                                                      <span class="tei-quote" lang="syr">ܒܫܘܠܡ ܚܝ̈ܘܗܝ ܕܝܢ ܐܘܪܬܗ̇ ܠܥܘܡܪܐ ܗܢܐ ܩܕܝܫܐ ܕܒܝܬ ܡܪܝ ܫܝܠܐ ܕܒܣܪܘܓ. ܡܛܠ ܕܘܟܪܢܐ ܕܝܠܗ ܘܕܥܢܝ̈ܕܘܗܝ.
+                                                         ܡܪܝܐ ܢܚ̣ܢܗ ܒܝܘܡ ܕܝܢ̣ܐ ܐܡܝܢ. ܏ܘܫ.</span>
+                                                      </span><span class="tei-p">
+                                                      <span class="tei-persName">Dr. Cureton</span> has shown, in <span class="tei-bibl">the preface to his
+                                                         edition of the fragments of the Iliad, pp. viii. and ix.</span>, that this
+                                                      <span class="tei-persName">Daniel</span> must have been bishop of <span class="tei-placeName">Edessa</span> somewhere
+                                                      between <span class="tei-date">A.D. 768</span>, when <span class="tei-persName">Elias of <span class="tei-placeName">Kartamīn</span>
+                                                         </span> was
+                                                      elected to that see, and <span class="tei-date">A.D. 825</span>, when
+                                                      <span class="tei-persName">Theodosius</span> became bishop.<span class="tei-note" lang="en">In <span class="tei-bibl">Add. 12, 181, fol.
+                                                            102 a</span>, there is mentioned a <span class="tei-persName">Daniel, bishop of
+                                                            Edessa</span>, <span class="tei-date">A.D. 669</span>; but this manuscript cannot be of
+                                                         such antiquity.</span>
+                                                      </span><span class="tei-p">Of the subsequent history of the volume we know nothing; though Dr.
+                                                      Cureton has very plausibly conjectured that it was one of the 250 manuscripts,
+                                                      which were conveyed by Moses of Nisibis to the convent of <span class="tei-placeName">S. Mary
+                                                         Deipara</span>, A.D. 932.</span></div>
+                                                
+                                                
+                                             </div>
+                                          </div>
+                                       </div>
+                                    </div>
+                                 </div>
+                                 <div class="msPart"></div>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+                  <div xmlns:x="http://www.w3.org/1999/xhtml" xmlns:local="http://syriaca.org/ns" id="msPart2" class="msContent">
+                     <div class="panel-group">
+                        <div class="panel panel-default">
+                           <div class="panel-heading">
+                              <h2 class="panel-title" data-toggle="collapse" data-target="#panelmsPartPart2"><span class="anchor" id="msPartPart2"></span><span class="shelfmark"><span class="tei-idno">Add. 17,210, lower text</span></span></h2>
+                           </div>
+                           <div id="panelmsPartPart2" class="panel-collapse collapse in">
+                              <div class="panel-body">
+                                 <div class="msDesc">
+                                    <div class="header section">
+                                       <div class="tei-note">
+                                          <div>URI: <span class="tei-idno">https://bl.syriac.uk/ms/1463</span></div>
+                                          <div>
+                                             Description based on Wright
+                                             <a href="#" data-toggle="tooltip" title="This entry number is from Wright's printed catalogue. Due to renumbering, Wright's entry numbers do not match the numbering used in this digital catalogue."><span class="tei-idno">DCLXXXVII. A</span></a>
+                                             (<span class="tei-citedRange">2:548</span>)
+                                             <a href="https://archive.org/details/catalogueofsyria02brituoft/page/548" target="_blank"><img src="/resources/images/ialogo.jpg" alt="Link to Archive.org Bibliographic record" height="18px" /></a></div>
+                                          <div>
+                                             Date: 
+                                             5th century
+                                          </div>
+                                          <div>Unspecified Greek script (multiple hands) ܀  Parchment Codex, 60 leaves.
+                                             
+                                          </div>
+                                          <div></div>
+                                          <div>
+                                             Wright's Subject Classification:
+                                             
+                                          </div>
+                                       </div>
+                                       <div class="tei-note"><span>This manuscript contains: Homer. Portions of the Iliad of Homer. In total, including
+                                             sub-sections, this manuscript contains 13 items.</span></div>
+                                    </div>
+                                 </div>
+                                 <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                       <h2 class="panel-title" data-toggle="collapse" data-target="#msPartPart2PhysDesc">Physical Description </h2>
+                                    </div>
+                                    <div id="msPartPart2PhysDesc" class="panel-collapse collapse in">
+                                       <div class="panel-body">
+                                          <div class="msDesc">
+                                             <div class="tei-physDesc">
+                                                <div class="indent">
+                                                   <p>Vellum, about 12 in. by 9 3/8, consisting of 60 leaves, some of which are much stained
+                                                      and soiled, as well as slightly torn. There are 33 lines in each full page.
+                                                   </p><span class="tei-handDesc">
+                                                      
+                                                      <div name="p2handNote1"><span class="inline-h4">Hand 1 (major, Unspecified Greek script): </span>
+                                                         This manuscript is written in regular uncials of middle size, frequently becoming
+                                                         smaller at the end of a line. It seems to be of the <span class="tei-date">vth cent.</span> The accents appear to have been added by the scribe, and not by the later corrector.
+                                                         
+                                                      </div>
+                                                      
+                                                      <div name="p2handNote2"><span class="inline-h4">Hand 2 (minor, Unspecified Greek script): </span>
+                                                         A later corrector.
+                                                         
+                                                      </div>
+                                                      </span></div>
+                                             </div>
+                                          </div>
+                                       </div>
+                                    </div>
+                                 </div>
+                                 <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                       <h2 class="panel-title" data-toggle="collapse" data-target="#msPartPart2Contents">Contents</h2>
+                                    </div>
+                                    <div id="msPartPart2Contents" class="panel-collapse collapse in">
+                                       <div class="panel-body">
+                                          <div class="msContent">
+                                             <p class="summary indent">This manuscript contains 13 item(s) including nested subsections. N.B. Items were re-numbered for this online catalog and may not reflect William
+                                                Wright's previous numeration.
+                                             </p>
+                                             <div class="indent"><span class="tei-msContents">
+                                                   
+                                                   
+                                                   <div class="tei-msItem"><span class="inline-h4">Item 1 (Fol. 17210_1): </span>Homer. Portions of the Iliad of Homer
+                                                      <div class="msItemChild">
+                                                         <div class="msItem-notes"><span class="inline-h4">Note: </span>Those fragments have been edited, with a minute description of the manuscript and
+                                                            facsimiles of several pages, by the Rev. Dr. Cureton, and published by order of the Trustees of the British Museum, A.D. 1851. See also "Philologus, Zoitschrift fur das klassische Alterthum," 1855, pp. 145, 193, 313, 375.
+                                                         </div>
+                                                         <div class="tei-msItem"><span class="inline-h4">Item 2 (Fol. 17210_1a): </span>Book xii., vv. 273—471
+                                                            <div class="msItemChild"></div>
+                                                         </div>
+                                                         <div class="tei-msItem"><span class="inline-h4">Item 3 (Fol. 17210_4a): </span>Book xiii., vv. 133—205; 333—398; 465— 530; 663—728; 797—837.
+                                                            <div class="msItemChild"></div>
+                                                         </div>
+                                                         <div class="tei-msItem"><span class="inline-h4">Item 4 (Fol. 17210_9b): </span>Book xiv., vv. 1—20 ; 156—419.
+                                                            <div class="msItemChild"></div>
+                                                         </div>
+                                                         <div class="tei-msItem"><span class="inline-h4">Item 5 (Fol. 17210_14a): </span>Book xv., vv. 158—223 ;| 356—421; 491— 557
+                                                            <div class="msItemChild"></div>
+                                                         </div>
+                                                         <div class="tei-msItem"><span class="inline-h4">Item 6 (Fol. 17210_17a): </span>Book xvi., w. 199—264; 331—397; 664 —731; 798—862
+                                                            <div class="msItemChild"></div>
+                                                         </div>
+                                                         <div class="tei-msItem"><span class="inline-h4">Item 7 (Fol. 17210_21a): </span>Book xviii., w. 93—358; 426—492
+                                                            <div class="msItemChild"></div>
+                                                         </div>
+                                                         <div class="tei-msItem"><span class="inline-h4">Item 8 (Fol. 17210_26a): </span>Book xix., vv. 136—268; 335—424
+                                                            <div class="msItemChild"></div>
+                                                         </div>
+                                                         <div class="tei-msItem"><span class="inline-h4">Item 9 (Fol. 17210_29a): </span>Book xx., vv. 1—172; 306—503
+                                                            <div class="msItemChild"></div>
+                                                         </div>
+                                                         <div class="tei-msItem"><span class="inline-h4">Item 10 (Fol. 17210_35a): </span>Book xxi., vv. 1—397; 465—611
+                                                            <div class="msItemChild"></div>
+                                                         </div>
+                                                         <div class="tei-msItem"><span class="inline-h4">Item 11 (Fol. 17210_43a): </span>Book xxii., vv. 1—113 ; 181—378
+                                                            <div class="msItemChild"></div>
+                                                         </div>
+                                                         <div class="tei-msItem"><span class="inline-h4">Item 12 (Fol. 17210_48a): </span>Book xxiii., w. 57—323; 457—589; 656 —788; 856—897
+                                                            <div class="msItemChild"></div>
+                                                         </div>
+                                                         <div class="tei-msItem"><span class="inline-h4">Item 13 (Fol. 17210_56b): </span>Book xxiv., vv. 1—20; 285—483
+                                                            <div class="msItemChild"></div>
+                                                         </div>
+                                                      </div>
+                                                   </div>
+                                                   </span></div>
+                                          </div>
+                                       </div>
+                                    </div>
+                                 </div>
+                                 <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                       <h2 class="panel-title" data-toggle="collapse" data-target="#msPartPart2Additions">Additions </h2>
+                                    </div>
+                                    <div id="msPartPart2Additions" class="panel-collapse collapse in">
+                                       <div class="panel-body">
+                                          <div class="msDesc">
+                                             <div class="indent">
+                                                
+                                                
+                                                <div class="tei-item"><span class="inline-h4">Addition 1</span><strong> (Fol. 60a)</strong>:
+                                                   <span class="tei-p">Fol. 60 was one of the fly-leaves of the volume. On the recto we read the words <span class="tei-foreign" lang="grc">ΥΓΙΕΝΟΝ ΧΡΩ</span>, with some others that are no longer distinctly legible</span></div>
+                                                
+                                                <div class="tei-item"><span class="inline-h4">Addition 2</span><strong> (Fol. 60b)</strong>:
+                                                   <span class="tei-p">On the verso of fol. 60 we read, <span class="tei-foreign" lang="grc">ΥΓΙΕΝΟΝΧΡΩΚΥΡΙⲤΧΟΛΑⲤΤΙ</span>
+                                                      </span></div>
+                                                
+                                                
+                                             </div>
+                                          </div>
+                                       </div>
+                                    </div>
+                                 </div>
+                                 <div class="msPart"></div>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+                  <div xmlns:x="http://www.w3.org/1999/xhtml" xmlns:local="http://syriaca.org/ns" id="msPart3" class="msContent">
+                     <div class="panel-group">
+                        <div class="panel panel-default">
+                           <div class="panel-heading">
+                              <h2 class="panel-title" data-toggle="collapse" data-target="#panelmsPartPart3"><span class="anchor" id="msPartPart3"></span><span class="shelfmark"><span class="tei-idno">Add. 17,211, lower text</span></span></h2>
+                           </div>
+                           <div id="panelmsPartPart3" class="panel-collapse collapse in">
+                              <div class="panel-body">
+                                 <div class="msDesc">
+                                    <div class="header section">
+                                       <div class="tei-note">
+                                          <div>URI: <span class="tei-idno">https://bl.syriac.uk/ms/1567</span></div>
+                                          <div>
+                                             Description based on Wright <span class="tei-idno">DCLXXXVII. B</span> ()
+                                             
+                                          </div>
+                                          <div> ܀  Parchment Codex, 53 leaves.
+                                             
+                                          </div>
+                                          <div></div>
+                                          <div>
+                                             Wright's Subject Classification:
+                                             
+                                          </div>
+                                       </div>
+                                       <div class="tei-note"><span>This manuscript record does not have a summary list of contents. For composite manuscripts,
+                                             the list of contents can be found under each individual part.</span></div>
+                                    </div>
+                                 </div>
+                                 <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                       <h2 class="panel-title" data-toggle="collapse" data-target="#msPartPart3PhysDesc">Physical Description </h2>
+                                    </div>
+                                    <div id="msPartPart3PhysDesc" class="panel-collapse collapse in">
+                                       <div class="panel-body">
+                                          <div class="msDesc">
+                                             <div class="tei-physDesc">
+                                                <div class="indent">
+                                                   <p>Vellum, about 12 1/8 in. by 9 3/8, consisting of 53 leaves, and made up of parts of
+                                                      two manuscripts: <span class="footnote-content"> foll. 1-48
+                                                         </span> and <span class="footnote-content"> foll. 49-53
+                                                         </span>.
+                                                   </p>
+                                                </div>
+                                             </div>
+                                          </div>
+                                       </div>
+                                    </div>
+                                 </div>
+                                 <div class="msPart">
+                                    <div id="msPart3.1" class="msContent">
+                                       <div class="panel-group">
+                                          <div class="panel panel-default">
+                                             <div class="panel-heading">
+                                                <h2 class="panel-title" data-toggle="collapse" data-target="#panelmsPartPart3_1"><span class="anchor" id="msPartPart3_1"></span><span class="shelfmark"><span class="tei-idno">Add. 17,211, foll. 1–48, lower text</span></span></h2>
+                                             </div>
+                                             <div id="panelmsPartPart3_1" class="panel-collapse collapse in">
+                                                <div class="panel-body">
+                                                   <div class="msDesc">
+                                                      <div class="header section">
+                                                         <div class="tei-note">
+                                                            <div>URI: <span class="tei-idno">https://bl.syriac.uk/ms/1464</span></div>
+                                                            <div>
+                                                               Description based on Wright
+                                                               <a href="#" data-toggle="tooltip" title="This entry number is from Wright's printed catalogue. Due to renumbering, Wright's entry numbers do not match the numbering used in this digital catalogue."><span class="tei-idno">DCLXXXVII. B</span></a>
+                                                               (<span class="tei-citedRange">2: 548</span>)
+                                                               <a href="https://archive.org/details/catalogueofsyria02brituoft/page/548" target="_blank"><img src="/resources/images/ialogo.jpg" alt="Link to Archive.org Bibliographic record" height="18px" /></a></div>
+                                                            <div>
+                                                               Date: 
+                                                               6th century
+                                                            </div>
+                                                            <div>Unspecified Greek script ܀  Parchment Codex, 48 leaves.
+                                                               
+                                                            </div>
+                                                            <div></div>
+                                                            <div>
+                                                               Wright's Subject Classification:
+                                                               
+                                                            </div>
+                                                         </div>
+                                                         <div class="tei-note"><span>This manuscript contains: The κεφάλαια; Large portions of the Gospel of S. Luke. In
+                                                               total, including sub-sections, this manuscript contains 2 items.</span></div>
+                                                      </div>
+                                                   </div>
+                                                   <div class="panel panel-default">
+                                                      <div class="panel-heading">
+                                                         <h2 class="panel-title" data-toggle="collapse" data-target="#msPartPart3_1PhysDesc">Physical Description </h2>
+                                                      </div>
+                                                      <div id="msPartPart3_1PhysDesc" class="panel-collapse collapse in">
+                                                         <div class="panel-body">
+                                                            <div class="msDesc">
+                                                               <div class="tei-physDesc">
+                                                                  <div class="indent">
+                                                                     <p>Foll. 1—48. Forty-eight leaves, some of which are much stained and soiled, and not
+                                                                        a few more or less torn, especially foll. 2, 11, and 14. Each page is divided into
+                                                                        two columns of 25 lines.
+                                                                     </p><span class="tei-handDesc">
+                                                                        
+                                                                        <div name="p3_1handNote1"><span class="inline-h4">Hand 1 (sole, Unspecified Greek script): </span>
+                                                                           This manuscript is written in large uncials, frequently becoming smaller at the end
+                                                                           of a line. It seems to be of the <span class="tei-date">vith cent.</span>
+                                                                           
+                                                                        </div>
+                                                                        </span></div>
+                                                               </div>
+                                                            </div>
+                                                         </div>
+                                                      </div>
+                                                   </div>
+                                                   <div class="panel panel-default">
+                                                      <div class="panel-heading">
+                                                         <h2 class="panel-title" data-toggle="collapse" data-target="#msPartPart3_1Contents">Contents</h2>
+                                                      </div>
+                                                      <div id="msPartPart3_1Contents" class="panel-collapse collapse in">
+                                                         <div class="panel-body">
+                                                            <div class="msContent">
+                                                               <p class="summary indent">This manuscript contains 7 item(s) including nested subsections. N.B. Items were re-numbered for this online catalog and may not reflect William
+                                                                  Wright's previous numeration.
+                                                               </p>
+                                                               <div class="indent"><span class="tei-msContents">
+                                                                     
+                                                                     
+                                                                     <div class="tei-msItem"><span class="inline-h4">Item 1 (Fol. 17211_1a): </span>The <span class="tei-foreign" lang="grc">κεφάλαια</span>
+                                                                        
+                                                                        <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                                                 <br />Title: </span><span xml:lang="grc" lang="grc">κεφάλαια</span></span></div>
+                                                                     </div>
+                                                                     
+                                                                     <div class="tei-msItem"><span class="inline-h4">Item 2 (Fol. 17211_4a): </span>Large portions of the Gospel of S. Luke
+                                                                        <div class="msItemChild">
+                                                                           <div class="msItem-notes"><span class="inline-h4">Notes:</span><ul>
+                                                                                 <li>The Ammonian sections are marked on the margins, but without the addition of the <a href="">Eusebian canons</a>.
+                                                                                 </li>
+                                                                                 <li>These fragments have been edited, with a minute description of the
+                                                                                    manuscript and a facsimile of a portion of fol. 4 b, by
+                                                                                    Tischendorf in his Monumenta Sacra Inedita, Nova Collectio, vol. ii., Leipzig, 1857. For some account of the leaves which have been
+                                                                                    added to the volume since that time (foll. 2, 11, and 14), see the Journal of Sacred Literature, 4th Series, vol. iv. (1864), p. 466.
+                                                                                 </li>
+                                                                              </ul>
+                                                                           </div>
+                                                                        </div>
+                                                                     </div>
+                                                                     </span><div id="msPart3.1.1" class="msContent">
+                                                                     <div class="panel-group">
+                                                                        <div class="panel panel-default">
+                                                                           <div class="panel-heading">
+                                                                              <h2 class="panel-title" data-toggle="collapse" data-target="#panelmsPartPart3_1_1"><span class="anchor" id="msPartPart3_1_1"></span><span class="shelfmark"><span class="tei-idno">Add. 17,111, foll. 49–53, lower text</span></span></h2>
+                                                                           </div>
+                                                                           <div id="panelmsPartPart3_1_1" class="panel-collapse collapse in">
+                                                                              <div class="panel-body">
+                                                                                 <div class="msDesc">
+                                                                                    <div class="header section">
+                                                                                       <div class="tei-note">
+                                                                                          <div>URI: <span class="tei-idno">https://bl.syriac.uk/ms/1465</span></div>
+                                                                                          <div>
+                                                                                             Description based on Wright
+                                                                                             <a href="#" data-toggle="tooltip" title="This entry number is from Wright's printed catalogue. Due to renumbering, Wright's entry numbers do not match the numbering used in this digital catalogue."><span class="tei-idno">DCLXXXVII. B</span></a>
+                                                                                             (<span class="tei-citedRange">2: 548-549</span>)
+                                                                                             <a href="https://archive.org/details/catalogueofsyria02brituoft/page/548" target="_blank"><img src="/resources/images/ialogo.jpg" alt="Link to Archive.org Bibliographic record" height="18px" /></a></div>
+                                                                                          <div>
+                                                                                             Date: 
+                                                                                             late 7th or early 8th century
+                                                                                          </div>
+                                                                                          <div>Unspecified Greek script ܀  Parchment Codex, 5 leaves.
+                                                                                             
+                                                                                          </div>
+                                                                                          <div></div>
+                                                                                          <div>
+                                                                                             Wright's Subject Classification:
+                                                                                             
+                                                                                          </div>
+                                                                                       </div>
+                                                                                       <div class="tei-note"><span>This manuscript contains: Euclid. Portions of the Elements of Euclid, comprising propositions
+                                                                                             from Books x. and xiii. In total, including sub-sections, this manuscript contains
+                                                                                             5 items.</span></div>
+                                                                                    </div>
+                                                                                 </div>
+                                                                                 <div class="panel panel-default">
+                                                                                    <div class="panel-heading">
+                                                                                       <h2 class="panel-title" data-toggle="collapse" data-target="#msPartPart3_1_1PhysDesc">Physical Description </h2>
+                                                                                    </div>
+                                                                                    <div id="msPartPart3_1_1PhysDesc" class="panel-collapse collapse in">
+                                                                                       <div class="panel-body">
+                                                                                          <div class="msDesc">
+                                                                                             <div class="tei-physDesc">
+                                                                                                <div class="indent">
+                                                                                                   <p>Fol. 49—53. Five leaves, about 11 1/4 in. by 8 5/8, all of which are more
+                                                                                                      or less stained and soiled. The lower half of fol. 50 has been torn away,
+                                                                                                      its place being supplied by part of one of the blank fly-leaves. Each page
+                                                                                                      is divided into two columns, and in each full column there are 31 lines.
+                                                                                                   </p><span class="tei-handDesc">
+                                                                                                      
+                                                                                                      <div name="p3_1_1handNote1"><span class="inline-h4">Hand 1 (sole, Unspecified Greek script): </span>
+                                                                                                         These leaves are written in regular, but small-sized, slanting uncials, of <span class="tei-date">the end of the viith or beginning of the viiith cent.</span>
+                                                                                                         
+                                                                                                      </div>
+                                                                                                      </span></div>
+                                                                                             </div>
+                                                                                          </div>
+                                                                                       </div>
+                                                                                    </div>
+                                                                                 </div>
+                                                                                 <div class="panel panel-default">
+                                                                                    <div class="panel-heading">
+                                                                                       <h2 class="panel-title" data-toggle="collapse" data-target="#msPartPart3_1_1Contents">Contents</h2>
+                                                                                    </div>
+                                                                                    <div id="msPartPart3_1_1Contents" class="panel-collapse collapse in">
+                                                                                       <div class="panel-body">
+                                                                                          <div class="msContent">
+                                                                                             <p class="summary indent">This manuscript contains 5 item(s) including nested subsections. N.B. Items were re-numbered for this online catalog and may not reflect William
+                                                                                                Wright's previous numeration.
+                                                                                             </p>
+                                                                                             <div class="indent"><span class="tei-msContents">
+                                                                                                   
+                                                                                                   
+                                                                                                   <div class="tei-msItem"><span class="inline-h4">Item 1 (Fol. 17211_49): </span>Euclid. Portions of the Elements of Euclid, comprising propositions from Books x. and xiii [defective]
+                                                                                                      <div class="msItemChild">
+                                                                                                         <div class="tei-msItem"><span class="inline-h4">Item 2 (Fol. 17211_49): </span>Book x., propp. 32 and 33
+                                                                                                            <div class="msItemChild"></div>
+                                                                                                         </div>
+                                                                                                         <div class="tei-msItem"><span class="inline-h4">Item 3 (Fol. 17211_51): </span>Book x., ropp. 80 and 81
+                                                                                                            <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                                                                                     <br />Title: </span><span xml:lang="grc" lang="grc">πα</span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>These are, in Gregory's edition, Oxon. 1703, propp. 81 and 82.
+                                                                                                               </div>
+                                                                                                            </div>
+                                                                                                         </div>
+                                                                                                         <div class="tei-msItem"><span class="inline-h4">Item 4 (Fol. 17211_52): </span>Book x., propp. 112 and 113
+                                                                                                            <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                                                                                     <br />Title: </span><span xml:lang="grc" lang="grc">ρυγ</span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>In Gregory, propp. 113 and 114.
+                                                                                                               </div>
+                                                                                                            </div>
+                                                                                                         </div>
+                                                                                                         <div class="tei-msItem"><span class="inline-h4">Item 5 (Fol. 17211_53): </span>Book xiii., prop. 19
+                                                                                                            <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                                                                                     <br />Title: </span><span xml:lang="grc" lang="grc">ιθ</span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>In Gregory, prop. 14.
+                                                                                                               </div>
+                                                                                                            </div>
+                                                                                                         </div>
+                                                                                                      </div>
+                                                                                                   </div>
+                                                                                                   </span></div>
+                                                                                          </div>
+                                                                                       </div>
+                                                                                    </div>
+                                                                                 </div>
+                                                                                 <div class="msPart"></div>
+                                                                              </div>
+                                                                           </div>
+                                                                        </div>
+                                                                     </div>
+                                                                  </div>
+                                                               </div>
+                                                            </div>
+                                                         </div>
+                                                      </div>
+                                                   </div>
+                                                   <div class="msPart">
+                                                      <div id="msPart3.1.1" class="msContent">
+                                                         <div class="panel-group">
+                                                            <div class="panel panel-default">
+                                                               <div class="panel-heading">
+                                                                  <h2 class="panel-title" data-toggle="collapse" data-target="#panelmsPartPart3_1_1"><span class="anchor" id="msPartPart3_1_1"></span><span class="shelfmark"><span class="tei-idno">Add. 17,111, foll. 49–53, lower text</span></span></h2>
+                                                               </div>
+                                                               <div id="panelmsPartPart3_1_1" class="panel-collapse collapse in">
+                                                                  <div class="panel-body">
+                                                                     <div class="msDesc">
+                                                                        <div class="header section">
+                                                                           <div class="tei-note">
+                                                                              <div>URI: <span class="tei-idno">https://bl.syriac.uk/ms/1465</span></div>
+                                                                              <div>
+                                                                                 Description based on Wright
+                                                                                 <a href="#" data-toggle="tooltip" title="This entry number is from Wright's printed catalogue. Due to renumbering, Wright's entry numbers do not match the numbering used in this digital catalogue."><span class="tei-idno">DCLXXXVII. B</span></a>
+                                                                                 (<span class="tei-citedRange">2: 548-549</span>)
+                                                                                 <a href="https://archive.org/details/catalogueofsyria02brituoft/page/548" target="_blank"><img src="/resources/images/ialogo.jpg" alt="Link to Archive.org Bibliographic record" height="18px" /></a></div>
+                                                                              <div>
+                                                                                 Date: 
+                                                                                 late 7th or early 8th century
+                                                                              </div>
+                                                                              <div>Unspecified Greek script ܀  Parchment Codex, 5 leaves.
+                                                                                 
+                                                                              </div>
+                                                                              <div></div>
+                                                                              <div>
+                                                                                 Wright's Subject Classification:
+                                                                                 
+                                                                              </div>
+                                                                           </div>
+                                                                           <div class="tei-note"><span>This manuscript contains: Euclid. Portions of the Elements of Euclid, comprising propositions
+                                                                                 from Books x. and xiii. In total, including sub-sections, this manuscript contains
+                                                                                 5 items.</span></div>
+                                                                        </div>
+                                                                     </div>
+                                                                     <div class="panel panel-default">
+                                                                        <div class="panel-heading">
+                                                                           <h2 class="panel-title" data-toggle="collapse" data-target="#msPartPart3_1_1PhysDesc">Physical Description </h2>
+                                                                        </div>
+                                                                        <div id="msPartPart3_1_1PhysDesc" class="panel-collapse collapse in">
+                                                                           <div class="panel-body">
+                                                                              <div class="msDesc">
+                                                                                 <div class="tei-physDesc">
+                                                                                    <div class="indent">
+                                                                                       <p>Fol. 49—53. Five leaves, about 11 1/4 in. by 8 5/8, all of which are more
+                                                                                          or less stained and soiled. The lower half of fol. 50 has been torn away,
+                                                                                          its place being supplied by part of one of the blank fly-leaves. Each page
+                                                                                          is divided into two columns, and in each full column there are 31 lines.
+                                                                                       </p><span class="tei-handDesc">
+                                                                                          
+                                                                                          <div name="p3_1_1handNote1"><span class="inline-h4">Hand 1 (sole, Unspecified Greek script): </span>
+                                                                                             These leaves are written in regular, but small-sized, slanting uncials, of <span class="tei-date">the end of the viith or beginning of the viiith cent.</span>
+                                                                                             
+                                                                                          </div>
+                                                                                          </span></div>
+                                                                                 </div>
+                                                                              </div>
+                                                                           </div>
+                                                                        </div>
+                                                                     </div>
+                                                                     <div class="panel panel-default">
+                                                                        <div class="panel-heading">
+                                                                           <h2 class="panel-title" data-toggle="collapse" data-target="#msPartPart3_1_1Contents">Contents</h2>
+                                                                        </div>
+                                                                        <div id="msPartPart3_1_1Contents" class="panel-collapse collapse in">
+                                                                           <div class="panel-body">
+                                                                              <div class="msContent">
+                                                                                 <p class="summary indent">This manuscript contains 5 item(s) including nested subsections. N.B. Items were re-numbered for this online catalog and may not reflect William
+                                                                                    Wright's previous numeration.
+                                                                                 </p>
+                                                                                 <div class="indent"><span class="tei-msContents">
+                                                                                       
+                                                                                       
+                                                                                       <div class="tei-msItem"><span class="inline-h4">Item 1 (Fol. 17211_49): </span>Euclid. Portions of the Elements of Euclid, comprising propositions from Books x. and xiii [defective]
+                                                                                          <div class="msItemChild">
+                                                                                             <div class="tei-msItem"><span class="inline-h4">Item 2 (Fol. 17211_49): </span>Book x., propp. 32 and 33
+                                                                                                <div class="msItemChild"></div>
+                                                                                             </div>
+                                                                                             <div class="tei-msItem"><span class="inline-h4">Item 3 (Fol. 17211_51): </span>Book x., ropp. 80 and 81
+                                                                                                <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                                                                         <br />Title: </span><span xml:lang="grc" lang="grc">πα</span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>These are, in Gregory's edition, Oxon. 1703, propp. 81 and 82.
+                                                                                                   </div>
+                                                                                                </div>
+                                                                                             </div>
+                                                                                             <div class="tei-msItem"><span class="inline-h4">Item 4 (Fol. 17211_52): </span>Book x., propp. 112 and 113
+                                                                                                <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                                                                         <br />Title: </span><span xml:lang="grc" lang="grc">ρυγ</span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>In Gregory, propp. 113 and 114.
+                                                                                                   </div>
+                                                                                                </div>
+                                                                                             </div>
+                                                                                             <div class="tei-msItem"><span class="inline-h4">Item 5 (Fol. 17211_53): </span>Book xiii., prop. 19
+                                                                                                <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                                                                         <br />Title: </span><span xml:lang="grc" lang="grc">ιθ</span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>In Gregory, prop. 14.
+                                                                                                   </div>
+                                                                                                </div>
+                                                                                             </div>
+                                                                                          </div>
+                                                                                       </div>
+                                                                                       </span></div>
+                                                                              </div>
+                                                                           </div>
+                                                                        </div>
+                                                                     </div>
+                                                                     <div class="msPart"></div>
+                                                                  </div>
+                                                               </div>
+                                                            </div>
+                                                         </div>
+                                                      </div>
+                                                   </div>
+                                                </div>
+                                             </div>
+                                          </div>
+                                       </div>
+                                    </div>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+                  <div class="citationinfo">
+                     <h3>How to Cite This Entry</h3>
+                     <div id="citation-note" class="content-block indent"><span> William Wright</span> et al., “<span class="title-analytic">London, BL, Add. 17210</span>” in <span class="title-monographic">A Digital Catalogue of Syriac Manuscripts in the British Library</span>,  last modified April 21, 2023, <a href="https://bl.syriac.uk/ms/872">https://bl.syriac.uk/ms/872</a>.
+                        <div class="collapse" id="showcit">
+                           <div id="citation-bibliography">
+                              <h4>Bibliography:</h4><span class="editor">William Wright</span> et al., “<span class="title-analytic">London, BL, Add. 17210</span>.” In <span class="title-monographic">A Digital Catalogue of Syriac Manuscripts in the British Library</span>, edited by . Syriaca.org: The Syriac Reference Portal,
+                              2023.
+                               Entry published April 21, 2023. <a href="https://bl.syriac.uk/ms/872">https://bl.syriac.uk/ms/872</a>.
+                           </div>
+                           <div id="about">
+                              <h3>About this Entry</h3>
+                              <p><span class="heading-inline">Entry Title:</span> <span class="title-analytic">London, BL, Add. 17210</span></p>
+                              <div>
+                                 <h4>Authorial and Editorial Responsibility:</h4>
+                                 <ul>
+                                    <li><span> David A. Michelson</span>, general editor, Syriaca.org: The Syriac Reference Portal
+                                    </li>
+                                    <li>, editor, <span class="title-monographic">A Digital Catalogue of Syriac Manuscripts in the British Library</span></li>
+                                    <li>William Wright, David A. Michelson, Robert Aydin, Lindsay Ruth, and Justin Arnwine, entry contributors, “<span class="title-analytic">London, BL, Add. 17210</span>”
+                                    </li>
+                                 </ul>
+                              </div>
+                              <div>
+                                 <h4>Additional Credit:</h4>
+                                 <ul>
+                                    <li>Created by <span> Lindsay Ruth</span></li>
+                                    <li>Based on the work of <span> William Wright</span></li>
+                                    <li>Syriac text entered by <span> Robert Aydin</span></li>
+                                    <li>Greek and coptic text entry and proofreading by <span> Ryan Stitt</span></li>
+                                    <li>Project management by <span> William L. Potter</span></li>
+                                    <li>English text entry and proofreading by <span> Syriac Research Group, University of Alabama</span></li>
+                                    <li>Syriaca.org URIs for authors edited by <span> Justin Arnwine</span></li>
+                                    <li>Syriaca.org URIs for authors checked by <span> Alexys Ahn</span><span> Joseph DAlfonso</span></li>
+                                    <li>Folio extent edited by <span> Kurt Urban</span></li>
+                                 </ul>
+                              </div>
+                           </div>
+                           <div id="license">
+                              <h3>Copyright and License for Reuse</h3>
+                              <div>Except otherwise noted, this page is © 2023.
+                                 
+                              </div><span class="tei-licence">
+                                 
+                                 <p>Distributed under a Creative Commons Attribution 3.0 Unported License</p>
+                                 </span></div>
+                        </div><a class="btn-sm btn-info togglelink pull-right" data-toggle="collapse" data-target="#showcit" data-text-swap="Hide citation">Show full citation information...</a></div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </body><script type="text/javascript" src="/resources/js/jquery.validate.min.js"></script><script type="text/javascript" src="/resources/js/require.min.js"></script><script type="text/javascript" src="/resources/js/srophe.js"></script><script data-template="app:google-analytics"></script></html>

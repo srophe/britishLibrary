@@ -1,0 +1,829 @@
+<?xml version="1.0" encoding="UTF-8"?><html xmlns="http://www.w3.org/1999/xhtml" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:srophe="https://srophe.app">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <title>London, BL, Add. 17181</title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <meta name="DC.type" property="dc.type" content="Text" />
+      <meta name="DC.isPartOf" property="dc.ispartof" content="Syriaca.org: The Syriac Reference Portal" />
+      <link data-template="app:metadata" />
+      <link rel="shortcut icon" href="/resources/images/fav-icons/mss-favicon.ico" />
+      <link rel="stylesheet" type="text/css" href="/resources/bootstrap/css/bootstrap.min.css" />
+      <link rel="stylesheet" type="text/css" href="/resources/css/sm-core-css.css" />
+      <link rel="stylesheet" type="text/css" href="/resources/css/syr-icon-fonts.css" />
+      <link rel="stylesheet" type="text/css" href="/resources/css/style.css" />
+      <link rel="stylesheet" type="text/css" href="/resources/css/syriaca.css" />
+      <link rel="stylesheet" type="text/css" media="print" href="/resources/css/print.css" />
+      <link rel="stylesheet" href="/resources/leaflet/leaflet.css" />
+      <link rel="stylesheet" href="/resources/leaflet/leaflet.awesome-markers.css" />
+      <link href="/resources/jquery-ui/jquery-ui.min.css" rel="stylesheet" /><script type="text/javascript" src="/resources/js/jquery.min.js"></script><script type="text/javascript" src="/resources/jquery-ui/jquery-ui.min.js"></script><script type="text/javascript" src="/resources/js/jquery.smartmenus.min.js"></script><script type="text/javascript" src="/resources/js/clipboard.min.js"></script><script type="text/javascript" src="/resources/bootstrap/js/bootstrap.min.js"></script><script defer="defer" data-domain="bl.syriac.uk" src="https://plausible.io/js/script.js"></script><link href="/resources/keyboard/css/keyboard.min.css" rel="stylesheet" />
+      <link href="/resources/keyboard/css/keyboard-previewkeyset.min.css" rel="stylesheet" />
+      <link href="/resources/keyboard/syr/syr.css" rel="stylesheet" /><script type="text/javascript" src="/resources/keyboard/syr/jquery.keyboard.js"></script><script type="text/javascript" src="/resources/keyboard/js/jquery.keyboard.extension-mobile.min.js"></script><script type="text/javascript" src="/resources/keyboard/js/jquery.keyboard.extension-navigation.min.js"></script><script type="text/javascript" src="/resources/keyboard/syr/jquery.keyboard.extension-autocomplete.js"></script><script type="text/javascript" src="/resources/keyboard/syr/keyboardSupport.js"></script><script type="text/javascript" src="/resources/keyboard/syr/syr.js"></script><script type="text/javascript" src="/resources/keyboard/layouts/ms-Greek.min.js"></script><script type="text/javascript" src="/resources/keyboard/layouts/ms-Russian.min.js"></script><script type="text/javascript" src="/resources/keyboard/layouts/ms-Arabic.min.js"></script><script type="text/javascript">
+            $(document).ready(function () {
+                $('[data-toggle="tooltip"]').tooltip({ container: 'body' })
+
+                $('.keyboard').keyboard({
+                    openOn: null,
+                    stayOpen: false,
+                    alwaysOpen: false,
+                    autoAccept: true,
+                    usePreview: false,
+                    initialFocus: true,
+                    rtl : true,
+                    layout: 'syriac-phonetic',
+                    hidden: function(event, keyboard, el){
+                       //  keyboard.destroy();
+                     }
+                });
+
+                $('.keyboard-select').click(function () {
+                    var keyboardID = '#' + $(this).data("keyboard-id")
+                    var kb = $(keyboardID).getkeyboard();
+                    //var kb = $('#searchField').getkeyboard();
+                    // change layout based on link ID
+                    kb.options.layout = this.id
+                    // open keyboard if layout is different, or time from it last closing is &gt; 200 ms
+                    if (kb.last.layout !== kb.options.layout || (new Date().getTime() - kb.last.eventTime) &gt; 200) {
+                        kb.reveal();
+                    }
+                });
+                //Change fonts
+                $('.swap-font').on('click', function(){
+                    var selectedFont = $(this).data("font-id")
+                    $('.selectableFont').not('.syr').css('font-family', selectedFont);
+                    $("*:lang(syr)").css('font-family', selectedFont)
+                });
+
+            })
+        </script></head>
+   <body id="body">
+      <nav class="navbar navbar-default navbar-fixed-top" role="navigation" data-template="app:fix-links">
+         
+         <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse-1">
+               <span class="sr-only">Toggle navigation</span>
+               <span class="icon-bar"></span>
+               <span class="icon-bar"></span>
+               <span class="icon-bar"></span>
+               </button>
+            <a class="navbar-brand banner-container" href="/index.html">
+               <span class="syriaca-icon syriaca-mss banner-icon"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span>
+                  </span>
+               <span class="banner-text">Syriac Manuscripts in the British Library</span>
+               </a>
+            
+         </div>
+         
+         <div class="navbar-collapse collapse pull-right" id="navbar-collapse-1">
+            
+            <ul class="nav navbar-nav">
+               
+               <li>
+                  <a href="/browse.html" class="nav-text">Browse</a>
+                  
+               </li>
+               
+               <li data-template="app:shared-content" data-template-path="/templates/shared-links.html"></li>
+               
+               <li>
+                  <a href="/search.html" class="nav-text">Advanced Search</a>
+                  
+               </li>
+               
+               <li>
+                  
+                  <div id="search-wrapper">
+                     
+                     <form class="navbar-form navbar-right search-box" role="search" action="/search.html" method="get">
+                        
+                        <div class="form-group">
+                           <input type="text" class="form-control keyboard" placeholder="search" name="keyword" id="keywordNav" />
+                           <span data-template="app:keyboard-select-menu" data-template-input-id="keywordNav"></span>
+                           <button class="btn btn-default search-btn" id="searchbtn" type="submit" title="Search">
+                              <span class="glyphicon glyphicon-search"></span>
+                              </button>
+                           
+                        </div>
+                        
+                     </form>
+                     
+                  </div>
+                  
+               </li>
+               
+               <li data-template="app:shared-content" data-template-path="/templates/fontMenu.html"></li>
+               
+            </ul>
+            
+         </div>
+         
+      </nav>
+      <div class="main-content-block">
+         <div class="interior-content">
+            <div class="container otherFormats"><a href="mailto:bl.syriac.uk@gmail.com?subject=Shelf mark: Record URI: " type="button" class="btn btn-default btn-xs" data-toggle="tooltip" title="Click to report a correction via e-mail."><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span> Corrections
+                  </a> <a href="https://github.com/srophe/britishLibrary-data/issues/new?assignees=&amp;labels=community-submitted&amp;title=:" target="_blank" id="issueBtn" data-toggle="tooltip" class="btn btn-default btn-xs" title="Click to file a data issue on GitHub (requires login)."><span class="glyphicon glyphicon-record" aria-hidden="true"></span> Open
+                  </a> <a href="https://github.com/srophe/britishLibrary-data/blob/main/data/tei/833.xml" target="_blank" class="btn btn-default btn-xs" id="openBtn" data-toggle="tooltip" title="Click to view the TEI XML data for this record."><img src="/resources/images/github-mark.png" height="18px" /></a> <a href="javascript:window.print();" type="button" class="btn btn-default btn-xs" id="printBtn" data-toggle="tooltip" title="Click to send this page to the printer."><span class="glyphicon glyphicon-print" aria-hidden="true"></span> 
+                  </a> 
+            </div>
+            <div class="row">
+               <div class="col-md-12">
+                  <div xmlns:x="http://www.w3.org/1999/xhtml" xmlns:local="http://syriaca.org/ns" class="title">
+                     <h1>Add. 17,181</h1>
+                  </div>
+                  <div xmlns:x="http://www.w3.org/1999/xhtml" xmlns:local="http://syriaca.org/ns" class="tei-note">
+                     <div>URI: <span class="tei-idno">https://bl.syriac.uk/ms/833</span></div>
+                  </div>
+                  <div xmlns:x="http://www.w3.org/1999/xhtml" xmlns:local="http://syriaca.org/ns" class="header section">
+                     <div class="tei-note">
+                        <div>
+                           Description based on Wright
+                           <a href="#" data-toggle="tooltip" title="This entry number is from Wright's printed catalogue. Due to renumbering, Wright's entry numbers do not match the numbering used in this digital catalogue."><span class="tei-idno">DCCXXXVIII</span></a>
+                           (<span class="tei-citedRange">2:661-668</span>)
+                           <a href="https://archive.org/details/catalogueofsyria02brituoft/page/661" target="_blank"><img src="/resources/images/ialogo.jpg" alt="Link to Archive.org Bibliographic record" height="18px" /></a></div>
+                        <div>
+                           Date: 
+                           6th century
+                        </div>
+                        <div>Estrangela script (multiple hands) ܀  Parchment Codex, 136 leaves.
+                           
+                        </div>
+                        <div></div>
+                        <div>
+                           Wright's Subject Classification:
+                           Collected Authors
+                        </div>
+                     </div>
+                     <div class="tei-note"><span>This manuscript contains: A collection of Discourses for various occasions. In total,
+                           including sub-sections, this manuscript contains 77 items.</span></div>
+                  </div>
+                  <div xmlns:x="http://www.w3.org/1999/xhtml" xmlns:local="http://syriaca.org/ns" class="panel panel-default">
+                     <div class="panel-heading">
+                        <h2 class="panel-title" data-toggle="collapse" data-target="#Overview">Physical Description </h2>
+                     </div>
+                     <div id="Overview" class="panel-collapse collapse in">
+                        <div class="panel-body">
+                           <div class="msDesc">
+                              <div class="tei-physDesc">
+                                 <div class="indent">
+                                    <p>Vellum, about 12 1/4 in. by 9 1/2, consisting of 136 leaves, a few of which
+                                       are slightly stained and torn, especially foll. 1, 9, 110, 111, and 136. The
+                                       quires, signed with letters from <span class="tei-foreign" xml:lang="syr" lang="syr" dir="rtl">ܐ</span> to 
+                                       <span class="tei-foreign" xml:lang="syr" lang="syr" dir="rtl">ܣ</span>, were originally 15 in number; but
+                                       the first is now lost. Each page is divided into two columns, of from 33 to
+                                       37 lines.
+                                    </p><span class="tei-handDesc">
+                                       
+                                       <div name="handNote1"><span class="inline-h4">Hand 1 (major, Estrangela script): </span>
+                                          This volume is written by two hands (foll. <span class="tei-locus">1—43 a</span>
+                                          and foll. <span class="tei-locus">43 a—136</span>) in a fine, elegant Estrangela of the <span class="tei-date">vith cent.</span>
+                                          
+                                       </div>
+                                       
+                                       <div name="handNote2"><span class="inline-h4">Hand 2 (minor, Unspecified Syriac script): </span>
+                                          See additions.
+                                          
+                                       </div>
+                                       </span></div>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+                  <div xmlns:x="http://www.w3.org/1999/xhtml" xmlns:local="http://syriaca.org/ns" class="panel panel-default">
+                     <div class="panel-heading">
+                        <h2 class="panel-title" data-toggle="collapse" data-target="#Contents">Manuscript Contents</h2>
+                     </div>
+                     <div id="Contents" class="panel-collapse collapse in">
+                        <div class="panel-body">
+                           <div class="msContent"><span class="summary ident">Note: Item numbering updated in digital edition.</span><span class="tei-msContents">
+                                 
+                                 
+                                 <div class="tei-msItem"><span class="inline-h4">Item 1 (Fol. 1a): </span>A collection of Discourses for various occasions [defective]
+                                    <div class="msItemChild">
+                                       <div class="msItem-notes"><span class="inline-h4">Note: </span>The names of the authors are nowhere mentioned.
+                                       </div>
+                                       <div class="tei-msItem"><span class="inline-h4">Item 2 (Fol. 1a): </span>Sixteen short addresses, to be spoken by the abbat or
+                                          prior (<span class="tei-foreign" lang="syr">ܪܝܫܕܝܪܐ</span>), to persons who have brought presents to the monastery [defective]
+                                          <div class="msItemChild">
+                                             <div class="msItem-notes"><span class="inline-h4">Note: </span>The first three are altogether wanting, and of the fourth only a few lines
+                                                remain
+                                             </div>
+                                             <div class="tei-msItem"><span class="inline-h4">Item 3 (Fol. 1a): </span>Part a
+                                                <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                         <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܕܚܡܫܐ ܥܠܘܗܝ ܕܫܪܒܐ</span></span><span class="tei-incipit"><span class="inline-h4"> 
+                                                         Incipit: </span><span xml:lang="syr" lang="syr" dir="rtl">ܐܠܘ ܐܝܬ ܗܘܐ ܠܢ ܡܘܗܒܬܐ ܕܫܘܝܐ ܠܦܘܪܫܢܟ ܕܠܘܬܢ̣. ܒܚܘܒܐ ܗ̇ܘ
+                                                         ܕܐܬܝܬ ܠܘܬܢ̇. ܘܐܦ ܚܢܢ ܡܘܗܒܬܐ ܒܗ ܒܚܘܒܐ ܠܦܪܘܫܘܬܟ ܝܗܒܝܢ ܗܘܝܢ. ܏ܘܫ.</span></span></div>
+                                             </div>
+                                             <div class="tei-msItem"><span class="inline-h4">Item 4 (Fol. 1b): </span>Part b
+                                                <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                         <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܕܫܬܐ ܥܠܘܗܝ ܕܫܪܒܐ</span></span><span class="tei-incipit"><span class="inline-h4"> 
+                                                         Incipit: </span><span xml:lang="syr" lang="syr" dir="rtl">ܒܢ̈ܝ ܐܢܫܐ ܐܝܠܝܢ ܕܟܪܝܗܝܢ ܦܓܪܢܐܝܬ ܒܟܐܒ̈ܐ ܕܦܓܪܐ̣. ܠܘܬ ܐܣܘ̈ܬܐ
+                                                         ܕܥܠܡܐ ܪܗܛܝܢ ܕܢܣܒܘܢ ܡܢܗܘܢ ܥܘܕܪܢܐ ܠܟܐ̈ܒܝܗܘܢ̇ ܘܡܗܝ̈ܡܢܐ ܐܝܠܝܢ ܕܪܓܝܫܝܢ ܒܢܦܫܗܘܢ ܟܘܪܗܢܐ
+                                                         ܕܒܘܨܪ̈ܐ ܕܡܢ ܢܘܬܦܘ̈ܗܝ ܕܥܠܡܐ̣. ܠܘܬ ܐܣ̈ܘܬܐ ܪ̈ܘܚܢܐ ܪܗܛܝܢ ܕܢܣܒܘܢ ܡܢܗܘܢ ܐܣܝܘܬܐ ܕܪܘܚܐ
+                                                         ܠܚ̈ܫܐ ܕܢܦܫܬܗܘܢ̇ ܏ܘܫ.</span></span></div>
+                                             </div>
+                                             <div class="tei-msItem"><span class="inline-h4">Item 5 (Fol. 2a): </span>Part c
+                                                <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                         <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܕܫܒܥܐ ܥܠܘܗܝ ܕܫܪܒܐ</span></span><span class="tei-incipit"><span class="inline-h4"> 
+                                                         Incipit: </span><span xml:lang="syr" lang="syr" dir="rtl">ܠܡܢ ܕܪܓܝܓ ܕܢܐܬܪ ܒܪ̈ܘܚܢܝܬܐ ܡܠܬܐ ܡܘܬܪܢܝܬܐ ܙܕܩ̇ ܠܢ ܕܢܐܡܪ ܠܗ.
+                                                         ܐܝܟܢܐ ܕܢܫܟܚ ܠܘܬܢ ܢܝܚܐ ܕܒܥܬܗ. ܕܢܣܒ ܡܢ ܡܠܟܢ ܗ̇ܘ ܡܕܡ ܕܪܚܡ. ܏ܘܫ.</span></span></div>
+                                             </div>
+                                             <div class="tei-msItem"><span class="inline-h4">Item 6 (Fol. 2b): </span>Part d
+                                                <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                         <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܕܬܡܢܝܐ ܥܠܘܗܝ ܕܫܪܒܐ . . ܕܡܡܠܠ ܪܝܫܕܝܪܐ ܥܡ ܟܠ ܡ̇ܢ ܕܗ̇ܘ ܕܦܪܫ
+                                                         ܘܡܝܬܐ ܣܘܥܪܢܐ ܘܥܡ ܣܓ̈ܝܐܐ ܬܘܒ ܟܢܝܫܐܝܬ.</span></span><span class="tei-incipit"><span class="inline-h4"> 
+                                                         Incipit: </span><span xml:lang="syr" lang="syr" dir="rtl">ܚܕܝܢܢ ܪܘܪܒܐܝܬ ܒܡܐܬܝܬܟܘܢ ܚܦܝܛܬܐ ܕܠܘܬܢ̇ ܠܘ ܡܛܠ ܕܐܝܬܝܬܘܢ ܠܢ
+                                                         ܐܠܐ ܡܛܠ ܕܐܬܝܬܘܢ ܠܘܬܢ̇ ܘܠܘ ܡܛܠ ܕܣܥܪܬܘܢܢ ܒܡܘܗܒ̈ܬܐ ܦܓܪ̈ܢܝܬܐ. ܐܠܐ ܡܛܠ ܕܛܥܡܢܢ ܚܘܒܟܘܢ
+                                                         ܕܠܘܬ ܐܠܗܐ. ܏ܘܫ.</span></span></div>
+                                             </div>
+                                             <div class="tei-msItem"><span class="inline-h4">Item 7 (Fol. 3b): </span>Part e
+                                                <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                         <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܕܬܫܥܐ ܥܠܘܗܝ ܕܫܪܒܐ</span></span><span class="tei-incipit"><span class="inline-h4"> 
+                                                         Incipit: </span><span xml:lang="syr" lang="syr" dir="rtl">ܐܡܪ ܦܪܘܩܢ ܒܣܒܪܬܐ ܕܝܘܠܦܢܗ ܕܡ̇ܢ ܕܒܩܠܝܠ ܡܗܝܡܢ ܐܦ ܒܣܓܝ ܡܗܝܡܢ
+                                                         ܗܘܼ. ܘܡܢ ܕܒܩܠܝܠ ܥܘܿܠ ܐܦ ܒܣܓܝ ܥܘܠ ܗܼܘ. ܏ܘܫ.</span></span></div>
+                                             </div>
+                                             <div class="tei-msItem"><span class="inline-h4">Item 8 (Fol. 4a): </span>Part f
+                                                <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                         <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܕܥܣܪܐ ܥܠܘܗܝ ܕܫܪܒܐ</span></span><span class="tei-incipit"><span class="inline-h4"> 
+                                                         Incipit: </span><span xml:lang="syr" lang="syr" dir="rtl">ܪܘܪܒܝܢ ܡܣܟ̈ܢܐ ܝܗܘ̈ܒܐ ܒܡܘܗܒܬܗܘܢ ܛܒ ܡܢ ܥܬܝܪ̈ܐ ܕܗܘܝܢ ܝܗܘ̈ܒܐ.
+                                                         ܡܛܠ ܕܥܬܝܪ̈ܐ ܝܗܒܝܢ ܡܢ ܡܠܝܘܬܐ. ܘܡܣ̈ܟܢܐ ܡܢ ܚܣܝܪܘܬܐ. ܏ܘܫ.</span></span></div>
+                                             </div>
+                                             <div class="tei-msItem"><span class="inline-h4">Item 9 (Fol. 4b): </span>Part g
+                                                <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                         <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܕܚܕܥܣܪ ܥܠܘܗܝ ܕܫܪܒܐ</span></span><span class="tei-incipit"><span class="inline-h4"> 
+                                                         Incipit: </span><span xml:lang="syr" lang="syr" dir="rtl">ܫܦܝܪ ܠܡܗܝ̈ܡܢܐ ܕܝܬܒܝܢ ܒܐܪܥܐ ܕܫܘܠܛܢܗ ܕܐܠܗܐ̇. ܕܢܬܠܘܢ ܐܢܘܢ
+                                                         ܠܡܠܟܐ ܫܡܝܢܐ ܕܝܬܝܒܝܢ ܒܓܘ ܐܪܥܗ. ܏ܘܫ.</span></span></div>
+                                             </div>
+                                             <div class="tei-msItem"><span class="inline-h4">Item 10 (Fol. 5a): </span>Part h
+                                                <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                         <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܕܬܪܥܣܪ ܥܠܘܗܝ ܕܫܪܒܐ</span></span><span class="tei-incipit"><span class="inline-h4"> 
+                                                         Incipit: </span><span xml:lang="syr" lang="syr" dir="rtl">ܕܡܘܬܐ ܛܒܬܐ ܕܣܘܥܪ̈ܢܐ ܕܩܕܝ̈ܫܐ ܒܟܬܒ̈ܐ ܐ̈ܠܗܝܐ ܪܫܝܡܐ ܠܡܗܝ̈ܡܢܐ.
+                                                         ܘܥܬܝܩܬܐ ܩܕܡܬ ܐܠܦܬ ܠܬܠܡ̈ܝܕܝܗ̇ <span class="tei-sic">ܕܚܪ̈ܬܬܐ̣</span> ܕܢܬܚܦܛܘܢ ܠܣܘܥܪܢܐ ܕܝܚܝ̈ܕܝܐ ܘܠܚܙܬܐ
+                                                         ܐܡܝܢܬܐ. ܘܫܐܠܬ ܫܠܡܐ ܕܗ̇ܢܘܢ ܕܢܦܝܩܝܢ ܡܢ ܥܠܡܐ. ܏ܘܫ.</span></span></div>
+                                             </div>
+                                             <div class="tei-msItem"><span class="inline-h4">Item 11 (Fol. 5b): </span>Part i
+                                                <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                         <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܕܬܠܬܥܣܪ ܥܠܘܗܝ ܕܫܪܒܐ</span></span><span class="tei-incipit"><span class="inline-h4"> 
+                                                         Incipit: </span><span xml:lang="syr" lang="syr" dir="rtl">ܟܕ ܝܗܘܒܐ ܥܬܝܪܐ ܕܠܟܠ ܙܐܢ ܐܠܗܐ ܗܘ. ܐܦ ܡܗܝ̈ܡܢܐ ܡܪ̈ܚܡܢܐ
+                                                         ܕܡܫܡܠܝܢ ܦܘܩܕܢܗ ܕܐܠܗܐ̣ ܒܐܠܗܐ ܡܬܕܡܝܢ. ܡܛܠ ܕܐܦ ܗ̣ܘ ܐܠܗܐ ܠܕܡܘܬܐ ܕܡܪܚܡܢܘܬܗ ܩ̣ܪܐ ܐܢܘܢ.
+                                                         ܏ܘܫ.</span></span></div>
+                                             </div>
+                                             <div class="tei-msItem"><span class="inline-h4">Item 12 (Fol. 6a): </span>Part j
+                                                <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                         <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܕܐܪ̈ܒܬܥܣܪ ܥܠܘܗܝ ܕܫܪܒܐ</span></span><span class="tei-incipit"><span class="inline-h4"> 
+                                                         Incipit: </span><span xml:lang="syr" lang="syr" dir="rtl">ܦܪܘܥܐ ܗ̣ܘ ܛܒܐ ܐܠܗܐ ܠܟܠ ܡܘܗ̈ܒܬܐ ܕܡܛܘܠ ܫܡܗ ܡܬܝܗܒܝܢ. ܐܢ
+                                                         ܪܘܪ̈ܒܬܐ ܐܢܝܢ ܘܐܢ ܙܥܘܪ̈ܝܬܐ. ܘܡ̇ܦܢܐ ܝܗܒ̇ ܠܝܗܘܒܐ ܐܓܪܐ ܫܦܝܥܐ. ܏ܘܫ.</span></span></div>
+                                             </div>
+                                             <div class="tei-msItem"><span class="inline-h4">Item 13 (Fol. 7a): </span>Part k
+                                                <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                         <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܕܚܡܫܬܥܣܪ ܥܠܘܗܝ ܕܫܪܒܐ</span></span><span class="tei-incipit"><span class="inline-h4"> 
+                                                         Incipit: </span><span xml:lang="syr" lang="syr" dir="rtl">ܩܘܪ̈ܒܢܐ ܪ̈ܘܪܒܐ ܘܙܥܘܪ̈ܐ ܩܒܠ ܡܘܫܐ ܡܢ ܥܬܝܪ̈ܐ ܘܡܢ ܡܣܟ̈ܢܐ
+                                                         ܒܬܘܩܢܗ ܕܡܫܟܢ ܙܒܢܐ. ܡܛܠ ܕܗܟܢܐ ܐܝܠܦ ܡܢ ܗ̇ܘ ܕܦܩܕܗ ܥܠ ܬܘܩܢܗ ܕܡܫܟܢܐ. ܕܐܦ ܒܗܕܐ ܢܬܕܡܐ
+                                                         ܡܩܒܠܢܐ ܡܘܫܐ ܒܐܠܗܐ ܗܘܿ ܕܦܩܕܗ. ܏ܘܫ.</span></span></div>
+                                             </div>
+                                             <div class="tei-msItem"><span class="inline-h4">Item 14 (Fol. 7b): </span>Part l
+                                                <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                         <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܕܐܫܬܬܥܣܪ ܥܠܘܗܝ ܕܫܪܒܐ</span></span><span class="tei-incipit"><span class="inline-h4"> 
+                                                         Incipit: </span><span xml:lang="syr" lang="syr" dir="rtl">ܡܢ ܛܥܡܬܗ ܕܦܐܪܐ ܡܬܝܕܥ ܚܝܠܗ ܕܐܝܠܢܐ. ܘܡܢ ܥܒ̈ܕܘܗܝ ܕܒܪܢܫܐ ܡܬܓܠܐ
+                                                         ܨܒܝܢܐ ܕܒܢܦܫܗ. ܏ܘܫ.</span></span></div>
+                                             </div>
+                                          </div>
+                                       </div>
+                                       <div class="tei-msItem"><span class="inline-h4">Item 15 (Fol. 8a): </span>Fifteen short addresses, to be spoken by the abbat to
+                                          the assembled monks at table, after meals, chiefly with reference to those who
+                                          have made presents to the convent
+                                          <div class="msItemChild">
+                                             <div class="tei-msItem"><span class="inline-h4">Item 16 (Fol. 8a): </span>Part a
+                                                <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                         <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܡܡܠܠܐ ܕܪܝܫܕܝܪܐ ܠܘܬ ܐܚ̈ܐ ܥܠ ܦܬܘܪܐ ܡܢ ܒܬܪ ܕܛܥܡ̇ܝܢ ܘܨܝܕ ܡ̇ܢ
+                                                         ܕܥܒ̇ܕ ܦܘܪܫܢܐ</span></span><span class="tei-incipit"><span class="inline-h4"> 
+                                                         Incipit: </span><span xml:lang="syr" lang="syr" dir="rtl">ܥܬܝܪܐܝܬ ܙܝܢܐ ܠܢ ܛܝܒܘܬܗ ܫܦܝܥܬܐ ܕܐܠܗܢ̇ ܘܡܛܝܒܐ ܠܢ ܒܟܠ ܙܒ̈ܢܝܢ
+                                                         ܡܕܡ ܕܡܬܒܥܐ ܠܚܘܫܚܐ ܕܚܝ̈ܝܢ. ܏ܘܫ.</span></span></div>
+                                             </div>
+                                             <div class="tei-msItem"><span class="inline-h4">Item 17 (Fol. 8b): </span>Part b
+                                                <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                         <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܕܬܪ̈ܝܢ ܥܠܘܗܝ ܕܫܪܒܐ</span></span><span class="tei-incipit"><span class="inline-h4"> 
+                                                         Incipit: </span><span xml:lang="syr" lang="syr" dir="rtl">ܗ̇ܘ ܕܣܓܝ ܡܬܝܩܪ ܚܝ̇ܒ ܕܢܣܓܐ ܢܝܩܪ. ܘܐܝܢܐ ܕܡܠܐ̇ ܦܬܘܪܗ ܛܒ̈ܬܐ
+                                                         ܕܙܝܘܢܐ̣. ܚܝ̇ܒ ܕܢܬܡܠܐ ܠܒܗ ܕܘܟܪܢܗ ܐܡܝܢܐ. ܏ܘܫ.</span></span></div>
+                                             </div>
+                                             <div class="tei-msItem"><span class="inline-h4">Item 18 (Fol. 9a): </span>Part c
+                                                <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                         <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܕܬܠܬܐ ܥܠܘܗܝ ܕܫܪܒܐ</span></span><span class="tei-incipit"><span class="inline-h4"> 
+                                                         Incipit: </span><span xml:lang="syr" lang="syr" dir="rtl">ܐܢ ܠܗܠܝܢ ܕܙܒܢܐ ܠܝܬ ܦܘܪܥܢܐ [ܕ]ـܫ̇ܘܐ ܠܗܝ̣ܢ. ܡ̇ܢܘ ܣ̇ܦܩ ܕܢܦܪܘܥ
+                                                         ܚܠܦ ܛܘ̈ܒܐ ܕܠܥܠܡ. ܏ܘܫ.</span></span></div>
+                                             </div>
+                                             <div class="tei-msItem"><span class="inline-h4">Item 19 (Fol. 9b): </span>Part d
+                                                <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                         <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܕܐܪܒܥܐ ܥܠܘܗܝ ܕܫܪܒܐ</span></span><span class="tei-incipit"><span class="inline-h4"> 
+                                                         Incipit: </span><span xml:lang="syr" lang="syr" dir="rtl">ܚܝܒܝܢܢ ܕܕܠܐ ܫܠܝܐ ܢܘܕܐ ܠܐܠܗܐ̇. ܗ̇ܘ ܕܕܠܐ ܫܠܝܐ ܣܥܪܐ ܠܢ
+                                                         ܛܝܒܘܬܗ. ܏ܘܫ.</span></span></div>
+                                             </div>
+                                             <div class="tei-msItem"><span class="inline-h4">Item 20 (Fol. 10a): </span>Part e
+                                                <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                         <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܕܚܡܫܐ ܥܠܘܗܝ ܕܫܪܒܐ</span></span><span class="tei-incipit"><span class="inline-h4"> 
+                                                         Incipit: </span><span xml:lang="syr" lang="syr" dir="rtl">ܗܐ ܚܙܘ ܚܒܝ̈ܒܝ ܣܘܥܪܢܗ ܕܛܝܒܘܬܐ ܣܥܪܬ ܚ̈ܝܐ ܕܟܠ܇ ܟܡܐ ܥܬܝܪ ܘܫܦܝܥ
+                                                         ܠܘܬܢ̇ ܘܪܒܘ ܦܘܡ̈ܝܢ ܐܢ ܢܩܢܐ̣. ܠܐ ܣܦܩܝܢ ܚܢܢ ܕܢܘܕܐ ܚܠ̣ܦ ܗܠܝܢ ܡܘܗܒ̈ܬܐ ܕܐܡ̈ܝܢܢ ܠܚ̈ܝܝܢ.
+                                                         ܏ܘܫ.</span></span></div>
+                                             </div>
+                                             <div class="tei-msItem"><span class="inline-h4">Item 21 (Fol. 11a): </span>On the commemoration of an abbat who endowed the
+                                                monastery
+                                                <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                         <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܕܫܬܐ ܥܠܘܗܝ ܕܫܪܒܐ. ܕܡܡܠܠ ܪܝܫ ܕܝܪܐ ܩܕܡ ܐܚ̈ܐ ܥܠ ܦܬܘܪܐ ܒܕܘܟܪܢܐ
+                                                         ܕܡܪܝ ܪܝܫ ܕܝܪܐ ܪܒܐ</span></span><span class="tei-incipit"><span class="inline-h4"> 
+                                                         Incipit: </span><span xml:lang="syr" lang="syr" dir="rtl">ܐ̈ܒܗܐ ܚܝ̇ܒܝܢ ܕܢܣܝܡܘܢ ܣܝܡ̈ܬܐ ܠܒ̈ܢܝܗܘܢ. ܐܝܟ ܡܠܦܢܘܬܗ ܕܦܘܠܘܣ.
+                                                         ܐܝܟ ܕܟܬܝܒ̣. ܐܒܘܢ ܛܘܒܢܐ ܣܡ ܠܢ ܣܝܡܬܐ ܕܦܓܪܐ ܘܕܢܦܫܐ. ܕܒܦܓܪ̈ܢܝܬܐ ܨܠܘܬܗ ܙܝܢܐ ܠܢ̇
+                                                         ܘܒܪ̈ܘܚܢܝܬܐ ܒܡܫܠܡܢܘܬܐ ܕܦܘܩ̈ܕܢܘܗܝ ܪܕܝܢܢ̇ ܘܒܥܩ̈ܒܬܐ ܕܕܘܒܪ̈ܘܗ̣̇ܝ ܡܗܠܟܝܢ ܐܢܚܢܢ̇ ܡܢ
+                                                         ܣܝܡ̈ܬܐ ܓܝܪ ܕܣܡ ܠܢ ܡܬܦܪܢܣܝܢ ܚܢܢ ܒܬܪ̈ܬܝܗܝܢ̇ ܡܛܠ ܕܐܒܐ ܗܘ̣ܐ ܚܦܝܛܐ ܘܟܫܝܪܐ. ܘܟܢܫ̇
+                                                         ܒܥܝܪܘܬܗ ܩܢܝܢܐ ܕܣܦ̇ܩ ܠܗ ܘܠܒܢ̈ܘܗܝ. ܘܣܡ ܣܝܡܬܐ ܕܡܠܝܐ ܛܘ̈ܒܐ ܪ̈ܘܚܢܐ ܘܦܓܪ̈ܢܐ.
+                                                         ܏ܘܫ.</span></span></div>
+                                             </div>
+                                             <div class="tei-msItem"><span class="inline-h4">Item 22 (Fol. 11b): </span>Part g
+                                                <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                         <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܕܫܒܥܐ ܥܠܘܗܝ ܕܫܪܒܐ</span></span><span class="tei-incipit"><span class="inline-h4"> 
+                                                         Incipit: </span><span xml:lang="syr" lang="syr" dir="rtl">ܪܒ ܘܡܫܡܗ ܫܡܗ ܕܐܒܘܢ ܩܕܡ ܐܠܗܐ ܘܠܘܬ ܒܢܝ̈ܢܫܐ. ܘܓܠܝܐ ܗ̣ܝ ܗܕܐ ܡܢ
+                                                         ܗ̇ܝ ܕܐܦ ܐܢܚܢܢ ܒܫܡܗ ܡܫܡ̈ܗܐ ܗܘܝܢܢ. ܏ܘܫ.</span></span></div>
+                                             </div>
+                                             <div class="tei-msItem"><span class="inline-h4">Item 23 (Fol. 12a): </span>On the commemoration of any preceding abbat
+                                                <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                         <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܕܬܡܝܢܐ ܥܠܘܗܝ ܕܫܪܒܐ. ܕܡܡܠܠ ܪܝܫܕܝܪܐ ܒܕܘܟܪܢܐ ܕܟܠ ܚܕ ܡܢ ܪ̈ܝܫܝ
+                                                         ܕܝܪܐ</span></span><span class="tei-incipit"><span class="inline-h4"> 
+                                                         Incipit: </span><span xml:lang="syr" lang="syr" dir="rtl">ܡܩܒܠܝܢ ܐܢܚܢܢ ܛܝܒܘܬܐ ܕܐܠܗܐ ܙܝܘܢܢ. ܗ̇ܝ ܕܒܨܠܘܬܐ ܕܐܒ̈ܗܝܢ ܟܠܡܕܡ
+                                                         ܕܡܬܒܥܐ ܠܢ ܡܛܝܒܐ ܠܢܝܚ̈ܝܢ ܦܓܪ̈ܢܐ. ܘܡܬܕܟܪܝܢ ܐܢܚܢܢ ܒܚܘܒܐ ܘܐܦ ܠܐܒܗ̈ܝܢ. ܗܢܘܢ ܕܨܠܘܬܗܘܢ
+                                                         ܐܝܬܝܗܝܢ ܥܠܬܐ ܕܟܠܗܝܢ ܛܒ̈ܬܢ̇. ܏ܘܫ.</span></span></div>
+                                             </div>
+                                             <div class="tei-msItem"><span class="inline-h4">Item 24 (Fol. 12b): </span>Address of the abbat on the occasion of his making an
+                                                offering or present
+                                                <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                         <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܕܬܫܥܐ ܕܡܡܠܠ ܪܝܫܕܝܪܐ ܥܡ ܐܚ̈ܐ ܒܝܘܡܐ ܕܦܘܪܫܢܐ ܕܝܠܗ</span></span><span class="tei-incipit"><span class="inline-h4"> 
+                                                         Incipit: </span><span xml:lang="syr" lang="syr" dir="rtl">ܡܕܡ ܕܐܫܠܡܘ ܠܢ ܐ̈ܒܗܝܢ ܐܢ ܒܦܓܪ̈ܢܝܬܐ ܘܐܢ ܒܪ̈ܘܚܢܝܬܐ̣. ܙܗܝܪܐܝܬ
+                                                         ܚܝܒܝܢ ܚܢܢ ܕܢܛܪ ܦܘܠܚܢܐ ܕܪ̈ܘܚܢܝܬܐ. ܡܛܠ ܕܢܐܪܬ ܒܗ ܥܡܗܘܢ ܚ̈ܝܐ ܕܠܥܠܡ. ܏ܘܫ.</span></span></div>
+                                             </div>
+                                             <div class="tei-msItem"><span class="inline-h4">Item 25 (Fol. 13a): </span>On the occasion of the priests and deacons making
+                                                their offering
+                                                <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                         <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܫܪܒܐ ܕܥܣܪܐ ܕܡܡܠܠ ܥܡ ܐܚ̈ܐ ܥܠ ܦܬܘܪܐ ܒܦܘܪܫܢܐ ܕܥܒܕܝܢ ܩܫ̈ܝܫܐ
+                                                         ܘܫܡ̈ܫܐ</span></span><span class="tei-incipit"><span class="inline-h4"> 
+                                                         Incipit: </span><span xml:lang="syr" lang="syr" dir="rtl">ܐܡܬܝ ܕܐ̈ܒܗܐ ܬܫܡܫܬܐ ܠܒܢ̈ܝܐ ܡܩܪܒܝ̣ܢ. ܠܗܘܢ ܠܒ̈ܢܝܐ ܗܘܝܢ ܡ̈ܠܦܢܐ
+                                                         ܕܢܫܡܫܘܢ ܠܐ̈ܒܗܐ. ܘܐܡܬܝ ܕܗ̇ܢܘܢ ܕܡܬܚܝܒܝܢ ܕܢܬܝܩܪܘܢ ܐܝܩܪܐ ܠܬܠܡܝ̈ܕܝܗܘܢ ܢܬܚܙܘܢ ܕܝܗܒܝ̣ܢ.
+                                                         ܠܗܘܢ ܠܬܠܡ̈ܝܕܐ ܗܘܝܢ ܡ̈ܚܦܛܢܐ ܕܢܝܩܪܘܢ ܠܚ̈ܕܕܐ. ܐܦ ܠܪ̈ܒܢܝܗܘܢ. ܏ܘܫ.</span></span></div>
+                                             </div>
+                                             <div class="tei-msItem"><span class="inline-h4">Item 26 (Fol. 13b): </span>On the offering of those who hold posts in the
+                                                convent
+                                                <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                         <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܫܪܒܐ ܕܚܕܥܣܪ ܕܡܡܠܠ ܥܠ ܦܬܘܪܐ ܒܦܘܪܫܢܐ ܕܗܠܝܢ ܕܩܝܡܝܢ
+                                                         ܒܕܘܟ̈ܝܬܐ</span></span><span class="tei-incipit"><span class="inline-h4"> 
+                                                         Incipit: </span><span xml:lang="syr" lang="syr" dir="rtl">ܠܘ ܐܓܪܐ ܝܗܒܝܢ ܐܢܚܢܢ ܠܗܢܘܢ ܕܩܝܡܝܢ ܒܕܘܟܝ̈ܬܐ ܒܓܘ ܥܘܡܪܐ̇. ܡܐ
+                                                         ܕܚܠܦܝܗܘܢ ܦܘܪܫܢܐ ܦܓܪܢܐ ܥܒܕܝܢ ܚܢܢ̇ ܐܠܐ ܕܢܢܝܚ ܐܢܘܢ ܒܢܝܚܟܘܢ ܘܢܒܝܐ ܐܢܘܢ ܒܦܘܪܫܢܗܘܢ
+                                                         ܕܨܐܕܝܟܘܢ. ܏ܘܫ.</span></span></div>
+                                             </div>
+                                             <div class="tei-msItem"><span class="inline-h4">Item 27 (Fol. 14a): </span>On silence at table
+                                                <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                         <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܕܬܪ̈ܥܣܪ ܕܪܝܫ ܕܝܪܐ ܠܘܬ ܐܚ̈ܐ ܡܛܠ ܫܠܝܐ ܕܥܠ ܦܬܘܪܐ</span></span><span class="tei-incipit"><span class="inline-h4"> 
+                                                         Incipit: </span><span xml:lang="syr" lang="syr" dir="rtl">ܟܠܗܘܢ ܐܣܟ̈ܡܐ ܬܩ̈ܢܐ ܘܛܟ̈ܣܐ ܫܦܝܪ̈ܐ ܡܬܬܚܝܒܝܢ ܠܗ ܠܕܘܒܪܐ ܗܢܐ
+                                                         ܕܒܗ ܩܝܡܝܢ ܚܢܢ̇ ܝܬܝܪ ܕܝܢ ܡܢ ܟܠܗܘܢ̣. ܫܠܝܐ ܐܡܝܢܐ ܗ̇ܘ ܕܡܬܝܠܕ ܡܢ ܝܩܝܪܘܬܗ̇ ܕܢܦܫܐ. ܡܛܠ
+                                                         ܕܐܦ ܢܒܝܐ ܕܐܠܗܐ ܡܠܦ ܠܢ̇ ܕܦܘܠܚܢܐ ܕܙܕܝܩܘܬܐ ܫܠܝܐ ܗܘܼ. ܘܣܒܪܐ ܕܠܥܠܡ ܥܠܡܝܢ. ܏ܘܫ. </span></span></div>
+                                             </div>
+                                             <div class="tei-msItem"><span class="inline-h4">Item 28 (Fol. 15a): </span>Part m
+                                                <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                         <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܕܬܠܬܥܣܪ ܕܪܝܫ ܕܝܪܐ ܠܘܬ ܐܚ̈ܐ ܬܘܒ ܥܠܘܗܝ ܕܫܠܝܐ ܕܥܠ
+                                                         ܦܬܘܪܐ</span></span><span class="tei-incipit"><span class="inline-h4"> 
+                                                         Incipit: </span><span xml:lang="syr" lang="syr" dir="rtl">ܠܐ ܙܕܩ̇ ܠܢ ܕܢܫܠܐ ܡܢ ܡܠܬܐ ܕܐܠܗܐ ܕܐܡܝܢܐܝܬ ܡܘܬܪܐ ܘܡܥܕܪܐ
+                                                         ܠܚܝ̈ܝܢ. ܏ܘܫ.</span></span></div>
+                                             </div>
+                                             <div class="tei-msItem"><span class="inline-h4">Item 29 (Fol. 15b): </span>Part n
+                                                <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                         <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܕܐܪ̈ܒܬܥܣܪ ܥܠܘܗܝ ܕܫܪܒܐ ܕܫܠܝܐ ܥܠ ܦܬܘܪܐ</span></span><span class="tei-incipit"><span class="inline-h4"> 
+                                                         Incipit: </span><span xml:lang="syr" lang="syr" dir="rtl">ܘܐܦܢ ܐܝܟ ܟܠ ܐܢܫ ܡܣܬܝܒܪܝܢ ܐܢܚܢ̣ܢ. ܐܠܐ ܠܘ ܐܝܟ ܟܠ ܐܢܫ ܙܕܩ̇ ܠܢ
+                                                         ܕܢܣܬܝܒܪ. ܏ܘܫ.</span></span></div>
+                                             </div>
+                                             <div class="tei-msItem"><span class="inline-h4">Item 30 (Fol. 16a): </span>On the commemoration of all the deceased
+                                                brethren
+                                                <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                         <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܕܚܡܫܬܥܣܪ. ܬܘܒ ܡܡܠܠܐ ܕܪܝܫܕܝܪܐ ܠܘܬ ܐܚ̈ܐ ܥܠ ܦܬܘܪܐ ܒܕܘܟܪܢܐ
+                                                         ܕܗ̇ܘܐ ܠܟܠܗܘܢ ܐܚ̈ܐ ܕܥܢܕܘ</span></span><span class="tei-incipit"><span class="inline-h4"> 
+                                                         Incipit: </span><span xml:lang="syr" lang="syr" dir="rtl">ܟܠ ܡܕܡ ܕܦܓ̇ܥ ܒܦܪ̈ܘܫܐ ܒܚ̈ܝܐ ܥܒܘܪ̈ܐ. ܥܘܗܕܢܐ ܠܚ̈ܝܐ ܕܥܬܝܕܝܢ
+                                                         ܢܣܒܝܢ ܠܗ. ܏ܘܫ.</span></span></div>
+                                             </div>
+                                          </div>
+                                       </div>
+                                       <div class="tei-msItem"><span class="inline-h4">Item 31 (Fol. 16b): </span>Four addresses, to be spoken by the abbat to the
+                                          brethren after they have eaten
+                                          <div class="msItemChild">
+                                             <div class="tei-msItem"><span class="inline-h4">Item 32 (Fol. 16b): </span>Part a
+                                                <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                         <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܬܘܒ ܡܡܠܠܐ ܕܡܡܠܠ ܪܝܫ ܕܝܪܐ ܥܡ ܐܚ̈ܐ ܡܢ ܒܬܪ ܕܛܥܡ̇ܝܢ</span></span><span class="tei-incipit"><span class="inline-h4"> 
+                                                         Incipit: </span><span xml:lang="syr" lang="syr" dir="rtl">ܛܝܒܘ ܠܐܠܗܐ ܥܠ ܡܘܗܒܬܗ ܕܠܘܬܢ ܕܠܐ ܡܬܡܠܠܐ. ܐܝܟ ܐܒܐ ܓܝܪ ܡܬܪܣܐ
+                                                         ܠܢ ܒܦܓܪ̈ܢܝܬ݂ܐ. ܘܐܝܟ ܡܠܦܢܐ ܪܕܐ ܠܢ ܒܪ̈ܘܚܢܝܬܐ. ܏ܘܫ.</span></span></div>
+                                             </div>
+                                             <div class="tei-msItem"><span class="inline-h4">Item 33 (Fol. 17a): </span>Part b
+                                                <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                         <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܕܬܪܝܢ ܥܠܘܗܝ ܕܢܝܫܐ ܩܕܡܝܐ</span></span><span class="tei-incipit"><span class="inline-h4"> 
+                                                         Incipit: </span><span xml:lang="syr" lang="syr" dir="rtl">ܐܠܗܐ ܗ̇ܘ ܕܡܡܠܐ ܣܘ̈ܢܩܢܐ ܕܟܠ ܒܣܪ̣. ܡܬܪܣܐ ܠܥܒܕܘ̈ܗܝ ܒܝܕ
+                                                         ܡܗܝܡ̈ܢܐ ܕܫ̇ܘܝܢ ܠܡܘܗܒ̈ܬܗ. ܏ܘܫ.</span></span></div>
+                                             </div>
+                                             <div class="tei-msItem"><span class="inline-h4">Item 34 (Fol. 17b): </span>Part c
+                                                <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                         <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܕܬܠܬܐ ܥܠܘܗܝ ܕܫܪܒܐ</span></span><span class="tei-incipit"><span class="inline-h4"> 
+                                                         Incipit: </span><span xml:lang="syr" lang="syr" dir="rtl">ܢܘܕܐ ܠܐܠܗܐ ܪܚܡ ܒܢܝ̈ܢܫܐ ܕܒܪ̈ܚܡܘܗܝ ܒܟܠ ܙܒܢ ܣܥܪ ܡܚܝܠܘܬܢ̇
+                                                         ܘܒܥܘܬܪܐ ܕܚܢܢܗ ܡܡܠܐ ܚܣܝܪ̈ܬܢ̇ ܏ܘܫ.</span></span></div>
+                                             </div>
+                                             <div class="tei-msItem"><span class="inline-h4">Item 35 (Fol. 18a): </span>Part d
+                                                <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                         <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܕܐܪܒܥܐ ܥܠܘܗܝ ܕܫܪܒܐ</span></span><span class="tei-incipit"><span class="inline-h4"> 
+                                                         Incipit: </span><span xml:lang="syr" lang="syr" dir="rtl">ܡܠܬܐ ܚܝܬܐ ܕܐܠܗܐ ܡܠܦܐ ܠܢ ܕܢܒܥܐ ܡܠܟܘܬܐ ܘܙܕܝܩܘܬܐ. ܘܗܠܝܢ ܟܠܗܝܢ
+                                                         ܡܢ ܝܬܝܪܘ ܡܬܬܘܣܦܢ ܠܢ̇ ܏ܘܫ.</span></span></div>
+                                             </div>
+                                          </div>
+                                       </div>
+                                       <div class="tei-msItem"><span class="inline-h4">Item 36 (Fol. 18b): </span>Familiar address of the abbat to the brethren, on the
+                                          commemoration of the blessed abbat N.
+                                          
+                                          <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                   <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܬܘܒ ܡܡܠܠܐ ܕܪܝܫ ܕܝܪܐ ܠܘܬ ܐ̈ܚܐ ܒܝܬܐܝܬ ܥܠ ܦܬܘܪܐ ܒܕܘܟܪܢܐ ܕܡܪܝ ܪܝܫ
+                                                   ܕܝܪܐ ܛܘܒܢܐ</span></span><span class="tei-incipit"><span class="inline-h4"> 
+                                                   Incipit: </span><span xml:lang="syr" lang="syr" dir="rtl">ܐܒܘܢ ܡܒܪܟܐ ܘܛܘܒܢܐ ܒܟܠ ܙܒܢ ܥܠܬܐ ܗܼܘ ܕܟܠܗܝܢ ܛܒ̈ܬܐ. ܫܡܗ ܥܒܕ ܠܢ
+                                                   ܡܫܡ̈ܗܐ ܒܝܬ ܒܢ̈ܝ ܐܢܫܐ. ܘܨܠܘܬܗ ܝܕܝ̈ܥܐ ܩܕܡ ܐܠܗܐ. ܏ܘܫ.</span></span></div>
+                                       </div>
+                                       <div class="tei-msItem"><span class="inline-h4">Item 37 (Fol. 19a): </span>Familiar address to the brethren
+                                          <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                   <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܬܘܒ ܡܡܠܠܐ ܕܥܡ ܐ̈ܚܐ ܕܡܬܡܠܠ ܒܝܬܐܝܬ</span></span><span class="tei-incipit"><span class="inline-h4"> 
+                                                   Incipit: </span><span xml:lang="syr" lang="syr" dir="rtl">ܛܝܒܘܬܐ ܕܐܠܗܐ ܟܢܫܬܢ ܠܥܘܡܪܐ ܗܢܐ ܕܚ̈ܝܐ ܕܢܥܦܐ ܡܢܗ ܦܐܪ̈ܐ
+                                                   ܕܝܘܬܪ̈ܢܐ. ܘܢܒܥܐ ܘܢܫܟܚ ܠܫܪܪܐ ܒܡ̈ܠܝܢ ܫܦܝܪ̈ܬܐ ܕܚܕ ܠܘܬ ܚܕ. ܠܘ ܓܝܪ ܐܝܟ ܪܫܐ ܠܘܬ ܡܫܥ̈ܒܕܐ
+                                                   ܡܡܠܠ ܐܢܐ. ܘܐܦ ܠܐ ܐܝܟ ܡܠܦܢܐ ܠܘܬ ܬܠܡ̈ܝܕܐ. ܏ܘܫ.</span></span></div>
+                                       </div>
+                                       <div class="tei-msItem"><span class="inline-h4">Item 38 (Fol. 20a): </span>Address of the abbat over a deceased brother
+                                          <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                   <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܬܘܒ ܥܠ ܐܚܐ ܡܐ ܕܥܢ̇ܕ ܘܡܡܠܠ ܥܠܘܗܝ ܪܝܫ ܕܝܪܐ</span></span><span class="tei-incipit"><span class="inline-h4"> 
+                                                   Incipit: </span><span xml:lang="syr" lang="syr" dir="rtl">ܗܐ ܚܙܬܐ ܕܝܘܬܪ̈ܢܐ ܣܝܡܐ ܩܕܡ ܥܝ̈ܢܝܢ. ܦܓܪܗ ܕܐܚܘܢ ܕܐܬܚܛܦ ܡܢ ܡܘܬܐ.
+                                                   ܠܝܬ ܡܕܡ ܕܐܝܬܘܗܝ ܡܚܦܛܢܐ ܕܟܫܝܪ̈ܐ ܐܝܟ ܚܙܬܐ ܕܡܐܬܝܬܗ ܕܡܘܬܐ. ܏ܘܫ.</span></span></div>
+                                       </div>
+                                       <div class="tei-msItem"><span class="inline-h4">Item 39 (Fol. 20b): </span>Address to a rich man, when he comes to the
+                                          convent
+                                          <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                   <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܡܡܠܠܐ ܕܠܘܬ ܓܒ̣ܪܐ ܥܬܝܪܐ ܡܐ ܕܐܬ݁ܐ ܠܕܝܪܐ</span></span><span class="tei-incipit"><span class="inline-h4"> 
+                                                   Incipit: </span><span xml:lang="syr" lang="syr" dir="rtl">ܐܝܠܝܢ ܕܐܝܬܝܗܘܢ ܥܬܝܪ̈ܐ ܒܥܠܡܐ̣. ܗܢܘܢ ܝܬܝܪܐܝܬ ܡܬܬܚܝܒܝܢ ܕܢܗܘܘܢ
+                                                   ܥܬܝܪ̈ܐ ܒܙܕܩ̈ܬܐ. ܏ܘܫ.</span></span></div>
+                                       </div>
+                                       <div class="tei-msItem"><span class="inline-h4">Item 40 (Fol. 21a): </span>Three addresses of the abbat to the brethren, when they
+                                          spend the night fasting
+                                          <div class="msItemChild">
+                                             <div class="tei-msItem"><span class="inline-h4">Item 41 (Fol. 21a): </span>Part a
+                                                <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                         <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܡܡܠܠܐ ܕܪܝܫ ܕܝܪܐ ܠܘܬ ܐ̈ܚܐ ܡܐ ܕܢܦܩܝܢ ܒܘܬܐ</span></span><span class="tei-incipit"><span class="inline-h4"> 
+                                                         Incipit: </span><span xml:lang="syr" lang="syr" dir="rtl">ܚܠܦ ܦܬܘܪܐ ܦܓܪܢܐ ܕܡܬܪܣܐ ܦܓܪܐ̣. ܙܕܩ̇ ܕܢܬܩܢ ܩܕܡܝܟܘܢ ܦܬܘܪܐ
+                                                         ܕܡܠܬܐ ܡܥܕܪܢܝܬܐ ܕܐܝܬܝܗ̇ ܬܘܪܣܝܐ ܕܚ̈ܝܝܢ. ܗ̇ܝ ܕܝܗܝܒܐ ܠܢ ܡܢ ܐܠܗܐ̣. ܕܒܗ̇ ܢܐܬܪ ܘܢܘܬܪ
+                                                         ܠܐܚܪ̈ܢܐ. ܘܬܗܘܐ ܠܢ ܚܠܦ ܡܟܘܠܬܐ ܕܟܝܢܐ ܗ̇ܝ ܕܗܫܐ ܡܢܗ̇ ܚܣܝܟܝܢ ܚܢܢ. ܏ܘܫ.</span></span></div>
+                                             </div>
+                                             <div class="tei-msItem"><span class="inline-h4">Item 42 (Fol. 22a): </span>Part b
+                                                <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                         <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܬܘܒ ܥܠܘܗܝ ܕܫܪܒܐ</span></span><span class="tei-incipit"><span class="inline-h4"> 
+                                                         Incipit: </span><span xml:lang="syr" lang="syr" dir="rtl">ܩܠܝܠܝܢ ܐܘ̈ܠܨܢܐ ܘܥ̈ܡܠܐ ܕܕܘܒܪ̈ܐ ܠܢܦܫܐ ܐܝܕܐ ܕܐܪܓܫܬ ܒܣܒܪܐ
+                                                         ܫܡܝܢܐ. ܏ܘܫ.</span></span></div>
+                                             </div>
+                                             <div class="tei-msItem"><span class="inline-h4">Item 43 (Fol. 23b): </span>Part c
+                                                <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                         <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܕܬܠܬܐ ܥܠܘܗܝ ܕܫܪܒܐ</span></span><span class="tei-incipit"><span class="inline-h4"> 
+                                                         Incipit: </span><span xml:lang="syr" lang="syr" dir="rtl">ܙܕܩ̇ ܠܢ ܕܒܟܠ ܥܕܢ ܒܗܪܓܐ ܕܡܠܬ ܐܠܗܐ ܢܗܘܐ ܥܢܝܢܢ. ܝܬܝܪܐܝܬ ܕܝܢ
+                                                         ܡܐ ܕܩܠܝܠܝܢ ܠܒܘ̈ܬܢ ܡܢ ܝܘܩܪܐ ܕܡܟܘܠܬܐ ܕܟܝܢܐ. ܡܛܠ ܕܟܡܐ ܕܝܩܪ ܦܓܪܐ ܒܡܐܟܠܘܬܐ̣. ܥܡܗ ܝܩܪܐ
+                                                         ܘܐܦ ܩܠܝܠܘܬܗ ܕܪܥܝܢܐ. ܏ܘܫ.</span></span></div>
+                                             </div>
+                                          </div>
+                                       </div>
+                                       <div class="tei-msItem"><span class="inline-h4">Item 44 (Fol. 24b): </span>Philoxenus of Mabug. Familiar address to the brethren on the tranquillity
+                                          that subsists in the service and order of the convent
+                                          <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                   <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܬܘܒ ܡܡܠܠܐ ܕܠܘܬ ܐ̈ܚܐ ܒܝܬܐܝܬ ܡܛܘܠ ܫܠܝܐ ܕܒܬܫܡܫܬܐ ܘܡܛܟܣܘܬܐ
+                                                   ܕܥܘܡܪܐ</span></span><span class="tei-incipit"><span class="inline-h4"> 
+                                                   Incipit: </span><span xml:lang="syr" lang="syr" dir="rtl">ܦܐܝܐ ܢܟܦܘܬܐ ܠܢܟ̈ܦܐ. ܘܟܢܝܟܘܬܐ ܠܝܩܝܪ̈ܐ. ܘܡܛܟܣܘܬܐ ܠܬܠܡ̈ܝܕܘܗܝ
+                                                   ܕܡܫܝܚܐ</span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>This is by <a href="/search.html?person=http://syriaca.org/person/44">Philoxenus of Mabug</a>. 
+                                                See <a href="https://bl.syriac.uk/ms/825">Add. 17,173<span class="tei-ptr"></span>, no. <span class="tei-citedRange">5</span>
+                                                   </a>.
+                                             </div>
+                                          </div>
+                                       </div>
+                                       <div class="tei-msItem"><span class="inline-h4">Item 45 (Fol. 26a): </span>Address of the abbat to the brethren, on a deceased
+                                          priest or deacon
+                                          <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                   <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܡܡܠܠܐ ܕܪܝܫ ܕܝܪܐ ܠܘܬ ܐܚ̈ܐ ܕܥܠ ܩܫܝܫܐ ܐܘ ܡܫܡܫܢܐ ܡܐ
+                                                   ܕܥ̇ܢܕܝܢ</span></span><span class="tei-incipit"><span class="inline-h4"> 
+                                                   Incipit: </span><span xml:lang="syr" lang="syr" dir="rtl">ܟܠܡܕܡ ܕܐܝܬ ܒܥܠܡܐ̣. ܡܥܕܪܢܐ ܗܘܐ ܠܢ ܠܡܠܬܐ ܕܡܚܦܛܐ ܥܠ ܫܦܝܪ̈ܬܐ.
+                                                   ܘܡܢ ܟܠ ܐܝܟܐ ܕܢܬܒܩܐ ܥܠܬܐ ܕܚܝ̈ܝܢ ܢܣ̇ܒܝܢ ܚܢܢ ܐܢ ܢܨܒܐ. ܡܛܠ ܕܗܟܢܐ ܡܬܩܢ ܥܠܡܐ ܡܢ ܒܪܘܝܗ̣.
+                                                   ܕܢܗܘܐ ܡܠܦܢܐ ܕܫܦܝܪ̈ܬܐ ܠܒܢ̈ܝܢܫܐ. ܏ܘܫ.</span></span></div>
+                                       </div>
+                                       <div class="tei-msItem"><span class="inline-h4">Item 46 (Fol. 27a): </span>Address of the abbat to brethren and lay persons, who
+                                          come to the convent on the feast of the Nativity; to be spoken at the time of
+                                          morning prayer, after they have rested from the vigils of the whole night
+                                          <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                   <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܡܡܠܠܐ ܕܡܢ ܪܝܫ ܕܝܪܐ ܠܘܬ ܐ̈ܚܐ ܘܥܠܡ̈ܝܐ ܕܐ̇ܬܝܢ ܠܕܝܪܐ ܒܥܐܕܐ ܕܒܝܬ
+                                                   ܝܠܕܐ. ܕܡܬܡܠܠ ܒܥܕܢܐ ܕܨܦܪܐ ܡܢ ܒܪ ܕܡܬܬ݁ܢܝܚܝܢ ܡܢ ܫܗܪܐ ܕܠܠܝܐ ܟܘܠܗ</span></span><span class="tei-incipit"><span class="inline-h4"> 
+                                                   Incipit: </span><span xml:lang="syr" lang="syr" dir="rtl">ܪܘܪܒܢ ܘܠܐ ܡܬܡܠܠܢ ܛܒ̈ܬܗ ܕܐܠܗܐ ܕܠܘܬ ܓܢܣܐ ܕܡܝܘ̈ܬܐ. ܘܫܘܝܐ
+                                                   ܪܒܘܬܗܝܢ ܠܪܒܘܬܗ ܕܐܠܗܐ ܥܒܘܕܗܝܢ. ܏ܘܫ.</span></span></div>
+                                       </div>
+                                       <div class="tei-msItem"><span class="inline-h4">Item 47 (Fol. 27b): </span>A similar address on the feast of the Epiphany, at
+                                          morning prayer, after the conclusion of the service
+                                          <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                   <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܬܘܒ ܗ̣ܘ ܟܕ ܗ̣ܘ ܢܝܫܐ ܕܡܡܠܠܐ ܕܡܬܡܠܠ ܒܥܐܕܐ ܕܕܢܚܐ ܒܨܦܪܐ ܡܢ ܒܬܪ
+                                                   ܫܘܠܡܐ ܕܬܫܡܫܬܐ</span></span><span class="tei-incipit"><span class="inline-h4"> 
+                                                   Incipit: </span><span xml:lang="syr" lang="syr" dir="rtl">ܒܪܝܟ ܗܼܘ ܥܠܝܐ ܕܒܛܝܒܘܬܗ ܐܫܘܝ ܠܢ ܠܥܕܥ̈ܕܘܗܝ ܩܕܝ̈ܫܐ. ܕܒܬܫ̈ܒܚܬܢ
+                                                   ܘܙܘܡܪܢ ܕܒܥ̈ܕܘܗܝ ܢܗܘܐ ܚܒܪ̈ܐ ܕܥ̈ܠܝܐ. ܏ܘܫ.</span></span></div>
+                                       </div>
+                                       <div class="tei-msItem"><span class="inline-h4">Item 48 (Fol. 28b): </span>A similar address on the feast of the Resurrection, in
+                                          the morning
+                                          <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                   <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܬܘܒ ܡܡܠܠܐ ܐܚܪܢܐ ܕܡܬܡܠܠ ܡܢ ܪܝܫ ܕܝܪܐ ܠܘܬ ܐ̈ܚܐ ܘܠܘܬ ܥܠܡ̈ܝܐ
+                                                   ܕܡܣܬܩܒܠܝܢ ܒܥܐܕܐ ܕܩܝܡܬܗ ܕܡܪܢ ܒܥܕܢܐ ܕܨܦܪܐ</span></span><span class="tei-incipit"><span class="inline-h4"> 
+                                                   Incipit: </span><span xml:lang="syr" lang="syr" dir="rtl">ܟܕ ܟܠܗܘܢ ܥܐ̈ܕܐ ܕܐܫܠܡ ܡܫܝܚܐ ܦܪܘܩܢ ܠܥܕܬܗ ܩܕܝܫܬܐ ܕܚܕܘܬܐ ܐܢܘܢ̣̇
+                                                   ܝܬܝܪ ܡܢ ܟܠܗܘܢ̣. ܥܐܕܐ ܗܢܐ ܐܝܬܘܗܝ ܕܚܕܘܬܐ. ܏ܘܫ.</span></span></div>
+                                       </div>
+                                       <div class="tei-msItem"><span class="inline-h4">Item 49 (Fol. 29b): </span>Madrasha on Faith
+                                          <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                   <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܡܕܪܫܐ ܕܗܝܡܢܘܬܐ ܥܠ ܩܠܐ ܕܦܪܕܝܣܐ</span></span><span class="tei-incipit"><span class="inline-h4"> 
+                                                   Incipit: </span><span xml:lang="syr" lang="syr" dir="rtl">ܝܠܕܗ̇ ܕܥܩܪܬܐ ܐܣ̇ܗܕ ܒܓܘ ܟܪܣܐ. ܕܡܪܝܐ ܘܐܠܗܐ ܒܬܘܠܬܐ ܛܥܝܢܐ ܗܘܬ.
+                                                   ܒܕܓܘܢ ܡܕܝܨ ܗܘ̣ܐ ܒܓܘ ܡܪܒܥܐ ܕܐܡܗ. ܕܢ̇ܟܣ ܠܛܥ̈ܝܐ ܕܐܡܪܝܢ. ܕܠܐ ܫ̣ܪܐ ܒܓܘ ܟܪܣܐ ܚܝܠܗ ܕܥܠܝܐ.
+                                                   ܕܘܨܗ ܕܝܘܚܢܢ ܐܟܪܙ ܕܡܪܗ ܗ̣ܘ . ܘ .</span></span></div>
+                                       </div>
+                                       <div class="tei-msItem"><span class="inline-h4">Item 50 (Fol. 31a): </span>Stanzas to the tune of “Kallath Malka”
+                                          <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                   <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܒ̈ܬܐ ܥܠ ܩܠܐ ܕܟܠܬ ܡܠܟܐ</span></span><span class="tei-incipit"><span class="inline-h4"> 
+                                                   Incipit: </span><span xml:lang="syr" lang="syr" dir="rtl">ܬܘ ܚܒܝ̈ܒܝ ܢܬܛܦܝܣ ܠܡܠܬ ܥܝܪܐ ܕܐܟܪܙ ܩܘܫܬܐ. ܬܘ ܬܠܡ̈ܝܕܐ ܢܠܦܢܝ ܗܘ
+                                                   ܪܘܚܢܐ ܕܬܢܐ ܫܪܪܐ. ܗ̣ܘ ܢܦܫܩ ܠܢ ܥܠ ܗ̇ܘ ܕܣܒܪ ܕܒܪ ܡ̇ܢ ܐܝܬܘܗܝ. ܕܡܪܝܐ ܗ̣ܘ ܕܟܠܐ̇. ܘܝܠܕܗ
+                                                   ܕܥܠܝܐ ܕܢܚܬ ܗܘܐ ܐܢܫܐ ܕܢܥܒܕ ܠܬܚ̈ܬܝܐ ܥ̈ܠܝܐ . ܘ . </span></span></div>
+                                       </div>
+                                       <div class="tei-msItem"><span class="inline-h4">Item 51 (Fol. 31a): </span>Five metrical discourses on Faith
+                                          <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                   <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܡܐܡܪ̈ܐ ܕܙܘܡܪܐ ܕܥܠ ܗܝܡܢܘܬܐ</span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>They are in heptasyllabic metre, except the first, which is in dodecasyllabic metre
+                                                or that of <a href="/search.html?person=http://syriaca.org/person/42">Jacob of Batnae</a>.
+                                             </div>
+                                             <div class="tei-msItem"><span class="inline-h4">Item 52 (Fol. 31a): </span>Part a
+                                                <div class="msItemChild"><span class="tei-incipit"><span class="inline-h4"> 
+                                                         Incipit: </span><span xml:lang="syr" lang="syr" dir="rtl">ܡܒܘܥ ܫܝܢܐ ܕܙܪܥ ܫܝܢܐ ܒܝܬ ܚܪ̈ܝܢܐ. ܫܝܢ ܥܕܬܟ ܡܢ ܚܪ̈ܝܢܐ ܕܦܠܝܓܘܬܐ. ܏ܘܫ.</span></span></div>
+                                             </div>
+                                             <div class="tei-msItem"><span class="inline-h4">Item 53 (Fol. 34b): </span>Part b
+                                                <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                         <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܕܬܪ̈ܝܢ ܕܙܘܡܪܐ</span></span><span class="tei-incipit"><span class="inline-h4"> 
+                                                         Incipit: </span><span xml:lang="syr" lang="syr" dir="rtl">ܟܘܪܐ ܕܒܘܚܪܢܐ ܗܘܐ ܠܗ ܗܢܐ ܙܒܢܐ ܠܐܢܫܘܬܐ. ܒܗ ܐܬܦܪܫܘ ܘܐܬܝܕܥܘ ܫܪܝܪ̈ܐ ܡܢ ܕܓ̈ܠܐ. ܟܘܪܐ ܐܬܬܣܝܡ
+                                                         ܒܡܨܥܬܐ. ܘܥܠ ܠܗ ܟܠܢܫ ܐܝܟ ܕܗܒܐ. ܏ܘܫ.</span></span></div>
+                                             </div>
+                                             <div class="tei-msItem"><span class="inline-h4">Item 54 (Fol. 36b): </span>Part c
+                                                <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                         <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܕܬܠܬܐ ܕܥܠ ܗܝܡܢܘܬܐ</span></span><span class="tei-incipit"><span class="inline-h4"> 
+                                                         Incipit: </span><span xml:lang="syr" lang="syr" dir="rtl">ܡܠܬܐ ܡܠܬܗ ܕܥܠܝܐ. ܗܒ ܠܝ ܡܠܬܐ ܕܝܘܠܦܢܟ. ܝܠܕܐ ܓܢܝܙܐ ܕܡܢ ܐܒܐ. ܦܩܘܕ ܐܡܠܠ ܥܠ ܝܠܕܟ. ܏ܘܫ.</span></span></div>
+                                             </div>
+                                             <div class="tei-msItem"><span class="inline-h4">Item 55 (Fol. 39a): </span>Part d
+                                                <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                         <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܕܐܪ̈ܒܥܐ ܕܥܠ ܗܝܡܢܘܬܐ</span></span><span class="tei-incipit"><span class="inline-h4"> 
+                                                         Incipit: </span><span xml:lang="syr" lang="syr" dir="rtl">ܝܘܠܦܢܐ ܦܬܚ̣ ܠܝ ܬܪܥܟ. ܕܐܥܘܠ ܒܗ ܠܒܝܬ ܣܝܡ̈ܬܟ. ܘܐܣܒ ܘܐܦܩ ܡܢ ܓܙܟ. ܥܘܬܪܐ ܕܚ̈ܝܐ ܠܬܠܡܝ̈ܕܝܟ.
+                                                         ܏ܘܫ.</span></span></div>
+                                             </div>
+                                             <div class="tei-msItem"><span class="inline-h4">Item 56 (Fol. 42a): </span>Part e
+                                                <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                         <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܡܐܡܪܐ ܕܚܡܫܐ ܕܙܘܡܪܐ. ܒܩܠܐ ܦܫܝܛܐ</span></span><span class="tei-incipit"><span class="inline-h4"> 
+                                                         Incipit: </span><span xml:lang="syr" lang="syr" dir="rtl">ܡܕܥܐ ܕܝܕܥ̇ ܠܐܠܗܐ. ܒܫܬܩܐ ܣܓܕ ܠܐܠܗܐ. ܘܪܥܝܢܐ ܕܡܫܬܘܕܥ ܠܗ. ܒܫܠܝܐ ܩܘܕܫܐ ܝܗܒ ܠܗ. ܏ܘܫ.</span></span></div>
+                                             </div>
+                                          </div>
+                                       </div>
+                                       <div class="tei-msItem"><span class="inline-h4">Item 57 (Fol. 42b): </span>Part 17
+                                          <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                   <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܡܡܠܠܐ ܕܪܥܝܢܐ</span></span><span class="tei-incipit"><span class="inline-h4"> 
+                                                   Incipit: </span><span xml:lang="syr" lang="syr" dir="rtl">ܐܝܢܐ ܕܡܡܪܚ ܕܢܡܠܠܝܘܗܝ ܠܫܪܪܐ ܠܐ ܝܕܥ̇ ܠܗ ܠܫܪܪܐ. ܝܕܥ ܠܗ ܕܝܢ ܐܝܢܐ
+                                                   ܕܝܕܥ ܕܠܐ ܡܬܡܠܠ. ܡܡܠܠܗ ܓܝܪ ܕܫܪܪܐ ܫܬܩܐ ܗ̣ܘ. ܘܡܠܬܐ ܕܥܠ ܗܝܡܢܘܬܐ ܡܬܐܡܪܐ ܫܠܝܐ ܗ̣ܘ.
+                                                   ܏ܘܫ.</span></span></div>
+                                       </div>
+                                       <div class="tei-msItem"><span class="inline-h4">Item 58 (Fol. 43a): </span>Eleven homilies for the feast of the Nativity
+                                          <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                   <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܡܐܡܪ̈ܐ ܕܬܘܪܓܡܐ ܕܥܠ ܒܝܬ ܝܠܕܗ ܕܡܪܢ</span></span><div class="tei-msItem"><span class="inline-h4">Item 59 (Fol. 43a): </span>Part a
+                                                <div class="msItemChild"><span class="tei-incipit"><span class="inline-h4"> 
+                                                         Incipit: </span><span xml:lang="syr" lang="syr" dir="rtl">ܥܠ ܝܠܕܐ ܕܕܘܡܪܐ ܫܩܠܬܢܝ ܬܪܥܝܬܝ ܕܐܡܠܠ܇ ܘܥܠ ܒܪܐ ܣܓܝܕܐ ܕܩܕܡ
+                                                         ܙܒ̈ܢܐ ܘܥ̈ܠܡܐ̇. ܥ̇ܨܐ ܠܝ ܚܘܒܐ ܕܐܬܪܓܡ. ܏ܘܫ.</span></span></div>
+                                             </div>
+                                             <div class="tei-msItem"><span class="inline-h4">Item 60 (Fol. 45b): </span>Part b
+                                                <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                         <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܬܘܒ ܕܬܪ̈ܝܢ ܕܥܠ ܒܝܬ ܝܠܕܐ</span></span><span class="tei-incipit"><span class="inline-h4"> 
+                                                         Incipit: </span><span xml:lang="syr" lang="syr" dir="rtl">ܬܫܒܘܚܬܐ ܚܕܬܐ ܡܬܒܥܝܐ ܠܢ ܕܢܫ̇ܒܚ ܝܘܡܢܐ̣. ܠܝܠܕܐ ܚܕܬܐ ܕܐܬܝܠܕ
+                                                         ܒܝܬ ܠܚܡ. ܘܩ̈ܠܐ ܪ̈ܘܚܢܐ ܙܕܩ ܠܢ ܕܢܙܡܪ ܠܪܘܚܢܐ ܕܗܘ̣ܐ ܦܓܪܢܐ̣. ܘܕܢܚ̣ ܡܢ ܒܬܘܠܬܐ.
+                                                         ܏ܘܫ.</span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>In the margin of the rubric is the word <span class="tei-quote"><span xml:lang="syr" lang="syr" dir="rtl">ܣܘܒܪܐ</span></span>.
+                                                   </div>
+                                                </div>
+                                             </div>
+                                             <div class="tei-msItem"><span class="inline-h4">Item 61 (Fol. 49b): </span>Part c
+                                                <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                         <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܬܘܒ ܕܬܠܬܐ ܕܒܝܬ ܝܠܕܐ</span></span><span class="tei-incipit"><span class="inline-h4"> 
+                                                         Incipit: </span><span xml:lang="syr" lang="syr" dir="rtl">ܠܚܠܘܠܐ ܕܒܝܬ ܝܠܕܗ ܕܬܠܝܬܝܗ̇ ܕܐܝܬܘܬܐ ܒܡܐܡܪܐ ܬܘܒ ܕܬܠܬܐ ܡܬܛܝܒ
+                                                         ܐܢܐ ܠܡܥܠ. ܟܕ ܐܚܝܕ ܐܢܐ ܟܢܪܐ ܕܡ̈ܢܐ ܚܝ̈ܬܐ. ܘܡܣܟܐ ܐܢܐ ܠܨܒܥܐ ܕܛܝܒܘܬܐ ܕܬܩܘܫ ܒܗ.
+                                                         ܏ܘܫ.</span></span></div>
+                                             </div>
+                                             <div class="tei-msItem"><span class="inline-h4">Item 62 (Fol. 55b): </span>Part d
+                                                <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                         <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܬܘܒ ܕܐܪ̈ܒܥܐ ܕܒܝܬ ܝܠܕܐ</span></span><span class="tei-incipit"><span class="inline-h4"> 
+                                                         Incipit: </span><span xml:lang="syr" lang="syr" dir="rtl">ܝܘܡܐ ܩܕܝܫܐ ܕܒܝܬ ܝܠܕܗ ܕܒܪܐ̣. ܡܙܡܢ ܠܝ ܠܡܠܬܐ ܕܬܫܒܘܚܬܗ. ܘܚܠܘܠܐ
+                                                         ܫܡܝܢܐ ܕܥܐܕܐ ܐܠܗܝܐ: ܩܪܐ̇ ܕܐܪܡܐ ܒܗ ܪܘܡܝܢܐ̣ ܩܘܠܣܐ ܕܬܫܥܝܬܗ. ܏ܘܫ.</span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>In the margin of the rubric is the following: <span class="tei-quote"><span xml:lang="syr" lang="syr" dir="rtl">ܣܘܒܪܗ ܕܙܟܪܝܐ</span></span>.
+                                                   </div>
+                                                </div>
+                                             </div>
+                                             <div class="tei-msItem"><span class="inline-h4">Item 63 (Fol. 58b): </span>Part e
+                                                <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                         <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܬܘܒ ܕܚܡܫܐ ܕܒܝܬ ܝܠܕܐ</span></span><span class="tei-incipit"><span class="inline-h4"> 
+                                                         Incipit: </span><span xml:lang="syr" lang="syr" dir="rtl">ܠܫܢܗ ܫܬܝܩܐ ܕܙܟܪܝܐ̣ ܗܘ̣ܐ ܟܪܘܙܐ. ܩܕܡܐܝܬ ܠܡܠܬܐ ܐܠܗܐ̇. ܕܐܬܓܠܝ
+                                                         ܒܒܣܪ ܒܥܠܡܐ. ܘܒܝܕ ܡܠܬܗ ܐܣܝܪܬܐ̣ ܠܡܠܬ ܪܡܐ ܕܡܬܚܘܐ ܠܒܢ̈ܝ ܐܢܫܐ̇. ܒ̣ܕܡܘܬܗܘܢ ܡ̇ܣܒܪ ܗܘܐ.
+                                                         ܏ܘܫ.</span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>In the margin of the rubric is the following: <span class="tei-quote"><span xml:lang="syr" lang="syr" dir="rtl">ܡܘܠܕܐ ܕܝܘܚܢܢ</span></span>.
+                                                   </div>
+                                                </div>
+                                             </div>
+                                             <div class="tei-msItem"><span class="inline-h4">Item 64 (Fol. 62b): </span>Part f
+                                                <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                         <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܬܘܒ ܕܫܬܐ ܕܒܝܬ ܝܠܕܐ</span></span><span class="tei-incipit"><span class="inline-h4"> 
+                                                         Incipit: </span><span xml:lang="syr" lang="syr" dir="rtl">ܡܢܘ ܣ̇ܦܩ ܕܢܫܒܚܝܘܗܝ ܠܗܢܐ ܡܘܠܕܐ̇. ܘܡܢܘ ܡܫܟܚ ܕܢܫܠܐ ܡܢ ܬܫܒܘܚܬܗ
+                                                         ܕܗܢܐ ܝܠܕܐ ܚܒܝܒܐ. ܏ܘܫ.</span></span></div>
+                                             </div>
+                                             <div class="tei-msItem"><span class="inline-h4">Item 65 (Fol. 66a): </span>Part g
+                                                <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                         <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܬܘܒ ܕܫܒܥܐ ܕܒܝܬ ܝܠܕܐ</span></span><span class="tei-incipit"><span class="inline-h4"> 
+                                                         Incipit: </span><span xml:lang="syr" lang="syr" dir="rtl">ܡܨܥܝܐ ܕܐܠܗܐ ܘܕܒ̈ܢܝ ܐܢܫܐ ܐܝܬܘܗܝ ܚܝܠܗ ܕܥܠܝܐ. ܗܢܐ ܕܝܘܡܢܐ ܡܢ
+                                                         ܒܬܘܠܬܐ ܐܬܝܠܕ ܦܪܘܩܐ ܠܒܪܝܬܐ. ܏ܘܫ.</span></span></div>
+                                             </div>
+                                             <div class="tei-msItem"><span class="inline-h4">Item 66 (Fol. 69b): </span>Part h
+                                                <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                         <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܬܘܒ ܕܬܡܢܝܐ ܕܒܝܬ ܝܠܕܐ</span></span><span class="tei-incipit"><span class="inline-h4"> 
+                                                         Incipit: </span><span xml:lang="syr" lang="syr" dir="rtl">ܓܒܪܝܐܝܠ ܓܒܪܐ ܕܐܠܗܐ̣ ܐܫܬܠܚ ܡܢ ܐܠܗܐ̣. ܕܢܐܬܐ ܢܣܒܪܗ̇ ܠܒܬܘܠܬܐ̣
+                                                         ܕܠܐܠܗܐ ܝܠܕܐ. ܘܪܘܚܢܐ ܡܢ ܒܝܢܬ ܟܢ̈ܫܐ ܕܪ̈ܘܚܢܐ ܐܬܦܪܫ ܘܐܫܬܕܪ̣. ܕܢܝܬܐ ܛܒܐ ܚܕܬܐ ܠܒܪܝܬܐ̇.
+                                                         ܥܠ ܥܬܝܩ ܥܠܡ̈ܐ̣ ܕܡܬܓܠܐ ܒܗ̇. ܏ܘܫ.</span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>In the margin of the rubric is the following: <span class="tei-quote"><span xml:lang="syr" lang="syr" dir="rtl">ܕܣܘܒܪܐ</span></span>.
+                                                   </div>
+                                                </div>
+                                             </div>
+                                             <div class="tei-msItem"><span class="inline-h4">Item 67 (Fol. 74a): </span>Part i
+                                                <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                         <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܬܘܒ ܕܬܫܥܐ ܕܒܝܬ ܝܠܕܐ</span></span><span class="tei-incipit"><span class="inline-h4"> 
+                                                         Incipit: </span><span xml:lang="syr" lang="syr" dir="rtl">ܡܢ ܡܠܬܗ ܕܡܠܐܟܐ ܙܕܩ̣ ܠܢ ܕܢܣܬܟܠܝܘܗܝ ܠܗܢܐ ܕܐܣܬܒܪ ܡܢܗ̣ ܕܒܪܐ ܗܘ
+                                                         ܫܪܝܪܐ ܕܡܢ ܥܠܡ ܘܝܠܕܐ ܡܬܘܡܝܐ ܗ̇ܝ ܐܝܬܘܬܐ ܣܓܝܕܬܐ̇. ܘܒܪ ܟܝܢܐ ܗܘ ܕܝܠܘܕܗ. ܘܡܢܗ ܒܩܕܡܐ
+                                                         ܐܬܝܠܕ ܕܠܐ ܫܘܪܝܐ̣. ܘܗܝܕܝܢ ܠܚܪܬܐ ܒܫܘܪܝܐ ܐܬܝܠܕ ܡܢ ܒܬܘܠܬܐ. ܏ܘܫ.</span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>In the margin of the rubric is the following: <span class="tei-quote"><span xml:lang="syr" lang="syr" dir="rtl">ܦܘܫܩܐ ܕܡܪܢ ܥܡܟܝ</span></span>.
+                                                   </div>
+                                                </div>
+                                             </div>
+                                             <div class="tei-msItem"><span class="inline-h4">Item 68 (Fol. 81b): </span>Part j
+                                                <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                         <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܬܘܒ ܕܥܣܪ̈ܐ ܕܒܝܬ ܝܠܕܐ</span></span><span class="tei-incipit"><span class="inline-h4"> 
+                                                         Incipit: </span><span xml:lang="syr" lang="syr" dir="rtl">ܒܪܝܟ ܡܠܟܐ ܡܫܒܚܐ ܕܝܘܡܢܐ ܐܬܝܠܕ ܒܐܦܪܬܐ ܘܐܦܪܝ ܒܦܘܡܐ ܕܥ̈ܠܝܐ
+                                                         ܬܫܒܘܚܬܐ ܚܕܬܐ ܒܡܘܠܕܗ ܬܗܝܪܐ. ܏ܘܫ.</span></span></div>
+                                             </div>
+                                             <div class="tei-msItem"><span class="inline-h4">Item 69 (Fol. 87a): </span>Part k
+                                                <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                         <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܬܘܒ ܕܚܕܥܣܪ ܕܒܝܬ ܝܠܕܐ</span></span><span class="tei-incipit"><span class="inline-h4"> 
+                                                         Incipit: </span><span xml:lang="syr" lang="syr" dir="rtl">ܒܪܐ ܕܐܠܗܐ ܒܡܪܚܡܢܘܬܗ̣ ܢܦܫܗ ܣܪܩ ܘܕܡܘܬܐ ܕܥܒܕܐ ܢܣ̣ܒ. ܘܠܡܘܬܐ
+                                                         ܕܙܩܝܦܐ ܐܫܬܡܥ. ܘܒܕܡܐ ܕܢܦܫܗ̣ ܟܘܡܪܐ ܡܚܣܝܢܐ ܗܘ̣ܐ ܠܟܠܗ ܓܢܣܐ ܕܒ̈ܢܝ ܐܢܫܐ.
+                                                         ܏ܘܫ.</span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>In the margin of the rubric is the following: <span class="tei-quote"><span xml:lang="syr" lang="syr" dir="rtl">ܦܘܫܩܐ ܕܢܒ̈ܝܐ</span></span>.
+                                                   </div>
+                                                </div>
+                                             </div>
+                                          </div>
+                                       </div>
+                                       <div class="tei-msItem"><span class="inline-h4">Item 70 (Fol. 89b): </span>Two homilies for the feast of the Epiphany
+                                          <div class="msItemChild">
+                                             <div class="tei-msItem"><span class="inline-h4">Item 71 (Fol. 89b): </span>Part a
+                                                <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                         <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܡܐܡܪܐ ܩܕܡܝܐ ܕܥܠ ܕܢܚܐ</span></span><span class="tei-incipit"><span class="inline-h4"> 
+                                                         Incipit: </span><span xml:lang="syr" lang="syr" dir="rtl">ܒܪܝܟ ܕܢܚܐ ܫܒܝܚܐ ܕܡܫܝܚܐ ܦܪܘܩ̣ܢ. ܕܒܨܡܚܗ ܐܠܗܝܐ ܐܢܗܪ ܒܪ̈ܝܬܐ̇.
+                                                         ܕܒܚܫܘܟܐ ܘܒ̈ܛܠܠܝ ܡܘܬܐ ܝܬܒܢ ܗ̈ܘܝ. ܘܬܪܨ ܪ̈ܓܠܐ ܬܩ̈ܝܠܬܐ̣ ܒܐܘܪܚܐ ܫܦܝܬܐ ܕܫܠܡܐ.
+                                                         ܏ܘܫ.</span></span></div>
+                                             </div>
+                                             <div class="tei-msItem"><span class="inline-h4">Item 72 (Fol. 95a): </span>Part b
+                                                <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                         <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܬܘܒ ܕܬܪ̈ܝܢ ܕܥܠ ܕܢܚܐ</span></span><span class="tei-incipit"><span class="inline-h4"> 
+                                                         Incipit: </span><span xml:lang="syr" lang="syr" dir="rtl">ܡܢ ܥܐܕܐ ܠܥܐܕܐ ܡܪܐ ܕܥܐܕ̈ܐ̣ ܡܝܒܠ ܠܓܙܪ̈ܘܗܝ ܪ̈ܘܚܢܐ. ܕܒܘܣܡ̈ܐ
+                                                         ܫܡ̈ܝܢܐ̣ ܡܢ ܥܐܕ̈ܐ ܢܩܒܠܘܢ. ܡܢ ܥܐܕܐ ܩܕܡܝܐ ܕܒܝܬ ܝܠܕܐ̣. ܠܥܕܐ ܕܥܡܕܐ. ܏ܘܫ.</span></span></div>
+                                             </div>
+                                          </div>
+                                       </div>
+                                       <div class="tei-msItem"><span class="inline-h4">Item 73 (Fol. 100a): </span>A homily on Hebrews, ch. v. 7
+                                          
+                                          <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                   <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܡܡܠܠܐ ܥܠ ܗ̇ܝ ܕܐܡ̣ܪ ܦܘܠܘܣ. ܕܗ̇ܘ ܕܒܝܘܡ̈ܬܐ ܕܒܣܪܗ̣ ܒܥܘܬܐ ܘܬܟܫܦܬܐ
+                                                   ܒܓܥܬܐ ܚܝܠܬܢܝܬܐ ܘܒ̈ܕܡܥܐ ܩܪܒ ܗܘܐ. ܠܡ̇ܢ ܕܡܫܟܚ ܗܘܐ ܕܡܢ ܡܘܬܐ ܢܦܨܝܘܗܝ..............</span></span><span class="tei-incipit"><span class="inline-h4"> 
+                                                   Incipit: </span><span xml:lang="syr" lang="syr" dir="rtl">ܐܠܘ ܡܫܬܒܩ ܗܘܝܬ ܡܢ ܥܝܛܐ ܕܓܘܕܦ̈ܝܗܘܢ ܕܗ̇ܢܘܢ ܕܐܡܝܢܝܢ ܢܨܝܢ ܥܡ
+                                                   ܡ̈ܠܐ ܕܪܘܚܐ ܕܐܠܗܐ̣. ܒܫܬܩܐ ܕܓܒܐ ܠܝ ܘܐܝܬܘܗܝ ܡܥܕܪܢܐ ܕܚܝ̈ܝ ܡܟܬܪ ܗܘܝܬ. ܐܠܐ ܡܛܠ ܕܙܕܩ ܠܢ
+                                                   ܕܠܐ ܢܗܘܐ ܫܬܝ̈ܩܐ. ܐܝܟܐ ܕܫܪܪܐ ܡܢ ܡܪ̈ܚܐ ܡܬܛܠܡ̣. ܡܬܬܙܝܥܝܢ ܐܢܚܢܢ ܕܢܦܢܐ ܦܬܓܡܐ ܟܐܢܐܝܬ
+                                                   ܠܘܩܒܠ ܒܥܠܕܒ̈ܒܘܗܝ. ܕܠܐ ܢܬܚܝܒ ܡܢܗ ܕܫܪܪܐ ܥܠ ܕܫܬܩܢܢ ܡܢ ܬܘܕܝܬܗ. ܏ܘܫ.</span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>The last few words are erased, both in the heading and in the
+                                                subscription
+                                             </div>
+                                          </div>
+                                       </div>
+                                       <div class="tei-msItem"><span class="inline-h4">Item 74 (Fol. 115b): </span>Three discourses on the Female Sinner (S. Luke, ch.
+                                          vii. 36—50)
+                                          <div class="msItemChild">
+                                             <div class="tei-msItem"><span class="inline-h4">Item 75 (Fol. 115b): </span>Part a
+                                                <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                         <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܡܐܡܪܐ ܩܕܡܝܐ ܕܥܠ ܚܛܝܬܐ</span></span><span class="tei-incipit"><span class="inline-h4"> 
+                                                         Incipit: </span><span xml:lang="syr" lang="syr" dir="rtl">ܛܘܒܝܗܘܢ ܠܚ̈ܛܝܐ ܕܐ̣ܝܕܐ ܡܢܬܐ ܡܛܬ ܐܢܘܢ ܕܐܠܗܐ ܥܒܝܕ ܣܢܐܓܪܐ
+                                                         ܚܠܦܝܗܘܢ. ܛܘܒܝܗܘܢ ܠܐܒ̈ܝܕܐ ܕܠܐܝܕܐ ܡܘܗܒܬܐ ܐܫܬܘܝܘ ܕܪܥܝܐ ܕܫܪܪܐ ܢܦܝܩ ܒܒܥܬܗܘܢ̇
+                                                         ܏ܘܫ.</span></span></div>
+                                             </div>
+                                             <div class="tei-msItem"><span class="inline-h4">Item 76 (Fol. 120a): </span>Part b
+                                                <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                         <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܬܘܒ ܕܬܪ̈ܝܢ ܕܥܠ ܚܛܝܬܐ</span></span><span class="tei-incipit"><span class="inline-h4"> 
+                                                         Incipit: </span><span xml:lang="syr" lang="syr" dir="rtl">ܝܬܝܪ ܡܢ ܟܘܠ ܫܪ̈ܒܝܢ ܕܡܬܡܠܠܝܢ ܒܣܝܡܐ ܠܟܪܝܗܐ ܬܫܥܝܬܐ ܕܚܘܠܡܢܗ.
+                                                         ܘܟܕ ܟܠ ܡ̈ܠܝܢ ܠܙܬܐ ܚ̈ܫܝܒܢ ܠܗ. ܒܩܘܛܦ ܪܥܝܢܗ ܕܡܢ ܚܫܐ ܕܟܘܪܗܢܗ. ܫܪܒܐ ܕܐܣܝܘܬܗ ܒܣܝܡܐܝܬ
+                                                         ܒܢܓܝܪܘܬ ܪܘܚܐ ܫܡ̇ܥ ܠܗ. ܏ܘܫ.</span></span></div>
+                                             </div>
+                                             <div class="tei-msItem"><span class="inline-h4">Item 77 (Fol. 126b): </span>Part c
+                                                <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                         <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܬܘܒ ܕܬܠܬܐ ܕܥܠ ܚܛܝܬܐ</span></span><span class="tei-incipit"><span class="inline-h4"> 
+                                                         Incipit: </span><span xml:lang="syr" lang="syr" dir="rtl">ܐܝܠܝܢ ܕܒܥܝܢܐ ܕܗܝܡܢܘܬܐ ܡܬܒܩܝܢ ܒܟܣܝ̈ܬܐ. ܗܢܘܢ ܡܨܝܢ ܗܘܝܢ
+                                                         ܚܙܝܝ̈ܗܝܢ ܫܪܝܪܐ. ܡܛܠ ܕܟܠ ܚܙܝܐ ܡܕܡ ܕܠܚܡ ܠܗ ܡܫܟܚ ܕܢܚܙܐ. ܐܝܠܝܢ ܓܝܪ ܕܡܚܝܢܢ ܠܦܓܪܐ
+                                                         ܒܚܙܬܐ ܕܥܝܢ̈ܝ ܦܓܪܐ ܡܬܚܙܝܢ. ܘܐܝܠܝܢ ܕܠܘܬ ܢܦܫܐ ܐܝܬ ܠܗܝܢ ܫܘܬܦܘܬܐ. ܒܥܝܢܐ ܚܠܝܡܬܐ
+                                                         ܕܗܝܡܢܘܬܗ ܕܢܦܫܐ ܡܬܚܙܝܢ. ܏ܘܫ.</span></span></div>
+                                             </div>
+                                          </div>
+                                       </div>
+                                    </div>
+                                 </div>
+                                 </span></div>
+                        </div>
+                     </div>
+                  </div>
+                  <div xmlns:x="http://www.w3.org/1999/xhtml" xmlns:local="http://syriaca.org/ns" class="panel panel-default">
+                     <div class="panel-heading">
+                        <h2 class="panel-title" data-toggle="collapse" data-target="#Additions">Additions </h2>
+                     </div>
+                     <div id="Additions" class="panel-collapse collapse in">
+                        <div class="panel-body">
+                           <div class="msDesc">
+                              <div class="indent">
+                                 
+                                 
+                                 <div class="tei-item"><span class="inline-h4">Addition 1</span><strong> (Fol. 136b)</strong>:
+                                    <span class="tei-p">The original colophon appears to have been erased, and in its place we now
+                                       find, fol. 136b, a more modern note, which states that the book was repaired and
+                                       bound by one <span class="tei-persName">Ephraim</span>, at the expense of <span class="tei-persName">Moses</span> and
+                                       <span class="tei-persName">Aaron</span>, priests and directors of the <span class="tei-placeName">convent of S. Mary
+                                          Deipara</span>
+                                       . </span><span class="tei-p">
+                                       <span class="tei-quote" lang="syr">ܕܒܩ ܘܚܕܬ ܠܟܬܒܐ ܗܢܐ ܐܦܪܝܡ ܐܟܣܢܝܐ ܒܚܦܝܛܘܬܐ ܕܡܘܫܐ ܘܐܗܪܘܢ ܩܫ̈ܝܫܐ ܘܡܕܒܪ̈ܢܐ ܕܝܠܗ̇
+                                          ܕܕܝܪܐ ܕܒܝܬ ܝܠܕܬ ܐܠܗܐ ܕܒܡܕܒܪܐ ܕܣܘܪ̈ܝܝܐ ܘܠܐ ܐܢܫ ܫܠܝܛ ܒܡܠܬܐ ܙܝܥܬܐ ܘܕܚܝܠܬܐ ܕܢܠܚܐ
+                                          ܠܥܘܗܕܢܐ ܗܢܐ ܏ܘܫ.</span>
+                                       </span></div>
+                                 
+                                 <div class="tei-item"><span class="inline-h4">Addition 2</span><strong> (Fol. 136b)</strong>:
+                                    <span class="tei-p">On the same page, between the columns, there is another anathema of later
+                                       date.</span><span class="tei-p">
+                                       <span class="tei-quote" lang="syr">ܟܠ ܕܡܦܩ ܠܗ ܠܟܬܒܐ ܗܢܐ ܡܢ ܕܝܪܐ ܗܕܐ. ܐܘ ܦܣܩ ܡܢܗ ܡܕܡ. ܐܘ ܟܐܡ
+                                          ܥܠܘܗܝ ܐܘ ܠܚܐ ܥܘܗܕܢܐ ܗܢܐ ܡܚܪܡܐ ܢܗܘܐ ܘܡܣܠܝܐ ܡܢ ܡܪܝܐ ܥܕܡܐ ܕܡܗܦܟ ܠܗ ܠܗܕܐ ܕܝܪܐ ܕܒܝܬ
+                                          ܝܠܕܬ ܐܠܗܐ.</span>
+                                       </span></div>
+                                 
+                                 
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+                  <div class="citationinfo">
+                     <h3>How to Cite This Entry</h3>
+                     <div id="citation-note" class="content-block indent"><span> William Wright</span> et al., “<span class="title-analytic">London, BL, Add. 17181</span>” in <span class="title-monographic">A Digital Catalogue of Syriac Manuscripts in the British Library</span>,  last modified April 21, 2023, <a href="https://bl.syriac.uk/ms/833">https://bl.syriac.uk/ms/833</a>.
+                        <div class="collapse" id="showcit">
+                           <div id="citation-bibliography">
+                              <h4>Bibliography:</h4><span class="editor">William Wright</span> et al., “<span class="title-analytic">London, BL, Add. 17181</span>.” In <span class="title-monographic">A Digital Catalogue of Syriac Manuscripts in the British Library</span>, edited by . Syriaca.org: The Syriac Reference Portal,
+                              2023.
+                               Entry published April 21, 2023. <a href="https://bl.syriac.uk/ms/833">https://bl.syriac.uk/ms/833</a>.
+                           </div>
+                           <div id="about">
+                              <h3>About this Entry</h3>
+                              <p><span class="heading-inline">Entry Title:</span> <span class="title-analytic">London, BL, Add. 17181</span></p>
+                              <div>
+                                 <h4>Authorial and Editorial Responsibility:</h4>
+                                 <ul>
+                                    <li><span> David A. Michelson</span>, general editor, Syriaca.org: The Syriac Reference Portal
+                                    </li>
+                                    <li>, editor, <span class="title-monographic">A Digital Catalogue of Syriac Manuscripts in the British Library</span></li>
+                                    <li>William Wright, David A. Michelson, Robert Aydin, Claire Chen, Justin Arnwine, and Justin Arnwine, entry contributors, “<span class="title-analytic">London, BL, Add. 17181</span>”
+                                    </li>
+                                 </ul>
+                              </div>
+                              <div>
+                                 <h4>Additional Credit:</h4>
+                                 <ul>
+                                    <li>Created by <span> Claire Chen</span></li>
+                                    <li>Based on the work of <span> William Wright</span></li>
+                                    <li>Edited by <span> Justin Arnwine</span></li>
+                                    <li>Syriac text entered by <span> Robert Aydin</span></li>
+                                    <li>Greek and coptic text entry and proofreading by <span> Ryan Stitt</span></li>
+                                    <li>Project management by <span> William L. Potter</span></li>
+                                    <li>English text entry and proofreading by <span> Syriac Research Group, University of Alabama</span></li>
+                                    <li>Syriaca.org URIs for authors edited by <span> Justin Arnwine</span></li>
+                                    <li>Syriaca.org URIs for authors checked by <span> Alexys Ahn</span><span> Joseph DAlfonso</span></li>
+                                    <li>Folio extent edited by <span> Kurt Urban</span></li>
+                                 </ul>
+                              </div>
+                           </div>
+                           <div id="license">
+                              <h3>Copyright and License for Reuse</h3>
+                              <div>Except otherwise noted, this page is © 2023.
+                                 
+                              </div><span class="tei-licence">
+                                 
+                                 <p>Distributed under a Creative Commons Attribution 3.0 Unported License</p>
+                                 </span></div>
+                        </div><a class="btn-sm btn-info togglelink pull-right" data-toggle="collapse" data-target="#showcit" data-text-swap="Hide citation">Show full citation information...</a></div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </body><script type="text/javascript" src="/resources/js/jquery.validate.min.js"></script><script type="text/javascript" src="/resources/js/require.min.js"></script><script type="text/javascript" src="/resources/js/srophe.js"></script><script data-template="app:google-analytics"></script></html>

@@ -1,0 +1,415 @@
+<?xml version="1.0" encoding="UTF-8"?><html xmlns="http://www.w3.org/1999/xhtml" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:srophe="https://srophe.app">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <title>London, BL, Add. 12177</title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <meta name="DC.type" property="dc.type" content="Text" />
+      <meta name="DC.isPartOf" property="dc.ispartof" content="Syriaca.org: The Syriac Reference Portal" />
+      <link data-template="app:metadata" />
+      <link rel="shortcut icon" href="/resources/images/fav-icons/mss-favicon.ico" />
+      <link rel="stylesheet" type="text/css" href="/resources/bootstrap/css/bootstrap.min.css" />
+      <link rel="stylesheet" type="text/css" href="/resources/css/sm-core-css.css" />
+      <link rel="stylesheet" type="text/css" href="/resources/css/syr-icon-fonts.css" />
+      <link rel="stylesheet" type="text/css" href="/resources/css/style.css" />
+      <link rel="stylesheet" type="text/css" href="/resources/css/syriaca.css" />
+      <link rel="stylesheet" type="text/css" media="print" href="/resources/css/print.css" />
+      <link rel="stylesheet" href="/resources/leaflet/leaflet.css" />
+      <link rel="stylesheet" href="/resources/leaflet/leaflet.awesome-markers.css" />
+      <link href="/resources/jquery-ui/jquery-ui.min.css" rel="stylesheet" /><script type="text/javascript" src="/resources/js/jquery.min.js"></script><script type="text/javascript" src="/resources/jquery-ui/jquery-ui.min.js"></script><script type="text/javascript" src="/resources/js/jquery.smartmenus.min.js"></script><script type="text/javascript" src="/resources/js/clipboard.min.js"></script><script type="text/javascript" src="/resources/bootstrap/js/bootstrap.min.js"></script><script defer="defer" data-domain="bl.syriac.uk" src="https://plausible.io/js/script.js"></script><link href="/resources/keyboard/css/keyboard.min.css" rel="stylesheet" />
+      <link href="/resources/keyboard/css/keyboard-previewkeyset.min.css" rel="stylesheet" />
+      <link href="/resources/keyboard/syr/syr.css" rel="stylesheet" /><script type="text/javascript" src="/resources/keyboard/syr/jquery.keyboard.js"></script><script type="text/javascript" src="/resources/keyboard/js/jquery.keyboard.extension-mobile.min.js"></script><script type="text/javascript" src="/resources/keyboard/js/jquery.keyboard.extension-navigation.min.js"></script><script type="text/javascript" src="/resources/keyboard/syr/jquery.keyboard.extension-autocomplete.js"></script><script type="text/javascript" src="/resources/keyboard/syr/keyboardSupport.js"></script><script type="text/javascript" src="/resources/keyboard/syr/syr.js"></script><script type="text/javascript" src="/resources/keyboard/layouts/ms-Greek.min.js"></script><script type="text/javascript" src="/resources/keyboard/layouts/ms-Russian.min.js"></script><script type="text/javascript" src="/resources/keyboard/layouts/ms-Arabic.min.js"></script><script type="text/javascript">
+            $(document).ready(function () {
+                $('[data-toggle="tooltip"]').tooltip({ container: 'body' })
+
+                $('.keyboard').keyboard({
+                    openOn: null,
+                    stayOpen: false,
+                    alwaysOpen: false,
+                    autoAccept: true,
+                    usePreview: false,
+                    initialFocus: true,
+                    rtl : true,
+                    layout: 'syriac-phonetic',
+                    hidden: function(event, keyboard, el){
+                       //  keyboard.destroy();
+                     }
+                });
+
+                $('.keyboard-select').click(function () {
+                    var keyboardID = '#' + $(this).data("keyboard-id")
+                    var kb = $(keyboardID).getkeyboard();
+                    //var kb = $('#searchField').getkeyboard();
+                    // change layout based on link ID
+                    kb.options.layout = this.id
+                    // open keyboard if layout is different, or time from it last closing is &gt; 200 ms
+                    if (kb.last.layout !== kb.options.layout || (new Date().getTime() - kb.last.eventTime) &gt; 200) {
+                        kb.reveal();
+                    }
+                });
+                //Change fonts
+                $('.swap-font').on('click', function(){
+                    var selectedFont = $(this).data("font-id")
+                    $('.selectableFont').not('.syr').css('font-family', selectedFont);
+                    $("*:lang(syr)").css('font-family', selectedFont)
+                });
+
+            })
+        </script></head>
+   <body id="body">
+      <nav class="navbar navbar-default navbar-fixed-top" role="navigation" data-template="app:fix-links">
+         
+         <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse-1">
+               <span class="sr-only">Toggle navigation</span>
+               <span class="icon-bar"></span>
+               <span class="icon-bar"></span>
+               <span class="icon-bar"></span>
+               </button>
+            <a class="navbar-brand banner-container" href="/index.html">
+               <span class="syriaca-icon syriaca-mss banner-icon"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span>
+                  </span>
+               <span class="banner-text">Syriac Manuscripts in the British Library</span>
+               </a>
+            
+         </div>
+         
+         <div class="navbar-collapse collapse pull-right" id="navbar-collapse-1">
+            
+            <ul class="nav navbar-nav">
+               
+               <li>
+                  <a href="/browse.html" class="nav-text">Browse</a>
+                  
+               </li>
+               
+               <li data-template="app:shared-content" data-template-path="/templates/shared-links.html"></li>
+               
+               <li>
+                  <a href="/search.html" class="nav-text">Advanced Search</a>
+                  
+               </li>
+               
+               <li>
+                  
+                  <div id="search-wrapper">
+                     
+                     <form class="navbar-form navbar-right search-box" role="search" action="/search.html" method="get">
+                        
+                        <div class="form-group">
+                           <input type="text" class="form-control keyboard" placeholder="search" name="keyword" id="keywordNav" />
+                           <span data-template="app:keyboard-select-menu" data-template-input-id="keywordNav"></span>
+                           <button class="btn btn-default search-btn" id="searchbtn" type="submit" title="Search">
+                              <span class="glyphicon glyphicon-search"></span>
+                              </button>
+                           
+                        </div>
+                        
+                     </form>
+                     
+                  </div>
+                  
+               </li>
+               
+               <li data-template="app:shared-content" data-template-path="/templates/fontMenu.html"></li>
+               
+            </ul>
+            
+         </div>
+         
+      </nav>
+      <div class="main-content-block">
+         <div class="interior-content">
+            <div class="container otherFormats"><a href="mailto:bl.syriac.uk@gmail.com?subject=Shelf mark: Record URI: " type="button" class="btn btn-default btn-xs" data-toggle="tooltip" title="Click to report a correction via e-mail."><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span> Corrections
+                  </a> <a href="https://github.com/srophe/britishLibrary-data/issues/new?assignees=&amp;labels=community-submitted&amp;title=:" target="_blank" id="issueBtn" data-toggle="tooltip" class="btn btn-default btn-xs" title="Click to file a data issue on GitHub (requires login)."><span class="glyphicon glyphicon-record" aria-hidden="true"></span> Open
+                  </a> <a href="https://github.com/srophe/britishLibrary-data/blob/main/data/tei/76.xml" target="_blank" class="btn btn-default btn-xs" id="openBtn" data-toggle="tooltip" title="Click to view the TEI XML data for this record."><img src="/resources/images/github-mark.png" height="18px" /></a> <a href="javascript:window.print();" type="button" class="btn btn-default btn-xs" id="printBtn" data-toggle="tooltip" title="Click to send this page to the printer."><span class="glyphicon glyphicon-print" aria-hidden="true"></span> 
+                  </a> 
+            </div>
+            <div class="row">
+               <div class="col-md-12">
+                  <div xmlns:x="http://www.w3.org/1999/xhtml" xmlns:local="http://syriaca.org/ns" class="title">
+                     <h1>Add. 12,177</h1>
+                  </div>
+                  <div xmlns:x="http://www.w3.org/1999/xhtml" xmlns:local="http://syriaca.org/ns" class="tei-note">
+                     <div>URI: <span class="tei-idno">https://bl.syriac.uk/ms/76</span></div>
+                  </div>
+                  <div xmlns:x="http://www.w3.org/1999/xhtml" xmlns:local="http://syriaca.org/ns" class="header section">
+                     <div class="tei-note">
+                        <div>
+                           Description based on Wright
+                           <a href="#" data-toggle="tooltip" title="This entry number is from Wright's printed catalogue. Due to renumbering, Wright's entry numbers do not match the numbering used in this digital catalogue."><span class="tei-idno">LXXXIII</span></a>
+                           (<span class="tei-citedRange">1:58-60</span>)
+                           <a href="https://archive.org/details/catalogueofsyria01brituoft/page/58" target="_blank"><img src="/resources/images/ialogo.jpg" alt="Link to Archive.org Bibliographic record" height="18px" /></a></div>
+                        <div>
+                           Date: 
+                           AD 1189 / AG 1500
+                        </div>
+                        <div>
+                           Origin: The convent of Mār Sergius on the Tūrā Sahyā, or Dry Mountain
+                           
+                        </div>
+                        <div>Unspecified Syriac script (multiple hands) ܀  Paper Codex, 291 leaves.
+                           
+                        </div>
+                        <div>
+                           Features: 
+                           
+                           Decoration
+                        </div>
+                        <div>
+                           Wright's Subject Classification:
+                           New Testament
+                        </div>
+                     </div>
+                     <div class="tei-note"><span>This manuscript contains: The four Gospels, according to the Peshitta version. In
+                           total, including sub-sections, this manuscript contains 5 items.</span></div>
+                  </div>
+                  <div xmlns:x="http://www.w3.org/1999/xhtml" xmlns:local="http://syriaca.org/ns" class="panel panel-default">
+                     <div class="panel-heading">
+                        <h2 class="panel-title" data-toggle="collapse" data-target="#Overview">Physical Description </h2>
+                     </div>
+                     <div id="Overview" class="panel-collapse collapse in">
+                        <div class="panel-body">
+                           <div class="msDesc">
+                              <div class="tei-physDesc">
+                                 <div class="indent">
+                                    <p> Paper, about 10 1/4 in. by 6 7/8, consisting of 291 leaves. The quires, 30 in number,
+                                       are signed with letters, and the folios too are numbered from ܓto ܪܨܕ. A single leaf
+                                       is wanting after fol. 77. There are 19 lines in each page. This volume is written
+                                       ina good, regular hand, and dated A. Gr. 1500, A.D. 1189. Vowel-points have frequently
+                                       been added, apparently by later hands, sometimes Greek (ܰ,ܰ,ܰ,ܰ, , , , ,; see foll.
+                                       1 b,2 a,and 49 a), but more usually Syriac. 
+                                    </p><span class="tei-handDesc">
+                                       
+                                       <div name="handNote1"><span class="inline-h4">Hand 1 (major, Unspecified Syriac script): </span>
+                                          This volume is written in a good, regular hand, and dated <span class="tei-date">A. Gr. 1500</span>, <span class="tei-date">A.D. 1189</span>. A monk named <span class="tei-persName">Abū Tāhir</span>. <span class="tei-ref">See additions.</span>
+                                          
+                                       </div>
+                                       
+                                       <div name="handNote2"><span class="inline-h4">Hand 2 (minor, Unspecified Greek script): </span>
+                                          Greek.<span class="tei-ref">See additions.</span>
+                                          
+                                       </div>
+                                       
+                                       <div name="handNote3"><span class="inline-h4">Hand 3 (minor, Unspecified Syriac script): </span>
+                                          <span class="tei-ref">See additions.</span>
+                                          
+                                       </div>
+                                       
+                                       <div name="handNote4"><span class="inline-h4">Hand 4 (minor, Unspecified Syriac script): </span>
+                                          <span class="tei-ref">See additions.</span>
+                                          
+                                       </div>
+                                       
+                                       <div name="handNote5"><span class="inline-h4">Hand 5 (minor, Unspecified Syriac script): </span>
+                                          An Arabian monk of the same convent, named <span class="tei-persName">John</span>. <span class="tei-ref">See additions.</span>
+                                          
+                                       </div>
+                                       
+                                       <div name="handNote6"><span class="inline-h4">Hand 6 (minor, Unspecified Syriac script): </span>
+                                          <span class="tei-persName">Bar-saumā</span>. <span class="tei-ref">See additions.</span>
+                                          
+                                       </div>
+                                       
+                                       <div name="handNote7"><span class="inline-h4">Hand 7 (minor, Unspecified Arabic script): </span>
+                                          Arabic.<span class="tei-ref">See additions.</span>
+                                          
+                                       </div>
+                                       
+                                       <div name="handNote8"><span class="inline-h4">Hand 8 (minor, Unspecified Syriac script): </span>
+                                          <span class="tei-date">A. Gr. 1938</span>, <span class="tei-date">A.D. 1627</span>, the monk <span class="tei-persName">George of Hisn Kīfā</span>. <span class="tei-ref">See additions.</span>
+                                          
+                                       </div>
+                                       </span><span class="tei-decoDesc">
+                                       
+                                       <div name=""><span class="msItem"><span class="inline-h4">Decoration (Rubrication):</span></span></div>
+                                       </span></div>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+                  <div xmlns:x="http://www.w3.org/1999/xhtml" xmlns:local="http://syriaca.org/ns" class="panel panel-default">
+                     <div class="panel-heading">
+                        <h2 class="panel-title" data-toggle="collapse" data-target="#Contents">Manuscript Contents</h2>
+                     </div>
+                     <div id="Contents" class="panel-collapse collapse in">
+                        <div class="panel-body">
+                           <div class="msContent"><span class="summary ident">Note: Item numbering updated in digital edition.</span><span class="tei-msContents">
+                                 
+                                 
+                                 <div class="tei-msItem"><span class="inline-h4">Item 1 (Fol. 1b): </span>The four Gospels, according to the Peshitta version [defective]
+                                    <div class="msItemChild"><span class="tei-finalRubric"><span class="inline-h4"> 
+                                             Subscription  (Fol. 290a): </span><span xml:lang="syr" lang="syr" dir="rtl">ܫܠܸܡ ܠܡ̣ܟܬ̇ܒ ܗܢܐ ܐ̣ܘܢܓܠ̣ܝܘܢ ܩܕܝܫܐ ܕܡܠܠܘܼܗܝ ܘܐܟܪܙܘܼܗܝ ܐܪܒܥܐ ܐܘܢ̈ܓܠܝܣܛܐ ܩܕܝܫ̈ܐ ܡܬܝ ܘܡܪܩܘܼܣ
+                                             ܘܠܘܼܩܐ ܘܝܘܼܚܢܢ
+                                             </span></span><span class="tei-finalRubric"><span class="inline-h4"> 
+                                             Subscription  (Fol. 290a): </span><span xml:lang="syr" lang="syr" dir="rtl">A doxology follows the final rubric.
+                                             </span></span><div class="tei-msItem"><span class="inline-h4">Item 2 (Fol. 1b): </span>The Gospel of S. Matthew, according to the Peshitta version [defective]
+                                          <div class="msItemChild">
+                                             <div class="msItem-notes"><span class="inline-h4">Notes:</span><ul>
+                                                   <li>Divided into 22 sections (<span class="tei-foreign" xml:lang="syr" lang="syr" dir="rtl">ܨܟܒ</span>).
+                                                   </li>
+                                                   <li>Missing portion, ch. xxvii. 52—64.</li>
+                                                </ul>
+                                             </div>
+                                          </div>
+                                       </div>
+                                       <div class="tei-msItem"><span class="inline-h4">Item 3 (Fol. 79b): </span>The Gospel of S. Mark, according to the Peshitta version
+                                          <div class="msItemChild">
+                                             <div class="msItem-notes"><span class="inline-h4">Note: </span>Divided into 13 sections (<span class="tei-foreign" xml:lang="syr" lang="syr" dir="rtl">ܨܝܓ</span>).
+                                             </div>
+                                          </div>
+                                       </div>
+                                       <div class="tei-msItem"><span class="inline-h4">Item 4 (Fol. 132a): </span>The Gospel of S. Luke, according to the Peshitta version
+                                          <div class="msItemChild">
+                                             <div class="msItem-notes"><span class="inline-h4">Note: </span>Divided into 23 sections (<span class="tei-foreign" xml:lang="syr" lang="syr" dir="rtl">ܨܟܓ</span>).
+                                             </div>
+                                          </div>
+                                       </div>
+                                       <div class="tei-msItem"><span class="inline-h4">Item 5 (Fol. 222a): </span>The Gospel of S. John, according to the Peshitta version
+                                          <div class="msItemChild">
+                                             <div class="msItem-notes"><span class="inline-h4">Note: </span>Divided into 20 sections (<span class="tei-foreign" xml:lang="syr" lang="syr" dir="rtl">ܨܟܟ</span>).
+                                             </div>
+                                          </div>
+                                       </div>
+                                    </div>
+                                 </div>
+                                 </span></div>
+                        </div>
+                     </div>
+                  </div>
+                  <div xmlns:x="http://www.w3.org/1999/xhtml" xmlns:local="http://syriaca.org/ns" class="panel panel-default">
+                     <div class="panel-heading">
+                        <h2 class="panel-title" data-toggle="collapse" data-target="#Additions">Additions </h2>
+                     </div>
+                     <div id="Additions" class="panel-collapse collapse in">
+                        <div class="panel-body">
+                           <div class="msDesc">
+                              <div class="indent">
+                                 
+                                 <div class="tei-note"><span>N.B., folio location may not be available for some items below.</span></div>
+                                 
+                                 
+                                 <div class="tei-item"><span class="inline-h4">Addition 1</span>:
+                                    <span class="tei-p">Vowel-points have frequently been added, apparently by later hands, usually Syriac.</span></div>
+                                 
+                                 <div class="tei-item"><span class="inline-h4">Addition 2</span>:
+                                    <span class="tei-p">Sometimes Greek vowel-points have been added(<span class="tei-foreign" lang="syr">ܰ, ܶ, ܺ, ܳ, , , , ,</span>; see foll.<span class="tei-locus">1 b, 2 a</span>, and <span class="tei-locus">49 a</span>).</span></div>
+                                 
+                                 <div class="tei-item"><span class="inline-h4">Addition 3</span><strong> (Fol. 1a)</strong>:
+                                    <span class="tei-p">The Arabic note on fol. 1 a, stating that this volume was given as a legacy to <span class="tei-placeName">the convent of St. Mary Deipara</span>, seems to have been written at the time of <span class="tei-ref">this second Bar-saumā</span>.</span><span class="tei-p">
+                                       <span class="tei-quote" lang="ar">
+                                          
+                                          </span>
+                                       </span></div>
+                                 
+                                 <div class="tei-item"><span class="inline-h4">Addition 4</span><strong> (Fol. 290b)</strong>:
+                                    <span class="tei-p">A note on fol. 290 b, informs us that this manuscript was written <span class="tei-date">A. Gr. 1500</span>, <span class="tei-date">A.D. 1189</span>, in <span class="tei-placeName">the convent of Mār Sergius</span> on the <span class="tei-placeName">Tūrā Sahyā, or Dry Mountain</span>, [See <span class="tei-bibl">Assemani, Bibl. Or., t. ii.p. 127,</span> and <span class="tei-bibl">the Dissert, de Monophysitis, art. ix., Monast. S. Sergii</span>, in the same volume.] when <span class="tei-persName">Michael the Great was patriarch of <span class="tei-placeName">Antioch</span></span>, [See <span class="tei-bibl">Assemani, Bibl. Or.,t. ii.p. 363</span>;<span class="tei-bibl">Le Quien, Oriens Christ., t. ii. col. 1389</span>.]<span class="tei-persName">Gregory metropolitan of <span class="tei-placeName">Tagrīt</span> and <span class="tei-placeName">Mosul</span></span>, and <span class="tei-persName">John bishop of the said convent</span>, by a monk named <span class="tei-persName">Abū Tāhir</span>, a native of <span class="tei-placeName">Mosul</span>.</span><span class="tei-p">
+                                       <span class="tei-quote" lang="syr">ܫܩ̣ܠ ܕܝܢ ܣܟܐ ܐܘܟܝܬ ܫܘܠܡܐ ܟܬܒ̣ܐ ܗܢܐ ܕܐܘܢܓܠܝܘܢ ܩܕܝܫܐ. ܫܢܬ ܐܠܦ ܘܚ̈ܡܫ ܡ̈ܐܐ ܒܗ. ܒܚ̇ܪܬܗ
+                                          ܕܬܫܪܝܢ ܩܕܡܝܐ ܒܝܘܡ ܒܚܡܫܐ (sic) ܒܫܒܐ. ܒܥܘܡܪܐ ܩܕܝܫܐ ܘܐܠܗܝܐ [ܕ]ܡܪܝ ܣܪܓܝܣ ܕܒܛܘܼܪܐ ܨܗܝܐ
+                                          ܒܝ̈ܘܡܝ ܡܪܝ ܡܝܟܐܝܠ ܦܐܛܪܝܪܟܝܣ ܕܟܘܪܣܝܐ ܫܠܝܚܝܐ ܕܐܢܛܝܘܟܝܐ ܕܣܘܪܝܐ. ܘܡܪܝ ܓܪܝܓܘܪܝܘܣ ܡܝܛܪܘܦܘܠܝܛܐ
+                                          ܕܬܐܓܪܝܬ ܘܕܡܘܨܠ ܘܕܐܘܼܚܕܢܗ̇. ܘܡܪܝ ܝܘܚܢܢ ܐܦܝܣܩܘܦܐ ܕܝܠܗ ܕܥܘܡܪܐ ܕܐܡ̣ܝܪ. ܟܬܒܗ ܕܝܢ ܐܢܫ ܚ̇ܛܝܐ
+                                          ܘܚ̇ܛܝ ܚ̈ܛܝܐ. ܘܒܨܝܪ ܡܢ ܟܠܢܫ. ܗ̇ܘ ܕܡܢ ܢܚ̈ܬܐ ܐܘܟ̈ܡܐ ܘܥܡܪ̈ܢܝܐ ܕܠܒܝ̣ܫ ܐܡ̣ܪܐ ܐܬܟ̇ܢ̣ܝ ܘܡܢ
+                                          ܫܡܐ ܣܪܝܩ. ܘܡܢ ܥ̈ܒ̇ܕܐ. ܗ̇ܘ ܕܠܐ ܫ̇ܘܼܐ ܗܘܐ ܕܢܬܕܟܪ ܫܡܗ. ܐܠܐ ܡܛܠ ܨܠܘܬܐ ܕܓܘܐ. ܐܒܘܛܐܗܪ ܚ̇ܛܝܐ
+                                          ܡܢܗ ܕܥܘܡܪܐ ܕܐܡ̣ܝܪ. ܒܓܢܣܐ ܕܝܢ ܡܢ ܡܘܨܠ ܡܕܝܢܬܐ ܡ̇ܒܪܟܬܐ. ܘܐܢ ܐܢܫ ܢܫܟܚ ܦܘܕܐ ܡܕܡ ܩܪܝܚܐ ܕܠܐ
+                                          ܪܛܢܐ ܘܕܠܐ ܓܘܕܦܐ ܢܬܪܨ. ܏ܘܫ.</span>
+                                       </span></div>
+                                 
+                                 <div class="tei-item"><span class="inline-h4">Addition 5</span><strong> (Fol. 291a)</strong>:
+                                    <span class="tei-p">Then follow in red ink, fol. 291 a, the words:</span><span class="tei-p">
+                                       <span class="tei-quote" lang="syr">ܡ̇ܢ ܕܠܐ ܪܚ̇ܡ ܠܡܪܢ ܝܫܘܥ ܡܫܝܚܐ ܢܗ̣ܘܐ ܚܪܡ ܬܠ̣ܝܬ݁ܝܐܚ̇ܣܐ ܚܘ̈ܒܝ ܚܠܦ ܥܡ̈ܠܐ ܕܠܐܝ̈ܝܢ ܐܝ̈ܕܝ:</span>
+                                       </span></div>
+                                 
+                                 <div class="tei-item"><span class="inline-h4">Addition 6</span><strong> (Fol. 291a)</strong>:
+                                    <span class="tei-p">Another note on fol. 291 a, written by an Arabian monk of the same convent, named
+                                       <span class="tei-persName">John</span>, states that the manuscript belonged to the monk <span class="tei-persName">Bar-saumā</span> from <span class="tei-placeName">al-Jazīra</span>.</span><span class="tei-p">
+                                       <span class="tei-quote" lang="syr">ܝܘܚܢܢ ܒܨܝܪܐ ܕܥܘܡܪܐ ܕܡܪܝ ܣܪܓܝܣ ܘܕܒܝܬ ܥܪ̈ܒܝܐ. ܐܡ̇ܪ ܕܟܬܒܐ ܗܢܐ ܩܕܝܫܐ ܕܐܘܢܓܠܝܘܢ ܐܝܬ܏ܘ ܠܪܒܢ
+                                          ܒܪܨܘܡܐ ܕܝܪܝܐ ܢܟܦܐ ܒܪ ܫܒܘܟ ܒܪ ܐܗܪܘܢ ܕܡܢ ܓܙܰܪܬܐ ܡܕܝܢܬܐ. ܕܒܟܠܗ̇ ܝܨܝܦܘܬܐ ܘܚܝܠܐ ܕܝܠܗ ܥܡ̣ܠ
+                                          ܘܩܢܝ̣ܗܝ ܐܟܡܢ ܕܢܬܗܓܐ ܒܗ ܘܢܐܠܦ ܡܢܗ ܟܡܐ ܕܡܨܝܐ ܘ܏ܫ.</span>
+                                       </span></div>
+                                 
+                                 <div class="tei-item"><span class="inline-h4">Addition 7</span><strong> (Fol. 291b)</strong>:
+                                    <span class="tei-p">A note on fol. 291 b records the purchase of the volume from the said <span class="tei-persName">Bar-saumā</span> by a monk of the same convent, called <span class="tei-persName">‘Abu ‘l-Faraj bar 'Isā</span>, <span class="tei-date">A. Gr. 1547</span>, <span class="tei-date">A.D. 1236</span>.</span><span class="tei-p">
+                                       <span class="tei-quote" lang="syr">ܒܫܡܐ ܕܐܠܗܐ ܚܝܐ ܘܩܕܝܫܐ ܩܢܐ ܠܣܝܡܬܐ ܗܕܐ ܪܘܚܢܝܬܐ ܏ܗ ܐܢܓܠܝܘܢ (sic) ܡ̣ܢ ܡܕܡ ܕܙ̇ܢܬ ܠܗ ܛܝܒܘܬܐ
+                                          ܐܠܗܝܬܐ: ܪܒܢ ܐܒܘܠܦܪܓ ܒܬܘܠܡܕܐ ܕܝܢ ܡ̣ܢ ܥܘܡܪܐ ܕܡܪܝ ܣܪܓܝܣ ܕܒܛܘܪܐ ܨ̇ܗܝܐ ܕܠܥܠ ܡ̣ܢ ܒܠܕ ܡܕܝܢܬܐ.
+                                          ܒܓܢܣܐ ܕܝܢ ܒ̇ܪܡܘܼܢ̇ܝܐ: ܒܪ ܥܝܣܐ ܒܪ ܡܕܐܠܠ: ܘܙ̇ܒܢ̣ܗ ܡ̣ܢ ܪܒܢ ܒܪܨܘܡܐ ܏ܘܫ. ܗ̈ܘܝ ܗ̈ܠܝܢ ܘܐܫܬܡ̈ܠܝ
+                                          ܫܢܬ ܐܠܦ ܘܢ̇܏ܡܙ ܕܝܘ̈ܢܝܐ . . . ܒ܏ܝܒ ܒܟܢܘܢ ܐܚܪܝ. ܘܒܪܟܡܪܝ ܘ܏ܫ.</span>
+                                       </span></div>
+                                 
+                                 <div class="tei-item"><span class="inline-h4">Addition 8</span><strong> (Fol. 291b)</strong>:
+                                    <span class="tei-p">Beneath this,<span class="tei-persName">another Bar-saumā</span> has put on record that he and one <span class="tei-persName">Rabban George</span> used the book and bound it,<span class="tei-date">A. Gr. 1829</span>, <span class="tei-date">A.D. 1518</span>.</span><span class="tei-p">
+                                       <span class="tei-quote" lang="syr">ܐܨ̇ܕܬ ܒܛܛܪܐ ܗܢܐ. ܐܢ̇ܐ ܚܲܛܝ ܡܢ ܟ݁ܠ ܒܪܨܘܡܐ ܫܢܬ ܐܦ݂ܟܛ ܕܝܘܢ ܘܟܬ݁ܒܹܬܡܢܗ ܪܝܫܐ ܕܝܘܚܢܢ ܕܐܬܗܓܐ
+                                          ܒܗ ܘܕܒܩ̣ܬܗ.. ܘܡܛܠ ܡܪܢ ܨܠܘ ܥܠ ܕܘܝܬܝ (sic) ܕܐ̇ܫܬܘܐ ܠܪ̈ܚܡܐ. ܕܠܐܝ̣ܬ ܒܕܘܒܩܗ. ܘܥܠ ܪܒܢ ܓܘܪܓܝܣ
+                                          ܕܥܕܪܢܝ ܒܒܠܝܘܗ. ܘܨܠܝܢܢ ܥܠ ܟܬܘܒܗ.</span>
+                                       </span></div>
+                                 
+                                 <div class="tei-item"><span class="inline-h4">Addition 9</span><strong> (Fol. 291b)</strong>:
+                                    <span class="tei-p">At a still later date,<span class="tei-date">A. Gr. 1938</span>, <span class="tei-date">A.D. 1627</span>, the monk <span class="tei-persName">George of Hisn Kīfā</span> mentions (fol. 291 b) his having read and bound the volume in the <span class="tei-placeName">convent of St. Mary Deipara</span>, and implores a blessing on himself and his brother <span class="tei-persName">Moses bar Salāma of <span class="tei-placeName">Damascus</span></span>.</span><span class="tei-p">
+                                       <span class="tei-quote" lang="syr">ܐܬ̤ܛܝ̇ܒܬ ܒܕܝܪܐ ܗܢܐ ܕܝ̇ܠܕܬ݀ ܐܠܗܐ ܡܪܝ݊ܡ ܐܢ̣ܐ ܚܛܝܐ ܒܲܫܢܬ݀ ܐܨ܏ܠܚ ܕܝܘ̈ܢܝܐ ܘܕܒܩ̣ܬܗ ܠܟܬܒܐ
+                                          ܗܢܐ ܩܕܝܫܐ ܘܠܐ ܝ̇ܕܥ ܗ̇ܘܿܝܬ ܟܬܝܒܬܐ ܡܸܛܠ ܕܠܐ ܐܝ̣ܬܝ ܟܬܘܒܐ ܘܐܬܪܓܪܓܬ ܕܐܟ̣ܬܘܒ ܠܝ ܐܘܢܓܠܝܘܢ
+                                          ܕܝܘܚܢܢ ܘܠܐ ܐܬ̤ܡܨܝ̇ܬ ܘܟܪܝܬ݀ ܠܝ ܛܒ̇ ܘܡܪܢ ܕܐܡ̣ܪ ܕܠܐ ܨܒܐ ܐ̱ܢܐ ܒܡܘܬܗ ܕܚܛܝܐ ܐܝܟ ܕܢܬܘܒ ܘܢܐ̤ܚܐ
+                                          ܝܗ̣ܒ ܣܘܟܠܐ ܘܝ̇ܠܦܬ ܡܢ ܠܒܐ ܟܠܗ̇ ܣܒܪܬܐ ܕܝܘܚܢܢ ܒܚܝܠܗ ܕܡܪܢ ܝܫܘܥ ܡܫܝܚܐ. ܘܬܠܬܐ ܨܚ̈ܚܐ ܡܢ ܡܬܝ
+                                          ܘܬܪ̈ܝܢ ܨܚ̈ܚܐ ܡܢ ܡܪܩܣ ܘܬܪ̈ܝܢ ܨ[ܚ̈ܚܐ] ܡܢ ܠܘܩܐ ܘܐܸܬܒܝ̇ܐܬ ܘܠܐ ܬܥܕܠܘܢܢܝ ܘ܏ܫ. ܘܟ̇ܠ ܦܓܘܥܐ
+                                          ܡܗܝܪܐ ܕܦ̇ܓܥ ܒܣܘ̈ܪܛܐ ܗܠܝܢ ܒܠܝ̈ܠܐ ܢܹܐܡܪ ܐܠܗܐ ܢܚܲܣܐ ܠܗ ܠܓܘܪܓܝܣ ܚܛܝ ܡܢ ܟܠ ܐ̱ܢܫ ܒܫܪܪܐ ܣ̇ܓܝ
+                                          ܚܛܝ̇ܬ ܐܠܐ ܐܝ̣ܬ ܠܝ ܣܒܪܐ ܒܡܪܢ ܕܢܚܲܣܐ ܠܝ ܒܨܠܘܬܟܘܢ ܘܗܘ ܢܩܲܒܠ ܐܓܪܗ ܕܢܹܐܡܪ ܡܸܠܬܐ ܫܦܝܪܬܐ
+                                          ܡ݅ܢ ܡܪܝܐ ܛ̇ܒܐ ܘܬܲܢ̣ܘ ܘܬܲܠܸܬܘ ܘܵܐܡܲܪܘܢ ܐܠܗܐ ܚܣܐ ܠܗ ܠܚܛܝܐ ܓܘܪܓܝܣ ܚܸܣܢܝܐ ܒܫܸܡ ܩܫܝܫܐ ܒܲܥܒ̇ܕܐ
+                                          ܪܚܝܩ ܘܕܝܪܝܐ ܒܥܝ̇ܬ ܕܐ̇ܗܘܐ ܥܡ ܐܚܘܬܐ ܕܗܘ ܙܒܢܐ. ܪܚܡܝܢ ܗ̣ܘܘ ܠܢ ܣܓܝ ܐܢ̇ܐ ܘܐܚܐ ܕܝܠܝ ܟܗܢܐ
+                                          ܙܗܝܐ ܘܕܝܪܝܐ ܢܲܟܦܐ ܪܒ ܒܝܬܗ ܕܐܠܗܐ ܡܘܫܐ ܕܪܡܣܘܩܝܐ ܒܪܗ ܕܣܲܠܐܡܗ ܡܢܚܐ ܘܐܠܗܐ ܢܚܣܐ ܠܗ.</span>
+                                       </span></div>
+                                 
+                                 
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+                  <div class="citationinfo">
+                     <h3>How to Cite This Entry</h3>
+                     <div id="citation-note" class="content-block indent"><span> David A. Michelson</span> et al., “<span class="title">London, BL, Add. 12177</span>” in ,  last modified April 21, 2023, <a href="https://bl.syriac.uk/ms/76">https://bl.syriac.uk/ms/76</a>.
+                        <div class="collapse" id="showcit">
+                           <div id="citation-bibliography">
+                              <h4>Bibliography:</h4><span class="editor">David A. Michelson</span> et al., “<span class="title">London, BL, Add. 12177</span>.” In , edited by . Syriaca.org: The Syriac Reference Portal,
+                              2023.
+                               Entry published April 21, 2023. <a href="https://bl.syriac.uk/ms/76">https://bl.syriac.uk/ms/76</a>.
+                           </div>
+                           <div id="about">
+                              <h3>About this Entry</h3>
+                              <p><span class="heading-inline">Entry Title:</span> <span class="title">London, BL, Add. 12177</span></p>
+                              <div>
+                                 <h4>Authorial and Editorial Responsibility:</h4>
+                                 <ul>
+                                    <li><span> David A. Michelson</span>, general editor, Syriaca.org: The Syriac Reference Portal
+                                    </li>
+                                    <li>, editor, </li>
+                                    <li>David A. Michelson, Daniel J. Greeson, Tucker D. Hannah, and Robert Aydin, entry contributors, “”</li>
+                                 </ul>
+                              </div>
+                              <div>
+                                 <h4>Additional Credit:</h4>
+                                 <ul>
+                                    <li>Created by <span> Tucker D. Hannah</span></li>
+                                    <li>Edited by <span> Daniel J. Greeson</span></li>
+                                    <li>Syriac text entered by <span> Robert Aydin</span></li>
+                                    <li>Greek and coptic text entry and proofreading by <span> Ryan Stitt</span></li>
+                                    <li>Project management by <span> Elizabeth Walston</span></li>
+                                    <li>English text entry and proofreading by <span> Syriac Research Group, University of Alabama</span></li>
+                                    <li>Decoration information encoded by <span> Alexys Ahn</span></li>
+                                    <li>Decorations identified and categorized by <span> Beth Maczka</span></li>
+                                    <li>Folio extent edited by <span> Kurt Urban</span></li>
+                                 </ul>
+                              </div>
+                           </div>
+                           <div id="license">
+                              <h3>Copyright and License for Reuse</h3>
+                              <div>Except otherwise noted, this page is © 2023.
+                                 
+                              </div><span class="tei-licence">
+                                 
+                                 <p>Distributed under a Creative Commons Attribution 3.0 Unported License</p>
+                                 </span></div>
+                        </div><a class="btn-sm btn-info togglelink pull-right" data-toggle="collapse" data-target="#showcit" data-text-swap="Hide citation">Show full citation information...</a></div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </body><script type="text/javascript" src="/resources/js/jquery.validate.min.js"></script><script type="text/javascript" src="/resources/js/require.min.js"></script><script type="text/javascript" src="/resources/js/srophe.js"></script><script data-template="app:google-analytics"></script></html>

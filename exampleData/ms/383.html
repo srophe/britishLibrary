@@ -1,0 +1,772 @@
+<?xml version="1.0" encoding="UTF-8"?><html xmlns="http://www.w3.org/1999/xhtml" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:srophe="https://srophe.app">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <title>London, BL, Add. 14633</title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <meta name="DC.type" property="dc.type" content="Text" />
+      <meta name="DC.isPartOf" property="dc.ispartof" content="Syriaca.org: The Syriac Reference Portal" />
+      <link data-template="app:metadata" />
+      <link rel="shortcut icon" href="/resources/images/fav-icons/mss-favicon.ico" />
+      <link rel="stylesheet" type="text/css" href="/resources/bootstrap/css/bootstrap.min.css" />
+      <link rel="stylesheet" type="text/css" href="/resources/css/sm-core-css.css" />
+      <link rel="stylesheet" type="text/css" href="/resources/css/syr-icon-fonts.css" />
+      <link rel="stylesheet" type="text/css" href="/resources/css/style.css" />
+      <link rel="stylesheet" type="text/css" href="/resources/css/syriaca.css" />
+      <link rel="stylesheet" type="text/css" media="print" href="/resources/css/print.css" />
+      <link rel="stylesheet" href="/resources/leaflet/leaflet.css" />
+      <link rel="stylesheet" href="/resources/leaflet/leaflet.awesome-markers.css" />
+      <link href="/resources/jquery-ui/jquery-ui.min.css" rel="stylesheet" /><script type="text/javascript" src="/resources/js/jquery.min.js"></script><script type="text/javascript" src="/resources/jquery-ui/jquery-ui.min.js"></script><script type="text/javascript" src="/resources/js/jquery.smartmenus.min.js"></script><script type="text/javascript" src="/resources/js/clipboard.min.js"></script><script type="text/javascript" src="/resources/bootstrap/js/bootstrap.min.js"></script><script defer="defer" data-domain="bl.syriac.uk" src="https://plausible.io/js/script.js"></script><link href="/resources/keyboard/css/keyboard.min.css" rel="stylesheet" />
+      <link href="/resources/keyboard/css/keyboard-previewkeyset.min.css" rel="stylesheet" />
+      <link href="/resources/keyboard/syr/syr.css" rel="stylesheet" /><script type="text/javascript" src="/resources/keyboard/syr/jquery.keyboard.js"></script><script type="text/javascript" src="/resources/keyboard/js/jquery.keyboard.extension-mobile.min.js"></script><script type="text/javascript" src="/resources/keyboard/js/jquery.keyboard.extension-navigation.min.js"></script><script type="text/javascript" src="/resources/keyboard/syr/jquery.keyboard.extension-autocomplete.js"></script><script type="text/javascript" src="/resources/keyboard/syr/keyboardSupport.js"></script><script type="text/javascript" src="/resources/keyboard/syr/syr.js"></script><script type="text/javascript" src="/resources/keyboard/layouts/ms-Greek.min.js"></script><script type="text/javascript" src="/resources/keyboard/layouts/ms-Russian.min.js"></script><script type="text/javascript" src="/resources/keyboard/layouts/ms-Arabic.min.js"></script><script type="text/javascript">
+            $(document).ready(function () {
+                $('[data-toggle="tooltip"]').tooltip({ container: 'body' })
+
+                $('.keyboard').keyboard({
+                    openOn: null,
+                    stayOpen: false,
+                    alwaysOpen: false,
+                    autoAccept: true,
+                    usePreview: false,
+                    initialFocus: true,
+                    rtl : true,
+                    layout: 'syriac-phonetic',
+                    hidden: function(event, keyboard, el){
+                       //  keyboard.destroy();
+                     }
+                });
+
+                $('.keyboard-select').click(function () {
+                    var keyboardID = '#' + $(this).data("keyboard-id")
+                    var kb = $(keyboardID).getkeyboard();
+                    //var kb = $('#searchField').getkeyboard();
+                    // change layout based on link ID
+                    kb.options.layout = this.id
+                    // open keyboard if layout is different, or time from it last closing is &gt; 200 ms
+                    if (kb.last.layout !== kb.options.layout || (new Date().getTime() - kb.last.eventTime) &gt; 200) {
+                        kb.reveal();
+                    }
+                });
+                //Change fonts
+                $('.swap-font').on('click', function(){
+                    var selectedFont = $(this).data("font-id")
+                    $('.selectableFont').not('.syr').css('font-family', selectedFont);
+                    $("*:lang(syr)").css('font-family', selectedFont)
+                });
+
+            })
+        </script></head>
+   <body id="body">
+      <nav class="navbar navbar-default navbar-fixed-top" role="navigation" data-template="app:fix-links">
+         
+         <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse-1">
+               <span class="sr-only">Toggle navigation</span>
+               <span class="icon-bar"></span>
+               <span class="icon-bar"></span>
+               <span class="icon-bar"></span>
+               </button>
+            <a class="navbar-brand banner-container" href="/index.html">
+               <span class="syriaca-icon syriaca-mss banner-icon"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span>
+                  </span>
+               <span class="banner-text">Syriac Manuscripts in the British Library</span>
+               </a>
+            
+         </div>
+         
+         <div class="navbar-collapse collapse pull-right" id="navbar-collapse-1">
+            
+            <ul class="nav navbar-nav">
+               
+               <li>
+                  <a href="/browse.html" class="nav-text">Browse</a>
+                  
+               </li>
+               
+               <li data-template="app:shared-content" data-template-path="/templates/shared-links.html"></li>
+               
+               <li>
+                  <a href="/search.html" class="nav-text">Advanced Search</a>
+                  
+               </li>
+               
+               <li>
+                  
+                  <div id="search-wrapper">
+                     
+                     <form class="navbar-form navbar-right search-box" role="search" action="/search.html" method="get">
+                        
+                        <div class="form-group">
+                           <input type="text" class="form-control keyboard" placeholder="search" name="keyword" id="keywordNav" />
+                           <span data-template="app:keyboard-select-menu" data-template-input-id="keywordNav"></span>
+                           <button class="btn btn-default search-btn" id="searchbtn" type="submit" title="Search">
+                              <span class="glyphicon glyphicon-search"></span>
+                              </button>
+                           
+                        </div>
+                        
+                     </form>
+                     
+                  </div>
+                  
+               </li>
+               
+               <li data-template="app:shared-content" data-template-path="/templates/fontMenu.html"></li>
+               
+            </ul>
+            
+         </div>
+         
+      </nav>
+      <div class="main-content-block">
+         <div class="interior-content">
+            <div class="container otherFormats"><a href="mailto:bl.syriac.uk@gmail.com?subject=Shelf mark: Record URI: " type="button" class="btn btn-default btn-xs" data-toggle="tooltip" title="Click to report a correction via e-mail."><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span> Corrections
+                  </a> <a href="https://github.com/srophe/britishLibrary-data/issues/new?assignees=&amp;labels=community-submitted&amp;title=:" target="_blank" id="issueBtn" data-toggle="tooltip" class="btn btn-default btn-xs" title="Click to file a data issue on GitHub (requires login)."><span class="glyphicon glyphicon-record" aria-hidden="true"></span> Open
+                  </a> <a href="https://github.com/srophe/britishLibrary-data/blob/main/data/tei/383.xml" target="_blank" class="btn btn-default btn-xs" id="openBtn" data-toggle="tooltip" title="Click to view the TEI XML data for this record."><img src="/resources/images/github-mark.png" height="18px" /></a> <a href="javascript:window.print();" type="button" class="btn btn-default btn-xs" id="printBtn" data-toggle="tooltip" title="Click to send this page to the printer."><span class="glyphicon glyphicon-print" aria-hidden="true"></span> 
+                  </a> 
+            </div>
+            <div class="row">
+               <div class="col-md-12">
+                  <div xmlns:x="http://www.w3.org/1999/xhtml" xmlns:local="http://syriaca.org/ns" class="title">
+                     <h1>Add. 14,633</h1>
+                  </div>
+                  <div xmlns:x="http://www.w3.org/1999/xhtml" xmlns:local="http://syriaca.org/ns" class="tei-note">
+                     <div>URI: <span class="tei-idno">https://bl.syriac.uk/ms/383</span></div>
+                  </div>
+                  <div xmlns:x="http://www.w3.org/1999/xhtml" xmlns:local="http://syriaca.org/ns" class="header section">
+                     <div class="tei-note">
+                        <div>
+                           Description based on Wright
+                           <a href="#" data-toggle="tooltip" title="This entry number is from Wright's printed catalogue. Due to renumbering, Wright's entry numbers do not match the numbering used in this digital catalogue."><span class="tei-idno">DCXCIV</span></a>
+                           (<span class="tei-citedRange">2:569-576</span>)
+                           <a href="https://archive.org/details/catalogueofsyria02brituoft/page/569" target="_blank"><img src="/resources/images/ialogo.jpg" alt="Link to Archive.org Bibliographic record" height="18px" /></a></div>
+                        <div>
+                           Date: 
+                           10th century
+                        </div>
+                        <div>East Syriac script ܀  Parchment Codex, 109 leaves.
+                           
+                        </div>
+                        <div></div>
+                        <div>
+                           Wright's Subject Classification:
+                           Individual Authors
+                        </div>
+                     </div>
+                     <div class="tei-note"><span>This manuscript contains: Isaac of Nineveh. The first half of the works of Isaac of
+                           Nineveh. In total, including sub-sections, this manuscript contains 63 items.</span></div>
+                  </div>
+                  <div xmlns:x="http://www.w3.org/1999/xhtml" xmlns:local="http://syriaca.org/ns" class="panel panel-default">
+                     <div class="panel-heading">
+                        <h2 class="panel-title" data-toggle="collapse" data-target="#Overview">Physical Description </h2>
+                     </div>
+                     <div id="Overview" class="panel-collapse collapse in">
+                        <div class="panel-body">
+                           <div class="msDesc">
+                              <div class="tei-physDesc">
+                                 <div class="indent">
+                                    <p>Vellum, about 10 1/2 in. by 7 1/2, consisting of 109 leaves, the first of which is
+                                       much stained and torn. The quires, signed with letters, are 11 in number; but the
+                                       volume is imperfect, at least one third being lost at the end. At the beginning only
+                                       a single leaf is missing. There are from 29 to 34 lines in each page.
+                                    </p><span class="tei-handDesc">
+                                       
+                                       <div name="handNote1"><span class="inline-h4">Hand 1 (major, East Syriac script): </span>
+                                          It is written in a good, regular, Nestorian hand, with occasional Syriac
+                                          vowels, seems to be of the xth cent.
+                                       </div>
+                                       
+                                       <div name="handNote2"><span class="inline-h4">Hand 2 (minor, Unspecified Syriac script): </span>
+                                          See additions.
+                                          
+                                       </div>
+                                       </span></div>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+                  <div xmlns:x="http://www.w3.org/1999/xhtml" xmlns:local="http://syriaca.org/ns" class="panel panel-default">
+                     <div class="panel-heading">
+                        <h2 class="panel-title" data-toggle="collapse" data-target="#Contents">Manuscript Contents</h2>
+                     </div>
+                     <div id="Contents" class="panel-collapse collapse in">
+                        <div class="panel-body">
+                           <div class="msContent"><span class="summary ident">Note: Item numbering updated in digital edition.</span><span class="tei-msContents">
+                                 
+                                 
+                                 <div class="tei-msItem"><span class="inline-h4">Item 1 (Fol. 2b): </span>Isaac of Nineveh. The first half of the works of Isaac of Nineveh [defective]
+                                    <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                             <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܡܪܢ ܥܕܪܝܢܝ܀ ܡܪܢ ܚܟܡܝܢܝ܀ ܡܪܢ ܚܝܠܝܢܝ܀ ܥܠ ܚܝܠܗ ܕܡܪܢܝܫܘܥ ܡܫܝܚܐ.
+                                             ܡܫܪܝܢܢ ܠܡܟܬܒ ܟܬܒܐ ܕܩܕܝܫܐ ܡܪܝ ܐܝܣܚܩ ܝܚܝܕܝܐ ܘܐܦܣܩܘܦܐ ܕܢܝܢܘܹܐ܀ ܦܠܓܘܬܐ ܩܕܡܝܬܐ܀</span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>see Assemani, Bibl. Or., t. i., p. 444; t, iii., pars 1, p. 104; Fabricii Bibl. Gr., ed. Harles, t. xi., p. 119
+                                          
+                                       </div>
+                                       <div class="tei-msItem"><span class="inline-h4">Item 2 (Fol. 2b): </span>Isaac of Nineveh. Six discourses on the ascetic life and character
+                                          <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                   <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">
+                                                   ܫܬܐ ܡܐܡܪ̈ܐ ܕܥܠ ܕܘܒܪ̈ܐ ܕܡܝܬܪܘܬܐ̇. ܕܥܒܝܕܝܢ ܒܪ̈ܝܫܐ ܙܥܘܪ̈ܐ</span></span><div class="tei-msItem"><span class="inline-h4">Item 3 (Fol. 2b): </span>Isaac of Nineveh. Part a
+                                                <div class="msItemChild"><span class="tei-incipit"><span class="inline-h4"> 
+                                                         Incipit: </span><span xml:lang="syr" lang="syr" dir="rtl">ܕܚܠܸܬ ܐܠܗܐ̣ ܪܝܫܐ ܗ̣ܝ ܕܡܝܬܪܘܬܐ</span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>See Assemani, Bibl. Or., t. i., p. 449, lib. ii., serm. 1.
+                                                   </div>
+                                                </div>
+                                             </div>
+                                             <div class="tei-msItem"><span class="inline-h4">Item 4 (Fol. 4b): </span>Isaac of Nineveh. Part b
+                                                <div class="msItemChild"><span class="tei-incipit"><span class="inline-h4"> 
+                                                         Incipit: </span><span xml:lang="syr" lang="syr" dir="rtl">ܩܘܒܠ ܛܝܒܘܬܐ ܕܢܣܘܒܐ ܡܓܪܓ ܠܝܗܘܒܐ ܥܠ ܡܘܗ̈ܒܬܐ̣ ܕܪܘܪ̈ܒܢ ܡܢ ܩܕܡ̈ܝܬܐ</span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>See Assemani, p. 449, lib. ii., serm. 2.
+                                                   </div>
+                                                </div>
+                                             </div>
+                                             <div class="tei-msItem"><span class="inline-h4">Item 5 (Fol. 7b): </span>Isaac of Nineveh. Part c
+                                                <div class="msItemChild"><span class="tei-incipit"><span class="inline-h4"> 
+                                                         Incipit: </span><span xml:lang="syr" lang="syr" dir="rtl">ܟܠ ܢܦܫܐ ܕܝܢ ܕܬܘܣܦܬܐ ܕܡܪܢܝܬܐ ܠܐ ܬܗܘܐ ܒܗ̇ ܕܨܒܘ̈ܬܐ ܥܠ ܗ̇ܝ ܕܟܝܢܗ̣̇. ܠܐ ܣܢܝܩܐ ܥܠ ܒܛܝܠܘܬܐ
+                                                         ܣܓܝܐܬܐ: ܠܡܫܟܚܘ ܡܢܗ̇ ܘܒܗ̇܇ ܢ̣ܒܗ̈ܐ ܕܚܸܟܡܬܐ ܕܥܠ ܐܠܗܐ</span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>This includes Assemani's serm. 3, 4, 5, 6 and 7.
+                                                   </div>
+                                                </div>
+                                             </div>
+                                             <div class="tei-msItem"><span class="inline-h4">Item 6 (Fol. 12b): </span>Isaac of Nineveh. Part d
+                                                <div class="msItemChild"><span class="tei-incipit"><span class="inline-h4"> 
+                                                         Incipit: </span><span xml:lang="syr" lang="syr" dir="rtl">ܢܦܫܐ ܕܐܠܗܐ ܡܚܒܐ݂ ܒܐܠܗܐ ܗ݂ܘ ܒܠܚܘܕ ܢܘܚܗ݁</span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>See Assemani, p. 453, lib. iii., serm. 1.
+                                                   </div>
+                                                </div>
+                                             </div>
+                                             <div class="tei-msItem"><span class="inline-h4">Item 7 (Fol. 18a): </span>Isaac of Nineveh. Part e
+                                                <div class="msItemChild"><span class="tei-incipit"><span class="inline-h4"> 
+                                                         Incipit: </span><span xml:lang="syr" lang="syr" dir="rtl">ܐܣܓܝ ܐܠܗܐ ܐܝܩܪܐ ܠܒܪܢܫܐ̣ ܒܝܘܠܦܢܐ ܥܦܝܦܐ ܕܝܗܒ̣ ܠܗ. ܘܡܢ ܟܠ ܓܲܒܝ̣̈ܢ ܦܬܚ̣ ܠܗ ܬܪܥܐ̣ ܕܢܥܘܠ
+                                                         ܠܘܬ ܝܕܥܬܐ</span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>See Assemani, p. 454, lib. iii., serm. 2.
+                                                   </div>
+                                                </div>
+                                             </div>
+                                             <div class="tei-msItem"><span class="inline-h4">Item 8 (Fol. 23b): </span>Isaac of Nineveh. Part f
+                                                <div class="msItemChild"><span class="tei-incipit"><span class="inline-h4"> 
+                                                         Incipit: </span><span xml:lang="syr" lang="syr" dir="rtl">ܗ̇ܝ ܕܐܢܫ ܢܫܬܟܚ ܒܙܒܢ ܒܓܕܫ̈ܐ ܕܣܟܠܘܬܐ̣ ܡܚܝܠܘܬܗ ܕܟܝܢܐ ܡܫܘܕܥܐ <span class="tei-foreign" xml:lang="en" lang="en" dir="ltr">(originally <span class="tei-foreign" xml:lang="syr" lang="syr" dir="rtl">ܡܘܕܥܐ</span>)</span>
+                                                         </span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>See Assemani, p. 454, lib. iii., serm. 3.
+                                                   </div>
+                                                </div>
+                                             </div>
+                                          </div>
+                                       </div>
+                                       <div class="tei-msItem"><span class="inline-h4">Item 8 (Fol. 28b): </span>Isaac of Nineveh. Of trust in God
+                                          <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                   <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܥܠ ܙܢܐ ܕܬܘܟܠܢܐ ܕܥܠ ܐܠܗܐ̣. ܘܕܠܡ̇ܢ̣ܘ ܙܕܩ̇ ܕܢܬܬܟܸܠ ܥܠ ܐܠܗܐ̇. ܘܐܦ ܟܕ ܡܬܬܟܸܠ ܡܫܟܚ ܐܝܟ ܬܪܥܝܬܗ.
+                                                   ܘܕܡ̇ܢ̣ܘ ܕܣܟܠܐܝܬ ܡܬܬܟܸܠ ܘܕܠܐ ܒܘܝܢ</span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>See Assemani, p. 455, lib. iii., serm. 15.
+                                             </div>
+                                          </div>
+                                       </div>
+                                       <div class="tei-msItem"><span class="inline-h4">Item 9 (Fol. 99b): </span>Isaac of Nineveh. How a man is helped to draw nigh with his heart unto God, etc.
+                                          <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                   <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܕܒܡ̇ܢܐ ܡܬܥܕܪ ܒܪܢܫܐ ܠܡܬܩܪܒܘ ܒܠܒܗ ܠܘܬ ܐܠܗܐ. ܘܡܢܐ ܗܝ ܥܠܬܐ ܚܬܝܬܬܐ ܕܡܬܩܪܒ ܠܗ ܥܘܕܪܢܐ ܒܟܣܝܐ̣.
+                                                   ܘܐܝܕܐ ܗ̣ܝ ܥܠܬܐ ܕܒܗ̇ ܡܬܩܪܒ ܐܢܫ ܠܡܟܝܟܘܬܐ</span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>See Assemani, p. 454, lib. iii., serm. 8.
+                                             </div>
+                                          </div>
+                                       </div>
+                                       <div class="tei-msItem"><span class="inline-h4">Item 10 (Fol. 31b): </span>Isaac of Nineveh. Of intentional and accidental sins
+                                          <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                   <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܥܠ ܚ̈ܛܗܐ ܕܡܢ ܥܘܬܕܐ ܘܒܨܒܝܢܐ ܒܝ̣ܫܐ̣. ܘܥܠ ܗܠܝܢ ܕܥܵܪܨܘܬܐ</span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>See Assemani, p. 454, lib. iii., serm. 9.
+                                             </div>
+                                          </div>
+                                       </div>
+                                       <div class="tei-msItem"><span class="inline-h4">Item 11 (Fol. 32b): </span>Isaac of Nineveh. That the words of Scripture and of the Fathers are
+                                          spoken with moderation, as to sick persons, lest we should utterly perish from
+                                          before the living God; but that we are not on this account to take them as an
+                                          incitement to greater boldness in sin
+                                          <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                   <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܥܠ ܗ̇ܝ ܕܡ̈ܠܐ ܕܟܬܒ̈ܐ ܐܝܟ ܕܠܘܬ ܟܪ̈ܝܗܐ̣. ܡܡܫܚܐܝܬ ܐܡܝܪ̈ܢ܆ ܕܕܠܡܐ ܢܐܒܕܘܢ ܓܡܝܪܐܝܬ ܡܢ ܐܠܗܐ
+                                                   ܚܝܐ. ܐܠܐ ܠܘ ܡܛܠܗܕܐ ܬܥܕܝܪܐ ܢܫܩܘܠ ܐܢܝܢ܇ ܠܦܪܗܣܝܐ ܝܬܝܪܬܐ ܕܠܘܬ ܚܛܝܬܐ</span></span><span class="tei-incipit"><span class="inline-h4"> 
+                                                   Incipit: </span><span xml:lang="syr" lang="syr" dir="rtl">ܠܠܘܒ̈ܒܐ ܕܝܗ̇ܒܝܢ ܠܢ ܐܒܗ̈ܝܢ ܒܟܬܒ̈ܝܗܘܢ: ܘܚܘܼܝܵܠܐ ܕܒܣܦܪ̈ܐ ܕܢܒܝ̈ܐ ܘܕܫܠܝܚ̈ܐ ܥܠ ܬܝܒܘܬ̣ܐ̣.
+                                                   ܠܐ ܢܫܩܘܠ ܐܢܘܢ ܬܥܕܝܪܐ ܠܡܫܸܝܚܢܘܬܐ ܥܠ ܠܘܚܡܐ ܕܓܙܪ ܕܝ̈ܢܐ ܐܠܗ̈ܝܐ̇. ܘܫ</span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>See Assemani, p. 455, lib. iii., serm. 10.
+                                             </div>
+                                          </div>
+                                       </div>
+                                       <div class="tei-msItem"><span class="inline-h4">Item 12 (Fol. 33b): </span>Isaac of Nineveh. How to preserve the beauties of the ascetic life, and how it becomes a means of glorifying
+                                          God
+                                          <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                   <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܕܒܡܢܐ ܡܬܢܛܪܝܢ ܫܘܦܪ̈ܐ ܕܝܚܝܕܝܘܬܐ̣. ܘܕܐܝܟܢ ܬܗܘܐ ܥܠ̤ܬ ܬܫܒܘܚܬܗ ܕܐܠܗܐ</span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>See Assemani, p. 455, lib. iii., serm. 11.
+                                             </div>
+                                          </div>
+                                       </div>
+                                       <div class="tei-msItem"><span class="inline-h4">Item 13 (Fol. 34b): </span>Isaac of Nineveh. That the ascetic should not desist from the search after truth, through fear of not
+                                          attaining it, etc.
+                                          <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                   <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܥܠ ܗ̇ܝ ܕܠܐ ܦܐܐ ܠܥܒ̣ܕܐ ܕܐܠܗܐ ܕܐܣܬܪܩ ܡܢ ܥܠܡܐ ܘܢܦ̣ܩ ܒܒܥܬܗ ܕܫܪܪܐ:
+                                                   ܘܡܢ ܥܠܸܬ ܩܢܛܐ ܟܐܡ̤ܬ ܕܕܡ ܠܐ ܢܫܟܚ ܠܫܪܪܐ̇. ܢܦܘܫ ܠܗ ܘܐܦ ܡܢ ܒܥܬܐ ܕܝܠܗ ܕܫܪܪܐ: ܘܡܢ ܪܬܚܐ
+                                                   ܚܡܝܡܐ ܕܡܬܝܠܕ ܡܢ ܣܘܘܚܐ ܕܒܐܠܗ̈ܝܬܐ: ܘܒܨܬܐ ܕܐܪ̈ܙܝܗܝܢ ܕܪ̈ܫܝܡܢ ܐܪܙܢܐܝܬ: ܕܒܗܕܐ ܒܥܬܐ ܢܦܘܫ
+                                                   ܪܥܝܢܐ ܘܡܢ ܦܗܝܐ ܒܝ̣ܫܐ: ܘܥܘܗ̈ܕܢܐ ܚܲܫ̈ܢܝܐ</span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>See Assemani, p. 455, lib. iii., serm. 12.
+                                             </div>
+                                          </div>
+                                       </div>
+                                       <div class="tei-msItem"><span class="inline-h4">Item 14 (Fol. 35): </span>Isaac of Nineveh. Of the changes that happen to ascetics, etc.
+                                          <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                   <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܥܠ ܫܘ̈ܚܠܦܐ ܕܗ̇ܘܝܢ ܠܘܬ ܪ̈ܕܝܝ ܒܫܠܝܐ̣ ܕܦܩܚܐܝܬ ܡܢ ܐܠܗܐ ܡܛܟܣܐ
+                                                   ܐܘܪܚܐ ܗܕܐ. ܐܝܬ ܐܡܬܝ ܕܟܡܝܪܘܬܐ̣ ܘܚܢܘܩܝܐ ܢܦܫܢܝܐ. ܘܡܢ ܫܠܝܐ ܦܨܝܚܘܬܐ ܘܚܕܘܬܐ ܘܪܬܚܐ ܚܡܝܡܐ̣
+                                                   ܘܚܠܝܐ ܕܠܐ ܒܥܝܕܐ. ܫܘܒܚܐ ܠܡܛܟܣܢܗ̇ ܕܐܘܪܚܢ. ܐܡܝܢ</span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>See Assemani, p. 455, lib. iii., serm. 13.
+                                             </div>
+                                          </div>
+                                       </div>
+                                       <div class="tei-msItem"><span class="inline-h4">Item 15 (Fol. 35): </span>Isaac of Nineveh. Of solitaries
+                                          <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                   <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܬܘܒ ܥܠ ܗܠܝܢ ܕܒܫܠܝܐ ܪܕ̇ܝܢ܆ ܕܐܡܬܝ ܡܫܪܝܢ ܠܡܕܥ ܐܦܢ ܩܠܝܠ܇ ܕܠܐܝܟܐ
+                                                   ܡܛܝܘ ܒܦܘܠܚܢܗܘܢ ܒܝܡܐ ܠܐ ܡܬܕܪܟܢܐ ܕܕܘܒܪܐ ܕܫܠܝܐ: ܢܫܟܚܘܢ ܠܡܬܬܟܹܠܘ ܒܨܝܪ ܩܠܝܠ ܥܠ
+                                                   ܠܐܘܲܬܗܘܢ. ܕܫܪܝܸܬ ܝܗ̇ܒܐ ܦܐܪ̈ܐ</span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>See Assemani, p. 455, lib. iii., serm. 14.
+                                             </div>
+                                          </div>
+                                       </div>
+                                       <div class="tei-msItem"><span class="inline-h4">Item 17 (Fol. 36a): </span>Isaac of Nineveh. Of gradual progression in the path of the ascetic life
+                                          <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                   <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܥܠ ܝܘܒܠܐ ܕܐܘܪܚܐ ܕܝܚܝܕܝܘܬܐ. ܟܪܝܐܝܬ݂ ܘܩܠܝܠ ܡܦܪܫܐܝܬ. ܘܕܐܝܟܢ̣ ܘܒܐܝܢܐ ܙܢܐ ܡ̈ܬܝܠܕܢ ܡܢ ܚܕ̈ܕܐ
+                                                   ܡܝܬܪ̈ܬܐ ܕܒܗ̇</span></span><span class="tei-incipit"><span class="inline-h4"> 
+                                                   Incipit: </span><span xml:lang="syr" lang="syr" dir="rtl">ܢܗܝܪܐܝܬ ܕܝܢ ܘܡܦܪܫܐܝܬ݂ ܕܐܝܟ ܗܟܢ ܐܝܬܘܗܝ ܝܘܒܠܗܝܢ. ܡܢ ܥܡ̈ܠܐ ܕܥܨܝܢܐ ܕܒܫܠܝܐ̣. ܡܬܝܠܕ ܪܬܚܐ
+                                                   ܗ̇ܘ ܫܓܝܪܐ ܘܕܠܐ ܡܘܫܚܐ̇. ܘ܏ܫ</span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>See Assemani, p. 454, lib. iii., serm. 6.
+                                             </div>
+                                          </div>
+                                       </div>
+                                       <div class="tei-msItem"><span class="inline-h4">Item 18 (Fol. 36b): </span>Isaac of Nineveh. Of the advantage to the ascetic of freedom from all occupations, etc.
+                                          <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                   <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܥܠ ܕܟܡܐ ܡܥܕܪܐ ܒܓܘ ܫܠܝܐ ܣܦܝܩܘܬܐ ܕܡܢ ܥܒ݅ܕܐ ܠܢܦܫܐ̇. ܘܡ̇ܚܣܪܝܢ
+                                                   ܡ̇ܥܠܐ ܘܡ̇ܦܩܐ ܠܗܘܢܐ ܫܪܘܝܐ ܕܚܕܬܐܝܬ ܫܪܝ ܚܐܪ ܒܩܢܘܡܗ. ܘܕܢܗܝܪܐܝܬ ܥ̇ܒ̈ܕܐ ܦܓܪ̈ܢܝܐ
+                                                   ܠܝܚܝܕܝܐ̣. ܚܣܝܪܘܬܐ ܒܥܒ݅ܕܘܗܝ ܕܐܠܗܐ ܕܢܥܒܕ ܐܠܨܝܢ ܠܗ</span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>See Assemani, p. 456, lib. iii., serm. 16.
+                                             </div>
+                                          </div>
+                                       </div>
+                                       <div class="tei-msItem"><span class="inline-h4">Item 19 (Fol. 37b): </span>Isaac of Nineveh. Of vigils by night
+                                          <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                   <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܥܠ ܫܗܪܐ ܕܠܠܝܐ̣ ܘܙܗܝܪܘܬܐ ܕܒܬܪ ܝܨܝܦܘܬܐ. ܘܥܠ ܐܘܪ̈ܚܬܐ ܩܪ̈ܝܒܬܐ
+                                                   ܕܨܝܕ ܐܠܗܐ̇. ܕܡ̈ܬܓܠܝܢ ܠܐܢܫ ܡܢ ܥܡ̈ܠܐ ܚ̈ܠܝܐ ܕܒܫܗܪܐ ܕܠܠܝܐ. ܘܐܝܠܝܢ ܕܥܡ̇ܠܝܢ ܒܗ ܒܕܘܒܪܐ̣.
+                                                   ܕܒܫܐ ܡܣܬܝܒܪܝܢ̣ ܟܠܗܘܢ ܝܘܡܝܗ̈ܘܢ</span></span><span class="tei-incipit"><span class="inline-h4"> 
+                                                   Incipit: </span><span xml:lang="syr" lang="syr" dir="rtl">ܠܐ ܬ̣ܣܒܪ ܠܟ ܐܘ ܒܪܢܫܐ ܕܐܝܬ ܒܟܠܗܘܢ ܥܡ̈ܠܐ ܕܥܢܘ̈ܝܐ̇. ܕܘܒܪܐ ܕܪܒ ܘܡܝܬܪ ܐܝܟ ܥܡܠܐ ܕܫܗܪܐ</span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>See Assemani, p. 456, lib. iii., serm. 17.
+                                             </div>
+                                          </div>
+                                       </div>
+                                       <div class="tei-msItem"><span class="inline-h4">Item 20 (Fol. 39a): </span>Isaac of Nineveh. What he heard from the Seniors, etc.
+                                          <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                   <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܬܘܒ ܐܝܠܝܢ ܕܫܡ̇ܥܬ ܡܢ ܐܢܫܐ ܣܒ̈ܐ ܘܫܪ̈ܒܐ ܕܐܢܫܐ ܩܕܝ̈ܫܐ ܘܡܠܝ̈ܗܘܢ ܚܣܝ̈ܬܐ̣. ܘܕܘܒܪ̈ܝܗܘܢ ܬܡܝ̈ܗܐ.
+                                                   ܕܡܪܢ ܢܢܛܪ ܠܢ ܒܨ̈ܠܘܬܗܘܢ̣ ܐܡܝܢ</span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>See Assemani, p. 450, lib. ii., serm. 14.
+                                             </div>
+                                          </div>
+                                       </div>
+                                       <div class="tei-msItem"><span class="inline-h4">Item 21 (Fol. 43b): </span>Isaac of Nineveh. Of the varieties of revelations and operations (of the Spirit) in holy men
+                                          <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                   <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܬܘܒ ܦܘܪ̈ܫܢܐ ܕܓ̈ܠܝܢܐ ܘܡܥܒ̈ܕܢܘܬܐ ܕܗ̈ܘܝܢ ܨܝܕ ܩܕܝ̈ܫܐ ܒܕܡ̈ܘܢ ܕܡ̈ܘܢ </span></span><span class="tei-incipit"><span class="inline-h4"> 
+                                                   Incipit: </span><span xml:lang="syr" lang="syr" dir="rtl">ܛܟܣܐ ܕܝܢ ܕܓܠܝܢܐ̣ ܦܪܝܫ ܗ̣ܘ܇ ܡܢ ܗ̇ܝ ܕܐܢܫܐ ܒܝܕ ܕܪܘܫܐ ܕܚܟܡܬܐ ܘܥܡܠܐ ܕܪܥܝܢܐ ܡܥ̇ܡ̣ܩ ܙܘܥ̈ܘܗܝ܇
+                                                   ܠܘܬ ܣܘܟܠܐ ܡܕܡ ܘܒܥܬܐ ܘܬܐܘܪܝܐ ܕܥܠ ܨܒܘ܇ ܒܝܕ ܦܗܝܐ ܕܡܕܥܐ ܕܥܠܝܗܝܢ. ܏ܘܫ</span></span></div>
+                                       </div>
+                                       <div class="tei-msItem"><span class="inline-h4">Item 22 (Fol. 45a): </span>Isaac of Nineveh. Of the differences of the intellectual faculties, produced by the operation of revelations
+                                          and spiritual visions
+                                          <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                   <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܬܘܒ ܥܠ ܦܘܪ̈ܫܢܐ ܕܚ̈ܝܠܐ ܡܬܝܕܥ̈ܢܐ̇. ܕܗ̇ܘܝܐ ܒܡܥܒܕܢܘܬܐ ܕܓ̈ܠܝܢܐ ܘܚ̈ܙܘܢܐ ܕܪܘܚܐ</span></span><span class="tei-incipit"><span class="inline-h4"> 
+                                                   Incipit: </span><span xml:lang="syr" lang="syr" dir="rtl">ܚܙܬܐ ܐܠܗܝܬܐ̣. ܓܠܝܢܐ ܗ̣ܝ ܠܐ ܡܬܪܓܫܢܐ ܕܗܘܢܐ. ܓܠܝܢܐ ܐܠܗܝܐ̣.
+                                                   ܡܬܬܙܝܥܢܘܬܐ ܗ̣ܝ ܕܗ̇ܘܢܐ ܒܣܘ̈ܟܠܐ ܪ̈ܘܚܢܐ ܕܥܠ ܐܠܗܘܬܐ. ܗܕܐ ܕܝܢ̣ ܐܦܠܐ ܒܟܝܢܐ ܕܡ̈ܠܐܟܐ ܣܝ̣ܡܐ
+                                                   ܠܡܬܬܙܥܘ ܡܢ ܢܦܫܗܘܢ ܒܠܥܕ ܓܠܝܢܐ ܕܡܢ ܛܝܒܘܬܐ</span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>See Assemani, p. 451, lib. ii., serm. 20.
+                                             </div>
+                                          </div>
+                                       </div>
+                                       <div class="tei-msItem"><span class="inline-h4">Item 23 (Fol. 45b): </span>Isaac of Nineveh. Of the effects of prayer in silence
+                                          <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                   <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܥܠ ܗܠܝܢ ܕܒܨܠܘܬܐ ܕܗܘ̈ܝܢ ܒܓܘ ܫܠܝܐ</span></span><span class="tei-incipit"><span class="inline-h4"> 
+                                                   Incipit: </span><span xml:lang="syr" lang="syr" dir="rtl">ܡܢ̣ܘ ܝܕܥܗ ܠܣܝܡ ܒܘܪܟܐ ܗ̇ܘ ܗܢܝܐܐ: ܕܒܫܠܝܐ ܕܠܫܢܐ̇. ܡܫܒܚ ܠܒܐ
+                                                   ܫܠܝܐܝܬ ܬܫܒܘܚܬܐ ܡܕܡ̇. ܕܠܐ ܦܣ̇ܩ ܙܘܥܗ̇ ܡܢ ܗܢܝܐܘܬܐ̇. ܟܕ ܦܓܪܐ ܒܲܪܟ ܥܠ ܒܘܪ̈ܟܐ ܘܫܠܸܐ</span></span></div>
+                                       </div>
+                                       <div class="tei-msItem"><span class="inline-h4">Item 24 (Fol. 45b): </span>Isaac of Nineveh. Of the many varieties of prayer, and on the limits of the power of the intellect,
+                                          etc.
+                                          <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                   <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܥܠ ܦܘܪ̈ܫܢܐ ܣܓ̈ܝܐܐ ܕܒܨܠܘܬܐ. ܘܥܠ ܬܚ̈ܘܡܝ ܫܘܠܛܢܗ ܕܗܘܢܐ. ܘܕܥܕܡܐ
+                                                   ܠܐܝܟܐ ܐܝܬ ܠܗ ܫܘܠܛܢܐ ܠܲܡܙܥܘ ܠܙܘܥܘ̈ܗܝ ܨܒ̈ܝܢܝܐ܇ ܒܫܘܚܠܦ ܐܣܟ̈ܡܐ ܕܨܠܘܬܐ. ܘܕܐܝܢܘ ܬܚܘܡܐ
+                                                   ܕܣܝ̣ܡ ܠܟܝܢܐ ܒܨܠܘܬܐ܇ ܕܥܕܡܐ ܠܬܡܢ ܫܠܝܛ ܠܗ ܕܢܨܠܐ. ܘܕܡܐ ܕܥܒ̣ܪ ܡܢ ܬܡܢ ܘܠܗܠ ܠܝܬܝܗ̇ ܡܟܝܠ
+                                                   ܨܠܘܬܐ܇ ܐܦܢ ܒܫܡ ܨܠܘܬܐ ܡܬܐܡܪ ܗ̇ܘ ܡܐ ܕܗ̇ܘܐ ܗ̇ܝܕܝܟ</span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>See Assemani, p. 451, lib. ii., serm. 21.
+                                             </div>
+                                          </div>
+                                       </div>
+                                       <div class="tei-msItem"><span class="inline-h4">Item 25 (Fol. 49a): </span>Isaac of Nineveh. Of the knowledge of the truth
+                                          <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                   <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܥܠ ܢܝܫܐ ܕܡܡܠܠܐ ܕܝܕܥܬܐ ܕܫܪܪܐ</span></span><span class="tei-incipit"><span class="inline-h4"> 
+                                                   Incipit: </span><span xml:lang="syr" lang="syr" dir="rtl">ܟܠܡܕܡ ܡܬܪܓܫܢܐ : ܐܢ ܣܘܥܪܢܐ ܘܐܢ ܡܠܬܐ̣. ܕܢܚܐ ܗ̣ܘ ܕܡܕܡ ܕܟܣܸܐ ܠܓܘ: ܏ܘܫ</span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>See Assemani, p. 451, lib. ii., serm. 22.
+                                             </div>
+                                          </div>
+                                       </div>
+                                       <div class="tei-msItem"><span class="inline-h4">Item 26 (Fol. 49a): </span>Isaac of Nineveh. Of prayer
+                                          <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                   <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܥܠ ܨܠܘܬܐ ܕܝܢ ܕܡܬܦܪܢܣ ܨܒܝܢܗ ܕܐܠܗܐ ܕܩܕܝܡ ܠܨܠܘܬܐ̇. ܠܦܘܬ ܕܡܬܚ̇ܡ
+                                                   ܠܥܘܕܪܢܢ ܡܢ ܚܟܡܬܗ</span></span><span class="tei-incipit"><span class="inline-h4"> 
+                                                   Incipit: </span><span xml:lang="syr" lang="syr" dir="rtl">ܨܠܘܬܐ ܕܝܢ ܕܚܫܐ ܕܡ̇ܠܘܬܝܢ ܠܗ̇ ܕܘܒܪ̈ܐ ܕܠܚ̇ܡܝܢ ܠܚܲܫܝܫܘܬܗ̣̇. ܠܙܚܝܘܬܐ ܕܗܠܝܢ ܡܫܚܠܦܐ̣ ܘܠܦܩܚܘܬܐ
+                                                   ܡܝܬܝܐ</span></span></div>
+                                       </div>
+                                       <div class="tei-msItem"><span class="inline-h4">Item 27 (Fol. 49a): </span>Isaac of Nineveh. Of the things allotted to a brother in his cell
+                                          <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                   <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܥܠ ܗܠܝܢ ܕܡܬܦܪ̈ܢܣܢ ܠܘܬ ܐܚܐ ܒܓܘ ܩܠܝܬܗ</span></span><span class="tei-incipit"><span class="inline-h4"> 
+                                                   Incipit: </span><span xml:lang="syr" lang="syr" dir="rtl">ܙܒ̈ܢܝܢ ܣܓ̈ܝܐܢ ܓܕܫ̇ ܡܨܥ̣ܬ ܫ̈ܥܐ ܕܐܝܡܡܐ̣. ܕܐܢ ܡܠܟܘܬܐ ܕܐܪܥܐ ܬܬܠ ܠܐܚܐ̣. ܠܐ ܡܬܛܦܝܣ ܒܫܥܬܐ
+                                                   ܗ̇ܝ ܕܢܦܘܩ ܡܢ ܩܠܝܬܗ̣ ܘܠܐ ܕܢܩܘܫ ܠܗ ܐܢܫ</span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>See Assemani, p. 451, lib. ii., serm. 18.
+                                             </div>
+                                          </div>
+                                       </div>
+                                       <div class="tei-msItem"><span class="inline-h4">Item 28 (Fol. 50b): </span>Isaac of Nineveh. Profitable materials for the soul that seeks after deep contemplation, etc.
+                                          <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                   <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܡ̈ܠܘܐܐ ܡܥܕܪ̈ܢܐ ܠܢܦܫܐ ܕܒ̇ܥܝܐ ܬܐܘܪܝܐ ܥܡܝܩܬܐ ܕܬܥܡܕ ܒܗ̇ ܡܢ ܚܘܫ̈ܒܐ ܓܫܝ̈ܡܐ ܕܡܢ ܥܘܗ̈ܕܢܐ ܕܨܒ̈ܘܬܐ</span></span><span class="tei-incipit"><span class="inline-h4"> 
+                                                   Incipit: </span><span xml:lang="syr" lang="syr" dir="rtl">ܟܠܡܕܡ ܕܠܥܠ ܡܢ ܡܕܡ̣. ܓܢܝܙ ܗ̣ܘ ܡܢ ܗ̇ܘ ܡܕܡ ܕܡܢܗ ܘܠܬܚܬ</span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>See Assemani, p. 451, lib. ii., serm. 23.
+                                             </div>
+                                          </div>
+                                       </div>
+                                       <div class="tei-msItem"><span class="inline-h4">Item 29 (Fol. 52a): </span>Isaac of Nineveh. Of the names of the supernal orders
+                                          <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                   <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܐܚܪܢܝܐܝܬ݂ ܘܝܬܝܪ ܢܗܝܪܐܝܬ . . ܥܠ ܟܘ̈ܢܝܐ ܕܛܟ̈ܣܐ ܥ̈ܠܝܐ</span></span><span class="tei-incipit"><span class="inline-h4"> 
+                                                   Incipit: </span><span xml:lang="syr" lang="syr" dir="rtl">ܡܘܬܒ̈ܐ̣ ܡܝܩܪ̈ܐ. ܡܪ̈ܘܬܐ̣ ܫܠܝܛܝ̈ ܥܠ ܡܠܟܘ̈ܬܐ. ܐܪܟܘܣ̣ ܡܕܒܪ̈ܝ ܐܐܪ</span></span></div>
+                                       </div>
+                                       <div class="tei-msItem"><span class="inline-h4">Item 30 (Fol. 52b): </span>Isaac of Nineveh. Against those who say, If God be good, why did he create these things? viz. sin, hell,
+                                          death and Satan
+                                          <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                   <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܠܘܩܒܠ ܗ̇ܢܘܢ ܕܐܡ̇ܪܝܢ ܕܐܢ ܐܠܐܗܐ ܛܒܐ ܗ̣ܘ܇ ܡܛܠ ܡܵܢ ܥܒܝ̈ܕܢ ܠܗ ܗܠܝܢ
+                                                   .. ܗ̇ܢܘ ܕܝܢ ܚܛܝܬܐ ܘܓܗܢܐ ܘܡܘܬܐ ܘܣܛܢܐ</span></span><span class="tei-incipit"><span class="inline-h4"> 
+                                                   Incipit: </span><span xml:lang="syr" lang="syr" dir="rtl">ܚܛܝܬܐ ܘܓܗܢܐ ܘܡܘܬܐ̣. ܟܠ ܟܠܗ ܨܝܕ ܐܠܗܐ̣ ܠܝܬ. ܣܘܥܪ̈ܢܐ ܐܢܘܢ ܓܝܪ ܗܠܝܢ̣. ܘܠܘ ܩܢܘ̈ܡܐ</span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>See Assemani, p. 460, lib. iv. serm. 17, interrog. 4.
+                                             </div>
+                                          </div>
+                                       </div>
+                                       <div class="tei-msItem"><span class="inline-h4">Item 31 (Fol. 54): </span>Isaac of Nineveh. In how many different ways the perception of incorporeals is received by the nature
+                                          of man
+                                          <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                   <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܕܒܟܡܐ ܦܘܪ̈ܫܢܐ ܡܬܩܒܠܐ ܚܙܬܐ ܕܠܐ ܓܫܝ̈ܡܐ̇ ܠܟܝܢܐ ܐܢܫܝܐ</span></span><span class="tei-incipit"><span class="inline-h4"> 
+                                                   Incipit: </span><span xml:lang="syr" lang="syr" dir="rtl">ܟܠ ܟܝ̈ܢܐ ܡ̇ܢ ܗܟܝܠ ܠܐ ܡܚܝ̈ܕܐ ܘܩ̈ܛܝܢܐ <span class="tei-foreign" xml:lang="en" lang="en" dir="ltr">(marg. <span class="tei-foreign" xml:lang="syr" lang="syr" dir="rtl">ܘܩ̈ܛܝܢܝ</span>)</span> ܡ̣ܢ ܓܘܫܡ̈ܐ܇ ܝܕܘܥ̈ܬܢܐ ܟܝܬ݂. ܒܬܠܬܐ ܙܢ̈ܝܐ ܢܦ̇ܠܐ ܡܬܕܪܟܢܘܬܗܘܢ ܬܚܝܬ ܪܓܫܬܐ ܕܟܝܢܐ ܐܢܫܝܐ̣
+                                                   ܘܫ</span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>See Assemani, p. 459, lib. iv., serm. 6.
+                                             </div>
+                                          </div>
+                                       </div>
+                                       <div class="tei-msItem"><span class="inline-h4">Item 32 (Fol. 56a): </span>Isaac of Nineveh. Of the Sabbath (Saturday) and Sunday
+                                          <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                   <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܬܚܘܝܬܐ ܦܠܐܬܢܝܬܐ̇ ܥܠ ܬܐܘܪܝܐ ܕܫܒܬܐ ܘܕܚܕܒܫܒܐ</span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>See Assemani, p. 450, lib. ii., serm. 15.
+                                             </div>
+                                          </div>
+                                       </div>
+                                       <div class="tei-msItem"><span class="inline-h4">Item 33 (Fol. 56b): </span>Isaac of Nineveh. On the various suitable modes of wise training for the education of ascetics 
+                                          <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                   <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܥܠ ܫܘܚܠܦ ܙܢܝ̈ܗ̇ ܦܩ̈ܚܐ ܕܡܕܒܪܢܘܬܐ ܚܟܝܡܬܐ̇. ܐܝܟ ܕܠܬܪܒܝܬܐ ܕܡܬܕܒ̇ܪ̈ܢܐ</span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>See Assemani, p. 459, lib. iv., serm. 7.
+                                             </div>
+                                          </div>
+                                       </div>
+                                       <div class="tei-msItem"><span class="inline-h4">Item 34 (Fol. 57b): </span>Isaac of Nineveh. On the strength of the evil operation of sin, and by what it is established and by
+                                          what destroyed
+                                          <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                   <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܥܠ ܬܘܩܦܗ̇ ܕܡܥܒܕܢܘܬܐ ܒܝܫܬܐ ܕܚܛܝܬܐ. ܕܒܐܝܠܝܢ ܡܬܩܝܡܐ̣ ܘܒܐܝܠܝܢ ܒ̇ܛܠܐ</span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>See Assemani, p. 456, lib. iii., serm. 18.
+                                             </div>
+                                          </div>
+                                       </div>
+                                       <div class="tei-msItem"><span class="inline-h4">Item 35 (Fol. 59a): </span>Isaac of Nineveh. In what contest there is great labour, and danger of falling
+                                          <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                   <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܥܠ ܕܒܐܝܢܐ ܬܟܬܘܫܐ ܐܝܬ ܥܡܠܐ ܝܬܝܪܐ܇ ܡܠܘܢ ܕܝܢ ܩܝܘܢܕܝܢܘܣ ܕܡܦܘܠܬܐ</span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>See Assemani, p. 459, lib. iv., serm. 8.
+                                             </div>
+                                          </div>
+                                       </div>
+                                       <div class="tei-msItem"><span class="inline-h4">Item 36 (Fol. 59b): </span>Isaac of Nineveh. On the guarding of the heart
+                                          <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                   <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܥܠ ܢܝܫܐ ܕܢܛܘܪܬܐ ܕܠܒܐ. ܘܥܠ ܬܐܘܪܝܐ ܩܛܝܢܬܐ ܕܒܗ ܒܐܘܢܐ ܗܢܐ ܡܕܝܩܐ</span></span><span class="tei-incipit"><span class="inline-h4"> 
+                                                   Incipit: </span><span xml:lang="syr" lang="syr" dir="rtl">ܠܐ ܢ̣ܬܛܥܐ ܠܝܕܥܬܟ ܚܝܠܐ ܗ̇ܘ ܕܣܝ̣ܡ ܒܩ̈ܝܢܬܐ ܕܪܘܚܐ܇ ܟܕ ܒܣܘܟܠܐ ܢܬܚܫܚ. ܏ܘܫ</span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>See Assemani, p. 456, lib. iii., serm. 19.
+                                             </div>
+                                          </div>
+                                       </div>
+                                       <div class="tei-msItem"><span class="inline-h4">Item 37 (Fol. 60a): </span>Isaac of Nineveh. On the operation of divine love
+                                          <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                   <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܥܠ ܡܥܒܕܢܘܬܐ ܕܚܘܒܐ ܐܠܗܝܐ</span></span><span class="tei-incipit"><span class="inline-h4"> 
+                                                   Incipit: </span><span xml:lang="syr" lang="syr" dir="rtl">ܡܛܠ ܕܝܢ ܕܥܠ ܚܘ̈ܬܚܬܐ ܕܪܘܚܐ ܡܢ ܠܥܠ ܪܫܡ̣ܢܢ܆ ܕܢ̇ܦܫ̣ܩ ܗ̣ܘ ܥܕܢܐ ܡܲܦ̣ܣ. ܏ܘܫ</span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>See Assemani, p. 456, lib. iii., serm. 20.
+                                             </div>
+                                          </div>
+                                       </div>
+                                       <div class="tei-msItem"><span class="inline-h4">Item 38 (Fol. 60b): </span>Isaac of Nineveh. On the natural offspring of the virtues, etc.
+                                          <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                   <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܥܠ ܝ̈ܠܕܐ ܟܝ̈ܢܝܐ ܕܡܝܬܪ̈ܬܐ̣ ܘܕܫܪܟܐ</span></span><div class="msItem-notes"><span class="inline-h4">Notes:</span><ul>
+                                                   <li>See Assemani, p. 456, lib. iii., serm. 21; and Zingerle's Monumenta Syriaca, vol. i., p. 99.</li>
+                                                   <li>At the end there is the following prayer:</li>
+                                                </ul>
+                                             </div>
+                                             <div class="tei-msItem"><span class="inline-h4">Item 39 (Fol. 61): </span>A prayer
+                                                <div class="msItemChild"><span class="tei-incipit"><span class="inline-h4"> 
+                                                         Incipit: </span><span xml:lang="syr" lang="syr" dir="rtl">ܨܠܘܬܐ .. ܐܫܘܢܝ ܕܐܕܥܟ ܡܪܝ̈ ܕܐܦ ܐܚܒܟ</span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>
+                                                      Zingerle, p. 100, line 18.
+                                                   </div>
+                                                </div>
+                                             </div>
+                                          </div>
+                                       </div>
+                                       <div class="tei-msItem"><span class="inline-h4">Item 40 (Fol. 61b): </span>Isaac of Nineveh. Dialogue
+                                          <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                   <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܡܐܡܪܐ ܕܒܫܘ̈ܐܠܐ ܘܦܘܢܝ ܦܬܓܡ̈ܐ ܕܥܠ ܕܘܒܪ̈ܐ ܬܩ̈ܢܐ ܕܟܠ ܙܢܝ̈ܢ
+                                                   ܕܡܝܬܪܘܬܐ. ܘܚܫܚ̇ ܝܬܝܪܐܝܬ݂ ܠܫܠܝܚ̈ܝ ܠܥܠܡܐ ܘܥܡܪ̈ܝ ܚܘܪܒܐ ܘܚܒܝ̈ܫܐ. ܘܠܐܝܠܝܢ ܕܒܡܘܬܐ ܨܒܝܢܝܐ
+                                                   ܕܟܠ ܥܕܢ ܡܣܟܝܢ ܠܟܠܝܠܐ ܕܙܕܝܩܘܬܐ .. ܝ܏ܠܘܦܐ̣ ܏ܐܡ̇ܪ: ܡܢܐ ܐܢܘܢ ܐܣܘܪ̈ܐ ܠܒܘܟ̈ܐ ܕܪܥܝܢܐ܇ ܡܢ
+                                                   ܪܗܛܐ ܕܨܝܕ ܒܝܫ̈ܬܐ</span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>See Assemani, p. 454, lib. iii., serm. 5.
+                                             </div>
+                                          </div>
+                                       </div>
+                                       <div class="tei-msItem"><span class="inline-h4">Item 41 (Fol. 73b): </span>Isaac of Nineveh. On careful circumspection
+                                          <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                   <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܥܠ ܙܗܝܪܘܬܐ ܚܬܝܬܬܐ</span></span><span class="tei-incipit"><span class="inline-h4"> 
+                                                   Incipit: </span><span xml:lang="syr" lang="syr" dir="rtl">ܐܡ̣ܪ ܓܝܪ ܚܕ ܡܢ ܩܕܝ̈ܫܐ. ܐܝܟܢܐ ܕܗ̇ܘܐ ܠܡ ܦܓܪܐ ܠܚܛܝܬܐ ܚܒܪܐ̣. ܡܛܠ ܕܕܚ̇ܠ ܡܢ ܐܘܠܨ̈ܢܐ̇. ܕܠܐ
+                                                   ܝܬܐܠܸܨ ܘܢܡܘܬ ܒܚܝ̈ܘܗܝ. ܗܟܢ ܓܝܪ ܘܐܠܨܐ ܠܗ ܪܘܚܐ ܕܐܠܗܐ ܕܢܡܘܬ. ܘܫ</span></span></div>
+                                       </div>
+                                       <div class="tei-msItem"><span class="inline-h4">Item 42 (Fol. 74a): </span>Isaac of Nineveh. Of the various modes of Satan's warfare against these who are walking in the narrow
+                                          way, which is above the world
+                                          <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                   <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܥܠ ܫܘܚܠܦ ܙܢܘ̈ܗܝ ܕܩܪܒܗ ܕܣܛܢܐ܇ ܠܘܬ ܐܝܠܝܢ ܕܒܐܘܪܚܐ ܐܠܝܨܬܐ ܕܠܥܠ ܡܢ ܥܠܡܐ ܪܕܝܢ</span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>See Assemani, p. 454, lib. iii., serm. 7.
+                                             </div>
+                                          </div>
+                                       </div>
+                                       <div class="tei-msItem"><span class="inline-h4">Item 43 (Fol. 77a): </span>Isaac of Nineveh. Concerning these things of which the exact use is learned by distinct knowledge
+                                          <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                   <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܥܠ ܐܝܠܝܢ ܕܒܝܕܥܬܐ ܕܦܘܪܫܢܐ ܐܬܝܠܸܦ̇ܬ ܚܬܝܬܘܬܐ ܕܚܫܚܬܗܝܢ</span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>See Assemani, p. 456, lib. iii., serm. 22.
+                                             </div>
+                                          </div>
+                                       </div>
+                                       <div class="tei-msItem"><span class="inline-h4">Item 44 (Fol. 79b): </span>Isaac of Nineveh. Short chapters on the definition of the emotions of the mind
+                                          <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                   <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܪ̈ܝܫܐ ܟܪ̈ܝܐ̣ ܕܦܘܪܫ ܙܘ̈ܥܐ ܕܬܪܥܝܬܐ</span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>See Assemani, p. 459, lib. iv., serm. 9.
+                                             </div>
+                                          </div>
+                                       </div>
+                                       <div class="tei-msItem"><span class="inline-h4">Item 45 (Fol. 81a): </span>Isaac of Nineveh. Useful counsels of love
+                                          <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                   <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܡ̣̈ܠܟܐ ܡܥܕܪ̈ܢܐ ܕܚܘܒܐ</span></span><span class="tei-rubric"><span class="inline-h4"> 
+                                                   <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܐܓܪܬܐ ܕܛܥܝܢܐ ܢܝܫܐ ܕܡ̣̈ܠܟܐ ܡܥܕܪ̈ܢܐ ܕܚܘܒܐ. ܕܝܠܗ ܕܡܪܝ ܐܝܣܚܩ
+                                                   ܐܦܝܣܩܘܦܐ ܕܢܝܢܘܐ ܡܕܝܢܬܐ ܪܒܬܐ. ܕܐܝܬ ܒܗ̇ ܦܘܪ̈ܫܢܐ ܕܢܣ̈ܝܘܢܐ. ܘܕܟܡܐ ܗܐܢܝܐܝܢ ܐܘ̈ܠܨܢܐ ܕܥܠ
+                                                   ܐܦ̈ܝ ܩܘܫܬܐ ܡܣܬܝܒܪܝܢ. ܘܛܟܣܐ ܕܒܗ ܪܕ̇ܐ ܐܢܫ ܚܟܝܡܐܝܬ. ܕܡܛܠܬܗ ܚܕܐ ܠܚܕܐ ܡܝܒ̈ܠܢ ܡܝܬܪ̈ܬܐ.
+                                                   ܟܕ ܠܐ ܬܐ̣ܩܪ ܐܘܪܚܐ ܕܡܪܕܝܬܐ. ܘܡܛܠ ܡܩܲܕܡܘܬ ܛܟܣ̣ܐ ܩ̇ܐܠ ܝܘܩܪܐ ܕܒܗܝܢ</span></span><span class="tei-incipit"><span class="inline-h4"> 
+                                                   Incipit: </span><span xml:lang="syr" lang="syr" dir="rtl">ܪ̈ܚܝܡܢ ܥܣܩ̈ܬܐ ܕܚܠܦ ܛܒܬܐ̣ ܐܟܘܬܗ̇ ܕܛܒܬܐ</span></span><div class="msItem-notes"><span class="inline-h4">Notes:</span><ul>
+                                                   <li>See Assemani, p. 460, lib. iv., serm. 18.</li>
+                                                   <li>The margin of fol. 81 a exhibits the longer of the two Syriac titles in a more recent
+                                                      hand
+                                                   </li>
+                                                </ul>
+                                             </div>
+                                          </div>
+                                       </div>
+                                       <div class="tei-msItem"><span class="inline-h4">Item 46 (Fol. 82a): </span>Isaac of Nineveh. On the varieties of temptations
+                                          <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                   <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܦܘܪܫ ܢܣܝ̈ܘܢܐ</span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>See Assemani, p. 459, lib. iv., serm. 10.
+                                             </div>
+                                          </div>
+                                       </div>
+                                       <div class="tei-msItem"><span class="inline-h4">Item 47 (Fol. 83a): </span>Isaac of Nineveh. On the various degrees of asceticism, and the virtue that is in each of them
+                                          <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                   <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܦܘܫܩ ܛܟܣ̈ܐ ܕܕܘܒܪ̈ܐ. ܘܡܢ̇ܘ ܚܝܠܐ ܕܟܠܚܕ ܡܢܗܘܢ</span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>See Assemani, p. 457, lib. iii., serm. 27.
+                                             </div>
+                                          </div>
+                                       </div>
+                                       <div class="tei-msItem"><span class="inline-h4">Item 48 (Fol. 84a): </span>Isaac of Nineveh. A letter
+                                          <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                   <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܐܓܪܬܐ ܕܟܬܒ̣ ܠܘܬ ܐܢܫ ܡܢ ܐܚ̈ܐ ܪܚܡ ܫܠܝܐ. ܥܠ ܗ̇ܝ ܕܐܝܟܢܐ ܡܬܦܪܣ
+                                                   ܣܛܢܐ ܠܡܒܛܠܘ ܠܚܦܝ̈ܛܐ ܡܢ ܐܡܝܢܘܬܐ ܕܒܫܠܝܐ܇ ܒܦܪܨܘܦ ܚܘܒܐ ܕܩܪܝܒܐ ܘܕܐܢܫܐ ܡܝܩܪ̈ܐ. ܘܕܙܕܩ̇
+                                                   ܕܗܘ̣ܐ ܒܣܝܪ ܒܥܝ̈ܢܘܗܝ ܟܠܡܕܡ ܚܠܦ ܝܕܥܬܗ ܕܐܠܗܐ̇ ܕܒܫܠܝܐ ܡܫܬܟܚܐ. ܐܝܟ ܕܐܬܚܙܝܬ ܕܡܘܼܬܐ
+                                                   ܒܐܒܗ̈ܝܢ ܩܕ̈ܡܝܐ</span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>See Assemani, p. 458, lib. iii., serm. 40.
+                                             </div>
+                                          </div>
+                                       </div>
+                                       <div class="tei-msItem"><span class="inline-h4">Item 49 (Fol. 86a): </span>Isaac of Nineveh. Reply to his brother
+                                          <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                   <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܥܢܝܢܐ ܕܫܕܪ ܠܘܬ ܐܚܘܗܝ ܟܝܢܝܐ ܘܪܘܚܢܝܐ. ܕܐܦܝܣܗ ܒܟܬܝ̈ܒܬܐ ܕܢܐܙܠ ܢܚܙܝܘܗܝ ܒܓܘ ܝܬܒܐ̣ ܐܟܡ̇ܢ
+                                                   ܕܨܗܸܐ ܠܚܙܬܗ</span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>See Assemani, p. 451, lib. ii., serm. 19.
+                                             </div>
+                                          </div>
+                                       </div>
+                                       <div class="tei-msItem"><span class="inline-h4">Item 50 (Fol. 86b): </span>Isaac of Nineveh. Useful sayings
+                                          <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                   <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܡ̈ܠܐ ܡܥܕܪ̈ܢܝܬܐ̣ ܘܫܪ̈ܒܐ ܡܘܬܪ̈ܢܐ܇ ܡ̈ܠܝܝ ܚܟܡܬܐ ܕܪܘܚ.</span></span><span class="tei-incipit"><span class="inline-h4"> 
+                                                   Incipit: </span><span xml:lang="syr" lang="syr" dir="rtl">ܗܝܡܢܘܬܐ ܐܝܬܝܗ̣̇ ܬܪܥܐ ܕܐܪ̈ܙܐ</span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>See Assemani, p. 457, lib. iii., serm. 29.
+                                             </div>
+                                          </div>
+                                       </div>
+                                       <div class="tei-msItem"><span class="inline-h4">Item 51 (Fol. 87b): </span>Isaac of Nineveh. Of the various grades of knowledge and faith
+                                          <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                   <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܕܟܡܥܐ ܡܘܫ̈ܚܬܐ ܐܝܬ ܠܝܕܥܬܐ̣. ܘܡܘܫܚ̈ܬܐ ܕܣܝ̣̈ܡܢ ܠܗܝܡܢܘܬܐ</span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>See Assemani, p. 457, lib. iii., serm. 30, and Zingerle's Monumenta Syriaca, vol. i., p. 97.
+                                             </div>
+                                          </div>
+                                       </div>
+                                       <div class="tei-msItem"><span class="inline-h4">Item 52 (Fol. 88b): </span>Isaac of Nineveh. Profitable counsels 
+                                          <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                   <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܡ̣̈ܠܟܐ ܡ̈ܠܝܝ ܝܘܬܪܢܐ</span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>See Assemani, p. 457, lib. iii., serm. 31.
+                                             </div>
+                                          </div>
+                                       </div>
+                                       <div class="tei-msItem"><span class="inline-h4">Item 53 (Fol. 91a): </span>Isaac of Nineveh. Other sentences
+                                          <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                   <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܪ̈ܥܝܢܐ ܐܚܪ̈ܢܐ</span></span><span class="tei-incipit"><span class="inline-h4"> 
+                                                   Incipit: </span><span xml:lang="syr" lang="syr" dir="rtl">ܠܐ ܬ̣ܣܒܪ ܠܟ ܕܡܬܩܪܒ ܠܦܪܗܣܝܐ ܕܒܨܠܘܬܐ ܩܕܡ ܐܠܗܐ܇ ܒܪܢܫܐ ܕܐܣܝܪ ܒܦܓܪ̈ܢܝܬܐ</span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>See Assemani, p. 459, lib. iv., serm. 12.
+                                             </div>
+                                          </div>
+                                       </div>
+                                       <div class="tei-msItem"><span class="inline-h4">Item 54 (Fol. 92b): </span>Isaac of Nineveh. On the angelic emotions that are awakened in us by God's providence for the spiritual
+                                          education of the soul
+                                          <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                   <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܥܠ ܡܬܬܙܝܥܢ̈ܘܬܐ ܡܠܐܟܝ̈ܬܐ ܕܠܬܪܒܝܬܐ ܕܢܦܫܐ ܒܪܘܚܢܝ̣̈ܬܐ܇ ܡܢ ܦܘܪ̈ܢܣܐ ܐܠܗܝ̈ܐ ܢܒ̈ܗܢ ܒܢ</span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>See Assemani, p. 457, lib. iii., serm. 32.
+                                             </div>
+                                          </div>
+                                       </div>
+                                       <div class="tei-msItem"><span class="inline-h4">Item 55 (Fol. 93): </span>Isaac of Nineveh. On the alternations of light and darkness in the soul, etc.
+                                          <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                   <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܥܠ ܫܘܚܠܦܐ ܕܡܩܒܠ ܢܦܫܐ ܒܟܠ ܥܕܢ ܕܢܘܗܪܐ ܘܕܚܫܘܟܐ܇ ܘܕܘܪܫܐ ܕܢ̇ܣܒܐ ܒܕܝܡܝܢܐ ܘܒܕܣܡܠܐ</span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>See Assemani, p. 457, lib. iii., serm. 33.
+                                             </div>
+                                          </div>
+                                       </div>
+                                       <div class="tei-msItem"><span class="inline-h4">Item 56 (Fol. 94a): </span>Isaac of Nineveh. Of the gloomy darkness that comes upon ascetics in solitude
+                                          <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                   <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܥܠ ܚܫܟܐ ܗ̇ܘ ܟܡܝܪܐ ܕܗ̇ܘܐ ܒܫܠܝܐ܇ ܠܐܝܠܝܢ ܕܒܕܘܒܪܐ ܕܝܕܥܬܐ ܡܬܕܒܪܝܢ</span></span><span class="tei-rubric"><span class="inline-h4"> 
+                                                   <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܦܣܘܩܐ ܕܥܠ ܫܠܝܐ ܘܗܠܝܢ ܕܒܗ̇</span></span><div class="msItem-notes"><span class="inline-h4">Notes:</span><ul>
+                                                   <li>See Assemani, p. 459, lib. iv., serm. 4.</li>
+                                                   <li>On the margin of fol. 94 a it is entitled the shorter of the two Syriac titles.</li>
+                                                </ul>
+                                             </div>
+                                          </div>
+                                       </div>
+                                       <div class="tei-msItem"><span class="inline-h4">Item 57 (Fol. 94b): </span>Isaac of Nineveh. Of excess of zeal
+                                          <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                   <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܬܘܒ̣ ܪ̈ܝܫܐ ܟܪ̈ܝܐ ܕܐܝܬ ܒܗܘܢ ܪ̈ܥܝܢܐ ܡܫܚ̈ܠܦܐ̣. ܕܒܗܘܢ ܡܘܕܥ ܣܘܓܦܢܐ ܕܡܢ ܛܢܢܐ ܣܟܠܐ ܕܒܦܪܨܘܦ
+                                                   ܕܚܠܸܬ ܐܠܗܐ̣. ܘܥܘܕܪܢܐ ܕܡܢ ܢܝ̣ܚܘܬܐ. ܥܡ ܢܝ̈ܫܐ ܐܚܪ̈ܢܐ</span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>See Assemani, p. 457, lib. iii., serm. 34.
+                                             </div>
+                                          </div>
+                                       </div>
+                                       <div class="tei-msItem"><span class="inline-h4">Item 58 (Fol. 99a): </span>Isaac of Nineveh. On the three grades of knowledge, etc.
+                                          <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                   <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܥܠ ܬܐܠܬܐ ܛܟ̈ܣܐ ܕܝܕܥܬܐ̣ ܘܦܘܪܫܢܐ ܕܦܘܠܚܢܗܘܢ ܘܙܘ̈ܥܝܗܘܢ. ܘܥܠ
+                                                   ܗܝܡܢܘܬܐ ܕܢܦܫܐ̣ ܘܥܘܬܪܐ ܕܐܪ̈ܙܐ ܕܟܣܸܝܢ ܒܗ̇. ܘܟܡܐ ܣܩܘܒܠܝܐ ܝܕܥܬܐ ܕܥܠܡܐ ܗܢܐ ܒܦܘܪܣܝܗ̈܇
+                                                   ܠܦܫܝܛܘܬܐ ܗܝܡܢܘܬܐ</span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>See Assemani, p. 451, lib. ii., serm. 24.
+                                             </div>
+                                          </div>
+                                       </div>
+                                       <div class="tei-msItem"><span class="inline-h4">Item 59 (Fol. 104b): </span>On the varieties of the action of knowledge
+                                          <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                   <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܬܘܒ ܪ̈ܝܫܐ ܡܣܝ̈ܟܐ ܕܥܠ ܢܝܫܐ ܐܚܪܢܐ ܕܦܘܪ̈ܫܢܐ ܕܙܘ̈ܥܝ ܝܕܥܬܐ</span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>See Assemani, p. 452, lib. ii., serm. 25.
+                                             </div>
+                                          </div>
+                                       </div>
+                                       <div class="tei-msItem"><span class="inline-h4">Item 60 (Fol. 104b): </span>Isaac of Nineveh. Of prayer, etc.
+                                          <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                   <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܥܠ ܢܝܫܐ ܕܨܠܘܬܐ ܘܫܪܟܐ ܕܐܝܠܝܢ ܕܠܥܘܗܕܢܐ ܐܡܝܢܐ ܐܠܨܐܝܬ ܡܬܒ̈ܥܝܢ. ܘܣܓܝ ܡܘܬܪ̈ܢ܇ ܐܢ ܐܢܫ ܒܦܘܪܫܢܐ
+                                                   ܩ̇ܪܝܐ ܘܐܚ̇ܕ ܠܗܝܢ</span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>See Assemani, p. 452, lib. ii., serm. 26.
+                                             </div>
+                                          </div>
+                                       </div>
+                                       <div class="tei-msItem"><span class="inline-h4">Item 61 (Fol. 108a): </span>Isaac of Nineveh. Of the dwelling of the Holy Spirit in us 
+                                          <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                   <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܬܘܒ ܕܥܠ ܡܓܢܢܘܬܐ</span></span><span class="tei-incipit"><span class="inline-h4"> 
+                                                   Incipit: </span><span xml:lang="syr" lang="syr" dir="rtl">ܐܦܢ ܒܓܒܐ ܐܚܪܢܐ ܐܡܝܪ ܗ̣ܘ ܠܢ ܥܠܗܕܐ ܒܗܠܝܢ ܥܠܝ̈ܬܐ: ܠܦܘܬ ܕܕܘܟܬܐ
+                                                   ܝܗܒܸܬ ܐܝܕܐ̣. ܕܢܢܗܪ ܒܝܬܝܪܐ ܬܘܒ ܗܪܟܐ̣ ܠܐ ܡܐ̣ܢܐ ܠܢ. ܡܓܢܢܘܬܐ ܐܝܬܝܗ̇܆ ܫܡܐ ܡܘܕܥܢܐ
+                                                   ܕܥܘܕܪܢܐ ܘܢܘܛܪܐ̣ ܘܐܦ ܕܩܘܒܠܐ ܕܡܘܗܒܬܐ ܫܡܝܢܝܬܐ. ܐܝܟ ܗ̇ܝ ܕܪܘܚܐ ܕܩܘܕܫܐ ܬܐܬܐ܇ ܘܚܝܠܗ ܕܥܠܝܐ
+                                                   ܢܓܢ ܥܠܝܟܝ</span></span></div>
+                                       </div>
+                                       <div class="tei-msItem"><span class="inline-h4">Item 62 (Fol. 108b): </span>Isaac of Nineveh. How an inward wakefulness can be preserved in the soul, etc.
+                                          <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                   <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܕܡܢ ܐܝܟܐ ܡܬܢܛܪܐ ܥܝܪܘܬܐ ܟܣܝܬܐ ܒܓܘ ܢܦܫܐ̣. ܘܡܢ ܡܢܐ ܥܐܠܐ ܕܡܟܘܬܐ
+                                                   ܘܩܪܝܪܘܬܐ ܒܪܥܝܢܐ܇ ܘܡܕܥܟܐ ܠܚܡܝܡܘܬܐ ܩܕܝܫܬܐ ܡܢ ܢܦܫܐ܇ ܘܡܡܝܬܐ ܠܪܓܬܐ ܕܒܐܠܗܐ܇ ܕܥܠ ܪ̈ܓܝܓܬܐ
+                                                   ܪ̈ܘܚܢܝܬܐ ܘܫܡܝ̈ܢܝܬܐ. ܠܝܬܝܗ̇ ܡܬܡܨܝܢܘܬܐ</span></span><span class="tei-incipit"><span class="inline-h4"> 
+                                                   Incipit: </span><span xml:lang="syr" lang="syr" dir="rtl">ܒܣܩܘܒܠܝܘܬܐ ܠܘܬ ܥܘܟܪܐ ܒܪ̈ܵܓܝ ܫܦܝܪ̈ܬܐ܇ ܐܠܘ ܠܗ̇ ܠܒܝܫܘܬ ܨܢܥ̈ܬܗ̇ ܐܦܬܐ ܠܐ ܡܫܬܟܚܘܼܐ ܡܢ ܨܝܕ
+                                                   ܡܚܒܢܝ̈ܗܝܢ ܕܫܦܝܪ̈ܬܐ</span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>See Assemani, p. 452, lib. ii., serm. 27.
+                                             </div>
+                                          </div>
+                                       </div>
+                                       <div class="tei-msItem"><span class="inline-h4">Item 63 (Fol. 109b): </span>Isaac of Nineveh. Fine distinctions regarding the life of man [defective]
+                                          <div class="msItemChild"><span class="tei-rubric"><span class="inline-h4"> 
+                                                   <br />Title: </span><span xml:lang="syr" lang="syr" dir="rtl">ܦܘܪ̈ܫܢܐ ܫܦܝܪ̈ܐ ܕܥܠ ܚܝܘ̈ܗܝ ܕܒܪܢܫܐ</span></span><span class="tei-incipit"><span class="inline-h4"> 
+                                                   Incipit: </span><span xml:lang="syr" lang="syr" dir="rtl">ܟܠ ܟܡܐ ܕܒܪܢܫܐ ܒܕܘܒܪܗ ܡܬܩܪܒ ܠܥܠܡܐ ܗܢܐ̣. ܪܚܡܬܐ ܕܨܒܘ̈ܬܐ ܡܣܬܬܬܐ ܒܗ. ܘܒܪܢܝܐ ܕܒܗܝܢ ܡܫܬܓܸܫ
+                                                   ܐܡܝܢܐܝܬ</span></span><div class="msItem-notes"><span class="inline-h4">Note: </span>See <a href="https://bl.syriac.uk/ms/382">Add. 14,632<span class="tei-ptr"></span>, no. 42</a>.
+                                             </div>
+                                          </div>
+                                       </div>
+                                    </div>
+                                 </div>
+                                 </span></div>
+                        </div>
+                     </div>
+                  </div>
+                  <div xmlns:x="http://www.w3.org/1999/xhtml" xmlns:local="http://syriaca.org/ns" class="panel panel-default">
+                     <div class="panel-heading">
+                        <h2 class="panel-title" data-toggle="collapse" data-target="#Additions">Additions </h2>
+                     </div>
+                     <div id="Additions" class="panel-collapse collapse in">
+                        <div class="panel-body">
+                           <div class="msDesc">
+                              <div class="indent">
+                                 
+                                 <div class="tei-note"><span>N.B., folio location may not be available for some items below.</span></div>
+                                 
+                                 <div class="tei-note"><span>N.B., items below may have been listed out of folio order in Wright's catalogue.</span></div>
+                                 
+                                 
+                                 <div class="tei-item"><span class="inline-h4">Addition 1</span><strong> (Fol. 81a)</strong>:
+                                    <span class="tei-p">The margin of fol. 81 a exhibits the following title for <span class="tei-ref">Useful counsels of love</span> in a more recent hand</span><span class="tei-p">
+                                       <span class="tei-quote" lang="syr">ܐܓܪܬܐ ܕܛܥܝܢܐ ܢܝܫܐ ܕܡ̣̈ܠܟܐ ܡܥܕܪ̈ܢܐ ܕܚܘܒܐ. ܕܝܠܗ ܕܡܪܝ ܐܝܣܚܩ
+                                          ܐܦܝܣܩܘܦܐ ܕܢܝܢܘܐ ܡܕܝܢܬܐ ܪܒܬܐ. ܕܐܝܬ ܒܗ̇ ܦܘܪ̈ܫܢܐ ܕܢܣ̈ܝܘܢܐ. ܘܕܟܡܐ ܗܐܢܝܐܝܢ ܐܘ̈ܠܨܢܐ
+                                          ܕܥܠ ܐܦ̈ܝ ܩܘܫܬܐ ܡܣܬܝܒܪܝܢ. ܘܛܟܣܐ ܕܒܗ ܪܕ̇ܐ ܐܢܫ ܚܟܝܡܐܝܬ. ܕܡܛܠܬܗ ܚܕܐ ܠܚܕܐ ܡܝܒ̈ܠܢ
+                                          ܡܝܬܪ̈ܬܐ. ܟܕ ܠܐ ܬܐ̣ܩܪ ܐܘܪܚܐ ܕܡܪܕܝܬܐ. ܘܡܛܠ ܡܩܲܕܡܘܬ ܛܟܣ̣ܐ ܩ̇ܐܠ ܝܘܩܪܐ
+                                          ܕܒܗܝܢ</span>
+                                       </span></div>
+                                 
+                                 <div class="tei-item"><span class="inline-h4">Addition 2</span><strong> (Fol. 94a)</strong>:
+                                    <span class="tei-p">On the margin of fol. 94 a, <span class="tei-ref">Of the gloomy darkness that comes upon ascetics in
+                                          solitude</span> is entitled</span><span class="tei-p">
+                                       <span class="tei-quote" lang="syr">ܫܠܝܐ ܘܗܠܝܢ ܕܒܗ̇</span>
+                                       </span></div>
+                                 
+                                 <div class="tei-item"><span class="inline-h4">Addition 3</span>:
+                                    <span class="tei-p">The margins of this manuscript are covered with glosses (<span class="tei-foreign" lang="syr">ܢܘܗܪ̈ܐ</span>) added by the scribe.</span></div>
+                                 
+                                 <div class="tei-item"><span class="inline-h4">Addition 4</span><strong> (Fol. 24a)</strong>:
+                                    <span class="tei-p">One of the glosses added by the scribe (see above) is said to be taken from the commentator
+                                       <span class="tei-persName">Tobias</span>, fol. 24 a:</span><span class="tei-p">
+                                       <span class="tei-quote" lang="syr">ܢܘܗܪܐ ܡܢ ܛܘܒܝܐ ܡܦܫܩܢܐ ܀ ܐܒܝ̈ܠܐ ܠܡ ܩ̇ܪܐ̣ ܠܗܠܝܢ ܕܠܐ ܡܬܝܐܒܝܢ ܠܛܒ̈ܬܗ ܘܠܪ̈ܓܝܓܬܗ ܕܥܠܡܐ.
+                                          ܐܠܐ ܐܝܬܝܗܘܢ݂ ܒܟܡܝܪܘܬܐ ܝܬܝܪܬܐ. ܟܕ ܩ̇ܢܛܝܢ ܥܠ ܡܝܬܪܘܬܐ݂ ܘܥܠ ܗܠܝܢ ܕܥ̈ܬܝܕܢ</span>
+                                       </span></div>
+                                 
+                                 <div class="tei-item"><span class="inline-h4">Addition 5</span>:
+                                    <span class="tei-p">The margins of this manuscript are covered with various readings (<span class="tei-foreign" lang="syr"></span>, i.e. <span class="tei-foreign" lang="syr"></span>) added by readers in the <span class="tei-date">xiith and xiiith centuries</span>.</span></div>
+                                 
+                                 <div class="tei-item"><span class="inline-h4">Addition 6</span><strong> (Fol. 1)</strong>:
+                                    <span class="tei-p">Foll. 1 and 2 a contain extracts in a somewhat later hand, chiefly taken, as it appears,
+                                       "from <span class="tei-ref">the book of Paradise</span>", <span class="tei-quote" lang="syr">ܡܢ ܟܬܒܐ ܕܦܪܕܝܣܐ</span> (<span class="tei-locus">fol. 1 a</span>).</span></div>
+                                 
+                                 
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+                  <div class="citationinfo">
+                     <h3>How to Cite This Entry</h3>
+                     <div id="citation-note" class="content-block indent"><span> William Wright</span> et al., “<span class="title-analytic">London, BL, Add. 14633</span>” in <span class="title-monographic">A Digital Catalogue of Syriac Manuscripts in the British Library</span>,  last modified May 19, 2023, <a href="https://bl.syriac.uk/ms/383">https://bl.syriac.uk/ms/383</a>.
+                        <div class="collapse" id="showcit">
+                           <div id="citation-bibliography">
+                              <h4>Bibliography:</h4><span class="editor">William Wright</span> et al., “<span class="title-analytic">London, BL, Add. 14633</span>.” In <span class="title-monographic">A Digital Catalogue of Syriac Manuscripts in the British Library</span>, edited by . Syriaca.org: The Syriac Reference Portal,
+                              2023.
+                               Entry published May 19, 2023. <a href="https://bl.syriac.uk/ms/383">https://bl.syriac.uk/ms/383</a>.
+                           </div>
+                           <div id="about">
+                              <h3>About this Entry</h3>
+                              <p><span class="heading-inline">Entry Title:</span> <span class="title-analytic">London, BL, Add. 14633</span></p>
+                              <div>
+                                 <h4>Authorial and Editorial Responsibility:</h4>
+                                 <ul>
+                                    <li><span> David A. Michelson</span>, general editor, Syriaca.org: The Syriac Reference Portal
+                                    </li>
+                                    <li>, editor, <span class="title-monographic">A Digital Catalogue of Syriac Manuscripts in the British Library</span></li>
+                                    <li>William Wright, David A. Michelson, Robert Aydin, and Alexys Ahn, entry contributors, “<span class="title-analytic">London, BL, Add. 14633</span>”
+                                    </li>
+                                 </ul>
+                              </div>
+                              <div>
+                                 <h4>Additional Credit:</h4>
+                                 <ul>
+                                    <li>Created by <span> Alexys Ahn</span></li>
+                                    <li>Based on the work of <span> William Wright</span></li>
+                                    <li>Edited by <span> William L. Potter</span></li>
+                                    <li>Syriac text entered by <span> Robert Aydin</span></li>
+                                    <li>Greek and coptic text entry and proofreading by <span> Ryan Stitt</span></li>
+                                    <li>Project management by <span> William L. Potter</span></li>
+                                    <li>English text entry and proofreading by <span> Syriac Research Group, University of Alabama</span></li>
+                                 </ul>
+                              </div>
+                           </div>
+                           <div id="license">
+                              <h3>Copyright and License for Reuse</h3>
+                              <div>Except otherwise noted, this page is © 2023.
+                                 
+                              </div><span class="tei-licence">
+                                 
+                                 <p>Distributed under a Creative Commons Attribution 3.0 Unported License</p>
+                                 </span></div>
+                        </div><a class="btn-sm btn-info togglelink pull-right" data-toggle="collapse" data-target="#showcit" data-text-swap="Hide citation">Show full citation information...</a></div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </body><script type="text/javascript" src="/resources/js/jquery.validate.min.js"></script><script type="text/javascript" src="/resources/js/require.min.js"></script><script type="text/javascript" src="/resources/js/srophe.js"></script><script data-template="app:google-analytics"></script></html>
