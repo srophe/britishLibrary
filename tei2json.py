@@ -163,6 +163,7 @@ def main():
     ap.add_argument("path", help="TEI XML file or directory")
     ap.add_argument("--outdir", "-o", help="directory to write per-file JSON outputs")
     ap.add_argument("--bulk", help="write an OpenSearch bulk file (newline-delimited index JSON + doc JSON)")
+    ap.add_argument("--manuscripts", help="write a manuscripts.json array file for web UI")
     ap.add_argument("--index", default="britishlibrary-index-1", help="index name for bulk")
     ap.add_argument("--idprefix", default="ms", help="prefix for _id in bulk (e.g., ms)")
     args = ap.parse_args()
@@ -181,6 +182,8 @@ def main():
     bulk_writer = None
     if args.bulk:
         bulk_writer = open(args.bulk, "w", encoding="utf8")
+    
+    manuscripts_list = []
 
     for f in targets:
         try:
@@ -202,10 +205,20 @@ def main():
             meta = {"index": {"_index": args.index, "_id": f"{args.idprefix}-{fname}"}}
             bulk_writer.write(json.dumps(meta, ensure_ascii=False) + "\n")
             bulk_writer.write(json.dumps(j, ensure_ascii=False) + "\n")
+        
+        # collect for manuscripts array
+        if args.manuscripts:
+            j["id"] = f"{args.idprefix}-{fname}"
+            manuscripts_list.append(j)
 
     if bulk_writer:
         bulk_writer.close()
         print(f"Wrote bulk file {args.bulk}")
+    
+    if args.manuscripts:
+        with open(args.manuscripts, "w", encoding="utf8") as fh:
+            json.dump(manuscripts_list, fh, ensure_ascii=False, indent=2)
+        print(f"Wrote manuscripts file {args.manuscripts}")
 
 if __name__ == "__main__":
     main()
