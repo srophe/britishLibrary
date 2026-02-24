@@ -3,7 +3,7 @@ name: Process XML to JSON and HTML For Full Data Set
 on:
   push:
     branches:
-      - 'gaddel_development'
+      - 'main'
     paths:
       - '.github/workflows/dataToAWS.yml'
 
@@ -48,6 +48,22 @@ jobs:
         run: |
           wget https://repo1.maven.org/maven2/net/sf/saxon/Saxon-HE/10.6/Saxon-HE-10.6.jar -O saxon.jar
 
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+      
+      - name: Install Python deps
+        run: |
+          pip install --upgrade pip
+          pip install lxml
+      
+      - name: Run Python TEI->JSON conversion
+        run: |
+          mkdir -p json_output
+          python3 tei2json.py britishLibrary-data/data/tei --outdir json_output --bulk bulk_data.json --index britishlibrary-index-1 --idprefix ms
+          echo "python process"
+          
       # 3. Identify XML files (null-safe)
       - name: Identify XML files (null-safe)
         run: |
