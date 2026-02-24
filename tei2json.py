@@ -121,6 +121,13 @@ def extract_json(tree):
     # classification: collect descs under listRelation or relation descs (e.g., "Old Testament")
     classification = text_list(root, ".//tei:listRelation//tei:relation/tei:desc | .//tei:listRelation//tei:desc | .//tei:listRelation//tei:relation/tei:desc")
 
+    # date: separate fields for each date type
+    orig_dates = text_list(root, ".//tei:origDate")
+    date_not_before = text_list(root, ".//tei:origDate/@notBefore | .//tei:date/@notBefore")
+    date_not_after = text_list(root, ".//tei:origDate/@notAfter | .//tei:date/@notAfter")
+    date_when = text_list(root, ".//tei:date/@when")
+    date_calendar = text_list(root, ".//tei:origDate/@calendar | .//tei:date/@calendar")
+
     # script & material shorthand: collapse to strings or lists as in your example
     out = {}
 
@@ -137,6 +144,11 @@ def extract_json(tree):
     if script_val: out["script"] = script_val
     if material: out["material"] = material
     if classification: out["classification"] = classification
+    if orig_dates: out["origDate"] = orig_dates
+    if date_not_before: out["dateNotBefore"] = date_not_before
+    if date_not_after: out["dateNotAfter"] = date_not_after
+    if date_when: out["dateWhen"] = date_when
+    if date_calendar: out["dateCalendar"] = date_calendar
 
     return out
 

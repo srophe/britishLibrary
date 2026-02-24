@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Browse - British Library Manuscripts</title>
+    <link rel="stylesheet" href="resources/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="resources/css/syr-icon-fonts.css">
+    <style>
+        body { padding-top: 70px; }
+        .facet-panel { background: #f8f9fa; padding: 15px; border-radius: 5px; }
+        .facet-group { margin-bottom: 20px; }
+        .facet-group label { font-weight: bold; display: block; margin-bottom: 5px; }
+        .result-item { padding: 15px; border: 1px solid #ddd; margin-bottom: 10px; border-radius: 5px; }
+        .result-item:hover { background: #f8f9fa; }
+        .result-count { color: #666; margin-bottom: 15px; }
+        .clear-filters { margin-top: 10px; }
+        footer { text-align: center; }
+    </style>
+</head>
+<body>
+          <nav class="navbar navbar-default navbar-fixed-top" role="navigation" data-template="app:fix-links">
+         
+         <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse-1">
+               <span class="sr-only">Toggle navigation</span>
+               <span class="icon-bar"></span>
+               <span class="icon-bar"></span>
+               <span class="icon-bar"></span>
+               </button>
+            <a class="navbar-brand banner-container" href="/index.html">
+               <span class="syriaca-icon syriaca-mss banner-icon"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span>
+                  </span>
+               <span class="banner-text">Syriac Manuscripts in the British Library</span>
+               </a>
+            
+         </div>
+         
+         <div class="navbar-collapse collapse pull-right" id="navbar-collapse-1">
+            
+            <ul class="nav navbar-nav">
+               
+               <li>
+                  <a href="/browse.html" class="nav-text">Browse</a>
+                  
+               </li>
+               <li>
+                  <a href="/dev-browse.html" class="nav-text">Dev Browse</a>
+                  
+               </li>
+               
+               <li data-template="app:shared-content" data-template-path="/templates/shared-links.html"></li>
+               
+               <li>
+                  <a href="/search.html" class="nav-text">Advanced Search</a>
+               </li>
+               <li>
+                  <div id="search-wrapper">
+                     <form class="navbar-form navbar-right search-box" role="search" action="/search.html" method="get">
+                        <div class="form-group">
+                           <input type="text" class="form-control keyboard" placeholder="search" name="keyword" id="keywordNav" />
+                           <span data-template="app:keyboard-select-menu" data-template-input-id="keywordNav"></span>
+                           <button class="btn btn-default search-btn" id="searchbtn" type="submit" title="Search">
+                              <span class="glyphicon glyphicon-search"></span>
+                              </button>
+                        </div>
+                     </form>
+                  </div>
+               </li>
+               <li data-template="app:shared-content" data-template-path="/templates/fontMenu.html"></li>
+            </ul>
+         </div>
+      </nav>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Left Sidebar - Facets -->
+            <div class="col-md-3">
+                <div class="facet-panel">
+                    <h4>Filter Results</h4>
+                    <div id="facets"></div>
+                    <button class="btn btn-sm btn-warning clear-filters" onclick="clearFilters()">Clear All Filters</button>
+                </div>
+            </div>
+            <!-- Right Content - Results -->
+            <div class="col-md-9">
+                <h2>Browse Manuscripts</h2>
+                <div class="result-count" id="resultCount"></div>
+                <div id="results"></div>
+            </div>
+        </div>
+    </div>
+    <script src="resources/js/jquery.min.js"></script>
+    <script>
+        let allData = [];
+        let filteredData = [];
+        let activeFilters = {};
+
+        // Load JSON data
+        async function loadData() {
+            try {
+                const response = await fetch('manuscripts.json');
+                allData = await response.json();
+                filteredData = [...allData];
+                buildFacets();
+                displayResults();
+            } catch (error) {
+                console.error('Error loading data:', error);
+                $('#results').html('<div class="alert alert-danger">Error loading data</div>');
+            }
+        }
+
+        // Build facet dropdowns from data
+        function buildFacets() {
+            const facetKeys = ['material', 'script', 'classification'];
+            const facetsHtml = facetKeys.map(key => {
+                // Get all unique values from allData, flattening arrays
+                const allValues = new Set();
+                allData.forEach(item => {
+                    const val = item[key];
+                    if (Array.isArray(val)) {
+                        val.forEach(v => {
+                            if (!v) return;
+                            if (key === 'classification' && (v.includes('Add') || v.includes('manuscript consists'))) return;
+                            if (key === 'material' && v.includes('Fol.')) return;
+                            allValues.add(v);
+                        });
+                    } else if (val) {
+                        if (key === 'classification' && (val.includes('Add') || val.includes('manuscript consists'))) return;
+                        if (key === 'material' && val.includes('Fol.')) return;
+                        allValues.add(val);
+                    }
+                });
+                
+                // Deduplicate by normalized value, keeping first occurrence
+                const seen = new Set();
+                const values = [...allValues].filter(v => {
+                    const norm = normalize(v);
+                    if (seen.has(norm)) return false;
+                    seen.add(norm);
+                    return true;
+                }).sort();
+                
+                if (values.length === 0) return '';
+                
+                return `
+                    <div class="facet-group">
+                        <label>${key.charAt(0).toUpperCase() + key.slice(1)}</label>
+                        <select class="form-control" onchange="applyFilter('${key}', this.value)">
+                            <option value="">All</option>
+                            ${values.map(v => `<option value="${v}" ${activeFilters[key] === v ? 'selected' : ''}>${v}</option>`).join('')}
+                        </select>
+                    </div>
+                `;
+            }).join('');
+            
+            $('#facets').html(facetsHtml);
+        }
+
+        // Apply filter
+        function applyFilter(key, value) {
+            if (value) {
+                activeFilters[key] = value;
+            } else {
+                delete activeFilters[key];
+            }
+            filterData();
+        }
+
+        // Normalize for comparison
+        function normalize(str) {
+            if (!str) return '';
+            return str.toLowerCase().replace(/[^a-z0-9]/g, '');
+        }
+
+        // Filter data based on active filters
+        function filterData() {
+            filteredData = allData.filter(item => {
+                return Object.keys(activeFilters).every(key => {
+                    const itemValue = item[key];
+                    const filterValue = activeFilters[key];
+                    
+                    if (Array.isArray(itemValue)) {
+                        return itemValue.some(v => normalize(v) === normalize(filterValue));
+                    }
+                    return normalize(itemValue) === normalize(filterValue);
+                });
+            });
+            displayResults();
+        }
+
+        // Display results
+        function displayResults() {
+            $('#resultCount').text(`Showing ${filteredData.length} of ${allData.length} results`);
+            
+            const resultsHtml = filteredData.map(item => {
+                const formatValue = (val, key) => {
+                    if (!Array.isArray(val)) return val;
+                    const periodFields = ['title', 'displayTitleEnglish'];
+                    return periodFields.includes(key) ? val.join('. ') : val.join(', ');
+                };
+                
+                const msUrl = item.id ? `http://127.0.0.1:5500/exampleData/ms/${item.id.replace('ms-', '')}.html` : '#';
+                
+                return `
+                <div class="result-item">
+                    ${item.displayTitleEnglish ? `<p>${formatValue(item.displayTitleEnglish, 'displayTitleEnglish')}</p>` : ''}
+                    <p><strong>Shelfmark:</strong> ${formatValue(item.shelfmark, 'shelfmark') || 'N/A'}</p>
+                    <p>URL: <a href="${msUrl}" target="_blank">${msUrl}</a></p>
+                    <small class="text-muted">
+                        ${item.material ? `Material: ${formatValue(item.material, 'material')} | ` : ''}
+                        ${item.script ? `Script: ${formatValue(item.script, 'script')} | ` : ''}
+                        ${item.classification ? `Classification: ${formatValue(item.classification, 'classification')}` : ''}
+                    </small>
+                </div>
+            `}).join('');
+            
+            $('#results').html(resultsHtml || '<div class="alert alert-info">No results found</div>');
+        }
+
+        // Clear all filters
+        function clearFilters() {
+            activeFilters = {};
+            filteredData = [...allData];
+            buildFacets();
+            displayResults();
+        }
+
+        // Initialize
+        $(document).ready(() => {
+            loadData();
+        });
+    </script>
+</body>
+      <footer>
+         
+         <div class="container">
+          <p>  
+            <img alt="Creative Commons License"  src="/resources/images/cc.png" height="18px" />
+            This work is licensed under a 
+            <a rel="license" href="https://creativecommons.org/licenses/by-nc/4.0/" >Creative Commons Attribution-NonCommercial 4.0 license (CC BY-NC 4.0)</a>.
+            <br/>
+            Copyright © 2011 Beth Mardutho: The Syriac Institute.
+          </p>
+         </div>
+         <script type="text/javascript" src="/resources/js/jquery.validate.min.js"></script>
+         <script type="text/javascript" src="/resources/js/lightslider.min.js"></script>
+         </footer>
+</html>

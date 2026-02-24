@@ -94,16 +94,19 @@ jobs:
             id=$(basename "$file" .xml)
             out_json="json_output_xslt/${id}.json"
             echo "Processing JSON: $file -> $out_json"
-            printf "{\"index\":{\"_index\":\"britishlibrary-index-1\",\"_id\":\"ms-%s\"}}\n" "$id" > "$out_json"
 
             tmp="$(mktemp)"
             if ! java -jar saxon.jar -s:"$file" -xsl:siteGenerator/xsl/json.xsl > "$tmp" 2>> logs/errors.log; then
               echo "::warning:: JSON transformation failed for $file" >> logs/errors.log
               rm -f "$tmp"
-            else
-              # Ensure single-line JSON for bulk API
+            elif [ -s "$tmp" ]; then
+              # Only create output if XSLT produced content
+              printf "{\"index\":{\"_index\":\"britishlibrary-index-1\",\"_id\":\"ms-%s\"}}\n" "$id" > "$out_json"
               tr -d "\r\n" < "$tmp" >> "$out_json"
               printf "\n" >> "$out_json"
+              rm -f "$tmp"
+            else
+              echo "::warning:: XSLT produced empty output for $file" >> logs/errors.log
               rm -f "$tmp"
             fi
           ' _ {}
