@@ -209,6 +209,21 @@ def main():
         # collect for manuscripts array
         if args.manuscripts:
             j["id"] = f"{args.idprefix}-{fname}"
+            # Deduplicate and clean fields
+            for key, value in j.items():
+                if isinstance(value, list):
+                    seen = set()
+                    deduped = []
+                    for item in value:
+                        if item and item not in seen:
+                            seen.add(item)
+                            deduped.append(item)
+                    j[key] = deduped
+            # Remove composite manuscript classification
+            if 'classification' in j and j['classification']:
+                if isinstance(j['classification'], list):
+                    j['classification'] = [c for c in j['classification'] 
+                                          if not (isinstance(c, str) and c.startswith('This unit is a part of a composite manuscript'))]
             manuscripts_list.append(j)
 
     if bulk_writer:
