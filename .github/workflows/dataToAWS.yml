@@ -111,11 +111,11 @@ jobs:
           echo "Expected: $expected  |  Actual json files: $actual"
 
           if [ "$actual" -gt 0 ]; then
-            sort json_output/*.json 2>/dev/null > bulk_data.json || cat json_output/*.json > bulk_data.json
+            sort json_output/*.json 2>/dev/null > bulk_data_winona.json || cat json_output/*.json > bulk_data.json
           else
-            echo "{}" > bulk_data.json
+            echo "{}" > bulk_data_winona.json
           fi
-          echo "bulk_data.json contains $(wc -l < bulk_data.json || echo 0) lines"
+          echo "bulk_data_winona.json contains $(wc -l < bulk_data_winona.json || echo 0) lines"
 
       # 5. Configure AWS credentials 
       - name: Configure AWS credentials for uploads
@@ -132,6 +132,7 @@ jobs:
         run: |
           TIMESTAMP=$(date +%Y%m%d%H%M%S)
           aws s3 cp bulk_data.json s3://gaddel-britishlibrary-site/json-data/index_1_$TIMESTAMP.json --acl private
+          aws s3 cp bulk_data_winona.json s3://gaddel-britishlibrary-site/json-data/winona_index_1_$TIMESTAMP.json --acl private
 
       # 7. Convert XML to HTML in parallel (produce ms/<id>.html)
       - name: Convert XML to HTML in Parallel (safe, outputs ms/<id>.html)
