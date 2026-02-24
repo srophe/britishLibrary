@@ -22,6 +22,31 @@ from typing import List
 
 NS = {"tei": "http://www.tei-c.org/ns/1.0"}
 
+# ISO 639-3 language code mapping for scripts
+SCRIPT_LANG_MAP = {
+    "syr": "Syriac",
+    "syr-Syre": "Syriac (Estrangela)",
+    "syr-Syrj": "Syriac (Western)",
+    "syr-Syrn": "Syriac (Eastern)",
+    "ar": "Arabic",
+    "grc": "Greek",
+    "he": "Hebrew",
+    "en": "English",
+    "la": "Latin"
+}
+
+def map_script_to_language(script_codes):
+    """Convert script codes to language names"""
+    if not script_codes:
+        return None
+    codes = script_codes.split()
+    langs = []
+    for code in codes:
+        lang = SCRIPT_LANG_MAP.get(code.strip(), code.strip())
+        if lang not in langs:
+            langs.append(lang)
+    return ", ".join(langs) if langs else None
+
 def text_list(root, xpath) -> List[str]:
     """Return trimmed text contents for nodes matched by xpath"""
     nodes = root.xpath(xpath, namespaces=NS)
@@ -115,6 +140,7 @@ def extract_json(tree):
         # fallback: text nodes indicating script
         scripts = text_list(root, ".//tei:handNote | .//tei:handDesc")
     script_val = " ".join(scripts) if scripts else None
+    script_lang = map_script_to_language(script_val) if script_val else None
 
     # material: from supportDesc/support/material or physDesc supportDesc
     material = first_text(root, ".//tei:objectDesc//tei:supportDesc//tei:material | .//tei:physDesc//tei:supportDesc//tei:material | .//tei:physDesc//tei:supportDesc//tei:support//tei:material")
@@ -146,6 +172,7 @@ def extract_json(tree):
     if colophons: out["colophons"] = colophons
     if other_limit: out["otherLimit"] = other_limit
     if script_val: out["script"] = script_val
+    if script_lang: out["scriptLanguage"] = script_lang
     if material: out["material"] = material
     if classification: out["classification"] = classification
     if orig_dates: out["origDate"] = orig_dates
