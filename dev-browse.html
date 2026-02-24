@@ -91,6 +91,19 @@
     </div>
     <script src="resources/js/jquery.min.js"></script>
     <script>
+        // Determine base URL based on environment
+        const getBaseUrl = () => {
+            const hostname = window.location.hostname;
+            if (hostname === 'localhost' || hostname === '127.0.0.1') {
+                return 'http://127.0.0.1:5500/exampleData';
+            } else if (hostname.includes('dev') || hostname.includes('d2tcgfyrf82nxz')) {
+                return 'https://d2tcgfyrf82nxz.cloudfront.net';
+            } else {
+                return '';
+            }
+        };
+        const BASE_URL = getBaseUrl();
+
         let allData = [];
         let filteredData = [];
         let activeFilters = {};
@@ -199,7 +212,7 @@
                     return periodFields.includes(key) ? val.join('. ') : val.join(', ');
                 };
                 
-                const msUrl = item.id ? `http://127.0.0.1:5500/exampleData/ms/${item.id.replace('ms-', '')}.html` : '#';
+                const msUrl = item.id ? `${BASE_URL}/ms/${item.id.replace('ms-', '')}.html` : '#';
                 
                 return `
                 <div class="result-item">
