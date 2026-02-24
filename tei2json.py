@@ -58,16 +58,20 @@ def first_text(root, xpath):
 def extract_json(tree):
     root = tree.getroot()
 
-    # title: gather a-level titleStmt, and msItem titles inside msPart (as in your example)
-    titles = text_list(root, ".//tei:titleStmt/tei:title | .//tei:msItem//tei:title")
-    # syrTitle: find syr rubrics or titles with xml:lang="syr"
+    # Different title types
+    title_stmt = text_list(root, ".//tei:titleStmt/tei:title")
+    ms_item_titles = text_list(root, ".//tei:msItem//tei:title")
+    rubrics = text_list(root, ".//tei:rubric")
     syr_titles = text_list(root, ".//tei:title[@xml:lang='syr'] | .//tei:rubric[@xml:lang='syr'] | .//tei:finalRubric[@xml:lang='syr']")
 
     # id: try msIdentifier idno type=URI or publication idno or teiHeader/fileDesc/publicationStmt/idno
     idno = first_text(root, ".//tei:msIdentifier/tei:idno[@type='URI'] | .//tei:publicationStmt/tei:idno[@type='URI'] | .//tei:msIdentifier/tei:idno")
 
     # displayTitleEnglish: concatenation of English titles (sample appears to concat all titles)
-    display_title_english = "".join([t for t in titles if t])
+    display_title_english = "".join([t for t in title_stmt if t])
+
+    # summary: from msContents/summary or profileDesc/abstract
+    summary = first_text(root, ".//tei:msContents/tei:summary | .//tei:profileDesc/tei:abstract")
 
     # persName: collect person names in tei:persName nodes (serialize inner markup if present)
     pers_nodes = root.xpath(".//tei:persName", namespaces=NS)
@@ -131,10 +135,13 @@ def extract_json(tree):
     # script & material shorthand: collapse to strings or lists as in your example
     out = {}
 
-    if titles: out["title"] = titles
+    if title_stmt: out["titleStmt"] = title_stmt
+    if ms_item_titles: out["msItemTitle"] = ms_item_titles
+    if rubrics: out["rubric"] = rubrics
     if syr_titles: out["syrTitle"] = syr_titles
     if idno: out["idno"] = idno
     out["displayTitleEnglish"] = display_title_english or ""
+    if summary: out["summary"] = summary
     if pers_list: out["persName"] = pers_list
     if place_list: out["placeName"] = place_list
     if shelfmarks: out["shelfmark"] = shelfmarks
