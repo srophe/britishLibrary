@@ -1,0 +1,165 @@
+name: Process XML to JSON and HTML For Full Data Set
+
+on:
+  push:
+    branches:
+      - 'gaddel_development'
+    paths:
+      - '.github/workflows/dataToAWS.yml'
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  process_and_transform:
+    runs-on: ubuntu-latest
+    steps:
+
+      # 1. Checkout code + data repo
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Checkout British Library data repository
+        uses: actions/checkout@v4
+        with:
+          repository: srophe/britishLibrary-data
+          ref: main
+          path: britishLibrary-data
+
+      # 2. Java + Saxon
+      - name: Set up JDK 11
+        uses: actions/setup-java@v3
+        with:
+          java-version: '11'
+          distribution: 'temurin'
+
+      - name: Check cache for Saxon JAR
+        id: cache-saxon
+        uses: actions/cache@v4
+        with:
+          path: saxon.jar
+          key: saxon-HE-10.6
+
+      - name: Download Saxon if not cached
+        if: steps.cache-saxon.outputs.cache-hit != 'true'
+        run: |
+          wget https://repo1.maven.org/maven2/net/sf/saxon/Saxon-HE/10.6/Saxon-HE-10.6.jar -O saxon.jar
+
+      # 3. Identify XML files (null-safe)
+      - name: Identify XML files (null-safe)
+        run: |
+          mkdir -p workspace
+          # XML path in the data repo
+          find ./britishLibrary-data/data/tei -type f -name '*.xml' -print0 > xml_files.null || true
+          tr '\0' '\n' < xml_files.null > xml_files.txt || true
+          echo "Found $(wc -l < xml_files.txt) XML files"
+
+      # 4. Run JSON XSLT transforms in parallel and produce OpenSearch bulk format
+      - name: Run XSLT Transformations and Create Bulk JSON (Parallelized, safe)
+        run: |
+          if [ ! -s xml_files.null ]; then
+            echo "No XML files to process."
+            exit 0
+          fi
+
+          mkdir -p logs json_output
+          : > bulk_data.json
+
+          PARALLEL=$(nproc || echo 2)
+
+          # Process each file into json_output/<id>.json (index metadata + single-line JSON)
+          cat xml_files.null | xargs -0 -n1 -P "$PARALLEL" -I {} sh -c '
+            file="$1"
+            id=$(basename "$file" .xml)
+            out_json="json_output/${id}.json"
+            echo "Processing JSON: $file -> $out_json"
+            printf "{\"index\":{\"_index\":\"britishlibrary-index-1\",\"_id\":\"ms-%s\"}}\n" "$id" > "$out_json"
+
+            tmp="$(mktemp)"
+            if ! java -jar saxon.jar -s:"$file" -xsl:siteGenerator/xsl/json.xsl > "$tmp" 2>> logs/errors.log; then
+              echo "::warning:: JSON transformation failed for $file" >> logs/errors.log
+              rm -f "$tmp"
+            else
+              # Ensure single-line JSON for bulk API
+              tr -d "\r\n" < "$tmp" >> "$out_json"
+              printf "\n" >> "$out_json"
+              rm -f "$tmp"
+            fi
+          ' _ {}
+
+          expected=$(wc -l < xml_files.txt || echo 0)
+          actual=$(ls json_output 2>/dev/null | wc -l || echo 0)
+          echo "Expected: $expected  |  Actual json files: $actual"
+
+          if [ "$actual" -gt 0 ]; then
+            sort json_output/*.json 2>/dev/null > bulk_data.json || cat json_output/*.json > bulk_data.json
+          else
+            echo "{}" > bulk_data.json
+          fi
+          echo "bulk_data.json contains $(wc -l < bulk_data.json || echo 0) lines"
+
+      # 5. Configure AWS credentials (role for uploads)
+      - name: Configure AWS credentials for uploads
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          role-to-assume: ${{ secrets.AWS_GADDEL_ROLE }}
+          aws-region: ${{ secrets.AWS_REGION }}
+          role-session-name: GitHub-OIDC-batch-upload
+
+      # 6. Upload JSON to S3 (staging for OpenSearch ingestion)
+      - name: Upload JSON to S3
+        env:
+          AWS_REGION: ${{ secrets.AWS_REGION }}
+        run: |
+          TIMESTAMP=$(date +%Y%m%d%H%M%S)
+          aws s3 cp bulk_data.json s3://gaddel-britishlibrary-site/json-data/index_1_$TIMESTAMP.json --acl private
+
+      # 7. Convert XML to HTML in parallel (produce ms/<id>.html)
+      - name: Convert XML to HTML in Parallel (safe, outputs ms/<id>.html)
+        run: |
+          mkdir -p logs data-html/ms
+          PARALLEL=$(nproc || echo 2)
+
+          cat xml_files.null | xargs -0 -n1 -P "$PARALLEL" -I {} sh -c '
+            file="$1"
+            id=$(basename "$file" .xml)
+            out_path="data-html/ms/${id}.html"
+            mkdir -p "$(dirname "$out_path")"
+            echo "Converting $file -> $out_path"
+            if ! java -jar saxon.jar -s:"$file" -xsl:siteGenerator/xsl/tei2html.xsl -o:"$out_path" 2>> logs/errors.log; then
+              echo "::warning:: HTML transformation failed for $file" >> logs/errors.log
+            fi
+          ' _ {}
+
+      # 8. Upload HTML (ms/) and XML (data/tei/) to S3 via sync (recommended)
+      - name: Upload ms/ HTML and data/tei XML to S3 using aws s3 sync
+        env:
+          AWS_REGION: ${{ secrets.AWS_REGION }}
+        run: |
+          # Sync HTMLs to s3://.../ms/ so keys are ms/<id>.html
+          aws s3 sync data-html/ms/ s3://gaddel-britishlibrary-site/ms/ \
+            --acl public-read \
+            --delete \
+            --exact-timestamps || echo "s3 sync ms/ completed (or no files)"
+
+          # Sync TEI XMLs to s3://.../data/tei/ (source is data repo)
+          aws s3 sync britishLibrary-data/data/tei/ s3://gaddel-britishlibrary-site/ms/ \
+            --acl public-read \
+            --exclude "*" --include "*.xml" || echo "s3 sync data completed"
+
+          # quick counts for logs
+          echo "HTML files uploaded (ms/):"
+          aws s3 ls s3://gaddel-britishlibrary-site/ms/ --recursive | wc -l || true
+          echo "XML files uploaded (data/tei/):"
+          aws s3 ls s3://gaddel-britishlibrary-site/data/tei/ --recursive | wc -l || true
+
+      # 9. Upload logs/artifacts for debugging
+      - name: Upload Logs to GitHub Artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: error-logs
+          path: logs
