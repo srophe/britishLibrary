@@ -32,7 +32,8 @@ SCRIPT_LANG_MAP = {
     "grc": "Greek",
     "he": "Hebrew",
     "en": "English",
-    "la": "Latin"
+    "la": "Latin",
+    "mul": "Multiple languages"
 }
 
 def map_script_to_language(script_codes):

@@ -55,22 +55,56 @@ function displayResults(results, page = 1, perPage = 20) {
     
     $('#search-info').html(`<p>Found ${results.length} results</p>`);
     
-    const html = pageResults.map(item => {
-        const url = item.id ? `${BASE_URL}/ms/${item.id.replace('ms-', '')}.html` : '#';
+    const html = pageResults.map((item, index) => {
+        const formatValue = (val, key) => {
+            if (!Array.isArray(val)) return val;
+            const periodFields = ['title', 'displayTitleEnglish'];
+            return periodFields.includes(key) ? val.join('. ') : val.join(', ');
+        };
+        
+        const titleFields = ['titleStmt', 'msItemTitle', 'rubric', 'syrTitle'];
+        const allTitles = [];
+        titleFields.forEach(field => {
+            if (item[field]) {
+                if (Array.isArray(item[field])) {
+                    allTitles.push(...item[field]);
+                } else {
+                    allTitles.push(item[field]);
+                }
+            }
+        });
+        let contentSummary = allTitles.join(' ');
+        contentSummary = contentSummary.replace(/<[^>]*>/g, '');
+        const truncated = contentSummary.length > 500;
+        const displayContent = truncated ? contentSummary.substring(0, 500) : contentSummary;
+        
+        const msUrl = item.id ? `${BASE_URL}/ms/${item.id.replace('ms-', '')}.html` : '#';
+        
         return `
-            <div class="result-item" style="padding:15px; border:1px solid #ddd; margin-bottom:10px;">
-                <h3>${item.displayTitleEnglish || 'Untitled'}</h3>
-                <a href="${url}">${url}</a>
-                <p><strong>Shelfmark:</strong> ${Array.isArray(item.shelfmark) ? item.shelfmark.join(', ') : item.shelfmark || 'N/A'}</p>
-                ${item.material ? `<p><strong>Material:</strong> ${Array.isArray(item.material) ? item.material.join(', ') : item.material}</p>` : ''}
-                ${item.script ? `<p><strong>Script:</strong> ${item.script}</p>` : ''}
+            <div class="result-item" style="padding:15px; border:1px solid #ddd; margin-bottom:10px; border-radius:5px;">
+                ${item.displayTitleEnglish ? `<p>${formatValue(item.displayTitleEnglish, 'displayTitleEnglish')}</p>` : ''}
+                ${contentSummary ? `<p><strong>Content:</strong> <span class="content-text" id="content-${index}">${displayContent}${truncated ? '...' : ''}</span>${truncated ? ` <a href="#" class="show-more" data-index="${index}" data-full="${contentSummary.replace(/"/g, '&quot;')}">Show more</a>` : ''}</p>` : ''}
+                <p><strong>Shelfmark:</strong> ${formatValue(item.shelfmark, 'shelfmark') || 'N/A'}</p>
+                <p>URL: <a href="${msUrl}" target="_blank">${msUrl}</a></p>
+                <small class="text-muted">
+                    ${item.material ? `Material: ${formatValue(item.material, 'material')} | ` : ''}
+                    ${item.scriptLanguage ? `Script: ${item.scriptLanguage} | ` : ''}
+                    ${item.classification ? `Classification: ${formatValue(item.classification, 'classification')}` : ''}
+                </small>
             </div>
         `;
     }).join('');
     
     $('#search-results').html(html || '<p>No results found</p>');
     
-    // Pagination
+    $('.show-more').on('click', function(e) {
+        e.preventDefault();
+        const index = $(this).data('index');
+        const full = $(this).data('full');
+        $(`#content-${index}`).text(full);
+        $(this).remove();
+    });
+    
     const totalPages = Math.ceil(results.length / perPage);
     let paginationHtml = '';
     for (let i = 1; i <= totalPages; i++) {
