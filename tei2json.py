@@ -27,12 +27,9 @@ def text_list(root, xpath) -> List[str]:
     nodes = root.xpath(xpath, namespaces=NS)
     out = []
     for n in nodes:
-        # If element node with mixed content, serialize inner HTML
+        # If element node with mixed content, get all text recursively
         if isinstance(n, etree._Element):
-            txt = "".join([etree.tostring(c, encoding="unicode", method="html") if isinstance(c, etree._Element) else (c or "") for c in n.iterchildren()]) 
-            # If serialization yields empty, try .text
-            if not txt.strip():
-                txt = (n.text or "").strip()
+            txt = ''.join(n.itertext()).strip()
         else:
             txt = (str(n) or "").strip()
         if txt:
@@ -241,6 +238,11 @@ def main():
         with open(args.manuscripts, "w", encoding="utf8") as fh:
             json.dump(manuscripts_list, fh, ensure_ascii=False, indent=2)
         print(f"Wrote manuscripts file {args.manuscripts}")
+    
+    # If single file with no output flags, print to stdout
+    if p.is_file() and not args.outdir and not args.bulk and not args.manuscripts and len(targets) == 1:
+        j = process_file(p)
+        print(json.dumps(j, ensure_ascii=False, indent=2))
 
 if __name__ == "__main__":
     main()
