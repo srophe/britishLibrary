@@ -160,6 +160,9 @@ def extract_json(tree):
     decorations = text_list(root, ".//tei:decoNote")
     decoration_types = text_list(root, ".//tei:decoNote/@type")
 
+    # author: from msItem/author/persName
+    authors = text_list(root, ".//tei:msItem//tei:author//tei:persName")
+
     # script & material shorthand: collapse to strings or lists as in your example
     out = {}
 
@@ -187,6 +190,7 @@ def extract_json(tree):
     if date_calendar: out["dateCalendar"] = date_calendar
     if decorations: out["decorations"] = decorations
     if decoration_types: out["decorationsType"] = decoration_types
+    if authors: out["author"] = authors
 
     return out
 

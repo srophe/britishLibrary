@@ -40,7 +40,7 @@ function searchData(params) {
         if (params.fullText && !Object.values(item).some(v => 
             (Array.isArray(v) ? v.join(' ') : String(v || '')).toLowerCase().includes(params.fullText.toLowerCase())
         )) return false;
-        if (params.author && !matchesField(item, 'persName', params.author)) return false;
+        if (params.author && !matchesField(item, 'authors', params.author)) return false;
         if (params.title && !matchesField(item, 'displayTitleEnglish', params.title)) return false;
         if (params.syriacText && !matchesField(item, 'syrTitle', params.syriacText)) return false;
         if (params.placeName && !matchesField(item, 'placeName', params.placeName)) return false;
