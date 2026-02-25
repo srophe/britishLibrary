@@ -184,6 +184,17 @@ jobs:
       #     echo "XML files uploaded (data/tei/):"
       #     aws s3 ls s3://gaddel-britishlibrary-site/data/tei/ --recursive | wc -l || true
 
+      # Step 8: Make site changes visible for testers 
+
+      - name: Invalidate CloudFront Cache
+        run: |
+          aws cloudfront create-invalidation \
+            --distribution-id ${{ secrets.GADDEL_CLOUDFRONT_DISTRIBUTION_ID}} \
+            --paths "/*"
+        env:
+          AWS_REGION: ${{ secrets.AWS_REGION }}
+          AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }} 
+
       # 9. Upload logs/artifacts for debugging
       - name: Upload Logs to GitHub Artifacts
         if: always()
