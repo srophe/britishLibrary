@@ -156,6 +156,10 @@ def extract_json(tree):
     date_when = text_list(root, ".//tei:date/@when")
     date_calendar = text_list(root, ".//tei:origDate/@calendar | .//tei:date/@calendar")
 
+    # decorations: from decoNote elements
+    decorations = text_list(root, ".//tei:decoNote")
+    decoration_types = text_list(root, ".//tei:decoNote/@type")
+
     # script & material shorthand: collapse to strings or lists as in your example
     out = {}
 
@@ -181,6 +185,8 @@ def extract_json(tree):
     if date_not_after: out["dateNotAfter"] = date_not_after
     if date_when: out["dateWhen"] = date_when
     if date_calendar: out["dateCalendar"] = date_calendar
+    if decorations: out["decorations"] = decorations
+    if decoration_types: out["decorationsType"] = decoration_types
 
     return out
 

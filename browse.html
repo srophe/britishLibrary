@@ -205,29 +205,57 @@
         function displayResults() {
             $('#resultCount').text(`Showing ${filteredData.length} of ${allData.length} results`);
             
-            const resultsHtml = filteredData.map(item => {
+            const resultsHtml = filteredData.map((item, index) => {
                 const formatValue = (val, key) => {
                     if (!Array.isArray(val)) return val;
                     const periodFields = ['title', 'displayTitleEnglish'];
                     return periodFields.includes(key) ? val.join('. ') : val.join(', ');
                 };
                 
+                // Create content summary from all title fields
+                const titleFields = ['titleStmt', 'msItemTitle', 'rubric', 'syrTitle'];
+                const allTitles = [];
+                titleFields.forEach(field => {
+                    if (item[field]) {
+                        if (Array.isArray(item[field])) {
+                            allTitles.push(...item[field]);
+                        } else {
+                            allTitles.push(item[field]);
+                        }
+                    }
+                });
+                let contentSummary = allTitles.join(' ');
+                // Strip HTML tags
+                contentSummary = contentSummary.replace(/<[^>]*>/g, '');
+                const truncated = contentSummary.length > 500;
+                const displayContent = truncated ? contentSummary.substring(0, 500) : contentSummary;
+                
                 const msUrl = item.id ? `${BASE_URL}/ms/${item.id.replace('ms-', '')}.html` : '#';
                 
                 return `
                 <div class="result-item">
-                    ${item.displayTitleEnglish ? `<p>${formatValue(item.displayTitleEnglish, 'displayTitleEnglish')}</p>` : ''}
+                    <strong>${item.displayTitleEnglish ? `<p>${formatValue(item.displayTitleEnglish, 'displayTitleEnglish')}</strong></p>` : ''}
+                    ${contentSummary ? `<p><strong>Content:</strong> <span class="content-text" id="content-${index}">${displayContent}${truncated ? '' : ''}</span>${truncated ? ` <a href="#" class="show-more" data-index="${index}" data-full="${contentSummary.replace(/"/g, '&quot;')}">...</a>` : ''}</p>` : ''}
                     <p><strong>Shelfmark:</strong> ${formatValue(item.shelfmark, 'shelfmark') || 'N/A'}</p>
                     <p>URL: <a href="${msUrl}" target="_blank">${msUrl}</a></p>
                     <small class="text-muted">
                         ${item.material ? `Material: ${formatValue(item.material, 'material')} | ` : ''}
-                        ${item.script ? `Script: ${formatValue(item.script, 'script')} | ` : ''}
+                        ${item.script ? `Script: ${formatValue(item.scriptLanguage, 'script')} | ` : ''}
                         ${item.classification ? `Classification: ${formatValue(item.classification, 'classification')}` : ''}
                     </small>
                 </div>
             `}).join('');
             
             $('#results').html(resultsHtml || '<div class="alert alert-info">No results found</div>');
+            
+            // Add click handler for show more links
+            $('.show-more').on('click', function(e) {
+                e.preventDefault();
+                const index = $(this).data('index');
+                const full = $(this).data('full');
+                $(`#content-${index}`).text(full);
+                $(this).remove();
+            });
         }
 
         // Clear all filters

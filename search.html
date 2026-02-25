@@ -179,7 +179,7 @@
                      <button type="button" class="btn btn-default pull-right" id="toggleSearch">Show/Hide Search Options</button>
                      <div style="clear:both;"></div>
                   </div>
-                  <form method="get" action="search.html" class="form-horizontal search" role="form" id="advancedSearch" style="padding:20px 80px; display:block;">
+                  <form method="get" action="search.html" class="form-horizontal search" role="form" id="advancedSearch" style="padding:20px 80px; display:block;" onsubmit="return false;">
                      <!-- Keyword -->
                      <div class="form-group"><label for="fullText" class="col-sm-3 col-md-2 control-label">Keyword in Any Language: </label>
                         <div class="col-sm-9 col-md-4">
@@ -371,6 +371,29 @@
                   $('#search-info').html('');
                   $('#search-results').html('');
                   $('.searchPagination').html('');
+               });
+               $('button[type="submit"]').on('click', function(e) {
+                  e.preventDefault();
+                  const searchParams = {
+                     fullText: $('#fullText').val(),
+                     author: $('#author').val(),
+                     title: $('#title').val(),
+                     syriacText: $('#syriacText').val(),
+                     placeName: $('#placeName').val(),
+                     persName: $('#persName').val(),
+                     shelfmark: $('#shelfmark').val()
+                  };
+                  const params = new URLSearchParams();
+                  Object.keys(searchParams).forEach(key => {
+                     if (searchParams[key]) params.append(key, searchParams[key]);
+                  });
+                  window.history.pushState({}, '', '?' + params.toString());
+                  
+                  // Reload data and run search with new parameters
+                  loadData().then(() => {
+                     const results = searchData(searchParams);
+                     displayResults(results);
+                  });
                });
                runSearch();
             });

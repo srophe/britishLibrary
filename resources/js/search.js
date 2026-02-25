@@ -7,6 +7,8 @@ const getBaseUrl = () => {
         return 'http://127.0.0.1:5500/exampleData';
     } else if (hostname.includes('dev') || hostname.includes('d2tcgfyrf82nxz')) {
         return 'https://d2tcgfyrf82nxz.cloudfront.net';
+    } else if (hostname.includes('bl.syriac.uk')) {
+        return 'https://bl.syriac.uk';
     } else {
         return '';
     }
@@ -44,6 +46,7 @@ function searchData(params) {
         if (params.placeName && !matchesField(item, 'placeName', params.placeName)) return false;
         if (params.persName && !matchesField(item, 'persName', params.persName)) return false;
         if (params.shelfmark && !matchesField(item, 'shelfmark', params.shelfmark)) return false;
+        if (params.decorations && item.decorations !== params.decorations) return false;
         return true;
     });
 }
@@ -130,7 +133,9 @@ async function runSearch() {
         syriacText: params.get('syriacText'),
         placeName: params.get('placeName'),
         persName: params.get('persName'),
-        shelfmark: params.get('shelfmark')
+        shelfmark: params.get('shelfmark'),
+        decorations: params.get('decorations'),
+        decorationsType: params.get('decorationsType')
     };
     
     const hasQuery = Object.values(searchParams).some(v => v);
