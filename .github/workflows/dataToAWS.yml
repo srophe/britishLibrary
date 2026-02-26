@@ -148,41 +148,41 @@ jobs:
           git push
 
       # 7. Convert XML to HTML in parallel (produce ms/<id>.html)
-      # - name: Convert XML to HTML in Parallel (safe, outputs ms/<id>.html)
-      #   run: |
-      #     mkdir -p logs data-html/ms
-      #     PARALLEL=$(nproc || echo 2)
+      - name: Convert XML to HTML in Parallel (safe, outputs ms/<id>.html)
+        run: |
+          mkdir -p logs data-html/ms
+          PARALLEL=$(nproc || echo 2)
 
-      #     cat xml_files.null | xargs -0 -n1 -P "$PARALLEL" -I {} sh -c '
-      #       file="$1"
-      #       id=$(basename "$file" .xml)
-      #       out_path="data-html/ms/${id}.html"
-      #       mkdir -p "$(dirname "$out_path")"
-      #       echo "Converting $file -> $out_path"
-      #       if ! java -jar saxon.jar -s:"$file" -xsl:resources/xsl/tei2html.xsl -o:"$out_path" 2>> logs/errors.log; then
-      #         echo "::warning:: HTML transformation failed for $file" >> logs/errors.log
-      #       fi
-      #     ' _ {}
+          cat xml_files.null | xargs -0 -n1 -P "$PARALLEL" -I {} sh -c '
+            file="$1"
+            id=$(basename "$file" .xml)
+            out_path="data-html/ms/${id}.html"
+            mkdir -p "$(dirname "$out_path")"
+            echo "Converting $file -> $out_path"
+            if ! java -jar saxon.jar -s:"$file" -xsl:resources/xsl/tei2html.xsl -o:"$out_path" 2>> logs/errors.log; then
+              echo "::warning:: HTML transformation failed for $file" >> logs/errors.log
+            fi
+          ' _ {}
 
-      # # 8. Upload HTML (ms/) and XML (data/tei/) to S3 via sync (recommended)
-      # - name: Upload ms/ HTML and data/tei XML to S3 using aws s3 sync
-      #   env:
-      #     AWS_REGION: ${{ secrets.AWS_REGION }}
-      #   run: |
-      #     # Sync HTMLs to s3://.../ms/ so keys are ms/<id>.html
-      #     aws s3 sync data-html/ms/ s3://gaddel-britishlibrary-site/ms/ \
-      #       --delete \
-      #       --exact-timestamps || echo "s3 sync ms/ completed (or no files)"
+      # 8. Upload HTML (ms/) and XML (data/tei/) to S3 via sync
+      - name: Upload ms/ HTML and data/tei XML to S3 using aws s3 sync
+        env:
+          AWS_REGION: ${{ secrets.AWS_REGION }}
+        run: |
+          # Sync HTMLs to s3://.../ms/ so keys are ms/<id>.html
+          aws s3 sync data-html/ms/ s3://gaddel-britishlibrary-site/ms/ \
+            --delete \
+            --exact-timestamps || echo "s3 sync ms/ completed (or no files)"
 
-      #     # Sync TEI XMLs to s3://.../data/tei/ (source is data repo)
-      #     aws s3 sync britishLibrary-data/data/tei/ s3://gaddel-britishlibrary-site/ms/ \
-      #       --exclude "*" --include "*.xml" || echo "s3 sync data completed"
+          # Sync TEI XMLs to s3://.../data/tei/ (source is data repo)
+          aws s3 sync britishLibrary-data/data/tei/ s3://gaddel-britishlibrary-site/ms/ \
+            --exclude "*" --include "*.xml" || echo "s3 sync data completed"
 
-      #     # quick counts for logs
-      #     echo "HTML files uploaded (ms/):"
-      #     aws s3 ls s3://gaddel-britishlibrary-site/ms/ --recursive | wc -l || true
-      #     echo "XML files uploaded (data/tei/):"
-      #     aws s3 ls s3://gaddel-britishlibrary-site/data/tei/ --recursive | wc -l || true
+          # quick counts for logs
+          echo "HTML files uploaded (ms/):"
+          aws s3 ls s3://gaddel-britishlibrary-site/ms/ --recursive | wc -l || true
+          echo "XML files uploaded (data/tei/):"
+          aws s3 ls s3://gaddel-britishlibrary-site/data/tei/ --recursive | wc -l || true
 
       # Step 8: Make site changes visible for testers 
 
