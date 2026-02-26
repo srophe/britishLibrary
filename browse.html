@@ -21,8 +21,7 @@
 <body>
     <script src="resources/js/jquery.min.js"></script>
     <script src="resources/js/navbar-search.js"></script>
-          <nav class="navbar navbar-default navbar-fixed-top" role="navigation" data-template="app:fix-links">
-         
+        <nav class="navbar navbar-default navbar-fixed-top" role="navigation" data-template="app:fix-links">
          <div class="navbar-header">
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse-1">
                <span class="sr-only">Toggle navigation</span>
@@ -106,6 +105,19 @@
         let allData = [];
         let filteredData = [];
         let activeFilters = {};
+        
+        const SCRIPT_LANG_MAP = {
+            "syr": "Syriac",
+            "syr-Syre": "Syriac (Estrangela)",
+            "syr-Syrj": "Syriac (Western)",
+            "syr-Syrn": "Syriac (Eastern)",
+            "ar": "Arabic",
+            "grc": "Greek",
+            "he": "Hebrew",
+            "en": "English",
+            "la": "Latin",
+            "mul": "Multiple languages"
+        };
 
         // Load JSON data
         async function loadData() {
@@ -123,7 +135,7 @@
 
         // Build facet dropdowns from data
         function buildFacets() {
-            const facetKeys = ['material', 'script', 'classification'];
+            const facetKeys = ['material', 'scriptLanguage', 'classification'];
             const facetsHtml = facetKeys.map(key => {
                 // Get all unique values from allData, flattening arrays
                 const allValues = new Set();
@@ -134,12 +146,22 @@
                             if (!v) return;
                             if (key === 'classification' && (v.includes('Add') || v.includes('manuscript consists'))) return;
                             if (key === 'material' && v.includes('Fol.')) return;
-                            allValues.add(v);
+                            // Split scriptLanguage by comma to get individual languages
+                            if (key === 'scriptLanguage' && v.includes(',')) {
+                                v.split(',').forEach(lang => allValues.add(lang.trim()));
+                            } else {
+                                allValues.add(v);
+                            }
                         });
                     } else if (val) {
                         if (key === 'classification' && (val.includes('Add') || val.includes('manuscript consists'))) return;
                         if (key === 'material' && val.includes('Fol.')) return;
-                        allValues.add(val);
+                        // Split scriptLanguage by comma to get individual languages
+                        if (key === 'scriptLanguage' && val.includes(',')) {
+                            val.split(',').forEach(lang => allValues.add(lang.trim()));
+                        } else {
+                            allValues.add(val);
+                        }
                     }
                 });
                 
@@ -156,7 +178,7 @@
                 
                 return `
                     <div class="facet-group">
-                        <label>${key.charAt(0).toUpperCase() + key.slice(1)}</label>
+                        <label>${key === 'scriptLanguage' ? 'Script' : key.charAt(0).toUpperCase() + key.slice(1)}</label>
                         <select class="form-control" onchange="applyFilter('${key}', this.value)">
                             <option value="">All</option>
                             ${values.map(v => `<option value="${v}" ${activeFilters[key] === v ? 'selected' : ''}>${v}</option>`).join('')}
@@ -192,7 +214,17 @@
                     const filterValue = activeFilters[key];
                     
                     if (Array.isArray(itemValue)) {
-                        return itemValue.some(v => normalize(v) === normalize(filterValue));
+                        return itemValue.some(v => {
+                            // For scriptLanguage, check if filter value is contained in comma-separated list
+                            if (key === 'scriptLanguage' && v.includes(',')) {
+                                return v.split(',').some(lang => normalize(lang.trim()) === normalize(filterValue));
+                            }
+                            return normalize(v) === normalize(filterValue);
+                        });
+                    }
+                    // For scriptLanguage, check if filter value is contained in comma-separated list
+                    if (key === 'scriptLanguage' && itemValue && itemValue.includes(',')) {
+                        return itemValue.split(',').some(lang => normalize(lang.trim()) === normalize(filterValue));
                     }
                     return normalize(itemValue) === normalize(filterValue);
                 });
