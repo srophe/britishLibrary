@@ -36,38 +36,13 @@ jobs:
           
       # Step 3: Files to S3
 
-      # # Option 1: Upload only changed files to S3
-      # - name: Get list of changed files
-      #   id: changes
-      #   run: |
-      #     git fetch origin main
-      #     git diff --name-only HEAD^ HEAD > changed_files.txt
-      #     cat changed_files.txt
-      # # This will delete files in S3 not in the repo, except in the data and test and redirects folders
-      # - name: Sync changed files in S3
-      #   if: success()
-      #   run: |
-      #     while read file; do
-      #       echo "Attempting to upload $file..."
-      #       if ! aws s3 cp "$file" "s3://srophe-syriaca-front-end/$file" ; then
-      #         echo "File $file not found. Falling back to sync for deletion handling."
-      #         aws s3 sync ./ s3://srophe-syriaca-front-end --delete --exact-timestamps --exclude "deleted-files/*"--exclude "json-data/*" --exclude "testHtml/*" --exclude "person/*" --exclude "place/*" --exclude "keyword/*" --exclude "taxonomy/*" --exclude "redirects/*" --exclude "cbss/*" --exclude "subject/*" --exclude "work/*"
-      #         break  # Stop further uploads and rely on sync
-      #       fi
-      #     done < changed_files.txt
-      #   env:
-      #     AWS_REGION: ${{ secrets.AWS_REGION }}
-      #     AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }} 
-
-
-          
-      # Option 2: Full redeployment
+      # All files update, no --delete
 
       - name: Debug
-        run: aws s3 sync ./ s3://gaddel-britishlibrary-site --delete --exact-timestamps --dryrun
+        run: aws s3 sync ./ s3://gaddel-britishlibrary-site --exact-timestamps --dryrun
       - name: Sync all files to S3
         run: |
-          aws s3 sync ./ s3://gaddel-britishlibrary-site --delete --exact-timestamps --exclude "persons/*" --exclude ".git/*" --exclude ".github/*" --exclude "tests/*" --exclude "siteGenerator/*" --exclude ".DS_Store"
+          aws s3 sync ./ s3://gaddel-britishlibrary-site --exact-timestamps --exclude ".git/*" --exclude ".github/*" --exclude "tests/*" --exclude "siteGenerator/*" --exclude ".DS_Store"
         env:
           AWS_REGION: ${{ secrets.AWS_REGION }}
           AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
