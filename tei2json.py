@@ -39,10 +39,11 @@ SCRIPT_LANG_MAP = {
     "hy": "Armenian",
     "zh-hant": "Chinese (Traditional)",
     "hyr": "Armenian",
-    "qhy-x-cpas":"qhy-x-cpas",
-    "xlc": "Lycian",
+    "qhy-x-cpas":"Classical Syriac (ܟܬܒܢܝܐ)",
+    "xcl": "Lycian",
     "und": "Undetermined",
-    "syr-x-syrm": "Syriac (Melkite script)"
+    "syr-x-syrm": "Syriac (Melkite script)",
+    "ar-syr": "Arabic language written in Syriac script"
 }
 
 def map_script_to_language(script_codes):
