@@ -40,13 +40,14 @@ function searchData(params) {
         if (params.fullText && !Object.values(item).some(v => 
             (Array.isArray(v) ? v.join(' ') : String(v || '')).toLowerCase().includes(params.fullText.toLowerCase())
         )) return false;
-        if (params.author && !matchesField(item, 'authors', params.author)) return false;
+        if (params.author && !matchesField(item, 'author', params.author)) return false;
         if (params.title && !matchesField(item, 'displayTitleEnglish', params.title)) return false;
         if (params.syriacText && !matchesField(item, 'syrTitle', params.syriacText)) return false;
         if (params.placeName && !matchesField(item, 'placeName', params.placeName)) return false;
         if (params.persName && !matchesField(item, 'persName', params.persName)) return false;
         if (params.shelfmark && !matchesField(item, 'shelfmark', params.shelfmark)) return false;
-        if (params.decorations && item.decorations !== params.decorations) return false;
+        if (params.decorations && !matchesField(item, 'decorations', params.decorations)) return false;
+        if (params.decorationsType && !matchesField(item, 'decorationsType', params.decorationsType)) return false;
         return true;
     });
 }
@@ -121,7 +122,7 @@ function displayResults(results, page = 1, perPage = 20) {
         displayResults(results, newPage, perPage);
     });
 }
-
+// JSON search
 async function runSearch() {
     await loadData();
     
