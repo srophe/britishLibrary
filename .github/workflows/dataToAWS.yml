@@ -75,54 +75,7 @@ jobs:
           tr '\0' '\n' < xml_files.null > xml_files.txt || true
           echo "Found $(wc -l < xml_files.txt) XML files"
 
-      # # 4. Run JSON XSLT transforms in parallel and produce OpenSearch bulk format
-      # - name: Run XSLT Transformations and Create Bulk JSON (Parallelized, safe)
-      #   run: |
-      #     if [ ! -s xml_files.null ]; then
-      #       echo "No XML files to process."
-      #       exit 0
-      #     fi
-
-      #     mkdir -p logs json_output_xslt
-
-      #     PARALLEL=$(nproc || echo 2)
-
-      #     # Process each file into json_output_xslt/<id>.json (index metadata + single-line JSON)
-      #     cat xml_files.null | xargs -0 -n1 -P "$PARALLEL" -I {} sh -c '
-      #       file="$1"
-      #       id=$(basename "$file" .xml)
-      #       out_json="json_output_xslt/${id}.json"
-      #       echo "Processing JSON: $file -> $out_json"
-
-      #       tmp="$(mktemp)"
-      #       if ! java -jar saxon.jar -s:"$file" -xsl:siteGenerator/xsl/json.xsl > "$tmp" 2>> logs/errors.log; then
-      #         echo "::warning:: JSON transformation failed for $file" >> logs/errors.log
-      #         rm -f "$tmp"
-      #       elif [ -s "$tmp" ]; then
-      #         # Only create output if XSLT produced content
-      #         printf "{\"index\":{\"_index\":\"britishlibrary-index-1\",\"_id\":\"ms-%s\"}}\n" "$id" > "$out_json"
-      #         tr -d "\r\n" < "$tmp" >> "$out_json"
-      #         printf "\n" >> "$out_json"
-      #         rm -f "$tmp"
-      #       else
-      #         echo "::warning:: XSLT produced empty output for $file" >> logs/errors.log
-      #         rm -f "$tmp"
-      #       fi
-      #     ' _ {}
-
-      #     expected=$(wc -l < xml_files.txt || echo 0)
-      #     actual=$(ls json_output_xslt 2>/dev/null | wc -l || echo 0)
-      #     echo "Expected: $expected  |  Actual json files: $actual"
-
-      #     if [ "$actual" -gt 0 ]; then
-      #       sort json_output_xslt/*.json 2>/dev/null > bulk_data_winona.json
-      #     else
-      #       echo "{}" > bulk_data_winona.json
-      #     fi
-      #     echo "bulk_data.json contains $(wc -l < bulk_data.json || echo 0) lines (Python)"
-      #     echo "bulk_data_winona.json contains $(wc -l < bulk_data_winona.json || echo 0) lines (XSLT)"
-
-      # 5. Configure AWS credentials 
+      # 4. Configure AWS credentials 
       - name: Configure AWS credentials for uploads
         uses: aws-actions/configure-aws-credentials@v2
         with:
@@ -130,7 +83,7 @@ jobs:
           aws-region: ${{ secrets.AWS_REGION }}
           role-session-name: GitHub-OIDC-batch-upload
 
-      # 6. Upload JSON to S3 (staging for OpenSearch ingestion)
+      # 5. Upload JSON to S3 (staging for OpenSearch ingestion)
       - name: Upload JSON to S3
         env:
           AWS_REGION: ${{ secrets.AWS_REGION }}
@@ -138,7 +91,7 @@ jobs:
           TIMESTAMP=$(date +%Y%m%d%H%M%S)
           aws s3 cp bulk_data.json s3://gaddel-britishlibrary-site/json-data/index_1_$TIMESTAMP.json --acl private
 
-      # 7. Commit manuscripts.json to repo
+      # 6. Commit manuscripts.json (json form of tei data) to repo
       - name: Commit manuscripts JSON to repo
         run: |
           git config user.name "github-actions[bot]"
@@ -184,7 +137,7 @@ jobs:
           echo "XML files uploaded (data/tei/):"
           aws s3 ls s3://gaddel-britishlibrary-site/data/tei/ --recursive | wc -l || true
 
-      # Step 8: Make site changes visible for testers 
+      # Step 9: Make site changes visible for testers 
 
       - name: Invalidate CloudFront Cache
         run: |
@@ -195,7 +148,7 @@ jobs:
           AWS_REGION: ${{ secrets.AWS_REGION }}
           AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }} 
 
-      # 9. Upload logs/artifacts for debugging
+      # 10. Upload logs/artifacts for debugging
       - name: Upload Logs to GitHub Artifacts
         if: always()
         uses: actions/upload-artifact@v4
