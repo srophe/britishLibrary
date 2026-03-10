@@ -5,10 +5,12 @@ tei2json.py
 Usage:
   # single file -> prints JSON to stdout
   python tei2json.py input.xml
+  or if data directory is in same folder:
+  python britishLibrary/tei2json.py britishLibrary-data/data/tei/10.xml
 
   # directory -> produce one JSON file per TEI named <basename>.json
   python tei2json.py --dir ./britishLibrary-data/data/tei --outdir json_output
-
+  
   # directory -> produce OpenSearch bulk file
   python tei2json.py --dir ./britishLibrary-data/data/tei --bulk bulk_data.json --index britishlibrary-index-1 --idprefix ms
 """
@@ -172,6 +174,8 @@ def extract_json(tree):
 
     # author: from msItem/author/persName
     authors = text_list(root, ".//tei:msItem//tei:author//tei:persName")
+    # msItem/author/@ref
+    authorsUri = text_list(root, ".//tei:msItem//tei:author/@ref")
 
     # script & material shorthand: collapse to strings or lists as in your example
     out = {}
@@ -201,7 +205,7 @@ def extract_json(tree):
     if decorations: out["decorations"] = decorations
     if decoration_types: out["decorationsType"] = decoration_types
     if authors: out["author"] = authors
-
+    if authorsUri: out["authorUri"] = authorsUri
     return out
 
 def process_file(path: Path):
