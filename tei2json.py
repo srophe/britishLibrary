@@ -10,7 +10,7 @@ Usage:
 
   # directory -> produce one JSON file per TEI named <basename>.json
   python tei2json.py --dir ./britishLibrary-data/data/tei --outdir json_output
-  
+
   # directory -> produce OpenSearch bulk file
   python tei2json.py --dir ./britishLibrary-data/data/tei --bulk bulk_data.json --index britishlibrary-index-1 --idprefix ms
 """
@@ -120,6 +120,7 @@ def extract_json(tree):
 
     # placeName
     place_list = text_list(root, ".//tei:placeName")
+    origin_place_list = text_list(root, ".//tei:origPlace")
 
     # shelfmark: altIdentifier idno type=BL-Shelfmark or altIdentifier/ idno content
     shelfmarks = text_list(root, ".//tei:altIdentifier/tei:idno[@type='BL-Shelfmark'] | .//tei:altIdentifier/tei:idno | .//tei:msIdentifier//tei:idno[@type='BL-Shelfmark']")
@@ -189,6 +190,7 @@ def extract_json(tree):
     if summary: out["summary"] = summary
     if pers_list: out["persName"] = pers_list
     if place_list: out["placeName"] = place_list
+    if origin_place_list: out["origPlace"] = origin_place_list
     if shelfmarks: out["shelfmark"] = shelfmarks
     if final_rubrics: out["finalRubrics"] = final_rubrics
     if colophons: out["colophons"] = colophons

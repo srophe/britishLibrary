@@ -44,6 +44,7 @@ function searchData(params) {
         if (params.title && !matchesField(item, 'displayTitleEnglish', params.title)) return false;
         if (params.syriacText && !matchesField(item, 'syrTitle', params.syriacText)) return false;
         if (params.placeName && !matchesField(item, 'placeName', params.placeName)) return false;
+        if (params.origPlace && !matchesField(item, 'origPlace', params.origPlace)) return false;
         if (params.persName && !matchesField(item, 'persName', params.persName)) return false;
         if (params.shelfmark && !matchesField(item, 'shelfmark', params.shelfmark)) return false;
         if (params.decorations && !matchesField(item, 'decorations', params.decorations)) return false;
@@ -136,7 +137,8 @@ async function runSearch() {
         persName: params.get('persName'),
         shelfmark: params.get('shelfmark'),
         decorations: params.get('decorations'),
-        decorationsType: params.get('decorationsType')
+        decorationsType: params.get('decorationsType'),
+        origPlace: params.get('origPlace')
     };
     
     const hasQuery = Object.values(searchParams).some(v => v);
