@@ -6,6 +6,7 @@
     <title>Browse - British Library Manuscripts</title>
     <link rel="stylesheet" href="resources/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="resources/css/syr-icon-fonts.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.7.1/nouislider.min.css">
     <style>
         body { padding-top: 70px; }
         .facet-panel { background: #f8f9fa; padding: 15px; border-radius: 5px; }
@@ -15,6 +16,15 @@
         .result-item:hover { background: #f8f9fa; }
         .result-count { color: #666; margin-bottom: 15px; }
         .clear-filters { margin-top: 10px; }
+        #dateRangeSlider { margin: 20px 0; height: 8px; }
+        .date-values { display: flex; justify-content: space-between; font-size: 12px; color: #666; margin-top: 10px; }
+        
+        /* Custom slider styling */
+        .noUi-target { background: #e0e0e0; border: none; }
+        .noUi-connect { background: #888; }
+        .noUi-handle { display: none; }
+        .noUi-horizontal { height: 8px; }
+        
         footer { text-align: center; }
     </style>
 </head>
@@ -88,6 +98,7 @@
         </div>
     </div>
     <script src="resources/js/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.7.1/nouislider.min.js"></script>
     <script>
         // Determine base URL based on environment
         const getBaseUrl = () => {
@@ -187,7 +198,66 @@
                 `;
             }).join('');
             
-            $('#facets').html(facetsHtml);
+            $('#facets').html(facetsHtml + buildDateSlider());
+        }
+
+        // Build date range slider
+        function buildDateSlider() {
+            const dates = [];
+            allData.forEach(item => {
+                if (item.dateNotBefore) {
+                    const d = Array.isArray(item.dateNotBefore) ? item.dateNotBefore[0] : item.dateNotBefore;
+                    dates.push(parseInt(d));
+                }
+                if (item.dateNotAfter) {
+                    const d = Array.isArray(item.dateNotAfter) ? item.dateNotAfter[0] : item.dateNotAfter;
+                    dates.push(parseInt(d));
+                }
+                if (item.dateWhen) {
+                    const d = Array.isArray(item.dateWhen) ? item.dateWhen[0] : item.dateWhen;
+                    dates.push(parseInt(d));
+                }
+            });
+            
+            if (dates.length === 0) return '';
+            
+            const minDate = Math.min(...dates);
+            const maxDate = Math.max(...dates);
+            
+            setTimeout(() => {
+                const slider = document.getElementById('dateRangeSlider');
+                if (slider && !slider.noUiSlider) {
+                    noUiSlider.create(slider, {
+                        start: [minDate, maxDate],
+                        connect: true,
+                        range: { min: minDate, max: maxDate },
+                        step: 1,
+                        format: { to: v => Math.round(v), from: v => Math.round(v) }
+                    });
+                    
+                    slider.noUiSlider.on('update', (values) => {
+                        $('#dateMinValue').text(values[0]);
+                        $('#dateMaxValue').text(values[1]);
+                    });
+                    
+                    slider.noUiSlider.on('change', (values) => {
+                        activeFilters.dateMin = parseInt(values[0]);
+                        activeFilters.dateMax = parseInt(values[1]);
+                        filterData();
+                    });
+                }
+            }, 100);
+            
+            return `
+                <div class="facet-group">
+                    <label>Date Range</label>
+                    <div id="dateRangeSlider"></div>
+                    <div class="date-values">
+                        <span id="dateMinValue">${minDate}</span>
+                        <span id="dateMaxValue">${maxDate}</span>
+                    </div>
+                </div>
+            `;
         }
 
         // Apply filter
@@ -209,7 +279,34 @@
         // Filter data based on active filters
         function filterData() {
             filteredData = allData.filter(item => {
+                // Check date range
+                if (activeFilters.dateMin || activeFilters.dateMax) {
+                    const itemDates = [];
+                    if (item.dateNotBefore) {
+                        const d = Array.isArray(item.dateNotBefore) ? item.dateNotBefore : [item.dateNotBefore];
+                        itemDates.push(...d.map(v => parseInt(v)));
+                    }
+                    if (item.dateNotAfter) {
+                        const d = Array.isArray(item.dateNotAfter) ? item.dateNotAfter : [item.dateNotAfter];
+                        itemDates.push(...d.map(v => parseInt(v)));
+                    }
+                    if (item.dateWhen) {
+                        const d = Array.isArray(item.dateWhen) ? item.dateWhen : [item.dateWhen];
+                        itemDates.push(...d.map(v => parseInt(v)));
+                    }
+                    
+                    if (itemDates.length === 0) return false;
+                    
+                    const itemMin = Math.min(...itemDates);
+                    const itemMax = Math.max(...itemDates);
+                    
+                    if (activeFilters.dateMin && itemMax < activeFilters.dateMin) return false;
+                    if (activeFilters.dateMax && itemMin > activeFilters.dateMax) return false;
+                }
+                
                 return Object.keys(activeFilters).every(key => {
+                    if (key === 'dateMin' || key === 'dateMax') return true;
+                    
                     const itemValue = item[key];
                     const filterValue = activeFilters[key];
                     
