@@ -9,10 +9,11 @@ Usage:
   python britishLibrary/tei2json.py britishLibrary-data/data/tei/10.xml
 
   # directory -> produce one JSON file per TEI named <basename>.json
-  python tei2json.py --dir ./britishLibrary-data/data/tei --outdir json_output
+  python britishLibrary/tei2json.py britishLibrary-data/data/tei/10.xml --outdir json_output
 
   # directory -> produce OpenSearch bulk file
-  python tei2json.py --dir ./britishLibrary-data/data/tei --bulk bulk_data.json --index britishlibrary-index-1 --idprefix ms
+  python britishLibrary/tei2json.py britishLibrary-data/data/tei/10.xml --outdir json_output --bulk bulk_data.json 
+
 """
 
 from lxml import etree
@@ -103,7 +104,7 @@ def extract_json(tree):
     idno = first_text(root, ".//tei:msIdentifier/tei:idno[@type='URI'] | .//tei:publicationStmt/tei:idno[@type='URI'] | .//tei:msIdentifier/tei:idno")
 
     # displayTitleEnglish: concatenation of English titles (sample appears to concat all titles)
-    display_title_english = "".join([t for t in title_stmt if t])
+    display_title_english = " ".join([t for t in title_stmt if t])
 
     # summary: from msContents/summary or profileDesc/abstract
     summary = first_text(root, ".//tei:msContents/tei:summary | .//tei:profileDesc/tei:abstract")
@@ -130,9 +131,9 @@ def extract_json(tree):
     for el in root.xpath(".//tei:finalRubric", namespaces=NS):
         final_rubrics.append(html_fragment(el) or (el.text or "").strip())
 
-    # colophons: collect text from <colophon> elements and serialized contents
+    # colophons: collect text from additions/list/item with label "Colophon"
     colophons = []
-    for el in root.xpath(".//tei:colophon", namespaces=NS):
+    for el in root.xpath(".//tei:additions//tei:list//tei:item[tei:label/text() = 'Colophon']//tei:quote", namespaces=NS):
         v = html_fragment(el)
         if not v:
             v = (el.text or "").strip()
@@ -177,6 +178,11 @@ def extract_json(tree):
     authors = text_list(root, ".//tei:msItem//tei:author//tei:persName")
     # msItem/author/@ref
     authorsUri = text_list(root, ".//tei:msItem//tei:author/@ref")
+    
+    # incipits: from msItem/incipit
+    incipits = text_list(root, ".//tei:msItem//tei:incipit")
+    # explicits: from msItem/explicit
+    explicits = text_list(root, ".//tei:msItem//tei:explicit")
 
     # script & material shorthand: collapse to strings or lists as in your example
     out = {}
@@ -208,6 +214,26 @@ def extract_json(tree):
     if decoration_types: out["decorationsType"] = decoration_types
     if authors: out["author"] = authors
     if authorsUri: out["authorUri"] = authorsUri
+    if incipits: out["incipit"] = incipits
+    if explicits: out["explicit"] = explicits
+    
+    # Deduplicate all list values
+    for key, value in out.items():
+        if isinstance(value, list):
+            seen = set()
+            deduped = []
+            for item in value:
+                # Normalize whitespace: replace newlines and multiple spaces with single space
+                if item:
+                    normalized = ' '.join(str(item).split())
+                    if normalized and normalized not in seen:
+                        seen.add(normalized)
+                        deduped.append(normalized)
+            out[key] = deduped
+        elif isinstance(value, str):
+            # Normalize string values too
+            out[key] = ' '.join(value.split())
+    
     return out
 
 def process_file(path: Path):

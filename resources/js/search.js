@@ -41,14 +41,22 @@ function searchData(params) {
             (Array.isArray(v) ? v.join(' ') : String(v || '')).toLowerCase().includes(params.fullText.toLowerCase())
         )) return false;
         if (params.author && !matchesField(item, 'author', params.author)) return false;
-        if (params.title && !matchesField(item, 'displayTitleEnglish', params.title)) return false;
-        if (params.syriacText && !matchesField(item, 'syrTitle', params.syriacText)) return false;
+        if (params.title && !matchesField(item, 'msItemTitle', params.title)) return false;
         if (params.placeName && !matchesField(item, 'placeName', params.placeName)) return false;
         if (params.origPlace && !matchesField(item, 'origPlace', params.origPlace)) return false;
         if (params.persName && !matchesField(item, 'persName', params.persName)) return false;
         if (params.shelfmark && !matchesField(item, 'shelfmark', params.shelfmark)) return false;
         if (params.decorations && !matchesField(item, 'decorations', params.decorations)) return false;
         if (params.decorationsType && !matchesField(item, 'decorationsType', params.decorationsType)) return false;
+        
+        // Only search Syriac fields if checkbox is true AND syriacText is provided
+        if (params.syrRubrics && params.syriacText && !matchesField(item, 'rubric', params.syriacText) && !matchesField(item, 'syrTitle', params.syriacText)) return false;
+        if (params.syrFinalRubrics && params.syriacText && !matchesField(item, 'finalRubrics', params.syriacText)) return false;
+        if (params.syrIncipits && params.syriacText && !matchesField(item, 'incipit', params.syriacText)) return false;
+        if (params.syrExplicits && params.syriacText && !matchesField(item, 'explicit', params.syriacText)) return false;
+        if (params.syrColophons && params.syriacText && !matchesField(item, 'colophons', params.syriacText)) return false;
+        if (params.syrOther && params.syriacText && !matchesField(item, 'otherLimit', params.syriacText)) return false;
+        
         return true;
     });
 }
@@ -138,7 +146,13 @@ async function runSearch() {
         shelfmark: params.get('shelfmark'),
         decorations: params.get('decorations'),
         decorationsType: params.get('decorationsType'),
-        origPlace: params.get('origPlace')
+        origPlace: params.get('origPlace'),
+        syrRubrics: params.get('syrRubrics') === 'true',
+        syrFinalRubrics: params.get('syrFinalRubrics') === 'true',
+        syrIncipits: params.get('syrIncipits') === 'true',
+        syrExplicits: params.get('syrExplicits') === 'true',
+        syrColophons: params.get('syrColophons') === 'true',
+        syrOther: params.get('syrOther') === 'true'
     };
     
     const hasQuery = Object.values(searchParams).some(v => v);
