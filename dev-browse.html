@@ -323,16 +323,18 @@
                 const itemTitle = formatValue(item.msItemTitle, 'msItemTitle') || '';
                 const trucatedItemTitle = itemTitle.length > 100;
                 const displayItemTitle = trucatedItemTitle ? itemTitle.substring(0, 100) : itemTitle;
-                const msNum = item.idno ? item.idno.split('/ms/')[1] : null;
-                const msUrl = msNum ? `${BASE_URL}/ms/${msNum}.html` : '#';
-                const fullUrl = msNum && item.partNum ? `${msUrl}#msPart${item.partNum}` : msUrl;
+                let msUrl = item.id ? `${BASE_URL}/ms/${item.id.replace('ms-', '')}.html` : '#';
+                if (item.partNum) {
+                    msUrl = item.id ? `${BASE_URL}/${item.id.replace('-', '/').replace('/part','.html#msPart')}` : '#';
+                }
+                
 
                 return `
                     <div class="result-item" style="padding:15px; border:1px solid #ddd; margin-bottom:10px; border-radius:5px;">
                         <p><strong></strong> ${formatValue(item.shelfmark, 'shelfmark') || ''} 
                          ${item.wrightNum ? `${formatValue(item.wrightNum, 'wrightNum')} ` : ''} 
                         </p>      
-                        <p>URI: <a href="${fullUrl}" target="_blank">${item.idno}</a></p>
+                        <p>URI: <a href="${msUrl}" target="_blank">${item.idno}</a></p>
                         <p>${item.origDate ? `${formatValue(item.origDate, 'origDate')}` : ''}${item.origPlace ? ` | ${formatValue(item.origPlace, 'origPlace')}` : ''}</p>
                         <p class="text-muted">
                             ${item.scriptLanguage ? `Script: ${item.scriptLanguage} ` : ''}
@@ -340,8 +342,8 @@
                             ${item.form ? ` ${formatValue(item.form, 'material')} ` : ''}
                             ${item.extent ? `| ${formatValue(item.extent, 'extent')} ` : ''}
                         </p>
-                      ${item.classification ? `Classification: ${formatValue(item.classification, 'classification')}` : ''}
-                    <p><span>Title: ${displayItemTitle}</span>${trucatedItemTitle ? `... <a href="#" class="show-more" data-index="${index}" data-full="${itemTitle}">...</a>` : ''}</p> 
+                     <p> ${item.classification ? `Classification: ${formatValue(item.classification, 'classification')}` : ''}</p>
+                    <p><em>${displayItemTitle}</em>${trucatedItemTitle ? `... <a href="#" class="show-more" data-index="${index}" data-full="${itemTitle}">...</a>` : ''}</p> 
                     <p id="content-${index}"><span class="syriac tei-quote" lang="syr">Syriac Content: ${displayContent}</span>${truncated ? `... <a href="#" class="show-more" data-index="${index}" data-full="${contentSummary}">...</a>` : ''}</p> 
                     </div>
                 `}).join('');
