@@ -79,7 +79,8 @@ function displayResults(results, page = 1, perPage = 20) {
         const formatValue = (val, key) => {
             if (!Array.isArray(val)) return val;
             const periodFields = ['title'];
-            return periodFields.includes(key) ? val.join('. ') : val.join(', ');
+            const semicolonFields = ['classification'];
+            return periodFields.includes(key) ? val.join('. ') : semicolonFields.includes(key) ? val.join('; ') : val.join(', ');
         };
         
         const titleFields = ['msItemTitle'];
@@ -102,19 +103,20 @@ function displayResults(results, page = 1, perPage = 20) {
         
         return `
             <div class="result-item" style="padding:15px; border:1px solid #ddd; margin-bottom:10px; border-radius:5px;">
-                ${item.displayTitleEnglish ? `<p>${formatValue(item.displayTitleEnglish, 'displayTitleEnglish')} </p>` : ''}
-                ${item.wrightNum ? `<p>${formatValue(item.wrightNum, 'wrightNum')} </p>` : ''}
 
-                <p>URL: <a href="${msUrl}" target="_blank">${msUrl}</a></p>
+                <p><strong></strong> ${formatValue(item.shelfmark, 'shelfmark') || ''} 
+                         ${item.wrightNum ? `[${formatValue(item.wrightNum, 'wrightNum')} ]` : ''}
+
+                </p>      
+                <p>URI: <a href="${msUrl}" target="_blank">${msUrl}</a></p>
                 <p>${item.origDate ? `${formatValue(item.origDate, 'origDate')}` : ''}${item.origPlace ? ` | ${formatValue(item.origPlace, 'origPlace')}` : ''}</p>
                 <p class="text-muted">
-                   ${item.scriptLanguage ? `Script: ${item.scriptLanguage} | ` : ''}
-                    ${item.material ? `| ${formatValue(item.material, 'material')} | ` : ''}
-                    ${item.form ? ` ${formatValue(item.form, 'material')} | ` : ''}
-                    ${item.extent ? `| ${formatValue(item.extent, 'extent')} | ` : ''}
+                   ${item.scriptLanguage ? `Script: ${item.scriptLanguage} ` : ''}
+                    ${item.material ? `| ${formatValue(item.material, 'material')} ` : ''}
+                    ${item.form ? ` ${formatValue(item.form, 'material')} ` : ''}
+                    ${item.extent ? `| ${formatValue(item.extent, 'extent')} ` : ''}
                 </p>
 
-                <p><strong>Shelfmark:</strong> ${formatValue(item.shelfmark, 'shelfmark') || 'N/A'}</p>
                       ${item.classification ? `Classification: ${formatValue(item.classification, 'classification')}` : ''}
 
             </div>

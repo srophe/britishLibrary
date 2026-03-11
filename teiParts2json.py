@@ -204,10 +204,19 @@ def extract_json(tree, part_node=None):
     contents_note = first_text(root, ".//tei:head/tei:note[@type='contents-note']")
 
     # classification: collect descs under listRelation or relation descs (e.g., "Old Testament")
-    classification = text_list(root, ".//tei:listRelation//tei:relation/tei:desc | .//tei:listRelation//tei:desc | .//tei:listRelation//tei:relation/tei:desc")
+    # classification = text_list(root, ".//tei:listRelation//tei:relation/tei:desc | .//tei:listRelation//tei:desc | .//tei:listRelation//tei:relation/tei:desc")
+
+    # classification: from head/listRelation[@type='Wright-BL-Taxonomy']/relation/desc
+    classification = text_list(root, ".//tei:head/tei:listRelation[@type='Wright-BL-Taxonomy']/tei:relation/tei:desc")
+    # Exclude classifications about composite manuscripts
+    if classification:
+        classification = [c for c in classification 
+                         if not c.lower().startswith("this unit is a part of a composite manuscript") 
+                         and not c.lower().startswith("this composite")
+                         and not c.lower().startswith("this manuscript")]
 
     # date: separate fields for each date type
-    orig_dates = text_list(root, ".//tei:origDate")
+    orig_dates = first_text(root, ".//tei:origDate")
     date_not_before = text_list(root, ".//tei:origDate/@notBefore | .//tei:date/@notBefore")
     date_not_after = text_list(root, ".//tei:origDate/@notAfter | .//tei:date/@notAfter")
     date_when = text_list(root, ".//tei:date/@when")

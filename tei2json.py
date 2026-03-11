@@ -134,8 +134,8 @@ def extract_json(tree):
     place_list = text_list(root, ".//tei:placeName")
     origin_place_list = text_list(root, ".//tei:origPlace")
 
-    # shelfmark: altIdentifier idno type=BL-Shelfmark or altIdentifier/ idno content
-    shelfmarks = text_list(root, ".//tei:altIdentifier/tei:idno[@type='BL-Shelfmark'] | .//tei:altIdentifier/tei:idno | .//tei:msIdentifier//tei:idno[@type='BL-Shelfmark']")
+    # shelfmark: altIdentifier idno type=BL-Shelfmark-display or altIdentifier/ idno content
+    shelfmarks = text_list(root, ".//tei:altIdentifier/tei:idno[@type='BL-Shelfmark-display'] | .//tei:msIdentifier//tei:idno[@type='BL-Shelfmark-display']")
 
     # Wright entry number: from msIdentifier/altIdentifier/idno[@type='Wright-BL-Roman']
     wright_num = first_text(root, ".//tei:msIdentifier//tei:altIdentifier//tei:idno[@type='Wright-BL-Roman']")
@@ -187,9 +187,14 @@ def extract_json(tree):
 
     # extent: from physDesc/objectDesc/supportDesc/extent/measure (text or @quantity)
     extent = first_text(root, ".//tei:physDesc//tei:objectDesc//tei:supportDesc//tei:extent//tei:measure")
-
-    # classification: collect descs under listRelation or relation descs (e.g., "Old Testament")
-    classification = text_list(root, ".//tei:listRelation//tei:relation/tei:desc | .//tei:listRelation//tei:desc | .//tei:listRelation//tei:relation/tei:desc")
+    # classification: from head/listRelation[@type='Wright-BL-Taxonomy']/relation/desc
+    classification = text_list(root, ".//tei:head//tei:listRelation[@type='Wright-BL-Taxonomy']//tei:relation//tei:desc")
+    # Exclude classifications about composite manuscripts
+    if classification:
+        classification = [c for c in classification 
+                         if not c.lower().startswith("this unit is ") 
+                         and not c.lower().startswith("this composite")
+                         and not c.lower().startswith("this manuscript")]
 
     # date: separate fields for each date type
     orig_dates = text_list(root, ".//tei:origDate")
