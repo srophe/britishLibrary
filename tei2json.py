@@ -48,6 +48,12 @@ SCRIPT_LANG_MAP = {
     "syr-x-syrm": "Syriac (Melkite script)",
     "ar-syr": "Arabic language written in Syriac script"
 }
+MATERIALS_MAP = {
+    "perg": "Parchment",
+    "chart": "Paper",
+    "mixed": "Mixed",
+    "unknown": "Unknown"
+}
 
 def map_script_to_language(script_codes):
     """Convert script codes to language names"""
@@ -157,8 +163,12 @@ def extract_json(tree):
     script_val = " ".join(scripts) if scripts else None
     script_lang = map_script_to_language(script_val) if script_val else None
 
-    # material: from supportDesc/support/material or physDesc supportDesc
-    material = first_text(root, ".//tei:objectDesc//tei:supportDesc//tei:material | .//tei:physDesc//tei:supportDesc//tei:material | .//tei:physDesc//tei:supportDesc//tei:support//tei:material")
+    # material: first try @material attribute, then fall back to material element text
+    material_attr = first_text(root, ".//tei:physDesc//tei:objectDesc//tei:supportDesc/@material")
+    if material_attr:
+        material = MATERIALS_MAP.get(material_attr, material_attr)
+    else:
+        material = first_text(root, ".//tei:physDesc//tei:objectDesc//tei:supportDesc//tei:material | .//tei:objectDesc//tei:supportDesc//tei:material | .//tei:physDesc//tei:supportDesc//tei:material | .//tei:physDesc//tei:supportDesc//tei:support//tei:material")
 
     # classification: collect descs under listRelation or relation descs (e.g., "Old Testament")
     classification = text_list(root, ".//tei:listRelation//tei:relation/tei:desc | .//tei:listRelation//tei:desc | .//tei:listRelation//tei:relation/tei:desc")
