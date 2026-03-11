@@ -105,7 +105,7 @@ function displayResults(results, page = 1, perPage = 20) {
             <div class="result-item" style="padding:15px; border:1px solid #ddd; margin-bottom:10px; border-radius:5px;">
 
                 <p><strong></strong> ${formatValue(item.shelfmark, 'shelfmark') || ''} 
-                         ${item.wrightNum ? `[${formatValue(item.wrightNum, 'wrightNum')} ]` : ''}
+                         ${item.wrightNum ? ` [Wright ${formatValue(item.wrightNum, 'wrightNum')} ]` : ''}
 
                 </p>      
                 <p>URI: <a href="${msUrl}" target="_blank">${msUrl}</a></p>
