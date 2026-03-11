@@ -5,9 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Browse - British Library Manuscripts</title>
     <link rel="shortcut icon" href="/resources/images/fav-icons/mss-favicon.ico" />
-
     <link rel="stylesheet" href="resources/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="resources/css/syr-icon-fonts.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.7.1/nouislider.min.css">
     <style>
         body { padding-top: 70px; }
         .facet-panel { background: #f8f9fa; padding: 15px; border-radius: 5px; }
@@ -17,64 +17,22 @@
         .result-item:hover { background: #f8f9fa; }
         .result-count { color: #666; margin-bottom: 15px; }
         .clear-filters { margin-top: 10px; }
+        #dateRangeSlider { margin: 20px 0; height: 8px; }
+        .date-values { display: flex; justify-content: space-between; font-size: 12px; color: #666; margin-top: 10px; }
+        
+        /* Custom slider styling */
+        .noUi-target { background: #e0e0e0; border: none; }
+        .noUi-connect { background: #888; }
+        .noUi-handle { display: none; }
+        .noUi-horizontal { height: 8px; }
+        
         footer { text-align: center; }
     </style>
-          <link rel="shortcut icon" href="/resources/images/fav-icons/mss-favicon.ico" />
-
 </head>
 <body>
-          <nav class="navbar navbar-default navbar-fixed-top" role="navigation" data-template="app:fix-links">
-         
-         <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse-1">
-               <span class="sr-only">Toggle navigation</span>
-               <span class="icon-bar"></span>
-               <span class="icon-bar"></span>
-               <span class="icon-bar"></span>
-               </button>
-            <a class="navbar-brand banner-container" href="/index.html">
-               <span class="syriaca-icon syriaca-mss banner-icon"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span>
-                  </span>
-               <span class="banner-text">Syriac Manuscripts in the British Library</span>
-               </a>
-            
-         </div>
-         
-         <div class="navbar-collapse collapse pull-right" id="navbar-collapse-1">
-            
-            <ul class="nav navbar-nav">
-               
-               <li>
-                  <a href="/browse.html" class="nav-text">Browse</a>
-                  
-               </li>
-               <li>
-                  <a href="/dev-browse.html" class="nav-text">Dev Browse</a>
-                  
-               </li>
-               
-               <li data-template="app:shared-content" data-template-path="/templates/shared-links.html"></li>
-               
-               <li>
-                  <a href="/search.html" class="nav-text">Advanced Search</a>
-               </li>
-               <li>
-                  <div id="search-wrapper">
-                     <form class="navbar-form navbar-right search-box" role="search" action="/search.html" method="get">
-                        <div class="form-group">
-                           <input type="text" class="form-control keyboard" placeholder="search" name="keyword" id="keywordNav" />
-                           <span data-template="app:keyboard-select-menu" data-template-input-id="keywordNav"></span>
-                           <button class="btn btn-default search-btn" id="searchbtn" type="submit" title="Search">
-                              <span class="glyphicon glyphicon-search"></span>
-                              </button>
-                        </div>
-                     </form>
-                  </div>
-               </li>
-               <li data-template="app:shared-content" data-template-path="/templates/fontMenu.html"></li>
-            </ul>
-         </div>
-      </nav>
+    <script src="resources/js/jquery.min.js"></script>
+    <script src="resources/js/navbar-search.js"></script>
+    <div id="navbar-container"></div>
     <div class="container-fluid">
         <div class="row">
             <!-- Left Sidebar - Facets -->
@@ -94,6 +52,7 @@
         </div>
     </div>
     <script src="resources/js/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.7.1/nouislider.min.js"></script>
     <script>
         // Determine base URL based on environment
         const getBaseUrl = () => {
@@ -111,6 +70,19 @@
         let allData = [];
         let filteredData = [];
         let activeFilters = {};
+        
+        const SCRIPT_LANG_MAP = {
+            "syr": "Syriac",
+            "syr-Syre": "Syriac (Estrangela)",
+            "syr-Syrj": "Syriac (Western)",
+            "syr-Syrn": "Syriac (Eastern)",
+            "ar": "Arabic",
+            "grc": "Greek",
+            "he": "Hebrew",
+            "en": "English",
+            "la": "Latin",
+            "mul": "Multiple languages"
+        };
 
         // Load JSON data
         async function loadData() {
@@ -128,7 +100,7 @@
 
         // Build facet dropdowns from data
         function buildFacets() {
-            const facetKeys = ['material', 'script', 'classification'];
+            const facetKeys = ['material', 'scriptLanguage', 'classification'];
             const facetsHtml = facetKeys.map(key => {
                 // Get all unique values from allData, flattening arrays
                 const allValues = new Set();
@@ -139,12 +111,22 @@
                             if (!v) return;
                             if (key === 'classification' && (v.includes('Add') || v.includes('manuscript consists'))) return;
                             if (key === 'material' && v.includes('Fol.')) return;
-                            allValues.add(v);
+                            // Split scriptLanguage by comma to get individual languages
+                            if (key === 'scriptLanguage' && v.includes(',')) {
+                                v.split(',').forEach(lang => allValues.add(lang.trim()));
+                            } else {
+                                allValues.add(v);
+                            }
                         });
                     } else if (val) {
                         if (key === 'classification' && (val.includes('Add') || val.includes('manuscript consists'))) return;
                         if (key === 'material' && val.includes('Fol.')) return;
-                        allValues.add(val);
+                        // Split scriptLanguage by comma to get individual languages
+                        if (key === 'scriptLanguage' && val.includes(',')) {
+                            val.split(',').forEach(lang => allValues.add(lang.trim()));
+                        } else {
+                            allValues.add(val);
+                        }
                     }
                 });
                 
@@ -161,7 +143,7 @@
                 
                 return `
                     <div class="facet-group">
-                        <label>${key.charAt(0).toUpperCase() + key.slice(1)}</label>
+                        <label>${key === 'scriptLanguage' ? 'Script' : key.charAt(0).toUpperCase() + key.slice(1)}</label>
                         <select class="form-control" onchange="applyFilter('${key}', this.value)">
                             <option value="">All</option>
                             ${values.map(v => `<option value="${v}" ${activeFilters[key] === v ? 'selected' : ''}>${v}</option>`).join('')}
@@ -170,7 +152,66 @@
                 `;
             }).join('');
             
-            $('#facets').html(facetsHtml);
+            $('#facets').html(facetsHtml + buildDateSlider());
+        }
+
+        // Build date range slider
+        function buildDateSlider() {
+            const dates = [];
+            allData.forEach(item => {
+                if (item.dateNotBefore) {
+                    const d = Array.isArray(item.dateNotBefore) ? item.dateNotBefore[0] : item.dateNotBefore;
+                    dates.push(parseInt(d));
+                }
+                if (item.dateNotAfter) {
+                    const d = Array.isArray(item.dateNotAfter) ? item.dateNotAfter[0] : item.dateNotAfter;
+                    dates.push(parseInt(d));
+                }
+                if (item.dateWhen) {
+                    const d = Array.isArray(item.dateWhen) ? item.dateWhen[0] : item.dateWhen;
+                    dates.push(parseInt(d));
+                }
+            });
+            
+            if (dates.length === 0) return '';
+            
+            const minDate = Math.min(...dates);
+            const maxDate = Math.max(...dates);
+            
+            setTimeout(() => {
+                const slider = document.getElementById('dateRangeSlider');
+                if (slider && !slider.noUiSlider) {
+                    noUiSlider.create(slider, {
+                        start: [minDate, maxDate],
+                        connect: true,
+                        range: { min: minDate, max: maxDate },
+                        step: 1,
+                        format: { to: v => Math.round(v), from: v => Math.round(v) }
+                    });
+                    
+                    slider.noUiSlider.on('update', (values) => {
+                        $('#dateMinValue').text(values[0]);
+                        $('#dateMaxValue').text(values[1]);
+                    });
+                    
+                    slider.noUiSlider.on('change', (values) => {
+                        activeFilters.dateMin = parseInt(values[0]);
+                        activeFilters.dateMax = parseInt(values[1]);
+                        filterData();
+                    });
+                }
+            }, 100);
+            
+            return `
+                <div class="facet-group">
+                    <label>Date Range</label>
+                    <div id="dateRangeSlider"></div>
+                    <div class="date-values">
+                        <span id="dateMinValue">${minDate}</span>
+                        <span id="dateMaxValue">${maxDate}</span>
+                    </div>
+                </div>
+            `;
         }
 
         // Apply filter
@@ -192,12 +233,49 @@
         // Filter data based on active filters
         function filterData() {
             filteredData = allData.filter(item => {
+                // Check date range
+                if (activeFilters.dateMin || activeFilters.dateMax) {
+                    const itemDates = [];
+                    if (item.dateNotBefore) {
+                        const d = Array.isArray(item.dateNotBefore) ? item.dateNotBefore : [item.dateNotBefore];
+                        itemDates.push(...d.map(v => parseInt(v)));
+                    }
+                    if (item.dateNotAfter) {
+                        const d = Array.isArray(item.dateNotAfter) ? item.dateNotAfter : [item.dateNotAfter];
+                        itemDates.push(...d.map(v => parseInt(v)));
+                    }
+                    if (item.dateWhen) {
+                        const d = Array.isArray(item.dateWhen) ? item.dateWhen : [item.dateWhen];
+                        itemDates.push(...d.map(v => parseInt(v)));
+                    }
+                    
+                    if (itemDates.length === 0) return false;
+                    
+                    const itemMin = Math.min(...itemDates);
+                    const itemMax = Math.max(...itemDates);
+                    
+                    if (activeFilters.dateMin && itemMax < activeFilters.dateMin) return false;
+                    if (activeFilters.dateMax && itemMin > activeFilters.dateMax) return false;
+                }
+                
                 return Object.keys(activeFilters).every(key => {
+                    if (key === 'dateMin' || key === 'dateMax') return true;
+                    
                     const itemValue = item[key];
                     const filterValue = activeFilters[key];
                     
                     if (Array.isArray(itemValue)) {
-                        return itemValue.some(v => normalize(v) === normalize(filterValue));
+                        return itemValue.some(v => {
+                            // For scriptLanguage, check if filter value is contained in comma-separated list
+                            if (key === 'scriptLanguage' && v.includes(',')) {
+                                return v.split(',').some(lang => normalize(lang.trim()) === normalize(filterValue));
+                            }
+                            return normalize(v) === normalize(filterValue);
+                        });
+                    }
+                    // For scriptLanguage, check if filter value is contained in comma-separated list
+                    if (key === 'scriptLanguage' && itemValue && itemValue.includes(',')) {
+                        return itemValue.split(',').some(lang => normalize(lang.trim()) === normalize(filterValue));
                     }
                     return normalize(itemValue) === normalize(filterValue);
                 });
@@ -289,5 +367,5 @@
          </div>
          <script type="text/javascript" src="/resources/js/jquery.validate.min.js"></script>
          <script type="text/javascript" src="/resources/js/lightslider.min.js"></script>
-         </footer>
+        </footer>
 </html>
