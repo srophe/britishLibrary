@@ -98,8 +98,17 @@ def first_text(root, xpath):
     lst = text_list(root, xpath)
     return lst[0] if lst else None
 
-def extract_json(tree):
-    root = tree.getroot()
+def extract_json(tree, part_node=None):
+    """Extract JSON from a TEI tree or a specific msPart node.
+    
+    Args:
+        tree: The full TEI document tree
+        part_node: Optional msPart element to extract from (if None, extracts from root)
+    """
+    root = tree.getroot() if part_node is None else part_node
+    
+    # For msPart, we need to look at both the part and the parent document for some fields
+    doc_root = tree.getroot()
 
     # Different title types
     title_stmt = text_list(root, ".//tei:titleStmt/tei:title")
@@ -109,6 +118,11 @@ def extract_json(tree):
 
     # id: try msIdentifier idno type=URI or publication idno or teiHeader/fileDesc/publicationStmt/idno
     idno = first_text(root, ".//tei:msIdentifier/tei:idno[@type='URI'] | .//tei:publicationStmt/tei:idno[@type='URI'] | .//tei:msIdentifier/tei:idno")
+    
+    # For msPart, get the part number from @n attribute
+    part_num = None
+    if part_node is not None and part_node.get('n'):
+        part_num = part_node.get('n')
 
     # displayTitleEnglish: concatenation of English titles (sample appears to concat all titles)
     display_title_english = " ".join([t for t in title_stmt if t])
@@ -132,7 +146,10 @@ def extract_json(tree):
     origin_place_list = text_list(root, ".//tei:origPlace")
 
     # shelfmark: altIdentifier idno type=BL-Shelfmark or altIdentifier/ idno content
+    # For parts, inherit from document root if not found in part
     shelfmarks = text_list(root, ".//tei:altIdentifier/tei:idno[@type='BL-Shelfmark'] | .//tei:altIdentifier/tei:idno | .//tei:msIdentifier//tei:idno[@type='BL-Shelfmark']")
+    if not shelfmarks and part_node is not None:
+        shelfmarks = text_list(doc_root, ".//tei:altIdentifier/tei:idno[@type='BL-Shelfmark'] | .//tei:altIdentifier/tei:idno | .//tei:msIdentifier//tei:idno[@type='BL-Shelfmark']")
 
     # finalRubrics
     final_rubrics = []
@@ -204,6 +221,7 @@ def extract_json(tree):
     if rubrics: out["rubric"] = rubrics
     if syr_titles: out["syrTitle"] = syr_titles
     if idno: out["idno"] = idno
+    if part_num: out["partNum"] = part_num
     out["displayTitleEnglish"] = display_title_english or ""
     if summary: out["summary"] = summary
     if pers_list: out["persName"] = pers_list
@@ -249,10 +267,27 @@ def extract_json(tree):
     return out
 
 def process_file(path: Path):
+    """Process a TEI file and return a list of JSON records (one per msPart, or one for the whole doc)."""
     parser = etree.XMLParser(recover=True, remove_blank_text=True)
     tree = etree.parse(str(path), parser=parser)
-    data = extract_json(tree)
-    return data
+    root = tree.getroot()
+    
+    # Check if document has msPart elements
+    ms_parts = root.xpath(".//tei:msPart", namespaces=NS)
+    
+    results = []
+    
+    if ms_parts:
+        # Process each msPart as a separate record
+        for part in ms_parts:
+            data = extract_json(tree, part_node=part)
+            results.append(data)
+    else:
+        # No parts, process the whole document
+        data = extract_json(tree)
+        results.append(data)
+    
+    return results
 
 def main():
     ap = argparse.ArgumentParser()
@@ -283,44 +318,53 @@ def main():
 
     for f in targets:
         try:
-            j = process_file(f)
+            records = process_file(f)
         except Exception as e:
             print(f"ERROR parsing {f}: {e}")
             continue
 
         fname = f.stem
-        # if outdir requested, write each JSON
-        if args.outdir:
-            outp = Path(args.outdir) / (fname + ".json")
-            with open(outp, "w", encoding="utf8") as fh:
-                json.dump(j, fh, ensure_ascii=False, indent=2)
-            print(f"Wrote {outp}")
-
-        # if bulk requested, write two-line bulk entry
-        if bulk_writer:
-            meta = {"index": {"_index": args.index, "_id": f"{args.idprefix}-{fname}"}}
-            bulk_writer.write(json.dumps(meta, ensure_ascii=False) + "\n")
-            bulk_writer.write(json.dumps(j, ensure_ascii=False) + "\n")
         
-        # collect for manuscripts array
-        if args.manuscripts:
-            j["id"] = f"{args.idprefix}-{fname}"
-            # Deduplicate and clean fields
-            for key, value in j.items():
-                if isinstance(value, list):
-                    seen = set()
-                    deduped = []
-                    for item in value:
-                        if item and item not in seen:
-                            seen.add(item)
-                            deduped.append(item)
-                    j[key] = deduped
-            # Remove composite manuscript classification
-            if 'classification' in j and j['classification']:
-                if isinstance(j['classification'], list):
-                    j['classification'] = [c for c in j['classification'] 
-                                          if not (isinstance(c, str) and c.startswith('This unit is a part of a composite manuscript'))]
-            manuscripts_list.append(j)
+        # Process each record (could be multiple if file has msParts)
+        for idx, j in enumerate(records):
+            # Generate unique ID for parts
+            if len(records) > 1:
+                record_id = f"{fname}-part{idx+1}"
+            else:
+                record_id = fname
+            
+            # if outdir requested, write each JSON
+            if args.outdir:
+                outp = Path(args.outdir) / (record_id + ".json")
+                with open(outp, "w", encoding="utf8") as fh:
+                    json.dump(j, fh, ensure_ascii=False, indent=2)
+                print(f"Wrote {outp}")
+
+            # if bulk requested, write two-line bulk entry
+            if bulk_writer:
+                meta = {"index": {"_index": args.index, "_id": f"{args.idprefix}-{record_id}"}}
+                bulk_writer.write(json.dumps(meta, ensure_ascii=False) + "\n")
+                bulk_writer.write(json.dumps(j, ensure_ascii=False) + "\n")
+            
+            # collect for manuscripts array
+            if args.manuscripts:
+                j["id"] = f"{args.idprefix}-{record_id}"
+                # Deduplicate and clean fields
+                for key, value in j.items():
+                    if isinstance(value, list):
+                        seen = set()
+                        deduped = []
+                        for item in value:
+                            if item and item not in seen:
+                                seen.add(item)
+                                deduped.append(item)
+                        j[key] = deduped
+                # Remove composite manuscript classification
+                if 'classification' in j and j['classification']:
+                    if isinstance(j['classification'], list):
+                        j['classification'] = [c for c in j['classification'] 
+                                              if not (isinstance(c, str) and c.startswith('This unit is a part of a composite manuscript'))]
+                manuscripts_list.append(j)
 
     if bulk_writer:
         bulk_writer.close()
@@ -333,8 +377,9 @@ def main():
     
     # If single file with no output flags, print to stdout
     if p.is_file() and not args.outdir and not args.bulk and not args.manuscripts and len(targets) == 1:
-        j = process_file(p)
-        print(json.dumps(j, ensure_ascii=False, indent=2))
+        records = process_file(p)
+        for j in records:
+            print(json.dumps(j, ensure_ascii=False, indent=2))
 
 if __name__ == "__main__":
     main()
