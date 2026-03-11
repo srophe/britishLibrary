@@ -343,20 +343,35 @@
                             ${item.extent ? `| ${formatValue(item.extent, 'extent')} ` : ''}
                         </p>
                      <p> ${item.classification ? `Classification: ${formatValue(item.classification, 'classification')}` : ''}</p>
-                    <p><em>${displayItemTitle}</em>${trucatedItemTitle ? `... <a href="#" class="show-more" data-index="${index}" data-full="${itemTitle}">...</a>` : ''}</p> 
-                    <p id="content-${index}"><span class="syriac tei-quote" lang="syr">Syriac Content: ${displayContent}</span>${truncated ? `... <a href="#" class="show-more" data-index="${index}" data-full="${contentSummary}">...</a>` : ''}</p> 
+                    <p id="title-${index}"><em>${displayItemTitle}</em>${trucatedItemTitle ? ` <a href="#" class="toggle-more" data-index="${index}" data-type="title" data-full="${itemTitle.replace(/"/g, '&quot;')}" data-short="${displayItemTitle.replace(/"/g, '&quot;')}">...</a>` : ''}</p> 
+                    <p id="content-${index}"><span class="syriac tei-quote" lang="syr">Syriac Content: ${displayContent}</span>${truncated ? `<a href="#" class="toggle-more" data-index="${index}" data-type="content" data-full="${contentSummary.replace(/"/g, '&quot;')}" data-short="${displayContent.replace(/"/g, '&quot;')}">...</a>` : ''}</p> 
                     </div>
                 `}).join('');
             
             $('#results').html(resultsHtml || '<div class="alert alert-info">No results found</div>');
             
-            // Add click handler for show more links
-            $('.show-more').on('click', function(e) {
+            // Add click handler for toggle more links
+            $(document).on('click', '.toggle-more', function(e) {
                 e.preventDefault();
                 const index = $(this).data('index');
+                const type = $(this).data('type');
                 const full = $(this).data('full');
-                $(`#content-${index}`).html(`<span class="syriac">${full}</span>`);
-                $(this).remove();
+                const short = $(this).data('short');
+                const isExpanded = $(this).text() === '...';
+                
+                if (type === 'title') {
+                    if (isExpanded) {
+                        $(`#title-${index}`).html(`<em>${full}</em> <a href="#" class="toggle-more" data-index="${index}" data-type="title" data-full="${full}" data-short="${short}">collapse</a>`);
+                    } else {
+                        $(`#title-${index}`).html(`<em>${short}</em> <a href="#" class="toggle-more" data-index="${index}" data-type="title" data-full="${full}" data-short="${short}">...</a>`);
+                    }
+                } else if (type === 'content') {
+                    if (isExpanded) {
+                        $(`#content-${index}`).html(`<span class="syriac">${full}</span> <a href="#" class="toggle-more" data-index="${index}" data-type="content" data-full="${full}" data-short="${short}">collapse</a>`);
+                    } else {
+                        $(`#content-${index}`).html(`<span class="syriac tei-quote" lang="syr">Syriac Content: ${short}</span><a href="#" class="toggle-more" data-index="${index}" data-type="content" data-full="${full}" data-short="${short}">...</a>`);
+                    }
+                }
             });
         }
 
