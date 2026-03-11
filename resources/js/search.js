@@ -100,6 +100,7 @@ function displayResults(results, page = 1, perPage = 20) {
         const displayContent = truncated ? contentSummary.substring(0, 500) : contentSummary;
         
         const msUrl = item.id ? `${BASE_URL}/ms/${item.id.replace('ms-', '')}.html` : '#';
+        if (item.partNum){msUrl += `#msPart${item.partNum}`;}
         
         return `
             <div class="result-item" style="padding:15px; border:1px solid #ddd; margin-bottom:10px; border-radius:5px;">
@@ -108,7 +109,7 @@ function displayResults(results, page = 1, perPage = 20) {
                          ${item.wrightNum ? ` [Wright ${formatValue(item.wrightNum, 'wrightNum')} ]` : ''}
 
                 </p>      
-                <p>URI: <a href="${msUrl}" target="_blank">${msUrl}</a></p>
+                <p>URI: <a href="${msUrl}" target="_blank">${item.idno}</a></p>
                 <p>${item.origDate ? `${formatValue(item.origDate, 'origDate')}` : ''}${item.origPlace ? ` | ${formatValue(item.origPlace, 'origPlace')}` : ''}</p>
                 <p class="text-muted">
                    ${item.scriptLanguage ? `Script: ${item.scriptLanguage} ` : ''}
