@@ -116,6 +116,9 @@ def extract_json(tree):
     # summary: from msContents/summary or profileDesc/abstract
     summary = first_text(root, ".//tei:msContents/tei:summary | .//tei:profileDesc/tei:abstract")
 
+    # contents note: from head/note[@type='contents-note']
+    contents_note = first_text(root, ".//tei:head/tei:note[@type='contents-note']")
+
     # persName: collect person names in tei:persName nodes (serialize inner markup if present)
     pers_nodes = root.xpath(".//tei:persName", namespaces=NS)
     pers_list = []
@@ -133,6 +136,11 @@ def extract_json(tree):
 
     # shelfmark: altIdentifier idno type=BL-Shelfmark or altIdentifier/ idno content
     shelfmarks = text_list(root, ".//tei:altIdentifier/tei:idno[@type='BL-Shelfmark'] | .//tei:altIdentifier/tei:idno | .//tei:msIdentifier//tei:idno[@type='BL-Shelfmark']")
+
+    # Wright entry number: from msIdentifier/altIdentifier/idno[@type='Wright-BL-Roman']
+    wright_num = first_text(root, ".//tei:msIdentifier//tei:altIdentifier//tei:idno[@type='Wright-BL-Roman']")
+    if wright_num:
+        wright_num = f"[Wright {wright_num}]"
 
     # finalRubrics
     final_rubrics = []
@@ -172,6 +180,14 @@ def extract_json(tree):
     else:
         material = first_text(root, ".//tei:physDesc//tei:objectDesc//tei:supportDesc//tei:material | .//tei:objectDesc//tei:supportDesc//tei:material | .//tei:physDesc//tei:supportDesc//tei:material | .//tei:physDesc//tei:supportDesc//tei:support//tei:material")
 
+    # form: from physDesc/objectDesc/@form, capitalized
+    form = first_text(root, ".//tei:physDesc//tei:objectDesc/@form")
+    if form:
+        form = form.capitalize()
+
+    # extent: from physDesc/objectDesc/supportDesc/extent/measure (text or @quantity)
+    extent = first_text(root, ".//tei:physDesc//tei:objectDesc//tei:supportDesc//tei:extent//tei:measure")
+
     # classification: collect descs under listRelation or relation descs (e.g., "Old Testament")
     classification = text_list(root, ".//tei:listRelation//tei:relation/tei:desc | .//tei:listRelation//tei:desc | .//tei:listRelation//tei:relation/tei:desc")
 
@@ -206,16 +222,20 @@ def extract_json(tree):
     if idno: out["idno"] = idno
     out["displayTitleEnglish"] = display_title_english or ""
     if summary: out["summary"] = summary
+    if contents_note: out["contentsNote"] = contents_note
     if pers_list: out["persName"] = pers_list
     if place_list: out["placeName"] = place_list
     if origin_place_list: out["origPlace"] = origin_place_list
     if shelfmarks: out["shelfmark"] = shelfmarks
+    if wright_num: out["wrightEntry"] = wright_num
     if final_rubrics: out["finalRubrics"] = final_rubrics
     if colophons: out["colophons"] = colophons
     if other_limit: out["otherLimit"] = other_limit
     if script_val: out["script"] = script_val
     if script_lang: out["scriptLanguage"] = script_lang
     if material: out["material"] = material
+    if form: out["form"] = form
+    if extent: out["extent"] = extent
     if classification: out["classification"] = classification
     if orig_dates: out["origDate"] = orig_dates
     if date_not_before: out["dateNotBefore"] = date_not_before

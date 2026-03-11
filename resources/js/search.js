@@ -78,11 +78,11 @@ function displayResults(results, page = 1, perPage = 20) {
     const html = pageResults.map((item, index) => {
         const formatValue = (val, key) => {
             if (!Array.isArray(val)) return val;
-            const periodFields = ['title', 'displayTitleEnglish'];
+            const periodFields = ['title'];
             return periodFields.includes(key) ? val.join('. ') : val.join(', ');
         };
         
-        const titleFields = ['titleStmt', 'msItemTitle', 'rubric', 'syrTitle'];
+        const titleFields = ['msItemTitle'];
         const allTitles = [];
         titleFields.forEach(field => {
             if (item[field]) {
@@ -102,15 +102,21 @@ function displayResults(results, page = 1, perPage = 20) {
         
         return `
             <div class="result-item" style="padding:15px; border:1px solid #ddd; margin-bottom:10px; border-radius:5px;">
-                ${item.displayTitleEnglish ? `<p>${formatValue(item.displayTitleEnglish, 'displayTitleEnglish')}</p>` : ''}
-                ${contentSummary ? `<p><strong>Content:</strong> <span class="content-text" id="content-${index}">${displayContent}${truncated ? '...' : ''}</span>${truncated ? ` <a href="#" class="show-more" data-index="${index}" data-full="${contentSummary.replace(/"/g, '&quot;')}">Show more</a>` : ''}</p>` : ''}
-                <p><strong>Shelfmark:</strong> ${formatValue(item.shelfmark, 'shelfmark') || 'N/A'}</p>
+                ${item.displayTitleEnglish ? `<p>${formatValue(item.displayTitleEnglish, 'displayTitleEnglish')} </p>` : ''}
+                ${item.wrightNum ? `<p>${formatValue(item.wrightNum, 'wrightNum')} </p>` : ''}
+
                 <p>URL: <a href="${msUrl}" target="_blank">${msUrl}</a></p>
-                <small class="text-muted">
-                    ${item.material ? `Material: ${formatValue(item.material, 'material')} | ` : ''}
-                    ${item.scriptLanguage ? `Script: ${item.scriptLanguage} | ` : ''}
-                    ${item.classification ? `Classification: ${formatValue(item.classification, 'classification')}` : ''}
-                </small>
+                <p>${item.origDate ? `${formatValue(item.origDate, 'origDate')}` : ''}${item.origPlace ? ` | ${formatValue(item.origPlace, 'origPlace')}` : ''}</p>
+                <p class="text-muted">
+                   ${item.scriptLanguage ? `Script: ${item.scriptLanguage} | ` : ''}
+                    ${item.material ? `| ${formatValue(item.material, 'material')} | ` : ''}
+                    ${item.form ? ` ${formatValue(item.form, 'material')} | ` : ''}
+                    ${item.extent ? `| ${formatValue(item.extent, 'extent')} | ` : ''}
+                </p>
+
+                <p><strong>Shelfmark:</strong> ${formatValue(item.shelfmark, 'shelfmark') || 'N/A'}</p>
+                      ${item.classification ? `Classification: ${formatValue(item.classification, 'classification')}` : ''}
+
             </div>
         `;
     }).join('');

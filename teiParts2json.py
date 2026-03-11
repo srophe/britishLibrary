@@ -147,9 +147,9 @@ def extract_json(tree, part_node=None):
 
     # shelfmark: altIdentifier idno type=BL-Shelfmark or altIdentifier/ idno content
     # For parts, inherit from document root if not found in part
-    shelfmarks = text_list(root, ".//tei:altIdentifier/tei:idno[@type='BL-Shelfmark'] | .//tei:altIdentifier/tei:idno | .//tei:msIdentifier//tei:idno[@type='BL-Shelfmark']")
+    shelfmarks = text_list(root, ".//tei:altIdentifier/tei:idno[@type='BL-Shelfmark-display']")
     if not shelfmarks and part_node is not None:
-        shelfmarks = text_list(doc_root, ".//tei:altIdentifier/tei:idno[@type='BL-Shelfmark'] | .//tei:altIdentifier/tei:idno | .//tei:msIdentifier//tei:idno[@type='BL-Shelfmark']")
+        shelfmarks = text_list(doc_root, ".//tei:altIdentifier/tei:idno[@type='BL-Shelfmark-display'] ")
 
     # finalRubrics
     final_rubrics = []
@@ -188,6 +188,20 @@ def extract_json(tree, part_node=None):
         material = MATERIALS_MAP.get(material_attr, material_attr)
     else:
         material = first_text(root, ".//tei:physDesc//tei:objectDesc//tei:supportDesc//tei:material | .//tei:objectDesc//tei:supportDesc//tei:material | .//tei:physDesc//tei:supportDesc//tei:material | .//tei:physDesc//tei:supportDesc//tei:support//tei:material")
+    
+    # form: from physDesc/objectDesc/@form, capitalized
+    form = first_text(root, ".//tei:physDesc//tei:objectDesc/@form")
+    if form:
+        form = form.capitalize()
+
+    # extent: from physDesc/objectDesc/supportDesc/extent/measure (text or @quantity)
+    extent = first_text(root, ".//tei:physDesc//tei:objectDesc//tei:supportDesc//tei:extent//tei:measure")
+    # Wright entry number: from msIdentifier/altIdentifier/idno[@type='Wright-BL-Roman']
+    wright_num = first_text(root, ".//tei:msIdentifier//tei:altIdentifier//tei:idno[@type='Wright-BL-Roman']")
+    if wright_num:
+        wright_num = f"[Wright {wright_num}]"
+    # contents note: from head/note[@type='contents-note']
+    contents_note = first_text(root, ".//tei:head/tei:note[@type='contents-note']")
 
     # classification: collect descs under listRelation or relation descs (e.g., "Old Testament")
     classification = text_list(root, ".//tei:listRelation//tei:relation/tei:desc | .//tei:listRelation//tei:desc | .//tei:listRelation//tei:relation/tei:desc")
@@ -246,6 +260,10 @@ def extract_json(tree, part_node=None):
     if authorsUri: out["authorUri"] = authorsUri
     if incipits: out["incipit"] = incipits
     if explicits: out["explicit"] = explicits
+    if form: out["form"] = form
+    if extent: out["extent"] = extent
+    if wright_num: out["wrightNum"] = wright_num
+    if contents_note: out["contentsNote"] = contents_note
     
     # Deduplicate all list values
     for key, value in out.items():
