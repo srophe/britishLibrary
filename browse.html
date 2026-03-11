@@ -312,14 +312,16 @@
                 const truncated = contentSummary.length > 500;
                 const displayContent = truncated ? contentSummary.substring(0, 500) : contentSummary;
                 
-                const msUrl = item.id ? `${BASE_URL}/ms/${item.id.replace('ms-', '')}.html` : '#';
+                const msNum = item.idno ? item.idno.split('/ms/')[1] : null;
+                const msUrl = msNum ? `${BASE_URL}/ms/${msNum}.html` : '#';
+                const fullUrl = msNum && item.partNum ? `${msUrl}#msPart${item.partNum}` : msUrl;
                 
                 return `
                 <div class="result-item">
                     <strong>${item.displayTitleEnglish ? `<p>${formatValue(item.displayTitleEnglish, 'displayTitleEnglish')}</strong></p>` : ''}
                     ${contentSummary ? `<p><strong>Content:</strong> <span class="content-text" id="content-${index}">${displayContent}${truncated ? '' : ''}</span>${truncated ? ` <a href="#" class="show-more" data-index="${index}" data-full="${contentSummary.replace(/"/g, '&quot;')}">...</a>` : ''}</p>` : ''}
                     <p><strong>Shelfmark:</strong> ${formatValue(item.shelfmark, 'shelfmark') || 'N/A'}</p>
-                    <p>URL: <a href="${msUrl}" target="_blank">${msUrl}</a></p>
+                    <p>URL: <a href="${fullUrl}" target="_blank">${item.idno}</a></p>
                     <small class="text-muted">
                         ${item.material ? `Material: ${formatValue(item.material, 'material')} | ` : ''}
                         ${item.script ? `Script: ${formatValue(item.scriptLanguage, 'script')} | ` : ''}
