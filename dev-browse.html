@@ -301,8 +301,8 @@
                     return periodFields.includes(key) ? val.join('. ') : val.join(', ');
                 };
                 
-                // Create content summary from all title fields
-                const titleFields = ['titleStmt', 'msItemTitle', 'rubric', 'syrTitle'];
+                // Create syriac content summary from all title fields
+                const titleFields = ['syrTitle','rubric','incipit','explicit','finalRubric']; 
                 const allTitles = [];
                 titleFields.forEach(field => {
                     if (item[field]) {
@@ -316,24 +316,28 @@
                 let contentSummary = allTitles.join(' ');
                 // Strip HTML tags
                 contentSummary = contentSummary.replace(/<[^>]*>/g, '');
-                const truncated = contentSummary.length > 500;
-                const displayContent = truncated ? contentSummary.substring(0, 500) : contentSummary;
+                const truncated = contentSummary.length > 100;
+                const displayContent = truncated ? contentSummary.substring(0, 100) : contentSummary;
                 
                 const msUrl = item.id ? `${BASE_URL}/ms/${item.id.replace('ms-', '')}.html` : '#';
                 
                 return `
-                <div class="result-item">
-                    <strong>${item.displayTitleEnglish ? `<p>${formatValue(item.displayTitleEnglish, 'displayTitleEnglish')}</strong></p>` : ''}
-                    ${contentSummary ? `<p><strong>Content:</strong> <span class="content-text" id="content-${index}">${displayContent}${truncated ? '' : ''}</span>${truncated ? ` <a href="#" class="show-more" data-index="${index}" data-full="${contentSummary.replace(/"/g, '&quot;')}">...</a>` : ''}</p>` : ''}
-                    <p><strong>Shelfmark:</strong> ${formatValue(item.shelfmark, 'shelfmark') || 'N/A'}</p>
-                    <p>URL: <a href="${msUrl}" target="_blank">${msUrl}</a></p>
-                    <small class="text-muted">
-                        ${item.material ? `Material: ${formatValue(item.material, 'material')} | ` : ''}
-                        ${item.script ? `Script: ${formatValue(item.scriptLanguage, 'script')} | ` : ''}
-                        ${item.classification ? `Classification: ${formatValue(item.classification, 'classification')}` : ''}
-                    </small>
-                </div>
-            `}).join('');
+                    <div class="result-item" style="padding:15px; border:1px solid #ddd; margin-bottom:10px; border-radius:5px;">
+                        <p><strong></strong> ${formatValue(item.shelfmark, 'shelfmark') || ''} 
+                         ${item.wrightNum ? `[${formatValue(item.wrightNum, 'wrightNum')} ]` : ''} 
+                        </p>      
+                        <p>URI: <a href="${msUrl}" target="_blank">${msUrl}</a></p>
+                        <p>${item.origDate ? `${formatValue(item.origDate, 'origDate')}` : ''}${item.origPlace ? ` | ${formatValue(item.origPlace, 'origPlace')}` : ''}</p>
+                        <p class="text-muted">
+                            ${item.scriptLanguage ? `Script: ${item.scriptLanguage} ` : ''}
+                            ${item.material ? `| ${formatValue(item.material, 'material')} ` : ''}
+                            ${item.form ? ` ${formatValue(item.form, 'material')} ` : ''}
+                            ${item.extent ? `| ${formatValue(item.extent, 'extent')} ` : ''}
+                        </p>
+                      ${item.classification ? `Classification: ${formatValue(item.classification, 'classification')}` : ''}
+                    <p id="content-${index}"><span class="syriac">${displayContent}</span>${truncated ? `... <a href="#" class="show-more" data-index="${index}" data-full="${contentSummary}">Show more</a>` : ''}</p> 
+                    </div>
+                `}).join('');
             
             $('#results').html(resultsHtml || '<div class="alert alert-info">No results found</div>');
             
@@ -342,7 +346,7 @@
                 e.preventDefault();
                 const index = $(this).data('index');
                 const full = $(this).data('full');
-                $(`#content-${index}`).text(full);
+                $(`#content-${index}`).html(`<span class="syriac">${full}</span>`);
                 $(this).remove();
             });
         }
