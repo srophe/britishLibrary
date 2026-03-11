@@ -318,16 +318,16 @@
                 contentSummary = contentSummary.replace(/<[^>]*>/g, '');
                 const truncated = contentSummary.length > 100;
                 const displayContent = truncated ? contentSummary.substring(0, 100) : contentSummary;
-                const truncatedNote = item.contentsNote && item.contentsNote.length > 100;
-                displayContentNote = truncatedNote ? item.contentsNote.substring(0, 100) : item.contentsNote;
-                const msUrl = item.id ? `${BASE_URL}/ms/${item.id.replace('ms-', '')}.html` : '#';
-                
+                // const truncatedNote = item.contentsNote && item.contentsNote.length > 100;
+                // displayContentNote = truncatedNote ? item.contentsNote.substring(0, 100) : item.contentsNote;
+                const trucatedItemTitle = item.msItemTitle && item.msItemTitle.length > 100;
+                const displayItemTitle = trucatedItemTitle ? item.msItemTitle.substring(0, 100) : item.msItemTitle;
                 return `
                     <div class="result-item" style="padding:15px; border:1px solid #ddd; margin-bottom:10px; border-radius:5px;">
                         <p><strong></strong> ${formatValue(item.shelfmark, 'shelfmark') || ''} 
                          ${item.wrightNum ? `${formatValue(item.wrightNum, 'wrightNum')} ` : ''} 
                         </p>      
-                        <p>URI: <a href="${msUrl}" target="_blank">${msUrl}</a></p>
+                        <p>URI: <a href="${msUrl}/#msPart${item.partNum}" target="_blank">${msUrl}</a></p>
                         <p>${item.origDate ? `${formatValue(item.origDate, 'origDate')}` : ''}${item.origPlace ? ` | ${formatValue(item.origPlace, 'origPlace')}` : ''}</p>
                         <p class="text-muted">
                             ${item.scriptLanguage ? `Script: ${item.scriptLanguage} ` : ''}
@@ -337,6 +337,7 @@
                         </p>
                       ${item.classification ? `Classification: ${formatValue(item.classification, 'classification')}` : ''}
                     <p><span>Content: ${displayContentNote}</span>${truncatedNote ? `... <a href="#" class="show-more" data-index="${index}" data-full="${item.contentsNote}">...</a>` : ''}</p> 
+                    <p><span>Title: ${displayItemTitle}</span>${trucatedItemTitle ? `... <a href="#" class="show-more" data-index="${index}" data-full="${item.msItemTitle}">...</a>` : ''}</p> 
 
                     <p id="content-${index}"><span class="syriac tei-quote" lang="syr">Syriac Content: ${displayContent}</span>${truncated ? `... <a href="#" class="show-more" data-index="${index}" data-full="${contentSummary}">...</a>` : ''}</p> 
                     </div>
