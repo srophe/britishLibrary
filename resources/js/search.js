@@ -22,7 +22,7 @@ async function loadData() {
 
 function normalize(str) {
     if (!str) return '';
-    return str.toLowerCase().replace(/[^a-z0-9]/g, '');
+    return str.toLowerCase().trim();
 }
 
 function matchesField(item, field, query) {
@@ -49,13 +49,17 @@ function searchData(params) {
         if (params.decorations && !matchesField(item, 'decorations', params.decorations)) return false;
         if (params.decorationsType && !matchesField(item, 'decorationsType', params.decorationsType)) return false;
         
-        // Only search Syriac fields if checkbox is true AND syriacText is provided
-        if (params.syrRubrics && params.syriacText && !matchesField(item, 'rubric', params.syriacText) && !matchesField(item, 'syrTitle', params.syriacText)) return false;
-        if (params.syrFinalRubrics && params.syriacText && !matchesField(item, 'finalRubrics', params.syriacText)) return false;
-        if (params.syrIncipits && params.syriacText && !matchesField(item, 'incipit', params.syriacText)) return false;
-        if (params.syrExplicits && params.syriacText && !matchesField(item, 'explicit', params.syriacText)) return false;
-        if (params.syrColophons && params.syriacText && !matchesField(item, 'colophons', params.syriacText)) return false;
-        if (params.syrOther && params.syriacText && !matchesField(item, 'otherLimit', params.syriacText)) return false;
+        // Only search Syriac fields if syriacText is provided
+        if (params.syriacText) {
+            let syriacMatch = false;
+            if (params.syrRubrics && (matchesField(item, 'rubric', params.syriacText) || matchesField(item, 'syrTitle', params.syriacText))) syriacMatch = true;
+            if (params.syrFinalRubrics && matchesField(item, 'finalRubrics', params.syriacText)) syriacMatch = true;
+            if (params.syrIncipits && matchesField(item, 'incipit', params.syriacText)) syriacMatch = true;
+            if (params.syrExplicits && matchesField(item, 'explicit', params.syriacText)) syriacMatch = true;
+            if (params.syrColophons && matchesField(item, 'colophons', params.syriacText)) syriacMatch = true;
+            if (params.syrOther && matchesField(item, 'otherLimit', params.syriacText)) syriacMatch = true;
+            if (!syriacMatch) return false;
+        }
         
         return true;
     });
