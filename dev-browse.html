@@ -322,14 +322,16 @@
                 // displayContentNote = truncatedNote ? item.contentsNote.substring(0, 100) : item.contentsNote;
                 const trucatedItemTitle = item.msItemTitle && item.msItemTitle.length > 100;
                 const displayItemTitle = trucatedItemTitle ? item.msItemTitle.substring(0, 100) : item.msItemTitle;
-                const msUrl = item.idno ? `${BASE_URL}/ms/${item.idno.replace('/tei', '')}.html` : '#';
+                const msNum = item.idno ? item.idno.split('/ms/')[1] : null;
+                const msUrl = msNum ? `${BASE_URL}/ms/${msNum}.html` : '#';
+                const fullUrl = msNum && item.partNum ? `${msUrl}#msPart${item.partNum}` : msUrl;
 
                 return `
                     <div class="result-item" style="padding:15px; border:1px solid #ddd; margin-bottom:10px; border-radius:5px;">
                         <p><strong></strong> ${formatValue(item.shelfmark, 'shelfmark') || ''} 
                          ${item.wrightNum ? `${formatValue(item.wrightNum, 'wrightNum')} ` : ''} 
                         </p>      
-                        <p>URI: <a href="${msUrl}/#msPart${item.partNum}" target="_blank">${msUrl}</a></p>
+                        <p>URI: <a href="${fullUrl}" target="_blank">${item.idno}</a></p>
                         <p>${item.origDate ? `${formatValue(item.origDate, 'origDate')}` : ''}${item.origPlace ? ` | ${formatValue(item.origPlace, 'origPlace')}` : ''}</p>
                         <p class="text-muted">
                             ${item.scriptLanguage ? `Script: ${item.scriptLanguage} ` : ''}
