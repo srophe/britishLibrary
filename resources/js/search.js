@@ -42,8 +42,11 @@ function searchData(params) {
         )) return false;
         if (params.author && !matchesField(item, 'author', params.author)) return false;
         if (params.title && !matchesField(item, 'msItemTitle', params.title)) return false;
-        if (params.placeName && !matchesField(item, 'placeName', params.placeName)) return false;
-        if (params.origPlace && !matchesField(item, 'origPlace', params.origPlace)) return false;
+        if (params.origPlace) {
+            if (!matchesField(item, 'origPlace', params.origPlace)) return false;
+        } else if (params.placeName) {
+            if (!matchesField(item, 'placeName', params.placeName)) return false;
+        }
         if (params.persName && !matchesField(item, 'persName', params.persName)) return false;
         if (params.shelfmark && !matchesField(item, 'shelfmark', params.shelfmark)) return false;
         if (params.decorations && !matchesField(item, 'decorations', params.decorations)) return false;
