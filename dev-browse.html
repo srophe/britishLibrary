@@ -318,13 +318,14 @@
                 contentSummary = contentSummary.replace(/<[^>]*>/g, '');
                 const truncated = contentSummary.length > 100;
                 const displayContent = truncated ? contentSummary.substring(0, 100) : contentSummary;
-                
+                const truncatedNote = item.contentsNote && item.contentsNote.length > 100;
+                displayContentNote = truncatedNote ? item.contentsNote.substring(0, 100) : item.contentsNote;
                 const msUrl = item.id ? `${BASE_URL}/ms/${item.id.replace('ms-', '')}.html` : '#';
                 
                 return `
                     <div class="result-item" style="padding:15px; border:1px solid #ddd; margin-bottom:10px; border-radius:5px;">
                         <p><strong></strong> ${formatValue(item.shelfmark, 'shelfmark') || ''} 
-                         ${item.wrightNum ? `[${formatValue(item.wrightNum, 'wrightNum')} ]` : ''} 
+                         ${item.wrightNum ? `${formatValue(item.wrightNum, 'wrightNum')} ` : ''} 
                         </p>      
                         <p>URI: <a href="${msUrl}" target="_blank">${msUrl}</a></p>
                         <p>${item.origDate ? `${formatValue(item.origDate, 'origDate')}` : ''}${item.origPlace ? ` | ${formatValue(item.origPlace, 'origPlace')}` : ''}</p>
@@ -335,7 +336,9 @@
                             ${item.extent ? `| ${formatValue(item.extent, 'extent')} ` : ''}
                         </p>
                       ${item.classification ? `Classification: ${formatValue(item.classification, 'classification')}` : ''}
-                    <p id="content-${index}"><span class="syriac tei-quote" lang="syr">Syriac Content:${displayContent}</span>${truncated ? `... <a href="#" class="show-more" data-index="${index}" data-full="${contentSummary}">...</a>` : ''}</p> 
+                    <p><span>Content: ${displayContentNote}</span>${truncatedNote ? `... <a href="#" class="show-more" data-index="${index}" data-full="${item.contentsNote}">...</a>` : ''}</p> 
+
+                    <p id="content-${index}"><span class="syriac tei-quote" lang="syr">Syriac Content: ${displayContent}</span>${truncated ? `... <a href="#" class="show-more" data-index="${index}" data-full="${contentSummary}">...</a>` : ''}</p> 
                     </div>
                 `}).join('');
             
