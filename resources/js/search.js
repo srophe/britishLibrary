@@ -99,7 +99,7 @@ function displayResults(results, page = 1, perPage = 20) {
         const truncated = contentSummary.length > 500;
         const displayContent = truncated ? contentSummary.substring(0, 500) : contentSummary;
         
-        const msUrl = item.id ? `${BASE_URL}/ms/${item.id.replace('ms-', '')}.html` : '#';
+        let msUrl = item.id ? `${BASE_URL}/ms/${item.id.replace('ms-', '')}.html` : '#';
         if (item.partNum){msUrl += `#msPart${item.partNum}`;}
         
         return `
