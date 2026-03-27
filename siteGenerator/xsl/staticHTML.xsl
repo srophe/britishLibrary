@@ -871,6 +871,7 @@
 <!--                        <xsl:with-param name="formats" select="'print,tei,rdf,text'"/>-->
                         <xsl:with-param name="formats" select="'print,tei'"/>
                     </xsl:call-template>
+                    <div class="hidden test"/>
                     <div class="row">
                         <div class="col-md-7 col-lg-8">
                             <xsl:apply-templates select="t:TEI"/>
