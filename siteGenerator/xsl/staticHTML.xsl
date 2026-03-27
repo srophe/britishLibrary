@@ -79,8 +79,8 @@
     <xsl:param name="convert" select="'true'"/>
     -->
     
-    <xsl:param name="applicationPath" select="'/Users/wsalesky/syriaca/BritishLibrary/britishLibrary'"/>
-    <xsl:param name="staticSitePath" select="'/Users/wsalesky/syriaca/BritishLibrary/britishLibrary-temp'"/>
+    <xsl:param name="applicationPath" select="'.'"/>
+    <xsl:param name="staticSitePath" select="'.'"/>
     <xsl:param name="dataPath" select="'/Users/wsalesky/syriaca/BritishLibrary/britishLibrary-data'"/>
     <!-- <xsl:param name="dataPath" select="'/Users/wsalesky/syriaca/syriaca/syriaca-data/data/'"/> -->
     
