@@ -96,6 +96,8 @@
     
     <!-- Find repo-config to find collection style values and page stubs -->
     <xsl:variable name="configPath">
+        <xsl:value-of select="'../components/repo-config.xml'"/>
+        <!-- 
         <xsl:choose>
             <xsl:when test="$applicationPath != ''">
                 <xsl:value-of select="concat($applicationPath, '/siteGenerator/components/repo-config.xml')"/>
@@ -104,6 +106,7 @@
                 <xsl:value-of select="'../components/repo-config.xml'"/>
             </xsl:otherwise>
         </xsl:choose>
+        -->
     </xsl:variable>
     
     <!-- Get configuration file.  -->
@@ -256,7 +259,7 @@
         </xsl:variable>
         <xsl:variable name="nodes" select="//t:TEI | //rdf:RDF | *"/>
         <xsl:for-each-group select="$path/child::*" group-by=".">
-            <xsl:message>Path: <xsl:value-of select="$path"/></xsl:message>
+<!--            <xsl:message>Path: <xsl:value-of select="$path"/></xsl:message>-->
             <xsl:result-document href="{replace(.,'.xml','.html')}">
                 <xsl:choose>
                     <xsl:when test="$fileType = 'HTML'">
@@ -314,7 +317,7 @@
         <xsl:variable name="collectionTemplate">
             <xsl:choose>
                 <xsl:when test="$idno != ''">
-                    <xsl:message> TEI record with an idno: <xsl:value-of select="$idno"/></xsl:message>
+<!--                    <xsl:message> TEI record with an idno: <xsl:value-of select="$idno"/></xsl:message>-->
                     <xsl:variable name="templatePath" select="'../components/page.html'"/>
 <!--                    <xsl:variable name="templatePath" select="concat($staticSitePath,'/siteGenerator/components/page.html')"/>-->
                     <xsl:if test="doc-available(xs:anyURI($templatePath))">
@@ -322,7 +325,7 @@
                     </xsl:if>
                 </xsl:when>
                 <xsl:when test="$convert = 'false' and $outputFile != ''">
-                    <xsl:message>Generate new HTML page</xsl:message>
+<!--                    <xsl:message>Generate new HTML page</xsl:message>-->
                     <xsl:variable name="templatePath">
                         <xsl:choose>
                             <xsl:when test="$config/descendant::*:collection[@name = $outputCollection]/@template">
@@ -339,14 +342,14 @@
                     </xsl:if>
                 </xsl:when>
                 <xsl:when test="$nodes/@data-template-with != ''">
-                    <xsl:message>Convert HTML from old format </xsl:message>
+<!--                    <xsl:message>Convert HTML from old format </xsl:message>-->
                     <xsl:variable name="templatePath" select="concat($staticSitePath,'/siteGenerator/components/page.html')"/>
                     <xsl:if test="doc-available(xs:anyURI($templatePath))">
                         <xsl:sequence select="document(xs:anyURI($templatePath))"/>
                     </xsl:if>
                 </xsl:when>
                 <xsl:otherwise>
-                    <xsl:message>Find generic page.html template</xsl:message>
+<!--                    <xsl:message>Find generic page.html template</xsl:message>-->
                     <xsl:variable name="templatePath" select="'../components/page.html'"/>
                     <xsl:if test="doc-available(xs:anyURI($templatePath))">
                         <xsl:sequence select="document(xs:anyURI($templatePath))"/>
