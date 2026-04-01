@@ -315,7 +315,8 @@
             <xsl:choose>
                 <xsl:when test="$idno != ''">
                     <xsl:message> TEI record with an idno: <xsl:value-of select="$idno"/></xsl:message>
-                    <xsl:variable name="templatePath" select="concat($staticSitePath,'/siteGenerator/components/page.html')"/>
+                    <xsl:variable name="templatePath" select="'../components/page.html'"/>
+<!--                    <xsl:variable name="templatePath" select="concat($staticSitePath,'/siteGenerator/components/page.html')"/>-->
                     <xsl:if test="doc-available(xs:anyURI($templatePath))">
                         <xsl:sequence select="document(xs:anyURI($templatePath))"/>
                     </xsl:if>
@@ -346,7 +347,7 @@
                 </xsl:when>
                 <xsl:otherwise>
                     <xsl:message>Find generic page.html template</xsl:message>
-                    <xsl:variable name="templatePath" select="concat($staticSitePath,'/siteGenerator/components/page.html')"/>
+                    <xsl:variable name="templatePath" select="'../components/page.html'"/>
                     <xsl:if test="doc-available(xs:anyURI($templatePath))">
                         <xsl:sequence select="document(xs:anyURI($templatePath))"/>
                     </xsl:if>
@@ -372,7 +373,10 @@
                             <xsl:when test="$collectionTemplate/child::*">
                                 <xsl:sequence select="$collectionTemplate"/> 
                             </xsl:when>
-                            <xsl:otherwise><xsl:message>Error Can not find matching template for TEI page <xsl:value-of select="replace(concat($staticSitePath,'/siteGenerator/components/',string($collectionValues/@template),'.html'),'//','/')"/></xsl:message></xsl:otherwise>
+                            <xsl:otherwise>
+                                <xsl:variable name="templatePath" select="'../components/page.html'"/>
+                                <xsl:message>Error Can not find matching template for TEI page <xsl:value-of select="replace(concat($staticSitePath,'/siteGenerator/components/',string($collectionValues/@template),'.html'),'//','/')"/></xsl:message>
+                            </xsl:otherwise>
                         </xsl:choose>
                     </xsl:when>
                     <xsl:when test="$pageType = 'RDF'">
