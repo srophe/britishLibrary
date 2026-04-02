@@ -259,7 +259,7 @@
         </xsl:variable>
         <xsl:variable name="nodes" select="//t:TEI | //rdf:RDF | *"/>
         <xsl:for-each-group select="$path/child::*" group-by=".">
-<!--            <xsl:message>Path: <xsl:value-of select="$path"/></xsl:message>-->
+            <xsl:message>Path: <xsl:value-of select="$path"/></xsl:message>
             <xsl:result-document href="{replace(.,'.xml','.html')}">
                 <xsl:choose>
                     <xsl:when test="$fileType = 'HTML'">
@@ -317,7 +317,7 @@
         <xsl:variable name="collectionTemplate">
             <xsl:choose>
                 <xsl:when test="$idno != ''">
-<!--                    <xsl:message> TEI record with an idno: <xsl:value-of select="$idno"/></xsl:message>-->
+                    <xsl:message> TEI record with an idno: <xsl:value-of select="$idno"/></xsl:message>
                     <xsl:variable name="templatePath" select="'../components/page.html'"/>
 <!--                    <xsl:variable name="templatePath" select="concat($staticSitePath,'/siteGenerator/components/page.html')"/>-->
                     <xsl:if test="doc-available(xs:anyURI($templatePath))">
@@ -433,6 +433,7 @@
                     <xsl:otherwise><xsl:message>No template found for html:head element</xsl:message></xsl:otherwise>
                 </xsl:choose>
             <body id="body">
+                <div class="hidden ws"></div>
                 <xsl:choose>
                     <xsl:when test="not(empty($template))">
                         <xsl:choose>
