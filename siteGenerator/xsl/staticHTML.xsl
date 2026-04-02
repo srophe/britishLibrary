@@ -236,7 +236,7 @@
                 </xsl:when>
                 <xsl:when test="$fileType = 'TEI'">
                     <xsl:variable name="idno" select="replace(/descendant-or-self::t:publicationStmt/t:idno[@type='URI'],'/tei','')"/>
-                    <path idno="{$idno}"><xsl:value-of select="concat(replace($idno,$base-uri,concat($staticSitePath,'/data/')),'.html')"/></path>
+                    <path idno="{$idno}"><xsl:value-of select="concat(replace($idno,$base-uri,concat($staticSitePath,'/')),'.html')"/></path>
                 </xsl:when>
                 <xsl:when test="$fileType = 'RDF'">
                     <!-- Output a page for each rdf:Description (with http://syriaca.org/taxonomy/) -->
