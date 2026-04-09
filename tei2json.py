@@ -216,11 +216,11 @@ def extract_json(tree, part_node=None):
                          and not c.lower().startswith("this manuscript")]
 
     # date: separate fields for each date type
-    orig_dates = first_text(root, ".//tei:origDate")
-    date_not_before = text_list(root, ".//tei:origDate/@notBefore | .//tei:date/@notBefore")
-    date_not_after = text_list(root, ".//tei:origDate/@notAfter | .//tei:date/@notAfter")
-    date_when = text_list(root, ".//tei:date/@when")
-    date_calendar = text_list(root, ".//tei:origDate/@calendar | .//tei:date/@calendar")
+    orig_dates = first_text(root, ".//tei:origin/tei:origDate[@calendar = 'Gregorian']")
+    date_not_before = text_list(root, ".//tei:origin/tei:origDate[@calendar='Gregorian']/@notBefore")
+    date_not_after = text_list(root, ".//tei:origin/tei:origDate[@calendar='Gregorian']/@notAfter")
+    date_when = text_list(root, ".//tei:origin/tei:origDate[@calendar='Gregorian']/@when")
+    date_calendar = text_list(root, ".//tei:origin/tei:origDate[@calendar='Gregorian']/@calendar")
 
     # decorations: from decoNote elements
     decorations = text_list(root, ".//tei:decoNote")
