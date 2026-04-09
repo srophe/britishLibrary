@@ -230,6 +230,9 @@ def extract_json(tree, part_node=None):
     authors = text_list(root, ".//tei:msItem//tei:author//tei:persName")
     # msItem/author/@ref
     authorsUri = text_list(root, ".//tei:msItem//tei:author/@ref")
+
+    # combined authors and URIs
+    authorsTextAndUri = authors+authorsUri
     
     # incipits: from msItem/incipit
     incipits = text_list(root, ".//tei:msItem//tei:incipit")
@@ -265,7 +268,7 @@ def extract_json(tree, part_node=None):
     if date_calendar: out["dateCalendar"] = date_calendar
     if decorations: out["decorations"] = decorations
     if decoration_types: out["decorationsType"] = decoration_types
-    if authors: out["author"] = authors
+    if authorsTextAndUri: out["author"] = authorsTextAndUri
     if authorsUri: out["authorUri"] = authorsUri
     if incipits: out["incipit"] = incipits
     if explicits: out["explicit"] = explicits
