@@ -1,15 +1,48 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Browse - British Library Manuscripts</title>
-    <link rel="shortcut icon" href="/resources/images/fav-icons/mss-favicon.ico" />
-    <link rel="stylesheet" href="resources/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="resources/css/syr-icon-fonts.css">
-    <link rel="stylesheet" href="resources/css/dateRangeSlider.css">
-    <style>
-        body { padding-top: 70px; }
+<!DOCTYPE html SYSTEM "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta charset="UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <title>Browse - British Library Manuscripts</title>
+        <link rel="shortcut icon" href="/resources/images/fav-icons/mss-favicon.ico" />
+        
+        <!-- Bootstrap 3 -->
+        <link rel="stylesheet" type="text/css" href="/resources/bootstrap/css/bootstrap.min.css" />
+        <link rel="stylesheet" type="text/css" href="/resources/css/sm-core-css.css" />
+        
+        <!-- Srophe styles -->
+        <link rel="stylesheet" type="text/css" href="/resources/css/syr-icon-fonts.css" />
+        <link rel="stylesheet" type="text/css" href="/resources/css/style.css" />
+        
+        <link rel="stylesheet" type="text/css" media="print" href="/resources/css/print.css" />
+        <link rel="stylesheet" href="/resources/css/dateRangeSlider.css">
+        
+        <!-- JQuery -->
+        <link href="/resources/jquery-ui/jquery-ui.min.css" rel="stylesheet" />
+        <script src="/resources/js/jquery.min.js"></script>
+        <script type="text/javascript" src="/resources/jquery-ui/jquery-ui.min.js"></script>
+        <script type="text/javascript" src="/resources/js/jquery.smartmenus.min.js"></script>
+        <script type="text/javascript" src="/resources/js/clipboard.min.js"></script>
+        
+        <!-- Bootstrap -->
+        <script type="text/javascript" src="/resources/bootstrap/js/bootstrap.min.js"></script>
+        <script defer="defer" data-domain="bl.syriac.uk" src="https://plausible.io/js/script.js"></script>
+        
+        <!-- keyboard widget css & script -->
+        <link href="/resources/keyboard/css/keyboard.min.css" rel="stylesheet" />
+        <link href="/resources/keyboard/css/keyboard-previewkeyset.min.css" rel="stylesheet" />
+        <link href="/resources/keyboard/syr/syr.css" rel="stylesheet" />
+        <script type="text/javascript" src="/resources/keyboard/syr/jquery.keyboard.js"></script>
+        <script type="text/javascript" src="/resources/keyboard/js/jquery.keyboard.extension-mobile.min.js"></script>
+        <script type="text/javascript" src="/resources/keyboard/js/jquery.keyboard.extension-navigation.min.js"></script>
+        <script type="text/javascript" src="/resources/keyboard/syr/jquery.keyboard.extension-autocomplete.js"></script>
+        <script type="text/javascript" src="/resources/keyboard/syr/keyboardSupport.js"></script>
+        <script type="text/javascript" src="/resources/keyboard/syr/syr.js"></script>
+        <script type="text/javascript" src="/resources/keyboard/layouts/ms-Greek.min.js"></script>
+        <script type="text/javascript" src="/resources/keyboard/layouts/ms-Russian.min.js"></script>
+        <script type="text/javascript" src="/resources/keyboard/layouts/ms-Arabic.min.js"></script>
+<!--        <script type="text/javascript" src="/resources/js/keyboard.js"></script>-->
+        <style>
         .facet-panel { background: #f8f9fa; padding: 15px; border-radius: 5px; }
         .facet-group { margin-bottom: 20px; }
         .facet-group label { font-weight: bold; display: block; margin-bottom: 5px; }
@@ -17,41 +50,34 @@
         .result-item:hover { background: #f8f9fa; }
         .result-count { color: #666; margin-bottom: 15px; }
         .clear-filters { margin-top: 10px; }
-
-        
-        /* Navbar font and icon sizing */
-        .navbar-brand { font-size: 24px; line-height: 50px; height: 50px; padding: 0 15px; display: flex; align-items: center; }
-        .banner-icon { font-size: 40px; margin-right: 10px; }
-        .banner-text { font-size: 24px; }
-        .nav-text { font-size: 18px; }
-        .navbar-nav > li > a { font-size: 18px; line-height: 50px; padding-top: 0; padding-bottom: 0; }
-        
+        .main-content-block { padding-top: 70px; }
         footer { text-align: center; }
     </style>
-</head>
-<body>
-    <script src="/resources/js/jquery.min.js"></script>
+    </head>
+    <body style="background-color:white;">
     <script src="/resources/js/navbar-search.js"></script>
     <div id="navbar-container"></div>
-    <div class="container-fluid">
-        <div class="row">
-            <!-- Left Sidebar - Facets -->
-            <div class="col-md-3">
-                <div class="facet-panel">
-                    <h4>Filter Results</h4>
-                    <div id="facets"></div>
-                    <button class="btn btn-sm btn-warning clear-filters" onclick="clearFilters()">Clear All Filters</button>
+    <div class="main-content-block">
+        <div class="container-fluid">
+            <div class="row">
+                <!-- Left Sidebar - Facets -->
+                <div class="col-md-3">
+                    <div class="facet-panel">
+                        <h4>Filter Results</h4>
+                        <div id="facets"></div>
+                        <button class="btn btn-sm btn-warning clear-filters" onclick="clearFilters()">Clear All Filters</button>
+                    </div>
                 </div>
-            </div>
-            <!-- Right Content - Results -->
-            <div class="col-md-9">
-                <h2>Browse Manuscripts</h2>
-                <div class="result-count" id="resultCount"></div>
-                <div id="results"></div>
+                <!-- Right Content - Results -->
+                <div class="col-md-9">
+                    <h2>Browse Manuscripts</h2>
+                    <div class="result-count" id="resultCount"></div>
+                    <div id="results"></div>
+                </div>
             </div>
         </div>
     </div>
-    <script src="resources/js/jquery.min.js"></script>
+    <div id="footer-container"></div>   
     <script src="resources/js/dateRangeSlider.js"></script>
     <script>
         // Determine base URL based on environment
@@ -363,18 +389,4 @@
         });
     </script>
 </body>
-      <footer>
-         
-         <div class="container">
-          <p>  
-            <img alt="Creative Commons License"  src="/resources/images/cc.png" height="18px" />
-            This work is licensed under a 
-            <a rel="license" href="https://creativecommons.org/licenses/by-nc/4.0/" >Creative Commons Attribution-NonCommercial 4.0 license (CC BY-NC 4.0)</a>.
-            <br/>
-            Copyright © 2011 Beth Mardutho: The Syriac Institute.
-          </p>
-         </div>
-         <script type="text/javascript" src="/resources/js/jquery.validate.min.js"></script>
-         <script type="text/javascript" src="/resources/js/lightslider.min.js"></script>
-        </footer>
 </html>
