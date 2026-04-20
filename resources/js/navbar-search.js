@@ -1,6 +1,6 @@
 // Navbar search functionality
 $(document).ready(function() {
-$('#navbar-container').load('/siteGenerator/components/navbar.html', function() {
+$('#navbar-container').load('/resources/components/navbar.html', function() {
     
     $('[data-toggle="tooltip"]').tooltip({ container: 'body' });
 
