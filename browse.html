@@ -317,8 +317,10 @@
                 contentSummary = contentSummary.replace(/<[^>]*>/g, '');
                 const truncated = contentSummary.length > 100;
                 const displayContent = truncated ? contentSummary.substring(0, 100) : contentSummary;
-                // const truncatedNote = item.contentsNote && item.contentsNote.length > 100;
-                // displayContentNote = truncatedNote ? item.contentsNote.substring(0, 100) : item.contentsNote;
+
+                const contentsNote = item.contentsNote ? item.contentsNote : 'No contents description given';
+                const truncatedContentsNote = item.contentsNote && item.contentsNote.length > 150;
+                const displayContentsNote = truncatedContentsNote ? item.contentsNote.substring(0, 150) : item.contentsNote;
                 const itemTitle = formatValue(item.msItemTitle, 'msItemTitle') || '';
                 const trucatedItemTitle = itemTitle.length > 100;
                 const displayItemTitle = trucatedItemTitle ? itemTitle.substring(0, 100) : itemTitle;
@@ -341,9 +343,8 @@
                             ${item.form ? ` ${formatValue(item.form, 'material')} ` : ''}
                             ${item.extent ? `| ${formatValue(item.extent, 'extent')} ` : ''}
                         </p>
+                    <p id="title-${index}">Contents Summary: <em>${displayContentsNote}</em>${truncatedContentsNote ? ` <a href="#" class="toggle-more" data-index="${index}" data-type="title" data-full="${contentsNote.replace(/"/g, '&quot;')}" data-short="${displayContentsNote.replace(/"/g, '&quot;')}">...</a>` : ''}</p> 
                      <p> ${item.classification ? `Classification: ${formatValue(item.classification, 'classification')}` : ''}</p>
-                    <p id="title-${index}"><em>${displayItemTitle}</em>${trucatedItemTitle ? ` <a href="#" class="toggle-more" data-index="${index}" data-type="title" data-full="${itemTitle.replace(/"/g, '&quot;')}" data-short="${displayItemTitle.replace(/"/g, '&quot;')}">...</a>` : ''}</p> 
-                    <p id="content-${index}"><span class="syriac tei-quote" lang="syr">Syriac Content: ${displayContent}</span>${truncated ? `<a href="#" class="toggle-more" data-index="${index}" data-type="content" data-full="${contentSummary.replace(/"/g, '&quot;')}" data-short="${displayContent.replace(/"/g, '&quot;')}">...</a>` : ''}</p> 
                     </div>
                 `}).join('');
             
