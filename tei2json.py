@@ -105,19 +105,21 @@ def extract_json(tree, part_node=None):
         tree: The full TEI document tree
         part_node: Optional msPart element to extract from (if None, extracts from root)
     """
-    root = tree.getroot() if part_node is None else part_node
-    
     # For msPart, we need to look at both the part and the parent document for some fields
     doc_root = tree.getroot()
 
+    # Set the root as the msDesc if it is not a part node, otherwise use the passed part node
+    root = doc_root.xpath(".//tei:msDesc", namespaces=NS)[0] if part_node is None else part_node
+    
+
     # Different title types
-    title_stmt = text_list(root, ".//tei:titleStmt/tei:title")
+    title_stmt = text_list(doc_root, ".//tei:titleStmt/tei:title")
     ms_item_titles = text_list(root, ".//tei:msItem//tei:title")
     rubrics = text_list(root, ".//tei:rubric")
     syr_titles = text_list(root, ".//tei:title[@xml:lang='syr'] | .//tei:rubric[@xml:lang='syr'] | .//tei:finalRubric[@xml:lang='syr']")
 
     # id: try msIdentifier idno type=URI or publication idno or teiHeader/fileDesc/publicationStmt/idno
-    idno = first_text(root, ".//tei:msIdentifier/tei:idno[@type='URI'] | .//tei:publicationStmt/tei:idno[@type='URI'] | .//tei:msIdentifier/tei:idno")
+    idno = first_text(root, "./tei:msIdentifier/tei:idno[@type='URI']")
     
     # For msPart, get the part number from @n attribute
     part_num = None
@@ -147,7 +149,7 @@ def extract_json(tree, part_node=None):
 
     # shelfmark: altIdentifier idno type=BL-Shelfmark or altIdentifier/ idno content
     # For parts, inherit from document root if not found in part
-    shelfmarks = text_list(root, ".//tei:altIdentifier/tei:idno[@type='BL-Shelfmark-display']")
+    shelfmarks = text_list(root, "./tei:msIdentifier/tei:altIdentifier/tei:idno[@type='BL-Shelfmark-display']")
     if not shelfmarks and part_node is not None:
         shelfmarks = text_list(doc_root, ".//tei:altIdentifier/tei:idno[@type='BL-Shelfmark-display'] ")
 
