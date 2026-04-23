@@ -98,31 +98,31 @@ function displayResults(results, page = 1, perPage = 20) {
         contentSummary = contentSummary.replace(/<[^>]*>/g, '');
         const truncated = contentSummary.length > 500;
         const displayContent = truncated ? contentSummary.substring(0, 500) : contentSummary;
+
+        const contentsNote = item.contentsNote ? item.contentsNote : 'No contents description given';
+        const truncatedContentsNote = item.contentsNote && item.contentsNote.length > 150;
+        const displayContentsNote = truncatedContentsNote ? item.contentsNote.substring(0, 150) : item.contentsNote;
         
         let msUrl = item.id ? `${BASE_URL}/ms/${item.id.replace('ms-', '')}.html` : '#';
         if (item.partNum){msUrl += `#msPart${item.partNum}`;}
         
         return `
-            <div class="result-item" style="padding:15px; border:1px solid #ddd; margin-bottom:10px; border-radius:5px;">
-
-                <p><strong></strong> ${formatValue(item.shelfmark, 'shelfmark') || ''} 
-                         ${item.wrightNum ? ` [Wright ${formatValue(item.wrightNum, 'wrightNum')} ]` : ''}
-
-                </p>      
-                <p>URI: <a href="${msUrl}" target="_blank">${item.idno}</a></p>
-                <p>${item.origDate ? `${formatValue(item.origDate, 'origDate')}` : ''}${item.origPlace ? ` | ${formatValue(item.origPlace, 'origPlace')}` : ''}</p>
-                <p class="text-muted">
-                   ${item.scriptLanguage ? `Script: ${item.scriptLanguage} ` : ''}
-                    ${item.material ? `| ${formatValue(item.material, 'material')} ` : ''}
-                    ${item.form ? ` ${formatValue(item.form, 'material')} ` : ''}
-                    ${item.extent ? `| ${formatValue(item.extent, 'extent')} ` : ''}
-                </p>
-
-                      ${item.classification ? `Classification: ${formatValue(item.classification, 'classification')}` : ''}
-
-            </div>
-        `;
-    }).join('');
+                    <div class="result-item" style="padding:15px; border:1px solid #ddd; margin-bottom:10px; border-radius:5px;">
+                        <p><strong></strong> ${formatValue(item.shelfmark, 'shelfmark') || ''} 
+                         ${item.wrightNum ? `${formatValue(item.wrightNum, 'wrightNum')} ` : ''} 
+                        </p>      
+                        <p>URI: <a href="${msUrl}" target="_blank">${item.idno}</a></p>
+                        <p>${item.origDate ? `${formatValue(item.origDate, 'origDate')}` : ''}${item.origPlace ? ` | ${formatValue(item.origPlace, 'origPlace')}` : ''}</p>
+                        <p class="text-muted">
+                            ${item.scriptLanguage ? `Script: ${item.scriptLanguage} ` : ''}
+                            ${item.material ? `| ${formatValue(item.material, 'material')} ` : ''}
+                            ${item.form ? ` ${formatValue(item.form, 'material')} ` : ''}
+                            ${item.extent ? `| ${formatValue(item.extent, 'extent')} ` : ''}
+                        </p>
+                    <p id="title-${index}">Contents Summary: <em>${displayContentsNote}</em>${truncatedContentsNote ? ` <a href="#" class="toggle-more" data-index="${index}" data-type="title" data-full="${contentsNote.replace(/"/g, '&quot;')}" data-short="${displayContentsNote.replace(/"/g, '&quot;')}">...</a>` : ''}</p> 
+                     <p> ${item.classification ? `Classification: ${formatValue(item.classification, 'classification')}` : ''}</p>
+                    </div>
+                `}).join('');
     
     $('#search-results').html(html || '<p>No results found</p>');
     
