@@ -241,6 +241,24 @@ def extract_json(tree, part_node=None):
     # explicits: from msItem/explicit
     explicits = text_list(root, ".//tei:msItem//tei:explicit")
 
+    # All URIs
+    # authors and editors
+    all_uris = authorsUri.copy() # start with a copy of already searched authors
+    all_uris += text_list(root, ".//tei:msItem//tei:editor/@ref")
+    
+    # title/@ref
+    all_uris += text_list(root, ".//tei:msItem//tei:editor/@ref")
+
+    # person and place names, and origPlace
+    all_uris += text_list(root, ".//tei:persName/@ref")
+    all_uris += text_list(root, ".//tei:placeName/@ref")
+    all_uris += text_list(root, ".//tei:origPlace/@ref")
+
+    # ptr and ref URIs (bibls, other mss, literary works)
+    all_uris += text_list(root, ".//tei:ptr[not(./ancestor::tei:additional)]/@target")
+    all_uris += text_list(root, ".//tei:ref[not(./ancestor::tei:additional)]/@target")
+
+
     # script & material shorthand: collapse to strings or lists as in your example
     out = {}
 
@@ -278,6 +296,7 @@ def extract_json(tree, part_node=None):
     if extent: out["extent"] = extent
     if wright_num: out["wrightNum"] = wright_num
     if contents_note: out["contentsNote"] = contents_note
+    if all_uris: out["urisAll"] = all_uris
     
     # Deduplicate all list values
     for key, value in out.items():
