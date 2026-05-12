@@ -49,6 +49,7 @@ function searchData(params) {
         }
         if (params.persName && !matchesField(item, 'persName', params.persName)) return false;
         if (params.shelfmark && !matchesField(item, 'shelfmark', params.shelfmark)) return false;
+        if (params.urisAll && !matchesField(item, 'urisAll', params.urisAll)) return false;
         if (params.decorations && !matchesField(item, 'decorations', params.decorations)) return false;
         if (params.decorationsType && !matchesField(item, 'decorationsType', params.decorationsType)) return false;
         
@@ -160,6 +161,7 @@ async function runSearch() {
         placeName: params.get('placeName'),
         persName: params.get('persName'),
         shelfmark: params.get('shelfmark'),
+        urisAll: params.get('urisAll'),
         decorations: params.get('decorations'),
         decorationsType: params.get('decorationsType'),
         origPlace: params.get('origPlace'),
