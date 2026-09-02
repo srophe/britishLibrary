@@ -36,17 +36,21 @@ SCRIPT_LANG_MAP = {
     "he": "Hebrew",
     "en": "English",
     "la": "Latin",
-    "mul": "Multiple languages",
+    "mul": "Multiple scripts",
+    "mixed": "Mixed scripts",
     "cop": "Coptic",
     "fr": "French",
     "hy": "Armenian",
-    "zh-hant": "Chinese (Traditional)",
+    "zh-hant": "Chinese",
     "hyr": "Armenian",
-    "qhy-x-cpas":"Classical Syriac (ܟܬܒܢܝܐ)",
-    "xcl": "Lycian",
+    "qhy-x-cpas": "Christian Palestinian Aramaic script",
+    "xcl": "Classical Armenian",
     "und": "Undetermined",
     "syr-x-syrm": "Syriac (Melkite script)",
-    "ar-syr": "Arabic language written in Syriac script"
+    "ar-syr": "Arabic Garshuni script",
+    "ar-Syr": "Arabic Garshuni script",
+    "ar-Syrc": "Arabic Garshuni script"
+
 }
 MATERIALS_MAP = {
     "perg": "Parchment",
@@ -176,12 +180,15 @@ def extract_json(tree, part_node=None):
         if t:
             other_limit.append(t)
 
-    # script: collate @script on handNote/handDesc if present
-    scripts = text_list(root, ".//tei:handNote/@script | .//tei:handDesc//tei:handNote/@script")
-    if not scripts:
-        # fallback: text nodes indicating script
-        scripts = text_list(root, ".//tei:handNote | .//tei:handDesc")
-    script_val = " ".join(scripts) if scripts else None
+    # script: only the major/sole hand(s) of the document; minor hands are
+    # excluded so the script facet describes the manuscript as a whole
+    scripts = text_list(root, ".//tei:handNote[@scope='major' or @scope='sole']/@script")
+    script_codes = []
+    for s in scripts:
+        for code in s.split():
+            if code not in script_codes:
+                script_codes.append(code)
+    script_val = " ".join(script_codes) if script_codes else None
     script_lang = map_script_to_language(script_val) if script_val else None
 
     # material: first try @material attribute, then fall back to material element text

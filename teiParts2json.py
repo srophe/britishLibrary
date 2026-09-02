@@ -36,17 +36,20 @@ SCRIPT_LANG_MAP = {
     "he": "Hebrew",
     "en": "English",
     "la": "Latin",
-    "mul": "Multiple languages",
+    "mul": "Multiple scripts",
+    "mixed": "Mixed scripts",
     "cop": "Coptic",
     "fr": "French",
     "hy": "Armenian",
-    "zh-hant": "Chinese (Traditional)",
+    "zh-hant": "Chinese",
     "hyr": "Armenian",
-    "qhy-x-cpas":"Classical Syriac (ܟܬܒܢܝܐ)",
-    "xcl": "Lycian",
+    "qhy-x-cpas": "Christian Palestinian Aramaic script",
+    "xcl": "Classical Armenian",
     "und": "Undetermined",
     "syr-x-syrm": "Syriac (Melkite script)",
-    "ar-syr": "Arabic language written in Syriac script"
+    "ar-syr": "Arabic Garshuni script",
+    "ar-Syr": "Arabic Garshuni script",
+    "ar-Syrc": "Arabic Garshuni script"
 }
 MATERIALS_MAP = {
     "perg": "Parchment",
