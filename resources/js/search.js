@@ -69,6 +69,27 @@ function searchData(params) {
     });
 }
 
+$(document).on('click', '.toggle-more', function(e) {
+    e.preventDefault();
+
+    const $link = $(this);
+    const $text = $link.siblings('em');
+
+    const full = $link.attr('data-full');
+    const short = $link.attr('data-short');
+    const isExpanded = $link.attr('data-expanded') === 'true';
+
+    if (isExpanded) {
+        $text.text(short);
+        $link.text('...');
+        $link.attr('data-expanded', 'false');
+    } else {
+        $text.text(full);
+        $link.text(' ---- ');
+        $link.attr('data-expanded', 'true');
+    }
+});
+
 function displayResults(results, page = 1, perPage = 20) {
     const start = (page - 1) * perPage;
     const end = start + perPage;
@@ -120,7 +141,16 @@ function displayResults(results, page = 1, perPage = 20) {
                             ${item.form ? ` ${formatValue(item.form, 'material')} ` : ''}
                             ${item.extent ? `| ${formatValue(item.extent, 'extent')} ` : ''}
                         </p>
-                    <p id="title-${index}">Contents Summary: <em>${displayContentsNote}</em>${truncatedContentsNote ? ` <a href="#" class="toggle-more" data-index="${index}" data-type="title" data-full="${contentsNote.replace(/"/g, '&quot;')}" data-short="${displayContentsNote.replace(/"/g, '&quot;')}">...</a>` : ''}</p> 
+                <p>
+    Contents Summary:
+    <em>${displayContentsNote}</em>
+    ${truncatedContentsNote
+        ? ` <a href="#"
+              class="toggle-more"
+              data-full="${contentsNote.replace(/"/g, '&quot;')}"
+              data-short="${displayContentsNote.replace(/"/g, '&quot;')}">...</a>`
+        : ''}
+</p>
                      <p> ${item.classification ? `Classification: ${formatValue(item.classification, 'classification')}` : ''}</p>
                     </div>
                 `}).join('');
@@ -135,19 +165,60 @@ function displayResults(results, page = 1, perPage = 20) {
         $(this).remove();
     });
     
-    const totalPages = Math.ceil(results.length / perPage);
-    let paginationHtml = '';
-    for (let i = 1; i <= totalPages; i++) {
-        paginationHtml += `<li class="${i === page ? 'active' : ''}"><a href="#" data-page="${i}">${i}</a></li>`;
-    }
-    $('.searchPagination').html(paginationHtml);
-    
-    $('.searchPagination a').on('click', function(e) {
-        e.preventDefault();
-        const newPage = parseInt($(this).data('page'));
+    // const totalPages = Math.ceil(results.length / perPage);
+    // let paginationHtml = '';
+    // for (let i = 1; i <= totalPages; i++) {
+    //     paginationHtml += `<li class="${i === page ? 'active' : ''}"><a href="#" data-page="${i}">${i}</a></li>`;
+    // }
+    renderPagination(results.length, perPage, page, (newPage) => {
         displayResults(results, newPage, perPage);
     });
 }
+function createPaginationButton(pageNumber, onClick) {
+    const listItem = document.createElement('li');
+    listItem.className = 'page-item';
+
+    const pageLink = document.createElement('a');
+    pageLink.href = '#';
+    pageLink.className = 'page-link';
+    pageLink.dataset.page = String(pageNumber);
+    pageLink.textContent = String(pageNumber);
+    pageLink.addEventListener('click', function(e) {
+        e.preventDefault();
+        onClick(pageNumber);
+    });
+
+    listItem.appendChild(pageLink);
+    return listItem;
+}
+
+// Render pagination buttons
+function renderPagination(totalResults, resultsPerPage, currentPage, onPageChange) {
+    const totalPages = Math.ceil(totalResults / resultsPerPage);
+    const paginationContainers = document.getElementsByClassName('searchPagination');
+
+    const maxPageNumbers = 5;
+
+    let startPage = Math.max(1, currentPage - Math.floor(maxPageNumbers / 2));
+    let endPage = Math.min(totalPages, startPage + maxPageNumbers - 1);
+
+    if (endPage - startPage + 1 < maxPageNumbers) {
+        startPage = Math.max(1, endPage - maxPageNumbers + 1);
+    }
+
+    Array.from(paginationContainers).forEach(container => {
+        container.innerHTML = '';
+
+        for (let page = startPage; page <= endPage; page++) {
+            const pageButton = createPaginationButton(page, () => onPageChange(page));
+            if (page === currentPage) {
+                pageButton.classList.add('active');
+            }
+            container.appendChild(pageButton);
+        }
+    });
+}
+
 // JSON search
 async function runSearch() {
     await loadData();
