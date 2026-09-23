@@ -89,7 +89,7 @@ jobs:
           AWS_REGION: ${{ secrets.AWS_REGION }}
         run: |
           TIMESTAMP=$(date +%Y%m%d%H%M%S)
-          aws s3 cp bulk_data.json s3://gaddel-britishlibrary-site/json-data/index_1_$TIMESTAMP.json --acl private
+          aws s3 cp bulk_data.json s3://gaddel-britishlibrary-site/json-data/index_1.json --acl private
 
       # 6. Commit manuscripts.json (json form of tei data) to repo
       - name: Commit manuscripts JSON to repo
@@ -122,20 +122,27 @@ jobs:
         env:
           AWS_REGION: ${{ secrets.AWS_REGION }}
         run: |
-          # Sync HTMLs to s3://.../ms/ so keys are ms/<id>.html
-          aws s3 sync data-html/ms/ s3://gaddel-britishlibrary-site/ \
-            
-            --exact-timestamps || echo "s3 sync ms/ completed (or no files)"
-
-          # Sync TEI XMLs to s3://.../data/tei/ (source is data repo)
-          aws s3 sync britishLibrary-data/data/tei/ s3://gaddel-britishlibrary-site/ms/ \
-            --exclude "*" --include "*.xml" || echo "s3 sync data completed"
-
-          # quick counts for logs
-          echo "HTML files uploaded (ms/):"
-          aws s3 ls s3://gaddel-britishlibrary-site/ms/ --recursive | wc -l || true
-          echo "XML files uploaded (data/tei/):"
-          aws s3 ls s3://gaddel-britishlibrary-site/data/tei/ --recursive | wc -l || true
+          # HTML: data-html/ms/1.html -> s3://.../ms/1.html
+          aws s3 sync data-html/ms/ \
+            s3://gaddel-britishlibrary-site/ms/ \
+            --exclude "*" \
+            --include "*.html" \
+            --exact-timestamps
+          
+          # TEI: britishLibrary-data/data/tei/1.tei -> s3://.../ms/1.tei
+          aws s3 sync britishLibrary-data/data/tei/ \
+            s3://gaddel-britishlibrary-site/ms/ \
+            --exclude "*" \
+            --include "*.tei" \
+            --exact-timestamps
+          
+          echo "HTML files uploaded:"
+          aws s3 ls s3://gaddel-britishlibrary-site/ms/ \
+            --recursive | grep '\.html$' | wc -l || true
+          
+          echo "TEI files uploaded:"
+          aws s3 ls s3://gaddel-britishlibrary-site/ms/ \
+            --recursive | grep '\.tei$' | wc -l || true
 
       # Step 9: Make site changes visible for testers 
 
